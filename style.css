@@ -1,0 +1,11 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+canvas {
+  margin: 5px;
+}
+p {
+  margin-left: 5px;
+}
