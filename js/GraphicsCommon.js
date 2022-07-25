@@ -1,27 +1,29 @@
-function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
-  canvasContext.fillStyle = fillColor;
-  canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
+function drawBitmapCenteredWithRotation(useBitmap, atX,atY, withAng) {
+	canvasContext.save();
+	canvasContext.translate(atX, atY);
+	canvasContext.rotate(withAng);
+	canvasContext.drawImage(useBitmap, -useBitmap.width/2, -useBitmap.height/2);
+	canvasContext.restore();
 }
 
-function colorOutlineRectCornerToCorner(corner1X, corner1Y, corner2X, corner2Y, lineColor, lineWidth) {
-  canvasContext.strokeStyle = lineColor;
-  canvasContext.lineWidth = lineWidth;
-  canvasContext.beginPath();
-  canvasContext.rect(corner1X, corner1Y, corner2X-corner1X, corner2Y-corner1Y);
-  canvasContext.stroke();
+function colorRect(topLeftX,topLeftY, boxWidth,boxHeight, fillColor) {
+	canvasContext.fillStyle = fillColor;
+	canvasContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
 }
 
-function colorCircle(centerX, centerY, radius, fillColor) {
-  canvasContext.fillStyle = fillColor;
-  canvasContext.beginPath();
-  canvasContext.arc(centerX, centerY, radius, 0, Math.PI*2, true);
-  canvasContext.fill();
+function colorCircle(centerX,centerY, radius, fillColor) {
+	canvasContext.fillStyle = fillColor;
+	canvasContext.beginPath();
+	canvasContext.arc(centerX,centerY, 10, 0,Math.PI*2, true);
+	canvasContext.fill();
 }
-  
-function drawBitmapCenteredAtLocationWithRotation(graphic, atX, atY,withAngle) {
-  canvasContext.save(); // allows us to undo translate movement and rotate spin
-  canvasContext.translate(atX,atY); // sets the point where our graphic will go
-  canvasContext.rotate(withAngle); // sets the rotation
-  canvasContext.drawImage(graphic,-graphic.width/2,-graphic.height/2); // center, draw
-  canvasContext.restore(); // undo the translation movement and rotation since save()
+
+function colorText(showWords, textX,textY, fillColor) {
+	canvasContext.fillStyle = fillColor;
+	canvasContext.fillText(showWords, textX, textY);
+}
+
+function colorText(txt, x, y, color) {
+  canvasContext.fillStyle = color;
+  canvasContext.fillText(txt, x, y);
 }
