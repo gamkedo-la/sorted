@@ -10,8 +10,16 @@ var greenCar = new playerClass(2);
 // Licensed under Creative Commons: By Attribution 4.0 License
 // http://creativecommons.org/licenses/by/4.0/
 
-var currentLevel = 0;
-const FLOCK_SIZE = [2,8,16,24]; // level zero not used
+var currentLevel = 0;  // UI displays currentLevel+1
+
+// equal team size guaranteed by doubling to find FLOCK_SIZE
+// 9 levels initial values, can Level Editor change these?
+const TEAM_SIZE = [1, 4, 8, 8, 12, 12, 16, 16, 16];  
+const FLOCK_SIZE = [];
+for(var i=0; i<TEAM_SIZE.length; i++) {
+  FLOCK_SIZE[i] = TEAM_SIZE[i] * 2;
+}
+ 
 var sheepList = [];
 
 window.onload = function() {
@@ -37,6 +45,7 @@ function loadLevel(whichLevel) {
   areaGrid = levelList[whichLevel].slice();
   player.reset(playerHatPic, "Shepherding Hat");
   console.log("Loading level", whichLevel)
+
   sheepList = [];  // fresh set of sheep
   for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
     var spawnSheep = new sheepClass();

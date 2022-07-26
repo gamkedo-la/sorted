@@ -1,6 +1,7 @@
 const TOP_MARGIN = 60;
 const SHEEP_RADIUS = 14;
 var countSheepPenned = 0;
+var teamSizeSoFar = [0,0,0];
 
 // sheep states
 const GRAZING = 0;
@@ -48,16 +49,31 @@ function sheepClass() {
         this.held = true;
         this.speed = 0;
         player.sheepIDheld = this.id;
-        var teamSort = randomRangeInt(1, 2);
-        this.team = teamSort;
-        if (teamSort == 1) {
-          this.color = "#66b3ff"; // blue
-          // this.img = blueSheepPic;
-        } else if (teamSort == 2) {
-          this.color = "#f38282";
-          // this.img = redSheepPic;
-        }
-        ui_countPenned();
+        ui_countPenned(); // to display Hold, penned hasnt changed
+
+        // Sorting
+        var teamSort; // 0=normal, 1=blue, 2=red
+        // if already Sorted, don't change
+        if(this.team == 0) {
+          // if equal-sized teams and one is full, no choice
+          if(teamSizeSoFar[1] >= TEAM_SIZE[currentLevel]) {
+            teamSort = 2;
+          }
+          else if(teamSizeSoFar[2] >= TEAM_SIZE[currentLevel]) {
+            teamSort = 1;
+          }
+          // otherwise random
+          teamSort = randomRangeInt(1, 2);
+          teamSizeSoFar[teamSort]++;
+          this.team = teamSort;
+          if (teamSort == 1) {
+            this.color = "#66b3ff"; // pale blue
+            // this.img = blueSheepPic;
+          } else if (teamSort == 2) {
+            this.color = "#f38282"; // pale red
+            // this.img = redSheepPic;
+          }
+        } 
       } 
       this.y = nextY;
     }
