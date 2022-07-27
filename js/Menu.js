@@ -3,13 +3,17 @@ function drawMenu() {
 
   if(!editMode) {
     headLine("Menu");
-    bodyLine("Goal near - press F2", 1);
+    bodyLine("Skip learning levels - press S", 1);
     bodyLine("Resume play - press P", 2);
+    bodyLine("Credits - press C", 3);
+    bodyLine("Edit mode - press F1", 4);
   } else {
     headLine("Edit mode menu");
     bodyLine("Level - press number", 1);
-    bodyLine("Credits - press C", 2);
+    bodyLine("Goal near - press F2", 2);
+    bodyLine("stop Edit mode - press F1", 4);
     bodyLine("Resume play - press P", 3);
+
   }
 }
 

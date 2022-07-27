@@ -1,9 +1,9 @@
 const GROUNDSPEED_DECAY_MULT = 0.94; // hat moves like car
-const DRIVE_POWER = 0.5;
-const REVERSE_POWER = 0.5;
+const DRIVE_POWER = 1.0;
+const REVERSE_POWER = 1.0;
 
-const HAT_MARGIN = 16; // stops hat going off side edge
-const ALIGN_LIMIT = 10; // tractor not exactly above sheep
+const HAT_MARGIN = 18; // stops hat going off side edge
+const ALIGN_LIMIT = 20; // tractor not exactly above sheep
 const TRACTOR_SPEED = 5; // speed of sheep moving up
 
 function playerClass(id) {
