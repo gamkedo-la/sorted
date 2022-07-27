@@ -25,7 +25,7 @@ function loadImages() {
 	var imageList = [
 		{varName: playerHatPic, theFile: "player_hat.png"},
 		{tileType: TILE_FIELD, theFile: "tile_grass.png"},
-    {tileType: TILE_HALT, theFile: "tile_wall.png"},		
+    {tileType: TILE_HALT, theFile: "tile_lake.png"},		
     {tileType: TILE_GOAL, theFile: "tile_goal.png"},
     {tileType: TILE_PEN_BLUE, theFile: "tile_pen_blue.png"},
     {tileType: TILE_PEN_RED, theFile: "tile_pen_red.png"},

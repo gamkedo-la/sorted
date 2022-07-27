@@ -1,5 +1,6 @@
+const SHEEP_RADIUS = 12;
+const SIDE_MARGIN = SHEEP_RADIUS/2 + 1;
 const TOP_MARGIN = 60;
-const SHEEP_RADIUS = 14;
 var countSheepPenned = 0;
 var teamSizeSoFar = [0,0,0];
 
@@ -32,8 +33,8 @@ function sheepClass() {
     this.inPen = false;
     this.held = false;
     this.tractor = false;
-    this.x = randomRangeInt(0, canvas.width);
-    this.y = randomRangeInt(TOP_MARGIN, canvas.height / 4.2);
+    this.x = randomRangeInt(0 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -2);
+    this.y = randomRangeInt(TOP_MARGIN, parseInt(canvas.height / 4.2));
     this.ang = Math.PI/2;
     this.speed = 0;
   }
@@ -93,7 +94,8 @@ function sheepClass() {
     colorCircle(this.x, this.y, SHEEP_RADIUS, this.color)
   }
   this.label = function() {
-    colorText(this.id, this.x + SHEEP_RADIUS +1, this.y +5, "white");
+    canvasContext.font = "12px Verdana";
+    colorText(this.id, this.x + SHEEP_RADIUS, this.y +18, "white");
   }
 
   this.tileHandling = function() {

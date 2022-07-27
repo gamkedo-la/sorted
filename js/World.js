@@ -1,3 +1,7 @@
+var currentLevel = 1;
+const TILE_W = 40;
+const TILE_H = 40;
+
 function getTileTypeAtColRow(col, row) {
 	if(col >= 0 && col < TILE_COLS &&
 		row >= 0 && row < TILE_ROWS) {
@@ -7,30 +11,6 @@ function getTileTypeAtColRow(col, row) {
 		return TILE_HALT;
 	}
 }
-
-function carTrackHandling(whichCar) {
-	var carTrackCol = Math.floor(whichCar.x / TILE_W);
-	var carTrackRow = Math.floor(whichCar.y / TILE_H);
-	var trackIndexUnderCar = rowColToArrayIndex(carTrackCol, carTrackRow);
-
-	if(carTrackCol >= 0 && carTrackCol < TILE_COLS &&
-		carTrackRow >= 0 && carTrackRow < TILE_ROWS) {
-    var tileTypeHere = getTileTypeAtColRow(carTrackCol,carTrackRow);
-
-		if(tileTypeHere == TILE_GOAL) {
-      console.log(whichCar.name, "is the Winner!");
-      loadLevel(level_1_normal);
-
-    } else if(tileTypeHere != TILE_FIELD) {
-			// undo car move to fix "car stuck in wall" bug
-			whichCar.x -= Math.cos(whichCar.ang) * whichCar.speed;
-			whichCar.y -= Math.sin(whichCar.ang) * whichCar.speed;
-      // rebound from obstacle
-			whichCar.speed *= -0.5;
-
-		} // end of track found
-	} // end of valid col and row
-} // end of carTrackHandling func
 
 function rowColToArrayIndex(col, row) {
 	return col + TILE_COLS * row;
@@ -83,7 +63,7 @@ function tileTypeHasTransparency(tileType) {
 function makePenRow(cols, penSize) {
   var middle = cols - penSize*2;
   var rowStr = '  '; // grid.js indent if pasting
-  var fieldStr = TILE_FIELD + ', ';
+  var fieldStr = TILE_GOAL + ', ';
   var bluePenStr = TILE_PEN_BLUE + ', ';
   var redPenStr = TILE_PEN_RED + ', ';
   rowStr += bluePenStr.repeat(penSize);
@@ -100,6 +80,7 @@ function makeFieldRow(cols) {
   rowStr = rowStr.slice(0, -1); // remove final space
   return rowStr;
 }
+
 function makeHatRow(cols) {
   var halfCols = (cols-1) / 2;
   var rowStr = '  '; // grid.js indent if pasting

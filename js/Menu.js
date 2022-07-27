@@ -1,3 +1,8 @@
+const HEADER_FONT = 36;
+const BODY_FONT = 24;
+const TEXT_INDENT = 100;
+const LINE_SPACING = 60;
+
 function drawMenu() {
   colorRect(0,0, canvas.width,canvas.height, "black");
 
@@ -26,11 +31,6 @@ function drawCredits() {
   bodyLine("Contributor Name - ", 4);
   bodyLine("Contributor Name - ", 5);
 }
-
-const HEADER_FONT = 36;
-const BODY_FONT = 24;
-const TEXT_INDENT = 100;
-const LINE_SPACING = 60;
 
 function headLine(txt) {
   canvasContext.font = HEADER_FONT + "px Verdana";

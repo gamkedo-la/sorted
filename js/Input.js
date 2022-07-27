@@ -12,9 +12,16 @@ const KEY_M = 77;
 const KEY_C = 67;
 const KEY_P = 80;
 
+const KEY_NUM_0 = 48;
 const KEY_NUM_1 = 49;
 const KEY_NUM_2 = 50;
 const KEY_NUM_3 = 51;
+const KEY_NUM_4 = 52;
+const KEY_NUM_5 = 53;
+const KEY_NUM_6 = 54;
+const KEY_NUM_7 = 55;
+const KEY_NUM_8 = 56;
+const KEY_NUM_9 = 57;
 
 const KEY_F1 = 112;
 const KEY_F2 = 113;
@@ -74,16 +81,12 @@ function keyState(key) {
         break;
       }
       if(editMode) {
-        if(key == KEY_NUM_1) {
-          currentLevel = 0;
+        if(key >= KEY_NUM_1 && key <= KEY_NUM_9) {
+          currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
+          console.log("Level number now =", currentLevel);
+          loadLevel(currentLevel);
+          gameState = STATE_PLAY;
         }
-        if(key == KEY_NUM_2) {
-          currentLevel = 1;
-        }
-        if(key == KEY_NUM_3) {
-          currentLevel = 2;
-        }
-        console.log("UI_level number now =", currentLevel+1)
       }
       break;
 

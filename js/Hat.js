@@ -100,7 +100,7 @@ function playerClass(id) {
     if(this.x > canvas.width - HAT_MARGIN) {
       this.x = canvas.width - HAT_MARGIN;
     }
-    carTrackHandling(this);
+    // tileHandling(this);
   }
 
   this.draw = function() {
