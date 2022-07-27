@@ -51,7 +51,7 @@ function loadLevel(whichLevel) {
     spawnSheep.init(i);
     sheepList.push(spawnSheep);
   }
-  ui_countPenned();
+  update_UI();
 }
 
 function updateAll() {

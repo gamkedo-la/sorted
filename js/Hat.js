@@ -30,7 +30,6 @@ function playerClass(id) {
     this.speed = 0;
     this.ang = 0;
     var StartTileFound = false;
-    this.sheepIDheld = 0;
 
     for(var eachRow=0;eachRow<TILE_ROWS;eachRow++) {
       for(var eachCol=0;eachCol<TILE_COLS;eachCol++) {
@@ -75,7 +74,7 @@ function playerClass(id) {
       if(aligned != undefined) {
         if(sheepList[aligned].state == PENNED) {
           countSheepPenned--;
-          ui_countPenned();
+          update_UI();
         } // or recalculate number with state PENNED when drawing UI
         sheepList[aligned].state = TRACTOR;
       } else {

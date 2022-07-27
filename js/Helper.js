@@ -25,3 +25,20 @@ function countPennedSheep() {
   }
   return count;
 }
+
+function update_UI() {
+  var txt = '';
+
+  var blues = teamSizeSoFar[1];
+  var reds = teamSizeSoFar[2];
+  txt += "Sheep sorted: blue = " + blues + "; red = " + reds;
+
+  if(player.sheepIDheld != undefined) {
+    txt += ". Sheep id " + player.sheepIDheld + " is under hat.";
+  }
+
+  var n = countPennedSheep();
+  txt += "\nCounting sheep in pens: correct = " + n + "; wrong = unknown.";
+
+  document.getElementById("debug_2").innerText = txt;
+}

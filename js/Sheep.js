@@ -49,7 +49,7 @@ function sheepClass() {
         this.held = true;
         this.speed = 0;
         player.sheepIDheld = this.id;
-        ui_countPenned(); // to display Hold, penned hasnt changed
+        update_UI(); // to display Hold
 
         // Sorting
         var teamSort; // 0=normal, 1=blue, 2=red
@@ -111,7 +111,7 @@ function sheepClass() {
         this.y += 10 ; // move into pen
         this.state = PENNED;
         countSheepPenned++;
-        ui_countPenned();
+        update_UI();
 
       // deflection size governed by how many steps inside tile
       } else if(tileType == TILE_FLAG_LEFT) {  
@@ -134,13 +134,4 @@ function sheepClass() {
       } // end of track found
     } // end of valid col and row
   }
-}
-
-function ui_countPenned() {
-  var n = countPennedSheep();
-  var txt = "Counting... " + n + " sheep are in pen.";
-  if(player.sheepIDheld != undefined) {
-    txt = txt + " And sheep id" + player.sheepIDheld + " is under the Hat."
-  }
-  document.getElementById("debug_2").innerText = txt;
 }
