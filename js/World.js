@@ -165,3 +165,13 @@ function checkTilesFitCanvas() {
     console.log("Grid has too many tiles to fit on screen", areaGrid.length, numberTilesNeeded);
   }
 }
+
+// initially 21 cols, 9 levels
+function makePenRow(cols, level) {
+  var rowStr = '';
+  var fieldStr = TILE_FIELD + ', ';
+  var bluePenStr = TILE_PEN_BLUE + ', ';
+  var redPenStr = TILE_PEN_RED + ', ';
+  rowStr += fieldStr.repeat(3);
+  return rowStr;
+}
