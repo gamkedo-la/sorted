@@ -140,7 +140,7 @@ function rowColToArrayIndex(col, row) {
 	return col + TILE_COLS * row;
 }
 
-function drawTracks() {
+function drawArea() {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
@@ -157,7 +157,7 @@ function drawTracks() {
     drawTileX = 0;
     drawTileY += TILE_H;
 	} // end of for each row
-} // end of drawTracks func
+} // end of drawArea func
 
 function checkTilesFitCanvas() {
   var numberTilesNeeded = TILE_COLS * TILE_ROWS;

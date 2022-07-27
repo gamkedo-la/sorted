@@ -135,5 +135,4 @@ function keyPressed(evt) {
 
 function keyReleased(evt) {
   keySet(evt, player, false);
-  keySet(evt, greenCar, false);
 }

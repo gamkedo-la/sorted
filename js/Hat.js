@@ -1,12 +1,10 @@
-const GROUNDSPEED_DECAY_MULT = 0.94;
+const GROUNDSPEED_DECAY_MULT = 0.94; // hat moves like car
 const DRIVE_POWER = 0.5;
 const REVERSE_POWER = 0.5;
-const TURN_RATE = 0.05;
-const MIN_SPEED_TO_TURN = 0.5;
 
-const HAT_MARGIN = 16;
-const ALIGN_LIMIT = 10;
-const TRACTOR_SPEED = 5;
+const HAT_MARGIN = 16; // stops hat going off side edge
+const ALIGN_LIMIT = 10; // tractor not exactly above sheep
+const TRACTOR_SPEED = 5; // speed of sheep moving up
 
 function playerClass(id) {
   this.id = id;
@@ -18,8 +16,6 @@ function playerClass(id) {
 
   this.keyHeld_Gas = false;
   this.keyHeld_Reverse = false;
-  this.keyHeld_TurnLeft = false;
-  this.keyHeld_TurnRight = false;
 
   // store ASCII number of key assigned
   this.setupInput = function(upKey, downKey, leftKey, rightKey) {
@@ -29,8 +25,7 @@ function playerClass(id) {
     this.controlKeyRight = rightKey;
   }
 
-  this.reset = function(whichPic, carName) {
-    this.name = carName;  
+  this.reset = function(whichPic) {
     this.pic = whichPic;
     this.speed = 0;
     this.ang = 0;

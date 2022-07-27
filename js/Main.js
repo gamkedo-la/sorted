@@ -1,7 +1,6 @@
 var canvas, canvasContext;
 
 var player = new playerClass(1);
-var greenCar = new playerClass(2);
 
 // var boopSound = new SoundOverlapsClass("snd/boop");
 // var safelyGrazeMusic = new BackgroundMusicClass("music/Sheep_May_Safely_Graze_BWV_208");
@@ -65,7 +64,6 @@ function moveAll() {
     return;
   }
 	player.move();
-	// greenCar.move();
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     sheepList[i].move();
   }
@@ -80,7 +78,7 @@ function drawAll() {
     drawCredits();
     return;
   }
-	drawTracks();
+	drawArea();
 
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     sheepList[i].draw();
