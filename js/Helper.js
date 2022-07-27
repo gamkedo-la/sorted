@@ -44,6 +44,9 @@ function update_debug_report() {
 }
 
 function UI_level_number() {
+  UI_level = currentLevel+1;
   canvasContext.textAlign = "center";
-  canvasContext.fillText("Level " + currentLevel+1, canvas.width/2, canvas.height-20);
+  canvasContext.font = "24px Verdana";
+  canvasContext.fillStyle = "white";
+  canvasContext.fillText("level " + UI_level, canvas.width/2, canvas.height-10);
 }

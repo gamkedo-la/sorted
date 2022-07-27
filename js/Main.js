@@ -73,6 +73,7 @@ function moveAll() {
 function drawAll() {
   if(gameState == STATE_PLAY) {
     drawArea();
+    UI_level_number();
 
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].draw();
