@@ -38,7 +38,7 @@ function update_debug_report() {
   }
 
   var n = countPennedSheep();
-  txt += "\nCounting sheep in pens: correct = " + n + "; wrong = unknown.";
+  txt += "\nCounting sheep in pens (doesn't work yet): correct = " + n + "; wrong = unknown.";
 
   document.getElementById("debug_2").innerText = txt;
 }
