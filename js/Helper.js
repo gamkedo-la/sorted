@@ -26,7 +26,7 @@ function countPennedSheep() {
   return count;
 }
 
-function update_UI() {
+function update_debug_report() {
   var txt = '';
 
   var blues = teamSizeSoFar[1];
@@ -41,4 +41,9 @@ function update_UI() {
   txt += "\nCounting sheep in pens: correct = " + n + "; wrong = unknown.";
 
   document.getElementById("debug_2").innerText = txt;
+}
+
+function UI_level_number() {
+  canvasContext.textAlign = "center";
+  canvasContext.fillText("Level " + currentLevel+1, canvas.width/2, canvas.height-20);
 }

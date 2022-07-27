@@ -55,7 +55,7 @@ function playerClass(id) {
       if(this.sheepIDheld != null) {
         this.sheepIDheld = null;
         sheepHere.state = DROPPED;
-        sheepHere.speed = 5; // set when drop, may change on way
+        sheepHere.speed = SHEEP_DROP_SPEED; // set when drop, may change on way
         sheepHere.ang = Math.PI/2 // straight down
       }
     }
@@ -74,7 +74,7 @@ function playerClass(id) {
       if(aligned != undefined) {
         if(sheepList[aligned].state == PENNED) {
           countSheepPenned--;
-          update_UI();
+          update_debug_report();
         } // or recalculate number with state PENNED when drawing UI
         sheepList[aligned].state = TRACTOR;
       } else {

@@ -37,7 +37,8 @@ function imageLoadingDoneSoStartGame() {
 	setupInput();
 
   loadLevel(currentLevel);
-  checkTilesFitCanvas();
+  checkGridMatchColsRows
+();
 }
 
 function loadLevel(whichLevel) {
@@ -51,7 +52,7 @@ function loadLevel(whichLevel) {
     spawnSheep.init(i);
     sheepList.push(spawnSheep);
   }
-  update_UI();
+  update_debug_report();
 }
 
 function updateAll() {

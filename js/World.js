@@ -1,30 +1,10 @@
-const TILE_W = 40;
-const TILE_H = 40;
-const TILE_GAP = 2;
-const TILE_COLS = 20;
-const TILE_ROWS = 15;
-
-const TILE_FIELD = 0;
-const TILE_PEN_BLUE = 1;
-const TILE_PEN_RED = 2;
-const TILE_GOAL = 3;
-const TILE_FLAG_LEFT = 4;
-const TILE_FLAG_RIGHT = 5;
-const TILE_WALL = 6;
-const TILE_TREE = 7;
-const TILE_UNSORT = 8;
-const TILE_PLAYERSTART = 9;
-
-var areaGrid = [];
-var saveGrid = [];
-
 function getTileTypeAtColRow(col, row) {
 	if(col >= 0 && col < TILE_COLS &&
 		row >= 0 && row < TILE_ROWS) {
 		 var trackIndexUnderCoord = rowColToArrayIndex(col, row);
 		 return (areaGrid[trackIndexUnderCoord]);
 	} else {
-		return TILE_WALL;
+		return TILE_HALT;
 	}
 }
 
@@ -80,10 +60,16 @@ function drawArea() {
 	} // end of for each row
 } // end of drawArea func
 
-function checkTilesFitCanvas() {
+function checkGridMatchColsRows() {
   var numberTilesNeeded = TILE_COLS * TILE_ROWS;
+  if(areaGrid.length == numberTilesNeeded) {
+    console.log("Grid has correct number of tiles matching columns * rows", areaGrid.length, numberTilesNeeded);
+  }
   if(areaGrid.length > numberTilesNeeded) {
-    console.log("Grid has too many tiles to fit on screen", areaGrid.length, numberTilesNeeded);
+    console.log("Grid has more tiles than allowed for by columns * rows", areaGrid.length, numberTilesNeeded);
+  }
+  if(areaGrid.length < numberTilesNeeded) {
+    console.log("Grid lacks enough tiles to fill required columns * rows", areaGrid.length, numberTilesNeeded);
   }
 }
 
@@ -94,11 +80,33 @@ function tileTypeHasTransparency(tileType) {
 }
 
 // initially 21 cols, 9 levels
-function makePenRow(cols, level) {
-  var rowStr = '';
+function makePenRow(cols, penSize) {
+  var middle = cols - penSize*2;
+  var rowStr = '  '; // grid.js indent if pasting
   var fieldStr = TILE_FIELD + ', ';
   var bluePenStr = TILE_PEN_BLUE + ', ';
   var redPenStr = TILE_PEN_RED + ', ';
-  rowStr += fieldStr.repeat(3);
+  rowStr += bluePenStr.repeat(penSize);
+  rowStr += fieldStr.repeat(middle);
+  rowStr += redPenStr.repeat(penSize);
+  rowStr = rowStr.slice(0, -1); // remove final space
+  return rowStr;
+}
+
+function makeFieldRow(cols) {
+  var rowStr = '  '; // grid.js indent if pasting
+  var fieldStr = TILE_FIELD + ', ';
+  rowStr += fieldStr.repeat(cols);
+  rowStr = rowStr.slice(0, -1); // remove final space
+  return rowStr;
+}
+function makeHatRow(cols) {
+  var halfCols = (cols-1) / 2;
+  var rowStr = '  '; // grid.js indent if pasting
+  var fieldStr = TILE_FIELD + ', ';
+  rowStr += fieldStr.repeat(halfCols);
+  rowStr += TILE_PLAYERSTART + ', ';
+  rowStr += fieldStr.repeat(halfCols);
+  rowStr = rowStr.slice(0, -1); // remove final space
   return rowStr;
 }

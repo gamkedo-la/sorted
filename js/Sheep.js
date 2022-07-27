@@ -3,6 +3,8 @@ const SHEEP_RADIUS = 14;
 var countSheepPenned = 0;
 var teamSizeSoFar = [0,0,0];
 
+SHEEP_DROP_SPEED = 10;
+
 // sheep states
 const GRAZING = 0;
 const WALKING = 1;
@@ -49,7 +51,7 @@ function sheepClass() {
         this.held = true;
         this.speed = 0;
         player.sheepIDheld = this.id;
-        update_UI(); // to display Hold
+        update_debug_report(); // to display Hold
 
         // Sorting
         var teamSort; // 0=normal, 1=blue, 2=red
@@ -111,7 +113,7 @@ function sheepClass() {
         this.y += 10 ; // move into pen
         this.state = PENNED;
         countSheepPenned++;
-        update_UI();
+        update_debug_report();
 
       // deflection size governed by how many steps inside tile
       } else if(tileType == TILE_FLAG_LEFT) {  
@@ -119,7 +121,7 @@ function sheepClass() {
       } else if(tileType == TILE_FLAG_RIGHT) {
         this.ang -= 0.1;
 
-      } else if(tileType == TILE_WALL) {
+      } else if(tileType == TILE_HALT) {
         this.speed = 0;
         // this.speedX = 0;
 
