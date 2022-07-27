@@ -1,6 +1,13 @@
 var canvas, canvasContext;
 
-var player = new playerClass(1);
+const STATE_CREDITS = 3;
+const STATE_EDIT = 0;
+const STATE_MENU = 2;
+const STATE_PLAY = 1;
+
+var gameState = STATE_MENU;
+var editMode = true;
+var nearGoal = false; // if true, pens at row near top
 
 // var boopSound = new SoundOverlapsClass("snd/boop");
 // var safelyGrazeMusic = new BackgroundMusicClass("music/Sheep_May_Safely_Graze_BWV_208");
@@ -9,11 +16,11 @@ var player = new playerClass(1);
 // Licensed under Creative Commons: By Attribution 4.0 License
 // http://creativecommons.org/licenses/by/4.0/
 
-var currentLevel = 0;  // UI displays currentLevel+1
+var currentLevel = 0; // UI displays currentLevel+1
 
 // equal team size guaranteed by doubling to find FLOCK_SIZE
 // 9 levels initial values, can Level Editor change these?
-const TEAM_SIZE = [1, 4, 8, 8, 12, 12, 16, 16, 16];  
+const TEAM_SIZE = [1, 2, 4, 8, 12, 12, 12, 12, 12];  
 const FLOCK_SIZE = [];
 for(var i=0; i<TEAM_SIZE.length; i++) {
   FLOCK_SIZE[i] = TEAM_SIZE[i] * 2;

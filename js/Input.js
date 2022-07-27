@@ -1,12 +1,3 @@
-const STATE_CREDITS = 3;
-const STATE_EDIT = 0;
-const STATE_MENU = 2;
-const STATE_PLAY = 1;
-var gameState = STATE_PLAY;
-
-var editMode = false;
-var nearGoal = false; // pens at row near top
-
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
@@ -82,6 +73,18 @@ function keyState(key) {
         gameState = STATE_PLAY;
         break;
       }
+      if(editMode) {
+        if(key == KEY_NUM_1) {
+          currentLevel = 0;
+        }
+        if(key == KEY_NUM_2) {
+          currentLevel = 1;
+        }
+        if(key == KEY_NUM_3) {
+          currentLevel = 2;
+        }
+        console.log("UI_level number now =", currentLevel+1)
+      }
       break;
 
     case STATE_CREDITS:
@@ -110,25 +113,7 @@ function keyMode(key) {
     }
   }
   
-  // case STATE_EDIT:
-  //   if(key == KEY_F1) {
-  //     gameState = STATE_PLAY;
-  //     loadLevel(currentLevel);
-  //   }
-  //   break;
-  //   if(key == KEY_F1) {
-  //     gameState = STATE_EDIT;
-  //     // loadLevel(level_1_goalNear);
-  //   }
-  // if(key == KEY_NUM_1) {
-  //   currentLevel = 1;
-  // }
-  // if(key == KEY_NUM_2) {
-  //   currentLevel = 2;
-  // }
-  // if(key == KEY_NUM_3) {
-  //   currentLevel = 3;
-  // }
+  
   // loadLevel(levelList[currentLevel-1]);
   // gameState = STATE_PLAY;
 }

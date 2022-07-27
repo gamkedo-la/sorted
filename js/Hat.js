@@ -6,6 +6,8 @@ const HAT_MARGIN = 18; // stops hat going off side edge
 const ALIGN_LIMIT = 20; // tractor not exactly above sheep
 const TRACTOR_SPEED = 5; // speed of sheep moving up
 
+var player = new playerClass(1);
+
 function playerClass(id) {
   this.id = id;
   this.x = this.y = -100; // off screen
