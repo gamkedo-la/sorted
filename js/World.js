@@ -12,6 +12,7 @@ const TILE_FLAG_LEFT = 4;
 const TILE_FLAG_RIGHT = 5;
 const TILE_WALL = 6;
 const TILE_TREE = 7;
+const TILE_UNSORT = 8;
 const TILE_PLAYERSTART = 9;
 
 var areaGrid = [];
@@ -63,8 +64,13 @@ function drawArea() {
 	for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
 		for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
 
-      var tileKindHere = areaGrid[arrayIndex];
-      var useImg = tilePics[tileKindHere];
+      var tileTypeHere = areaGrid[arrayIndex];
+
+      if(tileTypeHasTransparency(tileTypeHere)) {
+        canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);  
+      }
+
+      var useImg = tilePics[tileTypeHere];
       canvasContext.drawImage(useImg, drawTileX, drawTileY);
       drawTileX += TILE_W;
       arrayIndex++;
@@ -79,6 +85,12 @@ function checkTilesFitCanvas() {
   if(areaGrid.length > numberTilesNeeded) {
     console.log("Grid has too many tiles to fit on screen", areaGrid.length, numberTilesNeeded);
   }
+}
+
+function tileTypeHasTransparency(tileType) {
+  return(tileType == TILE_UNSORT ||
+        tileType == TILE_FLAG_LEFT ||
+        tileType == TILE_FLAG_RIGHT);
 }
 
 // initially 21 cols, 9 levels
