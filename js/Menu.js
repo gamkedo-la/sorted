@@ -3,7 +3,7 @@ function drawMenu() {
 
   if(!editMode) {
     headLine("Menu");
-    bodyLine("Credits - press C", 1);
+    bodyLine("Goal near - press F2", 1);
     bodyLine("Resume play - press P", 2);
   } else {
     headLine("Edit mode menu");

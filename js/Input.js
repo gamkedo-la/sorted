@@ -5,6 +5,7 @@ const STATE_PLAY = 1;
 var gameState = STATE_PLAY;
 
 var editMode = false;
+var nearGoal = false; // pens at row near top
 
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
@@ -100,6 +101,13 @@ function keyState(key) {
 function keyMode(key) {
   if(key == KEY_F1) {
     editMode = !editMode; // toggle
+  }
+  if(key == KEY_F2) {
+    nearGoal = !nearGoal; // toggle
+    if(nearGoal) {
+      saveGrid = areaGrid.slice();
+      insertNearGoal();
+    }
   }
   
   // case STATE_EDIT:

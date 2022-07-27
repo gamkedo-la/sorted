@@ -70,21 +70,23 @@ function moveAll() {
 }
 
 function drawAll() {
-  if(gameState == STATE_MENU) {
-    drawMenu();
-    return;
-  }
-  if(gameState == STATE_CREDITS) {
-    drawCredits();
-    return;
-  }
-	drawArea();
+  if(gameState == STATE_PLAY) {
+    drawArea();
 
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    sheepList[i].draw();
-    if(gameState == STATE_EDIT) {
-      sheepList[i].label();
+    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+      sheepList[i].draw();
+      if(editMode) {
+        sheepList[i].label();
+      }
     }
+    player.draw();
   }
-  player.draw();
+  else if(gameState == STATE_MENU) {
+    drawMenu();
+  }
+  else if(gameState == STATE_CREDITS) {
+    drawCredits();
+  } else {
+    console.log("Game in unknown state.");
+  }
 }
