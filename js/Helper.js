@@ -30,7 +30,6 @@ function scorePennedSheep() {
       score++;
     }
   } // end loop all sheep
-  console.log("inside function",score)
   return score;
 }
 

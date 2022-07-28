@@ -96,8 +96,9 @@ function sheepClass() {
     colorCircle(this.x, this.y, SHEEP_RADIUS, this.color)
   }
   this.label = function() {
-    canvasContext.font = "12px Verdana";
-    colorText(this.id, this.x + SHEEP_RADIUS, this.y +18, "white");
+    var fontSize = 12;
+    canvasContext.font = fontSize + "px Verdana";
+    colorText(this.id, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
   }
 
   this.tileHandling = function() {
