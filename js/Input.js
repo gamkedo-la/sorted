@@ -85,6 +85,7 @@ function keyState(key) {
           currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
           console.log("Level number now =", currentLevel);
           loadLevel(currentLevel);
+          checkGridMatchColsRows();
           gameState = STATE_PLAY;
         }
       }

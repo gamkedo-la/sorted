@@ -9,14 +9,13 @@ var gameState = STATE_MENU;
 var editMode = true;
 var nearGoal = false; // if true, pens at row near top
 
-// equal team size guaranteed by doubling to find FLOCK_SIZE
-// 9 levels initial values, can Level Editor change these?
-const TEAM_SIZE = [null, 1, 2, 2, 4, 8, 12, 12, 12, 12];  
+// equal team size guaranteed by doubling that to make FLOCK_SIZE
+// 9 levels initial values, should Level Editor be able to change these?
+const TEAM_SIZE = [null, 1, 2, 2, 4, 4, 6, 6, 8, 8];  
 const FLOCK_SIZE = [];
 for(var i=0; i<TEAM_SIZE.length; i++) {
   FLOCK_SIZE[i] = TEAM_SIZE[i] * 2;
 }
- 
 var sheepList = [];
 
 // var boopSound = new SoundOverlapsClass("snd/boop");
@@ -40,9 +39,6 @@ function imageLoadingDoneSoStartGame() {
 
   canvasContext.font = "15px Arial";
 	setupInput();
-
-  loadLevel(currentLevel);
-  checkGridMatchColsRows();
 }
 
 function loadLevel(whichLevel) {
