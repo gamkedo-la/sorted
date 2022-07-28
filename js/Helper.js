@@ -1,3 +1,7 @@
+var countBluePen = 0;
+var countRedPen = 0;
+var countNotPen = 0;
+
 function randomRange(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -16,14 +20,18 @@ function xDistance(x1, x2) {
   return Math.abs(x1 - x2);
 }
 
-function countPennedSheep() {
-  var count = 0;
+function scorePennedSheep() {
+  var score = 0;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    if(sheepList[i].state == PENNED) {
-      count++;
+    if(sheepList[i].state == IN_BLUE_PEN && sheepList[i].team == 1) {
+      score++;
     }
-  }
-  return count;
+    if(sheepList[i].state == IN_RED_PEN && sheepList[i].team == 2) {
+      score++;
+    }
+  } // end loop all sheep
+  console.log("inside function",score)
+  return score;
 }
 
 function update_debug_report() {
@@ -37,9 +45,12 @@ function update_debug_report() {
     txt += ". Sheep id " + player.sheepIDheld + " is under hat.";
   }
 
-  var n = countPennedSheep();
-  txt += "\nCounting sheep in pens (doesn't work yet): correct = " + n + "; wrong = unknown.";
+  txt += "\nCounting sheep: in blue pen = " + countBluePen + "; in red pen = " + countRedPen;
 
+  var score = scorePennedSheep();
+  var wrong = countSheepPenned - score;
+  txt += "\nScoring: in correct pen = " + score + "; in wrong pen = " + wrong;
+  
   document.getElementById("debug_2").innerText = txt;
 }
 

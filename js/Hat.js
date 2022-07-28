@@ -73,11 +73,20 @@ function playerClass(id) {
           aligned = i;
         }
       }
+      // if beckoned from Pen subtract from count
+      // or recalculate number using state when drawing UI
       if(aligned != undefined) {
-        if(sheepList[aligned].state == PENNED) {
+        if(sheepList[aligned].state == IN_BLUE_PEN) {
+          countBluePen--;
           countSheepPenned--;
           update_debug_report();
-        } // or recalculate number with state PENNED when drawing UI
+        } 
+        else if(sheepList[aligned].state == IN_RED_PEN) {
+          countRedPen--;
+          countSheepPenned--;
+          update_debug_report();
+        } 
+
         sheepList[aligned].state = TRACTOR;
       } else {
         console.log("No sheep X-aligned to tractor")

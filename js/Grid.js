@@ -5,10 +5,10 @@ const TILE_FIELD = 0;
 const TILE_PEN_BLUE = 1;
 const TILE_PEN_RED = 2;
 const TILE_GOAL = 3;
-const TILE_FLAG_LEFT = 4;
-const TILE_FLAG_RIGHT = 5;
+const TILE_GO_LEFT = 4;
+const TILE_GO_RIGHT = 5;
 const TILE_HALT = 6;
-const TILE_TREE = 7;
+const TILE_BOUNCE = 7;
 const TILE_UNSORT = 8;
 const TILE_PLAYERSTART = 9;
 

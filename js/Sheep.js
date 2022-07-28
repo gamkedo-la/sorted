@@ -4,7 +4,8 @@ const TOP_MARGIN = 60;
 var countSheepPenned = 0;
 var teamSizeSoFar = [0,0,0];
 
-SHEEP_DROP_SPEED = 10;
+const SHEEP_DROP_SPEED = 10;
+const HOP_IN_PEN = 14;
 
 // sheep states
 const GRAZING = 0;
@@ -12,7 +13,8 @@ const WALKING = 1;
 const TRACTOR = 2;
 const HELD = 3;
 const DROPPED = 4;
-const PENNED = 5;
+const IN_BLUE_PEN = 5;
+const IN_RED_PEN = 6;
 
 function sheepClass() {
   this.x = 50;
@@ -108,34 +110,48 @@ function sheepClass() {
 
       var tileType = getTileTypeAtColRow(tileCol,tileRow);
 
-      if(tileType == TILE_GOAL || tileType == TILE_PEN_BLUE || tileType == TILE_PEN_RED) {
-        console.log("Sheep ID", this.id, "reached the pen.");
+      // only when entering pen tile
+      if( (this.state != IN_BLUE_PEN && this.state != IN_RED_PEN) && (tileType == TILE_GOAL || tileType == TILE_PEN_BLUE || tileType == TILE_PEN_RED) ) {
+
+        if(tileType == TILE_PEN_BLUE) {
+          console.log("Sheep ID", this.id, "reached the blue pen.");
+          this.state = IN_BLUE_PEN;
+          countBluePen++;
+          countSheepPenned++;
+        } else if(tileType == TILE_PEN_RED) {
+          this.state = IN_RED_PEN;
+          console.log("Sheep ID", this.id, "reached the red pen.");
+          countRedPen++;
+          countSheepPenned++;
+        } else if(tileType == TILE_GOAL) {
+          console.log("Sheep ID", this.id, "avoided both pens.");
+        }  
         this.speed = 0;
-        // this.speedX = 0; // hack add to cope with deflectors
-        this.y += 10 ; // move into pen
-        this.state = PENNED;
-        countSheepPenned++;
+        this.y += HOP_IN_PEN ; // move into pen
         update_debug_report();
+      } else {
+        // terrain handling
 
-      // deflection size governed by how many steps inside tile
-      } else if(tileType == TILE_FLAG_LEFT) {  
-        this.ang += 0.1;
-      } else if(tileType == TILE_FLAG_RIGHT) {
-        this.ang -= 0.1;
+        // deflection size governed by how many steps inside tile
+        if(tileType == TILE_GO_LEFT) {  
+          this.ang += 0.1;
+        } else if(tileType == TILE_GO_RIGHT) {
+          this.ang -= 0.1;
 
-      } else if(tileType == TILE_HALT) {
-        this.speed = 0;
-        // this.speedX = 0;
+        } else if(tileType == TILE_HALT) {
+          // if anti-stuck code needed below is also needed here
+          this.speed = 0;
 
-      } else if(tileType != TILE_FIELD) {
-        // undo car move to fix "car stuck in wall" bug
-        // this.x -= Math.cos(this.ang) * this.speed;
-        // this.y -= Math.sin(this.ang) * this.speed;
-        // rebound from obstacle
-        // this.speed *= -1;
-        this.speed = 0;
-  
-      } // end of track found
+        } else if(tileType != TILE_FIELD) {
+          // undo car move to fix "car stuck in wall" bug
+          // this.x -= Math.cos(this.ang) * this.speed;
+          // this.y -= Math.sin(this.ang) * this.speed;
+          // rebound from obstacle
+          // this.speed *= -1;
+          this.speed = 0;
+    
+        } // end of terrain handling
+      }
     } // end of valid col and row
   }
 }

@@ -29,9 +29,9 @@ function loadImages() {
     {tileType: TILE_GOAL, theFile: "tile_goal.png"},
     {tileType: TILE_PEN_BLUE, theFile: "tile_pen_blue.png"},
     {tileType: TILE_PEN_RED, theFile: "tile_pen_red.png"},
-    {tileType: TILE_TREE, theFile: "tile_tree.png"},
-		{tileType: TILE_FLAG_LEFT, theFile: "tile_flag_left.png"},
-		{tileType: TILE_FLAG_RIGHT, theFile: "tile_flag_right.png"}
+    {tileType: TILE_BOUNCE, theFile: "tile_tree.png"},
+		{tileType: TILE_GO_LEFT, theFile: "tile_flag_left.png"},
+		{tileType: TILE_GO_RIGHT, theFile: "tile_flag_right.png"}
 	];
 	picsToLoad = imageList.length;
 

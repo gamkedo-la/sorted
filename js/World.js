@@ -55,8 +55,8 @@ function checkGridMatchColsRows() {
 
 function tileTypeHasTransparency(tileType) {
   return(tileType == TILE_UNSORT ||
-        tileType == TILE_FLAG_LEFT ||
-        tileType == TILE_FLAG_RIGHT);
+        tileType == TILE_GO_LEFT ||
+        tileType == TILE_GO_RIGHT);
 }
 
 // initially 21 cols, 9 levels

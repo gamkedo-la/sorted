@@ -14,11 +14,10 @@ function drawMenu() {
     bodyLine("Edit mode - press F1", 4);
   } else {
     headLine("Edit mode menu");
-    bodyLine("Level select - press number key 1-4", 1);
-    bodyLine("(levels 3 & 4 empty, later levels not yet available)", 2);
+    bodyLine("Level select - press number key 1-9", 1);
     // bodyLine("Goal near - press F2", 2);
-    bodyLine("stop Edit mode - press F1", 4);
-    bodyLine("Resume play - press P", 3);
+    bodyLine("stop Edit mode - press F1", 3);
+    bodyLine("Resume play - press P", 2);
 
   }
 }
