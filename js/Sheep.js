@@ -30,7 +30,6 @@ function sheepClass() {
   }
 
   this.reset = function(i) {
-    // temp one sheep id0 held at start
     this.state = GRAZING;
     this.inPen = false;
     this.held = false;

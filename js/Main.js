@@ -44,6 +44,10 @@ function imageLoadingDoneSoStartGame() {
 function loadLevel(whichLevel) {
   areaGrid = levelList[whichLevel].slice();
   player.reset(playerHatPic, "Shepherding Hat");
+
+  if(whichLevel==3) { // hack
+    dog.reset();
+  }
   console.log("Loading level", whichLevel)
 
   sheepList = [];  // fresh set of sheep
@@ -68,6 +72,9 @@ function moveAll() {
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     sheepList[i].move();
   }
+  if(currentLevel==3) { // hack
+    dog.move();
+  }
 }
 
 function drawAll() {
@@ -82,6 +89,9 @@ function drawAll() {
       }
     }
     player.draw();
+    if(currentLevel==3) { // hack
+      dog.draw();
+    }
   }
   else if(gameState == STATE_MENU) {
     drawMenu();
