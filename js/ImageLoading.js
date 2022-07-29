@@ -1,4 +1,5 @@
 var playerHatPic = document.createElement("img");
+var rogueDogPic = document.createElement("img");
 var tilePics = [];
 
 var picsToLoad = 0; // set automatically based on imageList in loadImages()
@@ -24,6 +25,7 @@ function loadImageForTileCode(tileCode, fileName) {
 function loadImages() {
 	var imageList = [
 		{varName: playerHatPic, theFile: "player_hat.png"},
+		{varName: rogueDogPic, theFile: "tile_girl.png"},
 		{tileType: TILE_FIELD, theFile: "tile_grass.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},		
     {tileType: TILE_GOAL, theFile: "tile_goal.png"},

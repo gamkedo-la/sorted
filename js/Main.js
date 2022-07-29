@@ -46,7 +46,7 @@ function loadLevel(whichLevel) {
   player.reset(playerHatPic, "Shepherding Hat");
 
   if(whichLevel==3) { // hack
-    dog.reset();
+    dog.init(rogueDogPic);
   }
   console.log("Loading level", whichLevel)
 
