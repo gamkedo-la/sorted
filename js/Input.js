@@ -8,6 +8,7 @@ const KEY_A = 65;
 const KEY_S = 83;
 const KEY_D = 68;
 
+const KEY_ESC = 27;
 const KEY_M = 77;
 const KEY_C = 67;
 const KEY_P = 80;
@@ -66,7 +67,7 @@ function keyState(key) {
   switch (gameState) {
 
     case STATE_PLAY:
-      if(key == KEY_M) {
+      if(key == KEY_ESC || key == KEY_M) {
         gameState = STATE_MENU;
       }
       break;
