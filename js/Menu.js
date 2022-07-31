@@ -41,3 +41,10 @@ function bodyLine(txt, lineNum) {
   canvasContext.font = BODY_FONT + "px Verdana";
   colorText(txt, TEXT_INDENT, 110 + lineNum * LINE_SPACING, "white");
 }
+
+function showLevelDone() {
+  canvasContext.textAlign = "center";
+  canvasContext.font = "48px Verdana";
+  colorText("Level completed", canvas.width/2, 200, "white");
+  canvasContext.textAlign = "left";
+}

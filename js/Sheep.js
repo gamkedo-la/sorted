@@ -3,6 +3,7 @@ const SIDE_MARGIN = SHEEP_RADIUS/2 + 1;
 const TOP_MARGIN = 60;
 var countSheepPenned = 0;
 var teamSizeSoFar = [0,0,0];
+var sheepInPlay = 0;
 
 const SHEEP_DROP_SPEED = 10;
 const HOP_IN_PEN = 14;
@@ -130,6 +131,9 @@ function sheepClass() {
         this.y += HOP_IN_PEN ; // move into pen
         update_debug_report();
         // test if level complete
+        if(sheepInPlay == 0) {
+          showLevelDone();
+        }
       } else {
         // terrain handling
 

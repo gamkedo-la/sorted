@@ -40,6 +40,8 @@ function update_debug_report() {
   var reds = teamSizeSoFar[2];
   txt += "Sheep sorted: blue = " + blues + "; red = " + reds;
 
+  txt += " - - Sheep in play = " + sheepInPlay;
+
   if(player.sheepIDheld != undefined) {
     txt += ". Sheep id " + player.sheepIDheld + " is under hat.";
   }
