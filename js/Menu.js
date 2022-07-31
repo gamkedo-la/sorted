@@ -36,6 +36,7 @@ function headLine(txt) {
   canvasContext.font = HEADER_FONT + "px Verdana";
   colorText(txt, TEXT_INDENT, 100, "white");
 }
+
 function bodyLine(txt, lineNum) {
   canvasContext.font = BODY_FONT + "px Verdana";
   colorText(txt, TEXT_INDENT, 110 + lineNum * LINE_SPACING, "white");

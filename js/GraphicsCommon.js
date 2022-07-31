@@ -22,8 +22,3 @@ function colorText(showWords, textX,textY, fillColor) {
 	canvasContext.fillStyle = fillColor;
 	canvasContext.fillText(showWords, textX, textY);
 }
-
-function colorText(txt, x, y, color) {
-  canvasContext.fillStyle = color;
-  canvasContext.fillText(txt, x, y);
-}

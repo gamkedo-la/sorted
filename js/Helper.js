@@ -58,4 +58,5 @@ function UI_level_number() {
   canvasContext.font = "24px Verdana";
   canvasContext.fillStyle = "white";
   canvasContext.fillText("level " + currentLevel, canvas.width/2, canvas.height-10);
+  canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
