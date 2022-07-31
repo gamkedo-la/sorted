@@ -45,7 +45,7 @@ function loadLevel(whichLevel) {
   areaGrid = levelList[whichLevel].slice();
   player.reset(playerHatPic, "Shepherding Hat");
 
-  if(whichLevel==3) { // hack
+  if(whichLevel==3) { // dog present on later levels only
     dog.init(rogueDogPic);
   }
   console.log("Loading level", whichLevel)
@@ -56,6 +56,15 @@ function loadLevel(whichLevel) {
     spawnSheep.init(i);
     sheepList.push(spawnSheep);
   }
+  
+  // reset sorting
+  teamSizeSoFar = [0,0,0];
+  // reset scoring
+  countBluePen = 0;
+  countRedPen = 0;
+  countNotPen = 0;
+
+
   update_debug_report();
 }
 
@@ -72,7 +81,7 @@ function moveAll() {
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     sheepList[i].move();
   }
-  if(currentLevel==3) { // hack
+  if(currentLevel==3) { // dog present on later levels only
     dog.move();
   }
 }
@@ -89,7 +98,7 @@ function drawAll() {
       }
     }
     player.draw();
-    if(currentLevel==3) { // hack
+    if(currentLevel==3) { // only on some levels
       dog.draw();
     }
   }
