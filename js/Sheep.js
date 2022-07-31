@@ -129,6 +129,7 @@ function sheepClass() {
         this.speed = 0;
         this.y += HOP_IN_PEN ; // move into pen
         update_debug_report();
+        // test if level complete
       } else {
         // terrain handling
 

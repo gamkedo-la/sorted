@@ -63,7 +63,7 @@ function loadLevel(whichLevel) {
   countBluePen = 0;
   countRedPen = 0;
   countNotPen = 0;
-
+  countSheepPenned = 0;2
 
   update_debug_report();
 }
