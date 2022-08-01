@@ -75,19 +75,24 @@ function playerClass(id) {
       }
       // if beckoned from Pen subtract from count
       // or recalculate number using state when drawing UI
+      // if(aligned != undefined) {
+      //   if(sheepList[aligned].state == IN_BLUE_PEN) {
+      //     countBluePen--;
+      //     countSheepPenned--;
+      //     update_debug_report();
+      //   } 
+      //   else if(sheepList[aligned].state == IN_RED_PEN) {
+      //     countRedPen--;
+      //     countSheepPenned--;
+      //     update_debug_report();
+      //   } 
       if(aligned != undefined) {
-        if(sheepList[aligned].state == IN_BLUE_PEN) {
-          countBluePen--;
-          countSheepPenned--;
-          update_debug_report();
-        } 
-        else if(sheepList[aligned].state == IN_RED_PEN) {
-          countRedPen--;
-          countSheepPenned--;
-          update_debug_report();
-        } 
-
-        sheepList[aligned].state = TRACTOR;
+        var location = sheepList[aligned].state;
+        if(location == IN_BLUE_PEN || location == IN_RED_PEN || location == AT_FAR_SIDE) {
+          console.log('Sheep in a pen or end of field cannot be beckoned')
+        } else {
+          sheepList[aligned].state = TRACTOR;
+        }
       } else {
         console.log("No sheep X-aligned to tractor")
       }

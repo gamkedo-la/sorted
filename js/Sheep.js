@@ -16,6 +16,7 @@ const HELD = 3;
 const DROPPED = 4;
 const IN_BLUE_PEN = 5;
 const IN_RED_PEN = 6;
+const AT_FAR_SIDE = 7;
 
 function sheepClass() {
   this.x = 50;
@@ -125,6 +126,7 @@ function sheepClass() {
           countRedPen++;
           countSheepPenned++;
         } else if(tileType == TILE_GOAL) {
+          this.state = AT_FAR_SIDE;
           console.log("Sheep ID", this.id, "avoided both pens.");
         }  
         this.speed = 0;
