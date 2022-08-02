@@ -10,7 +10,7 @@ const HOP_IN_PEN = 14;
 
 // sheep states
 const GRAZING = 0;
-const WALKING = 1;
+const ROAMING = 1;
 const TRACTOR = 2;
 const HELD = 3;
 const DROPPED = 4;
@@ -83,12 +83,28 @@ function sheepClass() {
       } 
       this.y = nextY;
     }
-    else if(this.state == DROPPED)
-    { // sheep released by Hat
+    else if(this.state == DROPPED) { 
+      // sheep released by Hat
       this.x += this.speed * Math.cos(this.ang);
       this.y += this.speed * Math.sin(this.ang);
       if(this.inPen == false) {
         this.tileHandling();
+      }
+    }
+    else if(this.state == GRAZING) {
+      this.speed = 1;
+      if(randomRangeInt(1,6) == 6) {
+        this.ang = randomRange(0, Math.PI * 2)
+        this.x += this.speed * Math.cos(this.ang);
+        this.y += this.speed * Math.sin(this.ang); 
+      }
+    }
+    else if(this.state == ROAMING) {
+      this.speed = 4;
+      if(randomRangeInt(1,6) == 6) {
+        this.ang = randomRange(0, Math.PI * 2)
+        this.x += this.speed * Math.cos(this.ang);
+        this.y += this.speed * Math.sin(this.ang); 
       }
     }
   }
@@ -147,7 +163,11 @@ function sheepClass() {
 
         } else if(tileType == TILE_HALT) {
           // if anti-stuck code needed below is also needed here
+          this.state = GRAZING;
           this.speed = 0;
+        } else if(tileType == TILE_ROAM) {
+          // if anti-stuck code needed below is also needed here
+          this.state = ROAMING;
 
         } else if(tileType != TILE_FIELD) {
           // undo car move to fix "car stuck in wall" bug
