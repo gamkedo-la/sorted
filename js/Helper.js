@@ -56,9 +56,10 @@ function update_debug_report() {
 }
 
 function UI_level_number() {
-  canvasContext.textAlign = "center";
-  canvasContext.font = "24px Verdana";
+  // canvasContext.textAlign = "center";
+  canvasContext.font = "18px Verdana";
   canvasContext.fillStyle = "white";
-  canvasContext.fillText("level " + currentLevel, canvas.width/2, canvas.height-10);
+  // canvasContext.fillText("level " + currentLevel, canvas.width/2, canvas.height-10);
+  canvasContext.fillText("Level " + currentLevel  + ': "'  + levelNames[currentLevel] + '"', 10, canvas.height-10);
   canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
