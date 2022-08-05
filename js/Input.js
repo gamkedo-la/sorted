@@ -84,7 +84,7 @@ function keyState(key) {
       if(editMode) {
         if(key >= KEY_NUM_1 && key <= KEY_NUM_9) {
           currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
-          console.log("Level number now =", currentLevel);
+          // console.log("Level number now =", currentLevel);
           loadLevel(currentLevel);
           checkGridMatchColsRows();
           gameState = STATE_PLAY;

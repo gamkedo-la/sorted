@@ -37,7 +37,7 @@ function sheepClass() {
     this.held = false;
     this.tractor = false;
     this.x = randomRangeInt(0 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -2);
-    this.y = randomRangeInt(TOP_MARGIN, parseInt(canvas.height / 4.2));
+    this.y = randomRangeInt(TOP_MARGIN+10, parseInt(canvas.height / 5));
     this.ang = Math.PI/2;
     this.speed = 0;
   }
@@ -50,7 +50,7 @@ function sheepClass() {
       nextY = this.y - TRACTOR_SPEED;
 
       if(nextY < player.y +20) { // arriving at Hat
-        nextY = player.y +20;
+        nextY = player.y +24;
         this.state = HELD;
         this.held = true;
         this.speed = 0;
@@ -115,7 +115,8 @@ function sheepClass() {
   this.label = function() {
     var fontSize = 12;
     canvasContext.font = fontSize + "px Verdana";
-    colorText(this.id, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
+    // colorText(this.id, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
+    colorText(this.id, this.x, this.y+6, "black");
   }
 
   this.tileHandling = function() {

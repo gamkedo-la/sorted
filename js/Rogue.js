@@ -8,8 +8,8 @@ function rogueClass() {
   }
 
   this.reset = function() {
-    this.x = randomRangeInt(0 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -2);
-    this.y = 500;
+    this.x = randomRangeInt(20 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -18);
+    this.y = 425;
     this.ang = 0;
     this.speedX = 5;
     this.speedY = 0;
