@@ -1,24 +1,28 @@
 # Level design ideas
 
+## Level 0
+
+Scratch level for testing integration of art and sounds.
+
 ## Level 1
 
-Introduces: Hat movement, Call action, Send action
+Introduce: Hat movement, Call action, Send action.
 
 ## Level 2
 
-Introduces: tiles for Halt and Deflection
+Introduce: tiles for Halt and Deflection.
 
 ## Level 3
 
-Introduces: tile for Roam, and the Rogue
+Introduce: tile for Roam, and the Rogue.
 
 ## Level 4
 
-Free to design
+Free to design.
 
 ## Level 5
 
-Free to design
+Free to design.
 
 ## If you have an idea for a Level or a feature within a Level that you don't have time to make, please note it below:
 
