@@ -14,7 +14,6 @@ function playerClass(id) {
   this.ang = Math.PI;
   this.speed = 0;
   this.pic; // which image to use
-  this.sheepIDheld; // ID of sheep carried
 
   this.keyHeld_Gas = false;
   this.keyHeld_Reverse = false;
@@ -31,6 +30,7 @@ function playerClass(id) {
     this.pic = whichPic;
     this.speed = 0;
     this.ang = 0;
+    this.sheepIDheld = null;  // ID of sheep carried
     var StartTileFound = false;
 
     for(var eachRow=0;eachRow<TILE_ROWS;eachRow++) {
@@ -65,6 +65,10 @@ function playerClass(id) {
       console.log('beckon a sheep');
       // check all sheep to see if any below Hat
       // or select a sheep using mouse like in RTS
+      if(this.sheepIDheld != null) {
+        console.log('Cannot call a sheep while one already held');
+      } else {
+
       var aligned;
       var nearestXdist = 999;
       for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
@@ -96,6 +100,7 @@ function playerClass(id) {
       } else {
         console.log("No sheep X-aligned to tractor")
       }
+    }
     }
 
     this.speed *= GROUNDSPEED_DECAY_MULT;
