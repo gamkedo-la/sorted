@@ -67,6 +67,7 @@ function UI_level_number() {
 
 function testIfLevelEnd() {
   // if all sheep in states FENCED or PEN or ON_ROAD
+  outOfPlay = 0;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     if(sheepList[i].state == IN_BLUE_PEN || sheepList[i].state == IN_RED_PEN || sheepList[i].state == FENCED || sheepList[i].state == ON_ROAD) {
       outOfPlay++;
