@@ -42,9 +42,11 @@ function bodyLine(txt, lineNum) {
   colorText(txt, TEXT_INDENT, 110 + lineNum * LINE_SPACING, "white");
 }
 
-function showLevelDone() {
+function drawLevelOver() {
   canvasContext.textAlign = "center";
   canvasContext.font = "48px Verdana";
   colorText("Level completed", canvas.width/2, 200, "white");
+  canvasContext.font = "32px Verdana";
+  colorText("Press M or Esc for menu", canvas.width/2, 300, "white");
   canvasContext.textAlign = "left";
 }

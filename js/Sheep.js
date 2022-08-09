@@ -11,12 +11,15 @@ const HOP_IN_PEN = 14;
 // sheep states
 const GRAZING = 0;
 const ROAMING = 1;
-const TRACTOR = 2;
+const CALLED = 2;
 const HELD = 3;
-const DROPPED = 4;
+const SENT = 4;
 const IN_BLUE_PEN = 5;
 const IN_RED_PEN = 6;
-const AT_FAR_SIDE = 7;
+const FENCED = 7;
+const ON_ROAD = 8;
+const IN_BLUE_LORRY = 9;
+const IN_RED_LORRY = 10;
 
 function sheepClass() {
   this.x = 50;
@@ -46,7 +49,7 @@ function sheepClass() {
     if(this.state == HELD) {
       this.x = player.x;
     }
-    else if (this.state == TRACTOR) {
+    else if (this.state == CALLED) {
       nextY = this.y - TRACTOR_SPEED;
 
       if(nextY < player.y +20) { // arriving at Hat
@@ -83,7 +86,8 @@ function sheepClass() {
       } 
       this.y = nextY;
     }
-    else if(this.state == DROPPED) { 
+
+    else if(this.state == SENT) { 
       // sheep released by Hat
       this.x += this.speed * Math.cos(this.ang);
       this.y += this.speed * Math.sin(this.ang);
@@ -91,6 +95,7 @@ function sheepClass() {
         this.tileHandling();
       }
     }
+
     else if(this.state == GRAZING) {
       this.speed = 1;
       if(randomRangeInt(1,6) == 6) {
@@ -99,6 +104,7 @@ function sheepClass() {
         this.y += this.speed * Math.sin(this.ang); 
       }
     }
+
     else if(this.state == ROAMING) {
       this.speed = 4;
       if(randomRangeInt(1,6) == 6) {
@@ -143,13 +149,15 @@ function sheepClass() {
           countRedPen++;
           countSheepPenned++;
         } else if(tileType == TILE_GOAL) {
-          this.state = AT_FAR_SIDE;
-          console.log("Sheep ID", this.id, "avoided both pens.");
+          this.state = ON_ROAD;
+          console.log("Sheep ID", this.id, "is between pens.");
         }  
         this.speed = 0;
         this.y += HOP_IN_PEN ; // move into pen
         update_debug_report();
         // test if level complete
+        testIfLevelEnd();
+        // oh this was an earlier variable for same thing 
         if(sheepInPlay == 0) {
           showLevelDone();
         }
@@ -166,9 +174,17 @@ function sheepClass() {
           // if anti-stuck code needed below is also needed here
           this.state = GRAZING;
           this.speed = 0;
+
         } else if(tileType == TILE_ROAM) {
           // if anti-stuck code needed below is also needed here
           this.state = ROAMING;
+
+        } else if(tileType == TILE_ROAD) {
+          // if anti-stuck code needed below is also needed here
+          this.state = FENCED;
+          this.y = canvas.height - TILE_H - SHEEP_RADIUS/2;
+          this.speed = 0;
+          testIfLevelEnd();
 
         } else if(tileType != TILE_FIELD) {
           // undo car move to fix "car stuck in wall" bug

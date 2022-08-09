@@ -1,6 +1,7 @@
 var countBluePen = 0;
 var countRedPen = 0;
 var countNotPen = 0;
+var outOfPlay = 0;
 
 function randomRange(min, max) {
   return Math.random() * (max - min) + min;
@@ -62,4 +63,16 @@ function UI_level_number() {
   // canvasContext.fillText("level " + currentLevel, canvas.width/2, canvas.height-10);
   canvasContext.fillText("Level " + currentLevel  + ': "'  + levelNames[currentLevel] + '"', 10, canvas.height-10);
   canvasContext.textAlign = "left"; // avoid messing up the Menu
+}
+
+function testIfLevelEnd() {
+  // if all sheep in states FENCED or PEN or ON_ROAD
+  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+    if(sheepList[i].state == IN_BLUE_PEN || sheepList[i].state == IN_RED_PEN || sheepList[i].state == FENCED || sheepList[i].state == ON_ROAD) {
+      outOfPlay++;
+    }
+  }
+  if(outOfPlay >= FLOCK_SIZE[currentLevel]) {
+    gameState = STATE_LEVEL_OVER;
+  }
 }

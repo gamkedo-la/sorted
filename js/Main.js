@@ -4,6 +4,7 @@ const STATE_CREDITS = 3;
 const STATE_EDIT = 0;
 const STATE_MENU = 2;
 const STATE_PLAY = 1;
+const STATE_LEVEL_OVER = 4;
 
 var gameState = STATE_MENU;
 var editMode = true;
@@ -108,7 +109,11 @@ function drawAll() {
   }
   else if(gameState == STATE_CREDITS) {
     drawCredits();
-  } else {
+  } 
+  else if (gameState == STATE_LEVEL_OVER) {
+    drawLevelOver();
+  }
+  else {
     console.log("Game in unknown state.");
   }
 }

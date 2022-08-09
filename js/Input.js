@@ -72,6 +72,12 @@ function keyState(key) {
       }
       break;
 
+      case STATE_LEVEL_OVER:
+      if(key == KEY_ESC || key == KEY_M) {
+        gameState = STATE_MENU;
+      }
+      break;
+
     case STATE_MENU:
       if(key == KEY_C) {
         gameState = STATE_CREDITS;

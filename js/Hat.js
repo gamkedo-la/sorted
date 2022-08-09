@@ -56,7 +56,7 @@ function playerClass(id) {
       var sheepHere = sheepList[this.sheepIDheld];
       if(this.sheepIDheld != null) {
         this.sheepIDheld = null;
-        sheepHere.state = DROPPED;
+        sheepHere.state = SENT;
         sheepHere.speed = SHEEP_DROP_SPEED; // set when drop, may change on way
         sheepHere.ang = Math.PI/2 // straight down
       }
@@ -88,10 +88,10 @@ function playerClass(id) {
       //   } 
       if(aligned != undefined) {
         var location = sheepList[aligned].state;
-        if(location == IN_BLUE_PEN || location == IN_RED_PEN || location == AT_FAR_SIDE) {
+        if(location == IN_BLUE_PEN || location == IN_RED_PEN || location == FENCED) {
           console.log('Sheep in a pen or end of field cannot be beckoned')
         } else {
-          sheepList[aligned].state = TRACTOR;
+          sheepList[aligned].state = CALLED;
         }
       } else {
         console.log("No sheep X-aligned to tractor")
