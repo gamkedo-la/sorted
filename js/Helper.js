@@ -3,7 +3,7 @@ var countRedPen = 0;
 var countNotPen = 0;
 var outOfPlay = 0;
 var levelScore;
-var levelScores = [];
+var levelScores = [0,0,0,0,0,0,0,0,0,0];
 
 function randomRange(min, max) {
   return Math.random() * (max - min) + min;

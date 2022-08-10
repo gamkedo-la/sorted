@@ -5,6 +5,7 @@ const STATE_EDIT = 0;
 const STATE_MENU = 2;
 const STATE_PLAY = 1;
 const STATE_LEVEL_OVER = 4;
+const STATE_SCOREBOARD = 5;
 
 var gameState = STATE_MENU;
 var editMode = true;
@@ -116,10 +117,12 @@ function drawAll() {
     drawLevelOver();
     // draw label with score near sheep
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-
       //sheepList[i].draw();
       sheepList[i].scoreLabel();
     }
+  }
+  else if(gameState == STATE_SCOREBOARD) {
+    drawScoreboard();
   }
   else {
     console.log("Game in unknown state.");

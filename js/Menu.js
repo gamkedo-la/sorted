@@ -8,17 +8,17 @@ function drawMenu() {
 
   if(!editMode) {
     headLine("Menu");
-    bodyLine("Skip learning levels - press S", 1);
+    bodyLine("Skip learning levels - press L", 1);
     bodyLine("Resume play - press P", 2);
-    bodyLine("Credits - press C", 3);
-    bodyLine("Edit mode - press F1", 4);
+    bodyLine("Scoreboard - press S", 3);
+    bodyLine("Credits - press C", 4);
+    bodyLine("Edit mode - press F1", 5);
   } else {
     headLine("Edit mode menu");
     bodyLine("Level select - press number key 1-9", 1);
-    // bodyLine("Goal near - press F2", 2);
-    bodyLine("stop Edit mode - press F1", 3);
+    bodyLine("stop Edit mode - press F1", 4);
     bodyLine("Resume play - press P", 2);
-
+    bodyLine("Scoreboard - press S", 3);
   }
 }
 
@@ -50,5 +50,19 @@ function drawLevelOver() {
   colorText("Score = " + levelScores[currentLevel], canvas.width/2, 240, "white");
   canvasContext.font = "16px Arial";
   colorText("Press M or Esc for menu", canvas.width/2, 300, "white");
+  canvasContext.textAlign = "left";
+}
+
+function drawScoreboard() {
+  colorRect(0,0, canvas.width,canvas.height, "black");
+  // canvasContext.textAlign = "center";
+  canvasContext.font = "24px Arial";
+  colorText("Scoreboard", 100, 80, "white");
+  canvasContext.font = "16px Arial";
+  for(var i=1; i<7; i++) {
+    colorText("Level " + i +  ' "' + levelNames[i] + '": ' + levelScores[i], 100, 80 + i*50, "white");
+  }
+  canvasContext.font = "16px Arial";
+  colorText("Press M or Esc for menu", 100, 500, "white");
   canvasContext.textAlign = "left";
 }

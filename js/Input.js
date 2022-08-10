@@ -72,7 +72,12 @@ function keyState(key) {
       }
       break;
 
-      case STATE_LEVEL_OVER:
+    case STATE_LEVEL_OVER:
+      if(key == KEY_ESC || key == KEY_M) {
+        gameState = STATE_MENU;
+      }
+      break;
+    case STATE_SCOREBOARD:
       if(key == KEY_ESC || key == KEY_M) {
         gameState = STATE_MENU;
       }
@@ -85,6 +90,10 @@ function keyState(key) {
       }
       if(key == KEY_P) {
         gameState = STATE_PLAY;
+        break;
+      }
+      if(key == KEY_S) {
+        gameState = STATE_SCOREBOARD;
         break;
       }
       if(editMode) {
