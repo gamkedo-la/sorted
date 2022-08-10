@@ -90,6 +90,12 @@ function keyState(key) {
       }
       if(key == KEY_P) {
         gameState = STATE_PLAY;
+        if(!levelRunning) {
+          levelRunning = true;
+          currentLevel++;
+          loadLevel(currentLevel);
+          checkGridMatchColsRows();
+        }
         break;
       }
       if(key == KEY_S) {
@@ -100,6 +106,7 @@ function keyState(key) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
           currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
           // console.log("Level number now =", currentLevel);
+          levelRunning = true;
           loadLevel(currentLevel);
           checkGridMatchColsRows();
           gameState = STATE_PLAY;

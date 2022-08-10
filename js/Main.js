@@ -9,6 +9,8 @@ const STATE_SCOREBOARD = 5;
 
 var gameState = STATE_MENU;
 var editMode = true;
+var levelLoaded = 0;
+var levelRunning = false;
 var nearGoal = false; // if true, pens at row near top
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE

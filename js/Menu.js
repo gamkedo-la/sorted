@@ -5,20 +5,22 @@ const LINE_SPACING = 60;
 
 function drawMenu() {
   colorRect(0,0, canvas.width,canvas.height, "black");
-
+  var line = 0;
   if(!editMode) {
+
     headLine("Menu");
-    bodyLine("Skip learning levels - press L", 1);
-    bodyLine("Resume play - press P", 2);
-    bodyLine("Scoreboard - press S", 3);
-    bodyLine("Credits - press C", 4);
-    bodyLine("Edit mode - press F1", 5);
+    // bodyLine("Skip learning levels - press L", 1);
+    bodyLine("Play - press P", ++line);
+    bodyLine("Scoreboard - press S", ++line);
+    bodyLine("Credits - press C", ++line);
+    bodyLine("Edit mode - press F1", ++line);
   } else {
     headLine("Edit mode menu");
-    bodyLine("Level select - press number key 1-9", 1);
-    bodyLine("stop Edit mode - press F1", 4);
-    bodyLine("Resume play - press P", 2);
-    bodyLine("Scoreboard - press S", 3);
+    bodyLine("Level 0 is integration test level", ++line);
+    bodyLine("Level select - press key 0-9", ++line);
+    // bodyLine("Play (resume) - press P", ++line);
+    bodyLine("Scoreboard - press S", ++line);
+    bodyLine("toggle Edit mode - press F1", ++line);
   }
 }
 
