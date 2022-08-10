@@ -81,11 +81,30 @@ function testIfLevelEnd() {
 
 function calculateLevelScore() {
   levelScore = 0;
-  var mode;
+  var mode, team, x, score;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     mode = sheepList[i].state;
+    team = sheepList[i].team;
+    x = sheepList[i].x;
+    if(team == BLUE && x < canvas.width/2/2) {
+      offSide = false;
+    }
+    if(team == RED && x >= canvas.width/2) {
+      offSide = false;
+    }
+    if(team == BLUE && x >= canvas.width/2) {
+      offSide = true;
+    }
+    if(team == RED && x < canvas.width/2) {
+      offSide = true;
+    }
     if(mode == IN_BLUE_PEN || mode == IN_RED_PEN || mode == FENCED || mode == ON_ROAD) {
-      sheepList[i].score = 10;
+      score = 80 - Math.round(Math.abs(x - canvas.width/2) / 5);
+      if(offSide) {
+        sheepList[i].score = 0;
+      } else {
+        sheepList[i].score = score;
+      }
     }
   }
 }

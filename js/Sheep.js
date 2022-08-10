@@ -2,6 +2,9 @@ const SHEEP_RADIUS = 12;
 const SIDE_MARGIN = SHEEP_RADIUS/2 + 1;
 const TOP_MARGIN = 60;
 var countSheepPenned = 0;
+
+const BLUE = 1;
+const RED = 2;
 var teamSizeSoFar = [0,0,0];
 var sheepInPlay = 0;
 
@@ -77,10 +80,10 @@ function sheepClass() {
           teamSort = randomRangeInt(1, 2);
           teamSizeSoFar[teamSort]++;
           this.team = teamSort;
-          if (teamSort == 1) {
+          if (teamSort == BLUE) {
             this.color = "#66b3ff"; // pale blue
             // this.img = blueSheepPic;
-          } else if (teamSort == 2) {
+          } else if (teamSort == RED) {
             this.color = "#f38282"; // pale red
             // this.img = redSheepPic;
           }
@@ -128,7 +131,7 @@ function sheepClass() {
   }
 
   this.scoreLabel = function() {
-    var fontSize = 32;
+    var fontSize = 24;
     canvasContext.font = fontSize + "px Verdana";
     colorText(this.score, this.x, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
   }
