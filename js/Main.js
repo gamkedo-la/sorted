@@ -79,12 +79,14 @@ function moveAll() {
   if(gameState == STATE_MENU || gameState == STATE_CREDITS) {
     return;
   }
-	player.move();
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    sheepList[i].move();
-  }
-  if(currentLevel>=3) { // dog present on later levels only
-    dog.move();
+  else if(gameState == STATE_PLAY) {
+    player.move();
+    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+      sheepList[i].move();
+    }
+    if(currentLevel>=3) { // dog present on later levels only
+      dog.move();
+    }
   }
 }
 
@@ -114,7 +116,7 @@ function drawAll() {
     drawLevelOver();
     // draw label with score near sheep
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-      
+
       //sheepList[i].draw();
       sheepList[i].scoreLabel();
     }

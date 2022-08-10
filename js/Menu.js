@@ -44,9 +44,11 @@ function bodyLine(txt, lineNum) {
 
 function drawLevelOver() {
   canvasContext.textAlign = "center";
-  canvasContext.font = "48px Verdana";
-  colorText("Level completed", canvas.width/2, 200, "white");
-  canvasContext.font = "32px Verdana";
+  canvasContext.font = "24px Arial";
+  colorText("Level "+ currentLevel + " completed", canvas.width/2, 200, "white");
+  canvasContext.font = "36px Arial";
+  colorText("Score = " + levelScores[currentLevel], canvas.width/2, 240, "white");
+  canvasContext.font = "16px Arial";
   colorText("Press M or Esc for menu", canvas.width/2, 300, "white");
   canvasContext.textAlign = "left";
 }

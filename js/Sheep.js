@@ -10,7 +10,7 @@ var sheepInPlay = 0;
 
 const SHEEP_DROP_SPEED = 10;
 const HOP_IN_PEN = 14;
-const SCORE_GAP = 12;
+const SCORE_GAP = 5;
 
 // sheep states
 const GRAZING = 0;

@@ -2,6 +2,8 @@ var countBluePen = 0;
 var countRedPen = 0;
 var countNotPen = 0;
 var outOfPlay = 0;
+var levelScore;
+var levelScores = [];
 
 function randomRange(min, max) {
   return Math.random() * (max - min) + min;
@@ -104,9 +106,11 @@ function calculateLevelScore() {
         sheepList[i].score = 0;
       } else {
         sheepList[i].score = score;
+        levelScore += score;
       }
     }
   }
+  levelScores[currentLevel] = levelScore;
 }
 
 function test_EndLevel() {
