@@ -11,7 +11,8 @@ function drawMenu() {
     headLine("Menu");
     // bodyLine("Skip learning levels - press L", 1);
     bodyLine("Play - press P", ++line);
-    bodyLine("Scoreboard - press S", ++line);
+    bodyLine("Score - press S", ++line);
+    bodyLine("Help - press H", ++line);
     bodyLine("Credits - press C", ++line);
     bodyLine("Edit mode - press F1", ++line);
   } else {
@@ -22,6 +23,17 @@ function drawMenu() {
     bodyLine("Scoreboard - press S", ++line);
     bodyLine("toggle Edit mode - press F1", ++line);
   }
+}
+
+function drawHelp() {
+  colorRect(0,0, canvas.width,canvas.height, "black");
+  var line = 0;
+  if(!editMode) {
+    headLine("Sorted! a game with sheep");
+  } else {
+    headLine("Help for Edit mode");
+  }
+  bodyLine("Menu - press M or Esc", ++line);
 }
 
 function drawCredits() {

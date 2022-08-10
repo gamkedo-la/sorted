@@ -12,6 +12,7 @@ const KEY_ESC = 27;
 const KEY_M = 77;
 const KEY_C = 67;
 const KEY_P = 80;
+const KEY_H = 72;
 
 const KEY_NUM_0 = 48;
 const KEY_NUM_1 = 49;
@@ -102,6 +103,10 @@ function keyState(key) {
         gameState = STATE_SCOREBOARD;
         break;
       }
+      if(key == KEY_H) {
+        gameState = STATE_HELP;
+        break;
+      }
       if(editMode) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
           currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
@@ -120,6 +125,12 @@ function keyState(key) {
       }
       if(key == KEY_P) {
         gameState = STATE_PLAY;
+      }
+      break;
+      
+    case STATE_HELP:
+      if(key == KEY_M) {
+        gameState = STATE_MENU;
       }
       break;
 

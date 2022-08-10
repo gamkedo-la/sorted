@@ -1,6 +1,7 @@
 var canvas, canvasContext;
 
 const STATE_CREDITS = 3;
+const STATE_HELP = 6;
 const STATE_EDIT = 0;
 const STATE_MENU = 2;
 const STATE_PLAY = 1;
@@ -125,6 +126,9 @@ function drawAll() {
   }
   else if(gameState == STATE_SCOREBOARD) {
     drawScoreboard();
+  }
+  else if(gameState == STATE_HELP) {
+    drawHelp();
   }
   else {
     console.log("Game in unknown state.");
