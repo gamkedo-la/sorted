@@ -112,6 +112,12 @@ function drawAll() {
   } 
   else if (gameState == STATE_LEVEL_OVER) {
     drawLevelOver();
+    // draw label with score near sheep
+    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+      
+      //sheepList[i].draw();
+      sheepList[i].scoreLabel();
+    }
   }
   else {
     console.log("Game in unknown state.");

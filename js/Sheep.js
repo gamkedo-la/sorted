@@ -7,6 +7,7 @@ var sheepInPlay = 0;
 
 const SHEEP_DROP_SPEED = 10;
 const HOP_IN_PEN = 14;
+const SCORE_GAP = 12;
 
 // sheep states
 const GRAZING = 0;
@@ -36,6 +37,7 @@ function sheepClass() {
 
   this.reset = function(i) {
     this.state = GRAZING;
+    this.score = 0;
     this.inPen = false;
     this.held = false;
     this.tractor = false;
@@ -123,6 +125,12 @@ function sheepClass() {
     canvasContext.font = fontSize + "px Verdana";
     // colorText(this.id, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
     colorText(this.id, this.x, this.y+6, "black");
+  }
+
+  this.scoreLabel = function() {
+    var fontSize = 32;
+    canvasContext.font = fontSize + "px Verdana";
+    colorText(this.score, this.x, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
   }
 
   this.tileHandling = function() {

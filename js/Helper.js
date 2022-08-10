@@ -75,5 +75,22 @@ function testIfLevelEnd() {
   }
   if(outOfPlay >= FLOCK_SIZE[currentLevel]) {
     gameState = STATE_LEVEL_OVER;
+    calculateLevelScore();
   }
+}
+
+function calculateLevelScore() {
+  levelScore = 0;
+  var mode;
+  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+    mode = sheepList[i].state;
+    if(mode == IN_BLUE_PEN || mode == IN_RED_PEN || mode == FENCED || mode == ON_ROAD) {
+      sheepList[i].score = 10;
+    }
+  }
+}
+
+function test_EndLevel() {
+  gameState = STATE_LEVEL_OVER;
+  calculateLevelScore();
 }
