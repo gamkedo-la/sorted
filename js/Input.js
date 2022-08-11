@@ -54,19 +54,19 @@ function updateMousePos(evt) {
 }
 
 // because pressed & released identical except true/false
-function keySet(evt, whichCar, setTo) {
+function keySet(evt, whichPlayer, setTo) {
   // console.log("Key: "+evt.keyCode, setTo);
-  if(evt.keyCode == whichCar.controlKeyLeft) {
-		whichCar.keyHeld_left = setTo;
+  if(evt.keyCode == whichPlayer.controlKeyLeft) {
+		whichPlayer.keyHeld_left = setTo;
 	}
-	if(evt.keyCode == whichCar.controlKeyRight) {
-		whichCar.keyHeld_right = setTo;
+	if(evt.keyCode == whichPlayer.controlKeyRight) {
+		whichPlayer.keyHeld_right = setTo;
 	}
-	if(evt.keyCode == whichCar.controlKeyUp) {
-		whichCar.keyHeld_tractor = setTo;
+	if(evt.keyCode == whichPlayer.controlKeyUp) {
+		whichPlayer.keyHeld_tractor = setTo;
 	}
-	if(evt.keyCode == whichCar.controlKeyDown) {
-		whichCar.keyHeld_drop = setTo;
+	if(evt.keyCode == whichPlayer.controlKeyDown) {
+		whichPlayer.keyHeld_drop = setTo;
 	}
 }
 
@@ -173,4 +173,30 @@ function keyPressed(evt) {
 
 function keyReleased(evt) {
   keySet(evt, player, false);
+}
+
+function buttonMenu() {
+  gameState = STATE_MENU;
+}
+function buttonLeft() {
+  player.keyHeld_left = true;
+}
+function buttonRight() {
+  player.keyHeld_right = true;
+}
+
+function buttonSet(setTo) {
+  // console.log("Key: "+evt.keyCode, setTo);
+  if(evt.keyCode == whichPlayer.controlKeyLeft) {
+		whichPlayer.keyHeld_left = setTo;
+	}
+	if(evt.keyCode == whichPlayer.controlKeyRight) {
+		whichPlayer.keyHeld_right = setTo;
+	}
+	if(evt.keyCode == whichPlayer.controlKeyUp) {
+		whichPlayer.keyHeld_tractor = setTo;
+	}
+	if(evt.keyCode == whichPlayer.controlKeyDown) {
+		whichPlayer.keyHeld_drop = setTo;
+	}
 }
