@@ -131,6 +131,7 @@ function keyState(key) {
     case STATE_HELP:
       if(key == KEY_M) {
         gameState = STATE_MENU;
+        boopSound.play();
       }
       break;
 

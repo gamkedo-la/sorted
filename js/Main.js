@@ -23,7 +23,7 @@ for(var i=0; i<TEAM_SIZE.length; i++) {
 }
 var sheepList = [];
 
-// var boopSound = new SoundOverlapsClass("snd/boop");
+var boopSound = new SoundOverlapsClass("sound/test_sound");
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
