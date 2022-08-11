@@ -211,4 +211,15 @@ function sheepClass() {
       }
     } // end of valid col and row
   }
+
+  this.isInPen = function() {
+    return this.state == IN_BLUE_PEN || this.state == IN_RED_PEN;
+  }
+
+  this.gotoCentreOfTile = function() {
+    console.log('move sheep to centre of tile');
+  }
 }
+
+
+
