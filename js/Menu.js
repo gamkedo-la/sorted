@@ -29,11 +29,19 @@ function drawHelp() {
   colorRect(0,0, canvas.width,canvas.height, "black");
   var line = 0;
   if(!editMode) {
-    headLine("Sorted! a game with sheep");
+    smallHeadLine("Sorted! a game with sheep");
+    smallBodyLine("Aim: get sheep to goal in bottom row.", ++line);
+ 
+    var txt = "";
+    var txtLines = getLines(canvasContext, txt, 600);
+
+    smallBodyLine("The farmer (hat) wants to sort sheep into 2 groups.", ++line);
+    smallBodyLine("To do that: move hat (sideways only),\n call a sheep (Up-arrow), send sorted sheep (Down-arrow).", ++line);
+    smallBodyLine("Scores vary depending on whether the sent sheep is on the correct side of the field, and if so how far horizontally it is from the field centre, with a bonus for landing on the holding pen.", ++line);
   } else {
-    headLine("Help for Edit mode");
+    smallHeadLine("Help for Edit mode");
   }
-  bodyLine("Menu - press M or Esc", ++line);
+  smallBodyLine("Menu - press M or Esc", ++line);
 }
 
 function drawCredits() {
@@ -54,6 +62,16 @@ function headLine(txt) {
 function bodyLine(txt, lineNum) {
   canvasContext.font = BODY_FONT + "px Verdana";
   colorText(txt, TEXT_INDENT, 110 + lineNum * LINE_SPACING, "white");
+}
+
+function smallHeadLine(txt) {
+  canvasContext.font = 24 + "px Verdana";
+  colorText(txt, TEXT_INDENT, 100, "white");
+}
+
+function smallBodyLine(txt, lineNum) {
+  canvasContext.font = 16 + "px Verdana";
+  colorText(txt, TEXT_INDENT, 100 + lineNum * LINE_SPACING, "white");
 }
 
 function drawLevelOver() {

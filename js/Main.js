@@ -8,8 +8,8 @@ const STATE_PLAY = 1;
 const STATE_LEVEL_OVER = 4;
 const STATE_SCOREBOARD = 5;
 
-var gameState = STATE_MENU;
-var editMode = true;
+var gameState = STATE_HELP;
+var editMode = false;
 var levelLoaded = 0;
 var levelRunning = false;
 var nearGoal = false; // if true, pens at row near top
