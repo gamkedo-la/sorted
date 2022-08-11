@@ -17,7 +17,6 @@ function drawMenu() {
     bodyLine("Edit mode - press F1", ++line);
   } else {
     headLine("Edit mode menu");
-    bodyLine("Level 0 is integration test level", ++line);
     bodyLine("Level select - press key 0-9", ++line);
     // bodyLine("Play (resume) - press P", ++line);
     bodyLine("Scoreboard - press S", ++line);
@@ -28,29 +27,29 @@ function drawMenu() {
 function drawHelp() {
   colorRect(0,0, canvas.width,canvas.height, "black");
   var line = 0;
-  if(!editMode) {
-    smallHeadLine("Sorted! a game with sheep");
-    canvasContext.font = 16 + "px Verdana";
-    smallBodyLine("Aim: get all sheep to the bottom row, sorting into two groups.", ++line);
- 
-    var txt = "How to play: move the hat sideways (use arrow keys), call a sheep (Up arrow key), send a sheep (Down arrow). Points gained for each sheep depend on whether the sheep arrives on correct side of the field, and how far horizontally from the field's centre. Score bonus points for a sheep arriving exactly on the goal (chequered tile).";
 
-    // text lines cut based on canvas font when function called
-    canvasContext.font = 16 + "px Verdana";
-    var txtLines = getLines(canvasContext, txt, 600);
+  smallHeadLine("Sorted! a game with sheep");
+
+  // getLines() cutoffs based on canvas font when function called
+  canvasContext.font = 20 + "px Verdana";
+
+  smallBodyLine("Aim: get all sheep to bottom row, sorting into two groups.", ++line);
+
+  var txt = "How to play: move the hat sideways (use arrow keys), call a sheep (Up arrow key), send a sheep (Down arrow). Points gained for each sheep depend on whether the sheep arrives on correct side of the field, and how far horizontally from field's centre. Score bonus points for a sheep arriving exactly on the goal (chequered tile).";
+
+  var txtLines = getLines(canvasContext, txt, 600);
+  line++; // gap between paragraphs
+
+  for(var i=0; i<txtLines.length; i++) {
+    smallBodyLine(txtLines[i], ++line);
+  }
+
+  if(editMode) {
     line++; // gap between paragraphs
-
-    for(var i=0; i<txtLines.length; i++) {
-      smallBodyLine(txtLines[i], ++line);
-    }
-    // smallBodyLine("The farmer (hat) wants to sort sheep into 2 groups.", ++line);
-    // smallBodyLine("To do that: move hat (sideways only),\n call a sheep (Up-arrow), send sorted sheep (Down-arrow).", ++line);
-    // smallBodyLine("Scores vary depending on whether the sent sheep is on the correct side of the field, and if so how far horizontally it is from the field centre, with a bonus for landing on the holding pen.", ++line);
-  } else {
-    smallHeadLine("Help for Edit mode");
+    smallBodyLine("EditMode: Level 0 is integration test level.", ++line);  
   }
   line++; // gap between paragraphs
-  smallBodyLine("Menu: press key M or Esc to return to menu.", ++line);
+  smallBodyLine("Menu: press key M or Esc", ++line);
 }
 
 function drawCredits() {
@@ -74,12 +73,12 @@ function bodyLine(txt, lineNum) {
 }
 
 function smallHeadLine(txt) {
-  canvasContext.font = 24 + "px Verdana";
+  canvasContext.font = 32 + "px Verdana";
   colorText(txt, TEXT_INDENT, 100, "white");
 }
 
 function smallBodyLine(txt, lineNum) {
-  colorText(txt, TEXT_INDENT, 120 + lineNum * 30, "white");
+  colorText(txt, TEXT_INDENT, 140 + lineNum * 30, "white");
 }
 
 function drawLevelOver() {

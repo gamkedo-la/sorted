@@ -9,7 +9,7 @@ const STATE_LEVEL_OVER = 4;
 const STATE_SCOREBOARD = 5;
 
 var gameState = STATE_HELP;
-var editMode = false;
+var editMode = true;
 var levelLoaded = 0;
 var levelRunning = false;
 var nearGoal = false; // if true, pens at row near top
@@ -24,11 +24,6 @@ for(var i=0; i<TEAM_SIZE.length; i++) {
 var sheepList = [];
 
 // var boopSound = new SoundOverlapsClass("snd/boop");
-// var safelyGrazeMusic = new BackgroundMusicClass("music/Sheep_May_Safely_Graze_BWV_208");
-
-// "Sheep May Safely Graze - BWV 208" Kevin MacLeod (incompetech.com)
-// Licensed under Creative Commons: By Attribution 4.0 License
-// http://creativecommons.org/licenses/by/4.0/
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
