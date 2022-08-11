@@ -151,12 +151,14 @@ function sheepClass() {
 
         if(tileType == TILE_PEN_BLUE) {
           console.log("Sheep ID", this.id, "reached the blue pen.");
+          this.gotoCentreOfTile(304);
           this.state = IN_BLUE_PEN;
           countBluePen++;
           countSheepPenned++;
         } else if(tileType == TILE_PEN_RED) {
           this.state = IN_RED_PEN;
           console.log("Sheep ID", this.id, "reached the red pen.");
+          this.gotoCentreOfTile(306);
           countRedPen++;
           countSheepPenned++;
         } else if(tileType == TILE_GOAL) {
@@ -164,7 +166,7 @@ function sheepClass() {
           console.log("Sheep ID", this.id, "is between pens.");
         }  
         this.speed = 0;
-        this.y += HOP_IN_PEN ; // move into pen
+        // this.y += HOP_IN_PEN ; // move into pen
         update_debug_report();
         // test if level complete
         testIfLevelEnd();

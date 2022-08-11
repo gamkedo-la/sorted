@@ -33,12 +33,18 @@ var mouseY = 0;
 
 function setupInput() {
 	canvas.addEventListener('mousemove', updateMousePos);
+	// canvas.addEventListener('mousemove', mouseTile);
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
 
   player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
 }
 
+function mouseTile(evt) {
+  updateMousePos();
+  tileIndex = getTileIndexAtPixelCoord(mouseX, mouseY);
+  console.log(tileIndex)
+}
 function updateMousePos(evt) {
 	var rect = canvas.getBoundingClientRect();
 	var root = document.documentElement;

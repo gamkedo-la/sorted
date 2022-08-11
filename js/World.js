@@ -16,6 +16,16 @@ function rowColToArrayIndex(col, row) {
 	return col + TILE_COLS * row;
 }
 
+function getTileIndexAtPixelCoord(pixelX, pixelY) {
+  var tileCol = pixelX / TILE_W;
+  var tileRow = pixelY / TILE_H;
+  
+  tileCol = Math.floor( tileCol );
+  tileRow = Math.floor( tileRow );
+
+  return(tileColRowToIndex(tileCol, tileRow));
+}
+
 function drawArea() {
   var arrayIndex = 0;
   var drawTileX = 0;
