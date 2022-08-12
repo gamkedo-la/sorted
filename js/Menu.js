@@ -20,6 +20,7 @@ function drawMenu() {
     bodyLine("Level select - press key 0-9", ++line);
     // bodyLine("Play (resume) - press P", ++line);
     bodyLine("Scoreboard - press S", ++line);
+    bodyLine("Help/Title - press H", ++line);
     bodyLine("toggle Edit mode - press F1", ++line);
   }
 }

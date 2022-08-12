@@ -5,43 +5,18 @@
 	<meta content="utf-8" http-equiv="encoding">
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   <style>
-    *, body, canvas, div {
+    *, body, canvas {
       padding: 0;
       margin: 0;
       border: 0;
     }
-    p {
-      margin-left: 5px;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    .flexbox {
-      display: flex;
-      background-color: darkgreen;
-      max-width: 920px;
-    }
-    .canvas {
-      flex: 0 0 840px;
-    }
-    .ui {
-      flex: 0 0 80px; 
-    }
   </style>
 </head>
 
-<body>
-<div class="flexbox">
-  <div class="canvas">
-    <canvas id="gameCanvas" width="840" height="600"></canvas>
-  </div>
-  <div class="ui">
-    <button onclick="buttonMenu()">Menu</button>
-  </div>
-</div>
+<canvas id="gameCanvas" width="800" height="600"></canvas>
 
-<p id='debug_1'>Up-arrow to beckon a sheep if hat above. Arrow keys left & right move hat.<br />Down-arrow to drop sheep. Key F1 toggles Edit mode. Key M for menu.<br />First 4 levels help you learn types of tile and how sheep behave.</p>
-<p id='debug_2'></p>
+<p id='debug_1' style="margin-left: 5px;">Up-arrow to beckon a sheep if hat above. Arrow keys left & right move hat.<br />Down-arrow to drop sheep. Key F1 toggles Edit mode. Key M for menu.<br />First 4 levels help you learn types of tile and how sheep behave.</p>
+<p id='debug_2' style="margin-left: 5px;"></p>
 
 <script src="js/Helper.js"></script>
 <script src="js/GraphicsCommon.js"></script>
@@ -57,9 +32,5 @@
 <script src="js/Menu.js"></script>
 <script src="js/Main.js"></script>
 
-<!-- <button onclick="buttonLeft()">Left</button>
-<button onclick="buttonRight()">Right</button>
-<button onclick="buttonUp()">Up</button>
-<button onclick="buttonDown()">Down</button> -->
 </body>
 </html>
