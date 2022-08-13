@@ -11,6 +11,7 @@ var player = new playerClass(1);
 function playerClass(id) {
   this.id = id;
   this.x = this.y = -100; // off screen
+  this.previousX = 0;
   this.ang = Math.PI;
   this.speed = 0;
   this.pic; // which image to use
@@ -49,11 +50,9 @@ function playerClass(id) {
     // console.log("Starting tile not found for player", this.id);
   }
 
-  this.columnCentred = function() {
-console.log("centre Hat in column")
-  }
-
   this.move = function() {
+    this.previousX = this.x;
+
     if(this.keyHeld_drop) {
       console.log('release sheep');
       var sheepHere = sheepList[this.sheepIDheld];
@@ -123,11 +122,18 @@ console.log("centre Hat in column")
     if(this.x > canvas.width - HAT_MARGIN) {
       this.x = canvas.width - HAT_MARGIN;
     }
-    
-    this.columnCentred();
 
+    // if(this.x != this.previousX) {
+    //   this.x = this.columnCentred(this.x);
+    // }
     // tileHandling(this);
   } // end of move()
+
+  this.columnCentred = function(x) {
+    console.log("centre Hat in column")
+    //this.x = Math.round(this.x / TILE_W) * TILE_W;
+    return TILE_W/2 + (Math.round((x - TILE_W/2) / TILE_W) * TILE_W);
+  }
 
   this.draw = function() {
     drawBitmapCenteredWithRotation(this.pic, this.x,this.y, this.ang);
