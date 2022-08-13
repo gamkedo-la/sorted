@@ -23,17 +23,17 @@ function xDistance(x1, x2) {
   return Math.abs(x1 - x2);
 }
 
-function scorePennedSheep() {
-  var score = 0;
+function countPennedSheep() {
+  var count = 0;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     if(sheepList[i].state == IN_BLUE_PEN && sheepList[i].team == 1) {
-      score++;
+      count++;
     }
     if(sheepList[i].state == IN_RED_PEN && sheepList[i].team == 2) {
-      score++;
+      count++;
     }
   } // end loop all sheep
-  return score;
+  return count;
 }
 
 function update_debug_report() {
@@ -51,9 +51,9 @@ function update_debug_report() {
 
   txt += "\nCounting sheep: in blue pen = " + countBluePen + "; in red pen = " + countRedPen;
 
-  var score = scorePennedSheep();
-  var wrong = countSheepPenned - score;
-  txt += "\nScoring: in correct pen = " + score + "; in wrong pen = " + wrong;
+  var count = countPennedSheep();
+  var wrong = countSheepPenned - count;
+  txt += "\nScoring: in correct pen = " + count + "; in wrong pen = " + wrong;
   
   document.getElementById("debug_2").innerText = txt;
 }

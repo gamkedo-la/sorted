@@ -1,4 +1,4 @@
-const SHEEP_RADIUS = 12;
+const SHEEP_RADIUS = 16;
 const SIDE_MARGIN = SHEEP_RADIUS/2 + 1;
 const TOP_MARGIN = 60;
 var countSheepPenned = 0;
@@ -138,6 +138,7 @@ function sheepClass() {
   this.draw = function() {
     colorCircle(this.x, this.y, SHEEP_RADIUS, this.color)
   }
+
   this.label = function() {
     var fontSize = 12;
     canvasContext.font = fontSize + "px Verdana";
@@ -148,7 +149,9 @@ function sheepClass() {
   this.scoreLabel = function() {
     var fontSize = 18;
     canvasContext.font = fontSize + "px Verdana";
-    colorText(this.score, this.x -7, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
+    // draw score in centre of sheep
+    colorText(this.score, this.x -10, this.y+6, "black");
+    // colorText(this.score, this.x -7, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
   }
 
   this.tileHandling = function() {

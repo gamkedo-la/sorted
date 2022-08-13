@@ -116,7 +116,7 @@ function moveAll() {
 }
 
 function drawAll() {
-  if(gameState == STATE_PLAY || gameState == STATE_LEVEL_OVER) {
+  if(gameState == STATE_PLAY) {
     drawArea();
     UI_level_number();
 
@@ -129,6 +129,17 @@ function drawAll() {
     player.draw();
     if(currentLevel>=3) { // only on some levels
       dog.draw();
+    }
+  }
+  else if (gameState == STATE_LEVEL_OVER) {
+    drawArea();
+    UI_level_number();
+    drawLevelOver();
+
+    // draw label with score on sheep
+    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+      sheepList[i].draw();
+      sheepList[i].scoreLabel();
     }
   }
   else if(gameState == STATE_MENU) {
@@ -145,13 +156,5 @@ function drawAll() {
   }
   else {
     console.log("Game in unknown state.");
-  }
-  
-  if (gameState == STATE_LEVEL_OVER) {
-    drawLevelOver();
-    // draw label with score near sheep
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-      sheepList[i].scoreLabel();
-    }
   }
 }
