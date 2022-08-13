@@ -15,6 +15,10 @@ var levelRunning = false;
 var testDrop = true;
 var nearGoal = false; // if true, pens at row near top
 
+const TEAM_NAMES = ["plain", "blue", "red"];
+const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282"];
+var testTeam = 1;
+
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
 const TEAM_SIZE = [null, 1, 2, 2, 4, 4, 6, 6, 8, 8];  

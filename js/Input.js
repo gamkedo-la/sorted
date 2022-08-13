@@ -13,6 +13,7 @@ const KEY_M = 77;
 const KEY_C = 67;
 const KEY_P = 80;
 const KEY_H = 72;
+const KEY_T = 84;
 
 const KEY_NUM_0 = 48;
 const KEY_NUM_1 = 49;
@@ -155,6 +156,17 @@ function keyMode(key) {
       saveGrid = areaGrid.slice();
       insertNearGoal();
     }
+  }
+  if(key == KEY_A) {
+    testDrop = !testDrop; // toggle
+    console.log("Automated test of Send all columns is", testDrop);
+  }
+  if(key == KEY_T) {
+    testTeam++;
+    if(testTeam > 2) {
+      testTeam = 0;
+    }
+    console.log("Paint for automated test is", TEAM_NAMES[testTeam]);
   }
 }
 

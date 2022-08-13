@@ -44,8 +44,8 @@ function sheepClass() {
   }
 
   this.test = function() {
-    this.team = 1;
-    this.color = "#66b3ff";
+    this.team = testTeam;
+    this.color = TEAM_COLOURS[testTeam];
     this.state = SENT;
     this.speed = 15;
   }
