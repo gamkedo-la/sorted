@@ -73,7 +73,7 @@ function testIfLevelEnd() {
       outOfPlay++;
     }
   }
-  console.log("Out of play =", outOfPlay)
+  // console.log("Out of play =", outOfPlay)
   if(outOfPlay >= FLOCK_SIZE[currentLevel]) {
     console.log("Level over", outOfPlay);
     gameState = STATE_LEVEL_OVER;

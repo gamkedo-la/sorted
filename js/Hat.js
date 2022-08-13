@@ -54,7 +54,7 @@ function playerClass(id) {
     this.previousX = this.x;
 
     if(this.keyHeld_drop) {
-      console.log('release sheep');
+      console.log('SEND a sheep');
       var sheepHere = sheepList[this.sheepIDheld];
       if(this.sheepIDheld != null) {
         this.sheepIDheld = null;
@@ -65,7 +65,7 @@ function playerClass(id) {
     }
 
     if(this.keyHeld_tractor) {
-      console.log('beckon a sheep');
+      console.log('CALL a sheep');
       // check all sheep to see if any below Hat
       // or select a sheep using mouse like in RTS
       if(this.sheepIDheld != null) {

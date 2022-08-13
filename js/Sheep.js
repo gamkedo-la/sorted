@@ -31,9 +31,10 @@ function sheepClass() {
   this.speed = 0;
   this.speedX = 0;
 
-  this.init = function(i) {
+  this.init = function(i, potential) {
     this.id = i;
     this.team = 0;
+    this.potentialTeam = potential;
     this.color = "#f4f4f4";
     this.score = 0;
     this.inPen = false;
@@ -99,18 +100,22 @@ function sheepClass() {
         update_debug_report(); // to display Hold
 
         // Sorting
-        var teamSort; // 0=normal, 1=blue, 2=red
+        // var teamSort; // 0=normal, 1=blue, 2=red
+        // // if already Sorted, don't change
+        // if(this.team == 0) {
+        //   // if equal-sized teams and one is full, no choice
+        //   if(teamSizeSoFar[1] >= TEAM_SIZE[currentLevel]) {
+        //     teamSort = 2;
+        //   }
+        //   else if(teamSizeSoFar[2] >= TEAM_SIZE[currentLevel]) {
+        //     teamSort = 1;
+        //   }
+        //   // otherwise random
+        //   teamSort = randomRangeInt(1, 2);
+        
         // if already Sorted, don't change
         if(this.team == 0) {
-          // if equal-sized teams and one is full, no choice
-          if(teamSizeSoFar[1] >= TEAM_SIZE[currentLevel]) {
-            teamSort = 2;
-          }
-          else if(teamSizeSoFar[2] >= TEAM_SIZE[currentLevel]) {
-            teamSort = 1;
-          }
-          // otherwise random
-          teamSort = randomRangeInt(1, 2);
+          var teamSort = this.potentialTeam;
           teamSizeSoFar[teamSort]++;
           this.team = teamSort;
           if (teamSort == BLUE) {

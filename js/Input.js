@@ -116,12 +116,18 @@ function keyState(key) {
       }
       if(editMode) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
-          currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
-          // console.log("Level number now =", currentLevel);
-          levelRunning = true;
-          loadLevel(currentLevel);
-          checkGridMatchColsRows();
-          gameState = STATE_PLAY;
+          if(testDrop == 0 || testColumnSet) {
+            currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
+            // console.log("Level number now =", currentLevel);
+            levelRunning = true;
+            loadLevel(currentLevel);
+            checkGridMatchColsRows();
+            gameState = STATE_PLAY;
+          } else {
+            whichColumn = key - KEY_NUM_0;
+            console.log("column for test =", whichColumn);
+            testColumnSet = true;
+          }
         }
       }
       break;
@@ -161,14 +167,14 @@ function keyMode(key) {
       insertNearGoal();
     }
   }
-  
+
   if(key == KEY_A) {
     // testDrop = !testDrop; // toggle
     testDrop++;
     if(testDrop > 2) {
       testDrop = 0;
     }
-    console.log("Automated test of Send is", testDrop);
+    console.log(TEST_NAMES[testDrop]);
   }
   if(key == KEY_T) {
     testTeam++;

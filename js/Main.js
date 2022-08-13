@@ -17,8 +17,6 @@ var showAgentGrid = false;
 
 const TEAM_NAMES = ["plain", "blue", "red"];
 const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282"];
-var testTeam = 1;
-var whichColumn = 9; // centre
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
@@ -64,7 +62,8 @@ function loadLevel(whichLevel) {
   sheepList = [];  // fresh set of sheep
   for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
     var spawnSheep = new sheepClass();
-    spawnSheep.init(i);
+    var potential = i % 2 == 0  ? BLUE : RED;
+    spawnSheep.init(i, potential);
     sheepList.push(spawnSheep);
   }
 
