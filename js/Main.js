@@ -12,6 +12,7 @@ var gameState = STATE_MENU;
 var editMode = true;
 var levelLoaded = 0;
 var levelRunning = false;
+var testDrop = true;
 var nearGoal = false; // if true, pens at row near top
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
@@ -48,7 +49,10 @@ function loadLevel(whichLevel) {
   if(whichLevel>=3) { // dog present on later levels only
     dog.init(rogueDogPic);
   }
-  console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel])
+
+  if(testDrop) {
+    FLOCK_SIZE[whichLevel] = TILE_COLS;
+  }
 
   sheepList = [];  // fresh set of sheep
   for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
@@ -56,6 +60,24 @@ function loadLevel(whichLevel) {
     spawnSheep.init(i);
     sheepList.push(spawnSheep);
   }
+
+  if(testDrop) {
+    console.log("Testing level " + whichLevel + " - " + levelNames[whichLevel])
+    for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
+      sheepList[i].test();
+      sheepList[i].placeTop();
+    }
+    test_EndLevel();
+  } else { // normal play
+    console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
+    for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
+      sheepList[i].reset();
+      sheepList[i].placeRandom();
+    }
+  }
+
+
+
   
   // reset sorting
   teamSizeSoFar = [0,0,0];
@@ -90,7 +112,7 @@ function moveAll() {
 }
 
 function drawAll() {
-  if(gameState == STATE_PLAY) {
+  if(gameState == STATE_PLAY || gameState == STATE_LEVEL_OVER) {
     drawArea();
     UI_level_number();
 
@@ -111,14 +133,6 @@ function drawAll() {
   else if(gameState == STATE_CREDITS) {
     drawCredits();
   } 
-  else if (gameState == STATE_LEVEL_OVER) {
-    drawLevelOver();
-    // draw label with score near sheep
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-      //sheepList[i].draw();
-      sheepList[i].scoreLabel();
-    }
-  }
   else if(gameState == STATE_SCOREBOARD) {
     drawScoreboard();
   }
@@ -127,5 +141,13 @@ function drawAll() {
   }
   else {
     console.log("Game in unknown state.");
+  }
+  
+  if (gameState == STATE_LEVEL_OVER) {
+    drawLevelOver();
+    // draw label with score near sheep
+    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+      sheepList[i].scoreLabel();
+    }
   }
 }

@@ -7,8 +7,8 @@ const TILE_ROWS = 15;
 function getTileTypeAtColRow(col, row) {
 	if(col >= 0 && col < TILE_COLS &&
 		row >= 0 && row < TILE_ROWS) {
-		 var trackIndexUnderCoord = rowColToArrayIndex(col, row);
-		 return (areaGrid[trackIndexUnderCoord]);
+		 var tileIndexUnderColRow = colRowToIndex(col, row);
+		 return (areaGrid[tileIndexUnderColRow]);
 	} else {
 		return TILE_HALT;
 	}

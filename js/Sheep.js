@@ -34,20 +34,35 @@ function sheepClass() {
   this.init = function(i) {
     this.id = i;
     this.team = 0;
-    this.color = "#f4f4f4"; 
-    this.reset();
-  }
-
-  this.reset = function(i) {
-    this.state = GRAZING;
+    this.color = "#f4f4f4";
     this.score = 0;
     this.inPen = false;
     this.held = false;
     this.tractor = false;
-    this.x = randomRangeInt(0 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -2);
-    this.y = randomRangeInt(TOP_MARGIN+10, parseInt(canvas.height / 5));
     this.ang = Math.PI/2;
     this.speed = 0;
+  }
+
+  this.test = function() {
+    this.team = 1;
+    this.color = "#66b3ff";
+    this.state = SENT;
+    this.speed = 15;
+  }
+
+  this.placeTop = function() {
+    this.x = TILE_W/2 + this.id * TILE_W;
+    // this.y = TILE_H * 3/2;
+    this.y = TILE_H * 3/2 -15;
+  }
+
+  this.reset = function(i) {
+    this.state = GRAZING;
+  }
+
+  this.placeRandom = function() {
+    this.x = randomRangeInt(0 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -2);
+    this.y = randomRangeInt(TOP_MARGIN+10, parseInt(canvas.height / 5));
   }
 
   this.move = function() {
@@ -127,19 +142,19 @@ function sheepClass() {
     var fontSize = 12;
     canvasContext.font = fontSize + "px Verdana";
     // colorText(this.id, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
-    colorText(this.id, this.x, this.y+6, "black");
+    colorText(this.id, this.x-8, this.y+6, "black");
   }
 
   this.scoreLabel = function() {
-    var fontSize = 24;
+    var fontSize = 18;
     canvasContext.font = fontSize + "px Verdana";
-    colorText(this.score, this.x, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
+    colorText(this.score, this.x -7, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
   }
 
   this.tileHandling = function() {
     var tileCol = Math.floor(this.x / TILE_W);
     var tileRow = Math.floor(this.y / TILE_H);
-    var tileIndexUnder = rowColToArrayIndex(tileCol, tileRow);
+    var tileIndexUnder = colRowToIndex(tileCol, tileRow);
 
     if(tileCol >= 0 && tileCol < TILE_COLS &&
       tileRow >= 0 && tileRow < TILE_ROWS) {
@@ -163,6 +178,7 @@ function sheepClass() {
           countSheepPenned++;
         } else if(tileType == TILE_GOAL) {
           this.state = ON_ROAD;
+          this.gotoCentreOfTile(305);
           console.log("Sheep ID", this.id, "is between pens.");
         }  
         this.speed = 0;
@@ -195,7 +211,8 @@ function sheepClass() {
         } else if(tileType == TILE_ROAD) {
           // if anti-stuck code needed below is also needed here
           this.state = FENCED;
-          this.y = canvas.height - TILE_H - SHEEP_RADIUS/2;
+          //this.y = canvas.height - TILE_H - SHEEP_RADIUS/2;
+          this.y = 5+ canvas.height - TILE_H * 3/2;
           this.speed = 0;
           testIfLevelEnd();
 
@@ -216,8 +233,9 @@ function sheepClass() {
     return this.state == IN_BLUE_PEN || this.state == IN_RED_PEN;
   }
 
-  this.gotoCentreOfTile = function() {
+  this.gotoCentreOfTile = function(tileIndex) {
     console.log('move sheep to centre of tile');
+    this.y = canvas.height - TILE_H / 2;
   }
 }
 

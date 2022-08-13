@@ -18,6 +18,8 @@ function drawMenu() {
   } else {
     headLine("Edit mode menu");
     bodyLine("Level select - press key 0-9", ++line);
+    bodyLine("Automate test level - press A", ++line);
+    bodyLine("Team paint level test - press T", ++line);
     // bodyLine("Play (resume) - press P", ++line);
     bodyLine("Scoreboard - press S", ++line);
     bodyLine("Help/Title - press H", ++line);
