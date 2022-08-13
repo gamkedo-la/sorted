@@ -44,7 +44,7 @@ function sheepClass() {
     this.levelDone = false;
   }
 
-  this.test = function() {
+  this.testRow = function() {
     this.team = testTeam;
     this.color = TEAM_COLOURS[testTeam];
     this.state = SENT;
@@ -58,6 +58,19 @@ function sheepClass() {
     this.y = TILE_H * 3/2 -15;
   }
 
+  this.testColumn = function() {
+    this.team = testTeam;
+    this.color = TEAM_COLOURS[testTeam];
+    this.state = SENT;
+    this.speed = 3 + this.id * 3;
+    this.levelDone = false;
+  }
+
+  this.placeColumn = function(col) {
+    this.x = TILE_W/2 + col * TILE_W;
+    this.y = TILE_H * 3/2 -15;
+  }
+
   this.reset = function(i) {
     this.state = GRAZING;
   }
@@ -68,7 +81,10 @@ function sheepClass() {
   }
 
   this.move = function() {
-    if(this.state == HELD) {
+    if(this.levelDone) {
+      //no action
+    }
+    else if(this.state == HELD) {
       this.x = player.x;
     }
     else if (this.state == CALLED) {
@@ -114,8 +130,11 @@ function sheepClass() {
       this.x += this.speed * Math.cos(this.ang);
       this.y += this.speed * Math.sin(this.ang);
       if(this.inPen == false) {
-        this.agentHandling();
-        this.tileHandling();
+        if(this.collisionDetect() == true) {
+          this.agentHandling();
+        } else {
+          this.tileHandling();
+        }
       }
     }
 
@@ -136,6 +155,7 @@ function sheepClass() {
         this.y += this.speed * Math.sin(this.ang); 
       }
     }
+    testIfLevelEnd();
   }
 
   this.draw = function() {
@@ -157,6 +177,18 @@ function sheepClass() {
     // colorText(this.score, this.x -7, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
   }
 
+  this.collisionDetect = function() {
+    var col = Math.floor(this.x / TILE_W);
+    var row = Math.floor(this.y / TILE_H);
+    var agentIndex = colRowToIndex(col, row);
+    // tile entered is occupied by another sheep
+    if(agentGrid[agentIndex] == 1) {
+      console.log("colliding sheep ID=" + this.id + " row=" + row + " arrival Y=" + this.y + " index=" + agentIndex);
+      return true;
+    } else {
+      return false;
+    }
+  }
   this.agentHandling = function() {
     var col = Math.floor(this.x / TILE_W);
     var row = Math.floor(this.y / TILE_H);
@@ -164,11 +196,12 @@ function sheepClass() {
     // tile entered is occupied by another sheep
     if(agentGrid[agentIndex] == 1) {
       // this.y = canvas.height - TILE_H * 5/2;
-      // this.y = 300; //row-2 * TILE_H + TILE_H/2;
+      this.y = ((row-1) * TILE_H) + (TILE_H/2);
+      console.log("retreat to Y=", this.y);
       this.speed = 0;
       this.levelDone = true;
       agentGrid[agentIndex - TILE_COLS] = 1;
-      console.log("agentHandling sheep " + this.id + " row " + row)
+      // console.log("agentHandling sheep " + this.id + " row " + row)
     }
   }
 
@@ -204,14 +237,10 @@ function sheepClass() {
         }  
         this.speed = 0;
         this.levelDone = true;
+        agentGrid[tileIndexUnder] = 1;
         // this.y += HOP_IN_PEN ; // move into pen
         update_debug_report();
         // test if level complete
-        testIfLevelEnd();
-        // oh this was an earlier variable for same thing 
-        if(sheepInPlay == 0) {
-          showLevelDone();
-        }
       } else {
         // terrain handling
 
@@ -237,7 +266,7 @@ function sheepClass() {
           this.y = canvas.height - TILE_H * 3/2;
           this.speed = 0;
           this.levelDone = true;
-          agentGrid[tileIndexUnder] = OCCUPIED;
+          agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
           testIfLevelEnd();
 
         } else if(tileType != TILE_FIELD) {

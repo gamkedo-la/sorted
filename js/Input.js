@@ -28,6 +28,7 @@ const KEY_NUM_9 = 57;
 
 const KEY_F1 = 112;
 const KEY_F2 = 113;
+const KEY_F3 = 114;
 
 var mouseX = 0;
 var mouseY = 0;
@@ -150,6 +151,9 @@ function keyMode(key) {
   if(key == KEY_F1) {
     editMode = !editMode; // toggle
   }
+  if(key == KEY_F3) {
+    endLevelshowID = !endLevelshowID; // toggle
+  }
   if(key == KEY_F2) {
     nearGoal = !nearGoal; // toggle
     if(nearGoal) {
@@ -157,9 +161,14 @@ function keyMode(key) {
       insertNearGoal();
     }
   }
+  
   if(key == KEY_A) {
-    testDrop = !testDrop; // toggle
-    console.log("Automated test of Send all columns is", testDrop);
+    // testDrop = !testDrop; // toggle
+    testDrop++;
+    if(testDrop > 2) {
+      testDrop = 0;
+    }
+    console.log("Automated test of Send is", testDrop);
   }
   if(key == KEY_T) {
     testTeam++;

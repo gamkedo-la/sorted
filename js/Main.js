@@ -12,16 +12,16 @@ var gameState = STATE_MENU;
 var editMode = true;
 var levelLoaded = 0;
 var levelRunning = false;
-var testDrop = true;
 var nearGoal = false; // if true, pens at row near top
 
 const TEAM_NAMES = ["plain", "blue", "red"];
 const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282"];
 var testTeam = 1;
+var whichColumn = 9; // centre
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [null, 1, 2, 2, 4, 4, 6, 6, 8, 8];  
+const TEAM_SIZE = [2, 2, 2, 4, 4, 4, 6, 6, 8, 8];  
 const FLOCK_SIZE = [];
 for(var i=0; i<TEAM_SIZE.length; i++) {
   FLOCK_SIZE[i] = TEAM_SIZE[i] * 2;
@@ -56,7 +56,7 @@ function loadLevel(whichLevel) {
     dog.init(rogueDogPic);
   }
 
-  if(testDrop) {
+  if(testDrop == DROP_A_ROW_FULL) {
     FLOCK_SIZE[whichLevel] = TILE_COLS;
   }
 
@@ -67,14 +67,22 @@ function loadLevel(whichLevel) {
     sheepList.push(spawnSheep);
   }
 
-  if(testDrop) {
+  if(testDrop == DROP_A_ROW_FULL) {
     console.log("Testing level " + whichLevel + " - " + levelNames[whichLevel])
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
-      sheepList[i].test();
+      sheepList[i].testRow();
       sheepList[i].placeTop();
     }
     test_EndLevel();
-  } else { // normal play
+  } 
+  else if(testDrop == DROP_IN_COLUMN) { 
+    console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
+    for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
+      sheepList[i].testColumn();
+      sheepList[i].placeColumn(whichColumn);
+    }
+  }
+  else if(testDrop == NORMAL_PLAY) { // normal play
     console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       sheepList[i].reset();
@@ -117,6 +125,7 @@ function moveAll() {
 function drawAll() {
   if(gameState == STATE_PLAY) {
     drawArea();
+    // drawAgentGrid();
     UI_level_number();
 
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
@@ -132,14 +141,19 @@ function drawAll() {
   }
   else if (gameState == STATE_LEVEL_OVER) {
     drawArea();
-    // drawAgentGrid();
+    player.draw();
+    drawAgentGrid();
     UI_level_number();
     drawLevelOver();
 
     // draw label with score on sheep
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].draw();
-      sheepList[i].scoreLabel();
+      if(endLevelshowID) {
+        sheepList[i].label();
+      } else {
+        sheepList[i].scoreLabel();
+      }
     }
   }
   else if(gameState == STATE_MENU) {
