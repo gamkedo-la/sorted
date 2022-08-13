@@ -88,6 +88,7 @@ function sheepClass() {
     else if(this.state == HELD) {
       this.x = player.x;
     }
+
     else if (this.state == CALLED) {
       nextY = this.y - TRACTOR_SPEED;
 
@@ -164,7 +165,11 @@ function sheepClass() {
   }
 
   this.draw = function() {
-    colorCircle(this.x, this.y, SHEEP_RADIUS, this.color)
+    colorCircle(this.x, this.y, SHEEP_RADIUS, this.color);
+    if(this.state == CALLED) {
+      // draw line between sheep and hat
+      colorLine(player.x,player.y, this.x,this.y, "yellow")
+    }
   }
 
   this.label = function() {
@@ -220,8 +225,8 @@ function sheepClass() {
 
       var tileType = getTileTypeAtColRow(tileCol,tileRow);
 
-      // only when entering pen tile
-      if( (this.state != IN_BLUE_PEN && this.state != IN_RED_PEN) && (tileType == TILE_GOAL || tileType == TILE_PEN_BLUE || tileType == TILE_PEN_RED) ) {
+      // only when first entering pen tile
+      if( this.stateIsOnGoal() == false && this.onTileGoal(tileType) ) {
 
         if(tileType == TILE_PEN_BLUE) {
           console.log("Sheep ID", this.id, "reached the blue pen.");
@@ -287,9 +292,14 @@ function sheepClass() {
     } // end of valid col and row
   }
 
-  this.isInPen = function() {
+  this.stateIsOnGoal = function() {
     return this.state == IN_BLUE_PEN || this.state == IN_RED_PEN;
   }
+
+  this.onTileGoal = function(tileType) {
+    return tileType == TILE_GOAL || tileType == TILE_PEN_BLUE || tileType == TILE_PEN_RED;
+  }
+ 
 
   this.gotoCentreOfTile = function(tileIndex) {
     console.log('move sheep to centre of tile');

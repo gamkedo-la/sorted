@@ -17,6 +17,7 @@ function colorCircle(centerX,centerY, radius, fillColor) {
 	canvasContext.arc(centerX,centerY, radius, 0,Math.PI*2, true);
 	canvasContext.fill();
   canvasContext.lineWidth = 1;
+  canvasContext.setLineDash([]); // colorLine set this
   canvasContext.strokeStyle = "black";
   canvasContext.stroke();
 }
@@ -24,4 +25,14 @@ function colorCircle(centerX,centerY, radius, fillColor) {
 function colorText(showWords, textX,textY, fillColor) {
 	canvasContext.fillStyle = fillColor;
 	canvasContext.fillText(showWords, textX, textY);
+}
+
+function colorLine(startX,startY, endX,endY, color) {
+	canvasContext.beginPath();
+  canvasContext.strokeStyle = color;
+  canvasContext.lineWidth = 5;
+  canvasContext.setLineDash([5, 5]);
+  canvasContext.moveTo(startX,startY);
+  canvasContext.lineTo(endX,endY);
+  canvasContext.stroke();
 }
