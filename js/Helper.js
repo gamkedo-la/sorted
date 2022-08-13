@@ -69,11 +69,13 @@ function testIfLevelEnd() {
   // if all sheep in states FENCED or PEN or ON_ROAD
   outOfPlay = 0;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    if(sheepList[i].state == IN_BLUE_PEN || sheepList[i].state == IN_RED_PEN || sheepList[i].state == FENCED || sheepList[i].state == ON_ROAD) {
+    // if(sheepList[i].state == IN_BLUE_PEN || sheepList[i].state == IN_RED_PEN || sheepList[i].state == FENCED || sheepList[i].state == ON_ROAD) {
+    if(sheepList[i].levelDone) {
       outOfPlay++;
     }
   }
-  if(outOfPlay >= FLOCK_SIZE[currentLevel]) {
+  console.log("Out of play =", outOfPlay)
+  if(outOfPlay +4 >= FLOCK_SIZE[currentLevel]) {
     gameState = STATE_LEVEL_OVER;
     calculateLevelScore();
   }
@@ -134,3 +136,22 @@ function getLines(ctx, text, maxWidth) {
   lines.push(currentLine);
   return lines;
 }
+
+function drawAgentGrid() {
+  var arrayIndex = 0;
+  var drawTileX = 0;
+  var drawTileY = 0;
+
+	for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
+		for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+      // var agent = agentGrid[arrayIndex];
+      // var x = colRowToCentreX(col, row);
+      colorText(arrayIndex, drawTileX + TILE_W/2, drawTileY + TILE_H/2, "white");
+
+      drawTileX += TILE_W;
+      arrayIndex++;
+		} // end of for each col
+    drawTileX = 0;
+    drawTileY += TILE_H;
+	} // end of for each row
+} // end of drawArea func

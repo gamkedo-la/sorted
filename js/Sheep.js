@@ -41,6 +41,7 @@ function sheepClass() {
     this.tractor = false;
     this.ang = Math.PI/2;
     this.speed = 0;
+    this.levelDone = false;
   }
 
   this.test = function() {
@@ -48,6 +49,7 @@ function sheepClass() {
     this.color = TEAM_COLOURS[testTeam];
     this.state = SENT;
     this.speed = 15;
+    this.levelDone = false;
   }
 
   this.placeTop = function() {
@@ -112,6 +114,7 @@ function sheepClass() {
       this.x += this.speed * Math.cos(this.ang);
       this.y += this.speed * Math.sin(this.ang);
       if(this.inPen == false) {
+        this.agentHandling();
         this.tileHandling();
       }
     }
@@ -147,11 +150,26 @@ function sheepClass() {
   }
 
   this.scoreLabel = function() {
-    var fontSize = 18;
+    var fontSize = 12;
     canvasContext.font = fontSize + "px Verdana";
     // draw score in centre of sheep
     colorText(this.score, this.x -10, this.y+6, "black");
     // colorText(this.score, this.x -7, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
+  }
+
+  this.agentHandling = function() {
+    var col = Math.floor(this.x / TILE_W);
+    var row = Math.floor(this.y / TILE_H);
+    var agentIndex = colRowToIndex(col, row);
+    // tile entered is occupied by another sheep
+    if(agentGrid[agentIndex] == 1) {
+      // this.y = canvas.height - TILE_H * 5/2;
+      // this.y = 300; //row-2 * TILE_H + TILE_H/2;
+      this.speed = 0;
+      this.levelDone = true;
+      agentGrid[agentIndex - TILE_COLS] = 1;
+      console.log("agentHandling sheep " + this.id + " row " + row)
+    }
   }
 
   this.tileHandling = function() {
@@ -185,6 +203,7 @@ function sheepClass() {
           console.log("Sheep ID", this.id, "is between pens.");
         }  
         this.speed = 0;
+        this.levelDone = true;
         // this.y += HOP_IN_PEN ; // move into pen
         update_debug_report();
         // test if level complete
@@ -215,8 +234,10 @@ function sheepClass() {
           // if anti-stuck code needed below is also needed here
           this.state = FENCED;
           //this.y = canvas.height - TILE_H - SHEEP_RADIUS/2;
-          this.y = 5+ canvas.height - TILE_H * 3/2;
+          this.y = canvas.height - TILE_H * 3/2;
           this.speed = 0;
+          this.levelDone = true;
+          agentGrid[tileIndexUnder] = OCCUPIED;
           testIfLevelEnd();
 
         } else if(tileType != TILE_FIELD) {

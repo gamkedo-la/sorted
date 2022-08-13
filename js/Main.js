@@ -48,6 +48,8 @@ function imageLoadingDoneSoStartGame() {
 
 function loadLevel(whichLevel) {
   areaGrid = levelList[whichLevel].slice();
+  agentGrid = agentLevelList[whichLevel].slice();
+
   player.reset(playerHatPic, "Shepherding Hat");
 
   if(whichLevel>=3) { // dog present on later levels only
@@ -80,9 +82,6 @@ function loadLevel(whichLevel) {
     }
   }
 
-
-
-  
   // reset sorting
   teamSizeSoFar = [0,0,0];
   // reset scoring
@@ -133,6 +132,7 @@ function drawAll() {
   }
   else if (gameState == STATE_LEVEL_OVER) {
     drawArea();
+    // drawAgentGrid();
     UI_level_number();
     drawLevelOver();
 

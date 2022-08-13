@@ -16,6 +16,9 @@ function colorCircle(centerX,centerY, radius, fillColor) {
 	canvasContext.beginPath();
 	canvasContext.arc(centerX,centerY, radius, 0,Math.PI*2, true);
 	canvasContext.fill();
+  canvasContext.lineWidth = 1;
+  canvasContext.strokeStyle = "black";
+  canvasContext.stroke();
 }
 
 function colorText(showWords, textX,textY, fillColor) {

@@ -184,5 +184,4 @@ const agentLevel_9 = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ];
 
-// level number 0 bad for UI, and shifting +1 everywhere was awkward  
 var agentLevelList = [agentLevel_0, agentLevel_1, agentLevel_2, agentLevel_3, agentLevel_4, agentLevel_5, agentLevel_6, agentLevel_7, agentLevel_8, agentLevel_9];
