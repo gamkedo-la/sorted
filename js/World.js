@@ -1,6 +1,8 @@
 var currentLevel = 0;
 const TILE_W = 40;
 const TILE_H = 40;
+const TILE_COLS = 21;
+const TILE_ROWS = 15;
 
 function getTileTypeAtColRow(col, row) {
 	if(col >= 0 && col < TILE_COLS &&
@@ -12,18 +14,16 @@ function getTileTypeAtColRow(col, row) {
 	}
 }
 
-function rowColToArrayIndex(col, row) {
+function colRowToIndex(col, row) {
 	return col + TILE_COLS * row;
 }
 
 function getTileIndexAtPixelCoord(pixelX, pixelY) {
   var tileCol = pixelX / TILE_W;
   var tileRow = pixelY / TILE_H;
-  
   tileCol = Math.floor( tileCol );
   tileRow = Math.floor( tileRow );
-
-  return(tileColRowToIndex(tileCol, tileRow));
+  return(colRowToIndex(tileCol, tileRow));
 }
 
 function drawArea() {
@@ -52,6 +52,12 @@ function drawArea() {
 
 function checkGridMatchColsRows() {
   var numberTilesNeeded = TILE_COLS * TILE_ROWS;
+  if(TILE_COLS * TILE_W > canvas.width) {
+    console.log("Grid columns overflow canvas width");
+  }
+  if(TILE_ROWS * TILE_H > canvas.height) {
+    console.log("Grid rows overflow canvas height");
+  }
   if(areaGrid.length == numberTilesNeeded) {
     console.log("Grid has correct number of tiles matching columns * rows", areaGrid.length, numberTilesNeeded);
   }

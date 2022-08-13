@@ -1,6 +1,3 @@
-const TILE_COLS = 21;
-const TILE_ROWS = 15;
-
 const TILE_FIELD = 0;
 const TILE_PEN_BLUE = 1;
 const TILE_PEN_RED = 2;

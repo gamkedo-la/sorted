@@ -35,7 +35,7 @@ function playerClass(id) {
 
     for(var eachRow=0;eachRow<TILE_ROWS;eachRow++) {
       for(var eachCol=0;eachCol<TILE_COLS;eachCol++) {
-        var arrayIndex = rowColToArrayIndex(eachCol, eachRow);
+        var arrayIndex = colRowToIndex(eachCol, eachRow);
 
         // seek starting position tile
         if(areaGrid[arrayIndex] == TILE_PLAYERSTART) {

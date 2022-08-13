@@ -33,7 +33,6 @@ var mouseY = 0;
 
 function setupInput() {
 	canvas.addEventListener('mousemove', updateMousePos);
-	// canvas.addEventListener('mousemove', mouseTile);
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
 
@@ -157,10 +156,6 @@ function keyMode(key) {
       insertNearGoal();
     }
   }
-  
-  
-  // loadLevel(levelList[currentLevel-1]);
-  // gameState = STATE_PLAY;
 }
 
 // maybe flip set keyHeld_
