@@ -49,8 +49,11 @@ function playerClass(id) {
     // console.log("Starting tile not found for player", this.id);
   }
 
-  this.move = function() {
+  this.columnCentred = function() {
+console.log("centre Hat in column")
+  }
 
+  this.move = function() {
     if(this.keyHeld_drop) {
       console.log('release sheep');
       var sheepHere = sheepList[this.sheepIDheld];
@@ -61,6 +64,7 @@ function playerClass(id) {
         sheepHere.ang = Math.PI/2 // straight down
       }
     }
+
     if(this.keyHeld_tractor) {
       console.log('beckon a sheep');
       // check all sheep to see if any below Hat
@@ -69,39 +73,39 @@ function playerClass(id) {
         console.log('Cannot call a sheep while one already held');
       } else {
 
-      var aligned;
-      var nearestXdist = 999;
-      for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-        var xDist = xDistance(this.x, sheepList[i].x);
-        if(xDist < nearestXdist && xDist < ALIGN_LIMIT) {
-          aligned = i;
+        var aligned;
+        var nearestXdist = 999;
+        for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+          var xDist = xDistance(this.x, sheepList[i].x);
+          if(xDist < nearestXdist && xDist < ALIGN_LIMIT) {
+            aligned = i;
+          }
         }
-      }
-      // if beckoned from Pen subtract from count
-      // or recalculate number using state when drawing UI
-      // if(aligned != undefined) {
-      //   if(sheepList[aligned].state == IN_BLUE_PEN) {
-      //     countBluePen--;
-      //     countSheepPenned--;
-      //     update_debug_report();
-      //   } 
-      //   else if(sheepList[aligned].state == IN_RED_PEN) {
-      //     countRedPen--;
-      //     countSheepPenned--;
-      //     update_debug_report();
-      //   } 
-      if(aligned != undefined) {
-        var location = sheepList[aligned].state;
-        if(location == IN_BLUE_PEN || location == IN_RED_PEN || location == FENCED) {
-          console.log('Sheep in a pen or end of field cannot be beckoned')
+        // if beckoned from Pen subtract from count
+        // or recalculate number using state when drawing UI
+        // if(aligned != undefined) {
+        //   if(sheepList[aligned].state == IN_BLUE_PEN) {
+        //     countBluePen--;
+        //     countSheepPenned--;
+        //     update_debug_report();
+        //   } 
+        //   else if(sheepList[aligned].state == IN_RED_PEN) {
+        //     countRedPen--;
+        //     countSheepPenned--;
+        //     update_debug_report();
+        //   } 
+        if(aligned != undefined) {
+          var location = sheepList[aligned].state;
+          if(location == IN_BLUE_PEN || location == IN_RED_PEN || location == FENCED) {
+            console.log('Sheep in a pen or end of field cannot be beckoned')
+          } else {
+            sheepList[aligned].state = CALLED;
+          }
         } else {
-          sheepList[aligned].state = CALLED;
+          console.log("No sheep X-aligned to tractor")
         }
-      } else {
-        console.log("No sheep X-aligned to tractor")
       }
-    }
-    }
+    } // end of CALL (tractor)
 
     this.speed *= GROUNDSPEED_DECAY_MULT;
     if(this.keyHeld_right) {
@@ -119,8 +123,11 @@ function playerClass(id) {
     if(this.x > canvas.width - HAT_MARGIN) {
       this.x = canvas.width - HAT_MARGIN;
     }
+    
+    this.columnCentred();
+
     // tileHandling(this);
-  }
+  } // end of move()
 
   this.draw = function() {
     drawBitmapCenteredWithRotation(this.pic, this.x,this.y, this.ang);

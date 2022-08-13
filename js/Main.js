@@ -13,6 +13,7 @@ var editMode = true;
 var levelLoaded = 0;
 var levelRunning = false;
 var nearGoal = false; // if true, pens at row near top
+var showAgentGrid = false;
 
 const TEAM_NAMES = ["plain", "blue", "red"];
 const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282"];
@@ -142,7 +143,9 @@ function drawAll() {
   else if (gameState == STATE_LEVEL_OVER) {
     drawArea();
     player.draw();
-    drawAgentGrid();
+    if(showAgentGrid) {
+      drawAgentGrid();
+    }
     UI_level_number();
     drawLevelOver();
 
