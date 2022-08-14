@@ -1,4 +1,5 @@
 var playerHatPic = document.createElement("img");
+var sheepNormalPic = document.createElement("img");
 var rogueDogPic = document.createElement("img");
 var tilePics = [];
 
@@ -25,6 +26,7 @@ function loadImageForTileCode(tileCode, fileName) {
 function loadImages() {
 	var imageList = [
 		{varName: playerHatPic, theFile: "player_hat.png"},
+		{varName: sheepNormalPic, theFile: "sheep-normal-2.png"},
 		{varName: rogueDogPic, theFile: "tile_girl.png"},
 		{tileType: TILE_FIELD, theFile: "tile_grass.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},		

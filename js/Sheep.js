@@ -3,14 +3,11 @@ const SIDE_MARGIN = SHEEP_RADIUS/2 + 1;
 const TOP_MARGIN = 60;
 var countSheepPenned = 0;
 
-const BLUE = 1;
-const RED = 2;
 var teamSizeSoFar = [0,0,0];
 var sheepInPlay = 0;
 
 const SHEEP_DROP_SPEED = 10;
-const HOP_IN_PEN = 14;
-const SCORE_GAP = 5;
+const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
 
 // sheep states
 const GRAZING = 0;
@@ -30,10 +27,16 @@ function sheepClass() {
   this.y = 50;
   this.speed = 0;
   this.speedX = 0;
+  this.ang = Math.PI/2;
+  this.orient = 0;
+  this.score = 0;
+  this.inPen = false;
+  this.held = false;
+  this.tractor = false;
 
   this.init = function(i, potential) {
     this.id = i;
-    this.team = 0;
+    this.team = PLAIN;
     this.potentialTeam = potential;
     this.color = "#f4f4f4";
     this.score = 0;
@@ -41,6 +44,7 @@ function sheepClass() {
     this.held = false;
     this.tractor = false;
     this.ang = Math.PI/2;
+    this.orient = 0;
     this.speed = 0;
     this.levelDone = false;
   }
@@ -164,29 +168,6 @@ function sheepClass() {
     testIfLevelEnd();
   }
 
-  this.draw = function() {
-    colorCircle(this.x, this.y, SHEEP_RADIUS, this.color);
-    if(this.state == CALLED) {
-      // draw line between sheep and hat
-      colorLine(player.x,player.y, this.x,this.y, "yellow")
-    }
-  }
-
-  this.label = function() {
-    var fontSize = 12;
-    canvasContext.font = fontSize + "px Verdana";
-    // colorText(this.id, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
-    colorText(this.id, this.x-8, this.y+6, "black");
-  }
-
-  this.scoreLabel = function() {
-    var fontSize = 12;
-    canvasContext.font = fontSize + "px Verdana";
-    // draw score in centre of sheep
-    colorText(this.score, this.x -10, this.y+6, "black");
-    // colorText(this.score, this.x -7, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
-  }
-
   this.collisionDetect = function() {
     var col = Math.floor(this.x / TILE_W);
     var row = Math.floor(this.y / TILE_H);
@@ -305,7 +286,36 @@ function sheepClass() {
     console.log('move sheep to centre of tile');
     this.y = canvas.height - TILE_H / 2;
   }
+
+  this.draw = function() {
+    if(this.team == PLAIN) {
+      drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
+    } else {
+      colorCircle(this.x, this.y, SHEEP_RADIUS, this.color);
+    }
+    if(this.state == CALLED) {
+      // draw line between sheep and hat
+      colorLine(player.x,player.y, this.x,this.y, "yellow")
+    }
+  }
+
+  this.label = function() {
+    if(this.team != PLAIN) {
+      var fontSize = 12;
+      canvasContext.font = fontSize + "px Verdana";
+      // colorText(this.id, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
+      colorText(this.id, this.x-8, this.y+6, "black");
+    }
+  }
+
+  this.scoreLabel = function() {
+    if(this.team != PLAIN) {
+      var fontSize = 12;
+      canvasContext.font = fontSize + "px Verdana";
+      // draw score in centre of sheep
+      colorText(this.score, this.x -10, this.y+6, "black");
+      // colorText(this.score, this.x -7, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
+    }
+  }
 }
-
-
 

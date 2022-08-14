@@ -116,7 +116,7 @@ function keyState(key) {
       }
       if(editMode) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
-          if(testDrop == 0 || testColumnSet) {
+          if(testDrop == NORMAL_PLAY || testDrop == DROP_A_ROW_FULL || testColumnSet) {
             currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
             // console.log("Level number now =", currentLevel);
             levelRunning = true;
@@ -125,7 +125,7 @@ function keyState(key) {
             gameState = STATE_PLAY;
           } else {
             whichColumn = key - KEY_NUM_0;
-            console.log("column for test =", whichColumn);
+            console.log("Test column = " + whichColumn + ". Now select a level.");
             testColumnSet = true;
           }
         }

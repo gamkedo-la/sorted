@@ -87,7 +87,9 @@ function isInPen(mode) {
 
 function calculateLevelScore() {
   levelScore = 0;
+  var offSide = false;
   var mode, team, x, score;
+  
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     mode = sheepList[i].state;
     team = sheepList[i].team;
