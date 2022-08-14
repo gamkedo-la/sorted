@@ -15,5 +15,5 @@ const TEST_NAMES = ["not automating, normal play", "a full row of sheep will dro
 var testTeam = PLAIN;
 var whichColumn = 10; // for automated test
 
-var endLevelshowID = true; // otherwise show score per ball
+var endLevelshowID = false; // otherwise show score per ball
 

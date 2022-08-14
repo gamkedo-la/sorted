@@ -283,7 +283,7 @@ function sheepClass() {
  
 
   this.gotoCentreOfTile = function(tileIndex) {
-    console.log('move sheep to centre of tile');
+
     this.y = canvas.height - TILE_H / 2;
   }
 

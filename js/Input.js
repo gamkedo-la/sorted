@@ -29,6 +29,7 @@ const KEY_NUM_9 = 57;
 const KEY_F1 = 112;
 const KEY_F2 = 113;
 const KEY_F3 = 114;
+const KEY_F4 = 115;
 
 var mouseX = 0;
 var mouseY = 0;
@@ -159,6 +160,14 @@ function keyMode(key) {
   }
   if(key == KEY_F3) {
     endLevelshowID = !endLevelshowID; // toggle
+    if(endLevelshowID) {
+      console.log("At end of Level show sheep ID for debugging.")
+    } else {
+      console.log("At end of Level show points awarded for each sheep.")
+    }
+  }
+  if(key == KEY_F4) {
+    test_EndLevel();
   }
   if(key == KEY_F2) {
     nearGoal = !nearGoal; // toggle

@@ -87,29 +87,26 @@ function isInPen(mode) {
 
 function calculateLevelScore() {
   levelScore = 0;
-  var offSide = false;
+  var offSide;
   var mode, team, x, score;
   
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+    offSide = false;
     mode = sheepList[i].state;
+    id = sheepList[i].id;
     team = sheepList[i].team;
     done = sheepList[i].levelDone;
     
     x = sheepList[i].x;
-    if(team == BLUE && x < canvas.width/2) {
-      offSide = false;
-    }
-    if(team == RED && x >= canvas.width/2) {
-      offSide = false;
-    }
+
     if(team == BLUE && x >= canvas.width/2) {
       offSide = true;
     }
-    if(team == RED && x < canvas.width/2) {
+    else if(team == RED && x < canvas.width/2) {
       offSide = true;
     }
 
-    if(done) {
+    if(done && team != PLAIN) {
       score = 80 - Math.round(Math.abs(x - canvas.width/2) / 5);
       if(offSide) {
         sheepList[i].score = 0;
@@ -118,10 +115,15 @@ function calculateLevelScore() {
       }
       // how about if in goal column but queued up?
       // bonus for being in goal column
-      if(isInPen(mode)) {
-        sheepList[i].score += 50;
+      if(mode == IN_BLUE_PEN && team == BLUE) {
+        sheepList[i].score += 100;
+      }
+      else if(mode == IN_RED_PEN && team == RED) {
+        sheepList[i].score += 100;
       }
       levelScore += sheepList[i].score;
+
+      console.log(sheepList[i].id, x, team, mode, offSide, done)
     }
   }
   levelScores[currentLevel] = levelScore;
