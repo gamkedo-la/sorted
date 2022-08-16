@@ -18,3 +18,5 @@ var whichColumn = 10; // for automated test
 
 var endLevelshowID = false; // otherwise show score per ball
 
+// var playedLevel = Array(NUM_LEVELS); // play sequence
+// playedLevel.fill(false);

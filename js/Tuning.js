@@ -54,7 +54,7 @@ GRAZE_TIME_MAX.fill(defaultGrazeTimeMin);
 
 // Sheep roam speed
 const ROAM_SPEED = Array(NUM_LEVELS);
-var defaultRoamSpeed = 1;
+var defaultRoamSpeed = 1.0;
 ROAM_SPEED.fill(defaultRoamSpeed);
 
 // Sheep graze speed (if any)

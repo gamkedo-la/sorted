@@ -101,8 +101,9 @@ function keyState(key) {
       if(key == KEY_P) {
         gameState = STATE_PLAY;
         if(!levelRunning) {
+          currentLevel = nextLevel;
           levelRunning = true;
-          currentLevel++;
+          // currentLevel++;
           loadLevel(currentLevel);
           checkGridMatchColsRows();
         }
@@ -204,7 +205,7 @@ function keyPressed(evt) {
   keySet(evt, player, true);
   keyMode(evt.keyCode); // toggle Edit mode
   keyState(evt.keyCode); // play, menu, or credits
-	// evt.preventDefault();
+	evt.preventDefault();
 }
 
 function keyReleased(evt) {

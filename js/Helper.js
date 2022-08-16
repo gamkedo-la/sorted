@@ -4,6 +4,7 @@ var countNotPen = 0;
 var outOfPlay = 0;
 var levelScore;
 var levelScores = [0,0,0,0,0,0,0,0,0,0];
+var nextLevel = 1;
 
 function randomRange(min, max) {
   return Math.random() * (max - min) + min;

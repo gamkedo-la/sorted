@@ -32,7 +32,6 @@ function sheepClass() {
   this.x = 50;
   this.y = 50;
   this.speed = 0;
-  this.speedX = 0;
   this.ang = Math.PI/2;
   this.orient = 0;
   this.score = 0;
@@ -43,13 +42,15 @@ function sheepClass() {
     this.team = team;
     this.color = TEAM_COLOURS[team];
     this.potentialTeam = potential;
-    this.score = 0;
-    this.ang = Math.PI/2;
-    this.orient = 0;
     this.state = mode;
-    this.speed = 0;
+    this.ang = randomRange(0, Math.PI * 2);
+    this.orient = 0;
+    this.gotoX = this.x;
+    this.gotoY = this.y;
+    this.score = 0;
     this.levelDone = false;
-    this.setExpiry(mode);
+    this.setExpiry();
+    this.setSpeed();
   }
 
   this.testRowInit = function() {
@@ -87,6 +88,7 @@ function sheepClass() {
     }
 
     else if (this.state == CALLED) {
+
       nextY = this.y - TRACTOR_SPEED;
 
       if(nextY < player.y +20) { // arriving at Hat
@@ -133,7 +135,11 @@ function sheepClass() {
       nextY = this.y + this.speed * Math.sin(this.ang); 
     }
 
-    this.tileHandling(nextX, nextY);
+    this.x = nextX;
+    this.y = nextY;
+    this.superclassMove();
+
+    this.tileHandling();
 
     // if(this.stateIsOnGoal() == false) {
     //   if(this.collisionDetect() == true) {
@@ -142,9 +148,6 @@ function sheepClass() {
     //     this.tileHandling();
     //   }
     // }
-    this.x = nextX;
-    this.y = nextY;
-    this.superclassMove();
 
     testIfLevelEnd();
 
@@ -173,6 +176,15 @@ function sheepClass() {
     }
     if(this.state == GRAZE) {
       this.timer = randomRangeInt(GRAZE_TIME_MIN[currentLevel], GRAZE_TIME_MAX[currentLevel]);
+    }
+  }
+
+  this.setSpeed = function() {
+    if(this.state == ROAM) {
+      this.speed = ROAM_SPEED[currentLevel];
+    }
+    if(this.state == GRAZE) {
+      this.speed = GRAZE_SPEED[currentLevel];
     }
   }
 

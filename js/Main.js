@@ -67,13 +67,14 @@ function loadLevel(whichLevel) {
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
       var mode = i % 2 == 0 ? ROAM : GRAZE;
-      var potential = i % 2 == 0  ? BLUE : RED;
+      console.log(mode)
+      var potential = i % 2 == 0 ? BLUE : RED;
       var team = PLAIN;
-      spawnSheep.reset(i, team, potential, mode);
       spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
+      spawnSheep.reset(i, team, potential, mode);
       sheepList.push(spawnSheep);
-      console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
     }
+    console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
   }
 
   else if(testMode == DROP_A_ROW_FULL) {

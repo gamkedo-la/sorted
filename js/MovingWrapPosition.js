@@ -1,13 +1,18 @@
 function movingWrapPositionClass() {
 
-  // sidewrap only
+  // sidewrap and top-bounce
   this.handleScreenWrap = function() {
-    if(this.x < 0) {
-      this.x += canvas.width;
-    } else if(this.x >= canvas.width) {
-      this.x -= canvas.width;
+    if(this.x < 20) {
+      // this.x += canvas.width;
+      this.ang += Math.PI;
+    } else if(this.x >= canvas.width - 20) {
+      // this.x -= canvas.width;
+      this.ang += Math.PI;
     }
-    if(this.y < 40) {
+    if(this.y < 50) {
+      this.ang += Math.PI;
+    }
+    if(this.y > 540) {
       this.ang += Math.PI;
     }
   }
