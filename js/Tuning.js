@@ -3,9 +3,9 @@
 const NUM_LEVELS = 10;
 
 // how are sheep initially located
-const PLACING_NAMES = ["Random scatter", "Random cluster", "Manual scatter", "Manual cluster"];
+const PLACING_NAMES = ["Random scatter", "Random flock", "Manual scatter", "Manual flock"];
 const PLACING_MODE = Array(NUM_LEVELS);
-var defaultPlacingMode = 1; // random scatter
+var defaultPlacingMode = 0; // random scatter
 PLACING_MODE.fill(defaultPlacingMode);
 
 // constraints on initial placement of sheep
@@ -54,8 +54,13 @@ GRAZE_TIME_MAX.fill(defaultGrazeTimeMin);
 
 // Sheep roam speed
 const ROAM_SPEED = Array(NUM_LEVELS);
-var defaultRoamSpeed = 10;
+var defaultRoamSpeed = 1;
 ROAM_SPEED.fill(defaultRoamSpeed);
+
+// Sheep graze speed (if any)
+const GRAZE_SPEED = Array(NUM_LEVELS);
+var defaultGrazeSpeed = 0.1;
+GRAZE_SPEED.fill(defaultGrazeSpeed);
 
 // Rogue path
 const ROGUE_ROW = Array(NUM_LEVELS);

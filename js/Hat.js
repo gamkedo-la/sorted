@@ -104,6 +104,7 @@ function playerClass(id) {
             console.log('Sheep in a pen or end of field cannot be beckoned')
           } else {
             sheepList[aligned].state = CALLED;
+            sheepList[aligned].speed = 2;
           }
         } else {
           console.log("No sheep X-aligned to tractor")

@@ -1,6 +1,7 @@
 const SHEEP_RADIUS = 16;
 const SIDE_MARGIN = SHEEP_RADIUS/2 + 1;
 const TOP_MARGIN = 60;
+const FACING_RADIUS = 2;
 var countSheepPenned = 0;
 
 var teamSizeSoFar = [0,0,0];
@@ -23,6 +24,9 @@ const FENCED = 7;
 const ON_ROAD = 8;
 const IN_BLUE_LORRY = 9;
 const IN_RED_LORRY = 10;
+
+// sheepClass inherits from movingWrapPositionClass
+sheepClass.prototype = new movingWrapPositionClass();
 
 function sheepClass() {
   this.x = 50;
@@ -71,6 +75,9 @@ function sheepClass() {
     this.y = randomRangeInt(TOP_MARGIN+10, depth);
   }
 
+  this.superclassMove = this.move; 
+  // saving a reference to parent class's move function
+  
   this.move = function() {
     if(this.levelDone) {
       //no action
@@ -103,38 +110,41 @@ function sheepClass() {
           }
         } 
       } 
-      this.y = nextY;
     }
 
     else if(this.state == SENT) { 
       // sheep released by Hat
-      this.x += this.speed * Math.cos(this.ang);
-      this.y += this.speed * Math.sin(this.ang);
-      if(this.stateIsOnGoal() == false) {
-        if(this.collisionDetect() == true) {
-          this.agentHandling();
-        } else {
-          this.tileHandling();
-        }
-      }
     }
 
     else if(this.state == GRAZE) {
-      this.speed = 1;
-      if(randomRangeInt(1,6) == 6) {
-        this.ang = randomRange(0, Math.PI * 2)
-        this.x += this.speed * Math.cos(this.ang);
-        this.y += this.speed * Math.sin(this.ang); 
+      if(randomRangeInt(1,30) == 1) {
+        this.ang += randomRange(-Math.PI/4, Math.PI/4)
       }
     }
 
     else if(this.state == ROAM) {
       if(randomRangeInt(1,90) == 1) {
-        this.ang += randomRange(0, Math.PI/4)
+        this.ang += randomRange(-Math.PI/4, Math.PI/4)
       }
-      this.x += this.speed * Math.cos(this.ang);
-      this.y += this.speed * Math.sin(this.ang); 
     }
+
+    if(this.isMovedBySpeed(this.state)) {
+      nextX = this.x + this.speed * Math.cos(this.ang);
+      nextY = this.y + this.speed * Math.sin(this.ang); 
+    }
+
+    this.tileHandling(nextX, nextY);
+
+    // if(this.stateIsOnGoal() == false) {
+    //   if(this.collisionDetect() == true) {
+    //     this.agentHandling();
+    //   } else {
+    //     this.tileHandling();
+    //   }
+    // }
+    this.x = nextX;
+    this.y = nextY;
+    this.superclassMove();
 
     testIfLevelEnd();
 
@@ -148,10 +158,11 @@ function sheepClass() {
   this.changeMode = function() {
     if(this.state == GRAZE) {
       this.state = ROAM;
+      this.speed = ROAM_SPEED[currentLevel];
     }
     else if(this.state == ROAM) {
       this.state= GRAZE;
-      this.speed = ROAM_SPEED[currentLevel];
+      this.speed = GRAZE_SPEED[currentLevel];
     }
     this.setExpiry();
   } 
@@ -177,6 +188,7 @@ function sheepClass() {
       return false;
     }
   }
+
   this.agentHandling = function() {
     var col = Math.floor(this.x / TILE_W);
     var row = Math.floor(this.y / TILE_H);
@@ -193,9 +205,9 @@ function sheepClass() {
     }
   }
 
-  this.tileHandling = function() {
-    var tileCol = Math.floor(this.x / TILE_W);
-    var tileRow = Math.floor(this.y / TILE_H);
+  this.tileHandling = function(x,y) {
+    var tileCol = Math.floor(x / TILE_W);
+    var tileRow = Math.floor(y / TILE_H);
     var tileIndexUnder = colRowToIndex(tileCol, tileRow);
 
     if(tileCol >= 0 && tileCol < TILE_COLS &&
@@ -270,6 +282,10 @@ function sheepClass() {
     } // end of valid col and row
   }
 
+  this.isMovedBySpeed = function(mode) {
+    return mode == ROAM || mode == GRAZE || mode == CALLED || mode == SENT;
+  }
+
   this.stateIsOnGoal = function() {
     return this.state == IN_BLUE_PEN || this.state == IN_RED_PEN;
   }
@@ -278,7 +294,6 @@ function sheepClass() {
     return tileType == TILE_GOAL || tileType == TILE_PEN_BLUE || tileType == TILE_PEN_RED;
   }
  
-
   this.gotoCentreOfTile = function(tileIndex) {
 
     this.y = canvas.height - TILE_H / 2;
@@ -294,6 +309,13 @@ function sheepClass() {
       // draw line between sheep and hat
       colorLine(player.x,player.y, this.x,this.y, "yellow")
     }
+    if(editMode) {
+      var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
+      var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
+      colorCircle(facingX, facingY, FACING_RADIUS, "red");
+
+      this.timerLabel();
+    }
   }
 
   this.label = function() {
@@ -302,6 +324,13 @@ function sheepClass() {
       canvasContext.font = fontSize + "px Verdana";
       // colorText(this.id, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
       colorText(this.id, this.x-8, this.y+6, "black");
+    }
+  }
+  this.timerLabel = function() {
+    if(this.team != PLAIN) {
+      var fontSize = 12;
+      canvasContext.font = fontSize + "px Verdana";
+      colorText(this.timer, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
     }
   }
 
