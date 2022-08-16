@@ -6,7 +6,7 @@ var countSheepPenned = 0;
 var teamSizeSoFar = [0,0,0];
 var sheepInPlay = 0;
 
-const SHEEP_DROP_SPEED = 10;
+var SHEEP_DROP_SPEED = 10; // now tunable by level
 const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
 
 // sheep states

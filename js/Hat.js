@@ -1,5 +1,7 @@
-// all changed from const to var because they can tuned by Level
-// values kept here in case Level tuning assignment fails
+const HAT_MARGIN = 18; 
+
+// if can be tuned by level, changed from const to var
+// values kept here in case level-tuning assignment fails
 
 // hat moves like car
 var GROUNDSPEED_DECAY_MULT = 0.94; 
@@ -62,7 +64,7 @@ function playerClass(id) {
       if(this.sheepIDheld != null) {
         this.sheepIDheld = null;
         sheepHere.state = SENT;
-        sheepHere.speed = SHEEP_DROP_SPEED; // set when drop, may change on way
+        sheepHere.speed = SEND_SPEED[currentLevel]; // set when drop, may change on way
         sheepHere.ang = Math.PI/2 // straight down
       }
     }

@@ -22,15 +22,44 @@ const HAT_FRICTION = Array(NUM_LEVELS);
 var defaultHatFriction = 0.94;
 HAT_FRICTION.fill(defaultHatFriction);
 
-const HAT_MARGIN = 18; // stops hat going off side edge
+// const HAT_MARGIN = 18; // stops hat going off side edge
 
 // Call a sheep
-const ALIGN_LIMIT = 20; // tractor not exactly above sheep
+// const ALIGN_LIMIT = 20; // tractor not exactly above sheep
+const CALL_SPEED = Array(NUM_LEVELS); // speed of sheep moving up
+var defaultCallSpeed = 3;
+CALL_SPEED.fill(defaultCallSpeed);
 
-const TRACTOR_SPEED = 3; // speed of sheep moving up
+// Send a sheep
+const SEND_SPEED = Array(NUM_LEVELS);
+var defaultSendSpeed = 10;
+SEND_SPEED.fill(defaultSendSpeed);
+
+// Sheep mode timeToExpiry
+// needs 2 values: minimum and maximum
+
+// Sheep roam speed
+const ROAM_SPEED = Array(NUM_LEVELS);
+var defaultRoamSpeed = 10;
+ROAM_SPEED.fill(defaultRoamSpeed);
+
+// Rogue path
+const ROGUE_ROW = Array(10);
+var defaultRogueRow = 11;
+ROGUE_ROW.fill(defaultRogueRow);
+
+const ROGUE_SPEED = Array(10);
+var defaultRogueSpeed = 5;
+ROGUE_SPEED.fill(defaultRogueSpeed);
 
 // Level 5
 PLACING_DEPTH[5] = 500;
+HAT_POWER[5] = 3.0;
+CALL_SPEED[5] = 10;
+SEND_SPEED[5] = 20;
 
 // Level 6
 PLACING_DEPTH[6] = 100;
+HAT_POWER[6] = 0.2;
+CALL_SPEED[6] = 1;
+SEND_SPEED[6] = 4;
