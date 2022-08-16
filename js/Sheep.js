@@ -80,9 +80,9 @@ function sheepClass() {
     this.state = GRAZING;
   }
 
-  this.placeRandom = function() {
+  this.placeRandom = function(depth) {
     this.x = randomRangeInt(0 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -2);
-    this.y = randomRangeInt(TOP_MARGIN+10, parseInt(canvas.height / 5));
+    this.y = randomRangeInt(TOP_MARGIN+10, depth);
   }
 
   this.move = function() {

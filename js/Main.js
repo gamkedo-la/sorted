@@ -20,7 +20,7 @@ const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282"];
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [2, 2, 2, 4, 4, 4, 6, 6, 8, 8];  
+const TEAM_SIZE = [2, 1, 2, 4, 4, 4, 6, 6, 8, 8];  
 const FLOCK_SIZE = [];
 for(var i=0; i<TEAM_SIZE.length; i++) {
   FLOCK_SIZE[i] = TEAM_SIZE[i] * 2;
@@ -50,6 +50,10 @@ function loadLevel(whichLevel) {
   agentGrid = agentLevelList[whichLevel].slice();
 
   player.reset(playerHatPic, "Shepherding Hat");
+
+  GROUNDSPEED_DECAY_MULT = HAT_FRICTION[whichLevel]; // hat moves like car
+  DRIVE_POWER = HAT_POWER[whichLevel];
+  REVERSE_POWER = HAT_POWER[whichLevel];
 
   if(whichLevel>=3) { // dog present on later levels only
     dog.init(rogueDogPic);
@@ -86,7 +90,7 @@ function loadLevel(whichLevel) {
     console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       sheepList[i].reset();
-      sheepList[i].placeRandom();
+      sheepList[i].placeRandom(PLACING_DEPTH[whichLevel]);
     }
   }
 

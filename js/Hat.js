@@ -1,10 +1,13 @@
-const GROUNDSPEED_DECAY_MULT = 0.94; // hat moves like car
-const DRIVE_POWER = 1.0;
-const REVERSE_POWER = 1.0;
+// all changed from const to var because they can tuned by Level
+// values kept here in case Level tuning assignment fails
 
-const HAT_MARGIN = 18; // stops hat going off side edge
-const ALIGN_LIMIT = 20; // tractor not exactly above sheep
-const TRACTOR_SPEED = 3; // speed of sheep moving up
+// hat moves like car
+var GROUNDSPEED_DECAY_MULT = 0.94; 
+var DRIVE_POWER = 1.0;
+var REVERSE_POWER = 1.0;
+// Call
+var ALIGN_LIMIT = 20; // hat not exactly above sheep
+var TRACTOR_SPEED = 3; // speed of sheep moving up
 
 var player = new playerClass(1);
 

@@ -30,6 +30,7 @@ const KEY_F1 = 112;
 const KEY_F2 = 113;
 const KEY_F3 = 114;
 const KEY_F4 = 115;
+const KEY_F9 = 120;
 
 var mouseX = 0;
 var mouseY = 0;
@@ -154,9 +155,18 @@ function keyState(key) {
   }
 }
 
+// usable from any gameState?
+// what is the difference between keyState() and keyMode()?
 function keyMode(key) {
   if(key == KEY_F1) {
     editMode = !editMode; // toggle
+  }
+  if(key == KEY_F2) {
+    nearGoal = !nearGoal; // toggle
+    if(nearGoal) {
+      saveGrid = areaGrid.slice();
+      insertNearGoal();
+    }
   }
   if(key == KEY_F3) {
     endLevelshowID = !endLevelshowID; // toggle
@@ -169,12 +179,7 @@ function keyMode(key) {
   if(key == KEY_F4) {
     test_EndLevel();
   }
-  if(key == KEY_F2) {
-    nearGoal = !nearGoal; // toggle
-    if(nearGoal) {
-      saveGrid = areaGrid.slice();
-      insertNearGoal();
-    }
+  if(key == KEY_F9) {
   }
 
   if(key == KEY_A) {
@@ -199,7 +204,7 @@ function keyPressed(evt) {
   keySet(evt, player, true);
   keyMode(evt.keyCode); // toggle Edit mode
   keyState(evt.keyCode); // play, menu, or credits
-	evt.preventDefault();
+	// evt.preventDefault();
 }
 
 function keyReleased(evt) {
