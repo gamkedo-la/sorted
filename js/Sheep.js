@@ -85,13 +85,18 @@ function sheepClass() {
     }
     else if(this.state == HELD) {
       this.x = player.x;
+      this.y = player.y +24;
+      nextX = player.x;
+      nextY = player.y +24; // late-night hack
     }
 
     else if (this.state == CALLED) {
-
+console.log("Called", this.id)
+      this.ang = Math.PI * 3 / 2; // so it moves upward
       nextY = this.y - TRACTOR_SPEED;
 
       if(nextY < player.y +20) { // arriving at Hat
+        nextX = player.x;
         nextY = player.y +24;
         this.state = HELD;
         this.speed = 0;
@@ -116,6 +121,8 @@ function sheepClass() {
 
     else if(this.state == SENT) { 
       // sheep released by Hat
+      this.ang = Math.PI / 2;
+      this.speed = SEND_SPEED[currentLevel];
     }
 
     else if(this.state == GRAZE) {
@@ -139,7 +146,7 @@ function sheepClass() {
     this.y = nextY;
     this.superclassMove();
 
-    this.tileHandling();
+    this.tileHandling(this.x, this.y);
 
     // if(this.stateIsOnGoal() == false) {
     //   if(this.collisionDetect() == true) {
@@ -151,9 +158,12 @@ function sheepClass() {
 
     testIfLevelEnd();
 
-    this.timer--;
-    if(this.timer < 1) {
-      this.changeMode();
+    // if(isModeTimed()) {
+    if(this.state == ROAM || this.state == GRAZE) {
+      this.timer--;
+      if(this.timer < 1) {
+        this.changeMode();
+      }
     }
   }
 
@@ -296,6 +306,10 @@ function sheepClass() {
 
   this.isMovedBySpeed = function(mode) {
     return mode == ROAM || mode == GRAZE || mode == CALLED || mode == SENT;
+  }
+
+  this.isModeTimed = function() {
+    return this.state == ROAM || this.state == GRAZE;
   }
 
   this.stateIsOnGoal = function() {
