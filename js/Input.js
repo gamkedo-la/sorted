@@ -118,7 +118,7 @@ function keyState(key) {
       }
       if(editMode) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
-          if(testDrop == NORMAL_PLAY || testDrop == DROP_A_ROW_FULL || testColumnSet) {
+          if(testMode == NORMAL_PLAY || testMode == DROP_A_ROW_FULL || testColumnSet) {
             currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
             // console.log("Level number now =", currentLevel);
             levelRunning = true;
@@ -183,16 +183,16 @@ function keyMode(key) {
   }
 
   if(key == KEY_A) {
-    // testDrop = !testDrop; // toggle
-    testDrop++;
-    if(testDrop > 2) {
-      testDrop = 0;
+    // testMode = !testMode; // toggle
+    testMode++;
+    if(testMode > 2) {
+      testMode = 0;
     }
-    console.log(TEST_NAMES[testDrop]);
+    console.log(TEST_NAMES[testMode]);
   }
   if(key == KEY_T) {
     testTeam++;
-    if(testTeam > 2) {
+    if(testTeam > 3) {
       testTeam = 0;
     }
     console.log("Paint for automated test is", TEAM_NAMES[testTeam]);

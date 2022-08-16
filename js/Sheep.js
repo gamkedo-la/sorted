@@ -9,12 +9,14 @@ var sheepInPlay = 0;
 var SHEEP_DROP_SPEED = 10; // now tunable by level
 const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
 
-// sheep states
-const GRAZING = 0;
-const ROAMING = 1;
+// sheep modes
+const GRAZE = 0;
+const ROAM = 1;
 const CALLED = 2;
 const HELD = 3;
 const SENT = 4;
+// below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
+// on-road and fenced were orig created for end-of-level calculation
 const IN_BLUE_PEN = 5;
 const IN_RED_PEN = 6;
 const FENCED = 7;
@@ -30,54 +32,39 @@ function sheepClass() {
   this.ang = Math.PI/2;
   this.orient = 0;
   this.score = 0;
-  this.inPen = false;
-  this.held = false;
-  this.tractor = false;
+  this.timer = 0;
 
-  this.init = function(i, potential) {
+  this.reset = function(i, team, potential) {
     this.id = i;
-    this.team = PLAIN;
+    this.team = team;
+    this.color = TEAM_COLOURS[team];
     this.potentialTeam = potential;
-    this.color = "#f4f4f4";
     this.score = 0;
-    this.inPen = false;
-    this.held = false;
-    this.tractor = false;
     this.ang = Math.PI/2;
     this.orient = 0;
     this.speed = 0;
+    this.state = GRAZE;
     this.levelDone = false;
   }
 
-  this.testRow = function() {
-    this.team = testTeam;
-    this.color = TEAM_COLOURS[testTeam];
+  this.testRowInit = function() {
     this.state = SENT;
     this.speed = 15;
-    this.levelDone = false;
   }
 
   this.placeTop = function() {
     this.x = TILE_W/2 + this.id * TILE_W;
-    // this.y = TILE_H * 3/2;
     this.y = TILE_H * 3/2 -15;
   }
 
-  this.testColumn = function() {
-    this.team = testTeam;
-    this.color = TEAM_COLOURS[testTeam];
+  this.testColumnInit = function() {
     this.state = SENT;
     this.speed = 3 + this.id * 3;
-    this.levelDone = false;
   }
 
   this.placeColumn = function(col) {
     this.x = TILE_W/2 + col * TILE_W;
     this.y = TILE_H * 3/2 -15;
-  }
-
-  this.reset = function(i) {
-    this.state = GRAZING;
   }
 
   this.placeRandom = function(depth) {
@@ -99,24 +86,9 @@ function sheepClass() {
       if(nextY < player.y +20) { // arriving at Hat
         nextY = player.y +24;
         this.state = HELD;
-        this.held = true;
         this.speed = 0;
         player.sheepIDheld = this.id;
         update_debug_report(); // to display Hold
-
-        // Sorting
-        // var teamSort; // 0=normal, 1=blue, 2=red
-        // // if already Sorted, don't change
-        // if(this.team == 0) {
-        //   // if equal-sized teams and one is full, no choice
-        //   if(teamSizeSoFar[1] >= TEAM_SIZE[currentLevel]) {
-        //     teamSort = 2;
-        //   }
-        //   else if(teamSizeSoFar[2] >= TEAM_SIZE[currentLevel]) {
-        //     teamSort = 1;
-        //   }
-        //   // otherwise random
-        //   teamSort = randomRangeInt(1, 2);
         
         // if already Sorted, don't change
         if(this.team == 0) {
@@ -139,7 +111,7 @@ function sheepClass() {
       // sheep released by Hat
       this.x += this.speed * Math.cos(this.ang);
       this.y += this.speed * Math.sin(this.ang);
-      if(this.inPen == false) {
+      if(this.stateIsOnGoal() == false) {
         if(this.collisionDetect() == true) {
           this.agentHandling();
         } else {
@@ -148,7 +120,7 @@ function sheepClass() {
       }
     }
 
-    else if(this.state == GRAZING) {
+    else if(this.state == GRAZE) {
       this.speed = 1;
       if(randomRangeInt(1,6) == 6) {
         this.ang = randomRange(0, Math.PI * 2)
@@ -157,7 +129,7 @@ function sheepClass() {
       }
     }
 
-    else if(this.state == ROAMING) {
+    else if(this.state == ROAM) {
       this.speed = 4;
       if(randomRangeInt(1,6) == 6) {
         this.ang = randomRange(0, Math.PI * 2)
@@ -243,12 +215,12 @@ function sheepClass() {
 
         } else if(tileType == TILE_HALT) {
           // if anti-stuck code needed below is also needed here
-          this.state = GRAZING;
+          this.state = GRAZE;
           this.speed = 0;
 
         } else if(tileType == TILE_ROAM) {
           // if anti-stuck code needed below is also needed here
-          this.state = ROAMING;
+          this.state = ROAM;
 
         } else if(tileType == TILE_ROAD) {
           // if anti-stuck code needed below is also needed here

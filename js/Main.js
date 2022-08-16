@@ -60,39 +60,47 @@ function loadLevel(whichLevel) {
     dog.init(rogueDogPic);
   }
 
-  if(testDrop == DROP_A_ROW_FULL) {
-    FLOCK_SIZE[whichLevel] = TILE_COLS;
-  }
-
   sheepList = [];  // fresh set of sheep
-  for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
-    var spawnSheep = new sheepClass();
-    var potential = i % 2 == 0  ? BLUE : RED;
-    spawnSheep.init(i, potential);
-    sheepList.push(spawnSheep);
+
+  if(testMode == NORMAL_PLAY) {
+    var team = PLAIN;
+    for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
+      var spawnSheep = new sheepClass();
+      var potential = i % 2 == 0  ? BLUE : RED;
+      var team = PLAIN;
+      spawnSheep.init(i, team, potential);
+      spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
+      sheepList.push(spawnSheep);
+      console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
+    }
   }
 
-  if(testDrop == DROP_A_ROW_FULL) {
-    console.log("Testing level " + whichLevel + " - " + levelNames[whichLevel])
+  else if(testMode == DROP_A_ROW_FULL) {
+    console.log("Test send row of sheep in level " + whichLevel + " - " + levelNames[whichLevel]);
+    FLOCK_SIZE[whichLevel] = TILE_COLS;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
-      sheepList[i].testRow();
-      sheepList[i].placeTop();
+      var spawnSheep = new sheepClass();
+      if(testTeam == MIXED) {
+        var team = i % 2 == 0  ? BLUE : RED;
+        spawnSheep.reset(i, team, team);
+      } else {
+        spawnSheep.reset(i, testTeam, PLAIN);
+      }
+      spawnSheep.testRowInit();
+      spawnSheep.placeTop();
+      sheepList.push(spawnSheep);
     }
     test_EndLevel();
-  } 
-  else if(testDrop == DROP_IN_COLUMN) { 
-    console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
-    for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
-      sheepList[i].testColumn();
-      sheepList[i].placeColumn(whichColumn);
-    }
   }
-  else if(testDrop == NORMAL_PLAY) { // normal play
-    console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
+
+  else if(testMode == DROP_IN_COLUMN) { 
+    console.log("Testing column in level " + whichLevel + " - " + levelNames[whichLevel]);
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
-      sheepList[i].reset();
-      sheepList[i].placeRandom(PLACING_DEPTH[whichLevel]);
+      spawnSheep.testColumn();
+      spawnSheep.placeColumn(whichColumn);
+      sheepList.push(spawnSheep);
     }
+    test_EndLevel();
   }
 
   // reset sorting
