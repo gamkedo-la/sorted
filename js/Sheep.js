@@ -34,7 +34,7 @@ function sheepClass() {
   this.score = 0;
   this.timer = 0;
 
-  this.reset = function(i, team, potential) {
+  this.reset = function(i, team, potential, mode) {
     this.id = i;
     this.team = team;
     this.color = TEAM_COLOURS[team];
@@ -42,13 +42,13 @@ function sheepClass() {
     this.score = 0;
     this.ang = Math.PI/2;
     this.orient = 0;
+    this.state = mode;
     this.speed = 0;
-    this.state = GRAZE;
     this.levelDone = false;
+    this.setExpiry(mode);
   }
 
   this.testRowInit = function() {
-    this.state = SENT;
     this.speed = 15;
   }
 
@@ -58,7 +58,6 @@ function sheepClass() {
   }
 
   this.testColumnInit = function() {
-    this.state = SENT;
     this.speed = 3 + this.id * 3;
   }
 
@@ -130,14 +129,40 @@ function sheepClass() {
     }
 
     else if(this.state == ROAM) {
-      this.speed = 4;
-      if(randomRangeInt(1,6) == 6) {
-        this.ang = randomRange(0, Math.PI * 2)
-        this.x += this.speed * Math.cos(this.ang);
-        this.y += this.speed * Math.sin(this.ang); 
+      if(randomRangeInt(1,90) == 1) {
+        this.ang += randomRange(0, Math.PI/4)
       }
+      this.x += this.speed * Math.cos(this.ang);
+      this.y += this.speed * Math.sin(this.ang); 
     }
+
     testIfLevelEnd();
+
+    this.timer--;
+    if(this.timer < 1) {
+      this.changeMode();
+    }
+  }
+
+  // change mode, set direction & speed, restart timer to expire mode 
+  this.changeMode = function() {
+    if(this.state == GRAZE) {
+      this.state = ROAM;
+    }
+    else if(this.state == ROAM) {
+      this.state= GRAZE;
+      this.speed = ROAM_SPEED[currentLevel];
+    }
+    this.setExpiry();
+  } 
+
+  this.setExpiry = function() {
+    if(this.state == ROAM) {
+      this.timer = randomRangeInt(ROAM_TIME_MIN[currentLevel], ROAM_TIME_MAX[currentLevel]);
+    }
+    if(this.state == GRAZE) {
+      this.timer = randomRangeInt(GRAZE_TIME_MIN[currentLevel], GRAZE_TIME_MAX[currentLevel]);
+    }
   }
 
   this.collisionDetect = function() {

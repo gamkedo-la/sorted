@@ -10,7 +10,7 @@ const STATE_SCOREBOARD = 5;
 
 var gameState = STATE_MENU;
 var editMode = true;
-var levelLoaded = 0;
+var levelLoaded = null;
 var levelRunning = false;
 var nearGoal = false; // if true, pens at row near top
 var showAgentGrid = false;
@@ -66,9 +66,10 @@ function loadLevel(whichLevel) {
     var team = PLAIN;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
+      var mode = i % 2 == 0 ? ROAM : GRAZE;
       var potential = i % 2 == 0  ? BLUE : RED;
       var team = PLAIN;
-      spawnSheep.init(i, team, potential);
+      spawnSheep.reset(i, team, potential, mode);
       spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
       sheepList.push(spawnSheep);
       console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
@@ -82,9 +83,9 @@ function loadLevel(whichLevel) {
       var spawnSheep = new sheepClass();
       if(testTeam == MIXED) {
         var team = i % 2 == 0  ? BLUE : RED;
-        spawnSheep.reset(i, team, team);
+        spawnSheep.reset(i, team, team, SENT);
       } else {
-        spawnSheep.reset(i, testTeam, PLAIN);
+        spawnSheep.reset(i, testTeam, PLAIN, SENT);
       }
       spawnSheep.testRowInit();
       spawnSheep.placeTop();
@@ -94,9 +95,16 @@ function loadLevel(whichLevel) {
   }
 
   else if(testMode == DROP_IN_COLUMN) { 
-    console.log("Testing column in level " + whichLevel + " - " + levelNames[whichLevel]);
+    console.log("Testing column of sheep in level " + whichLevel + " - " + levelNames[whichLevel]);
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
-      spawnSheep.testColumn();
+      var spawnSheep = new sheepClass();
+      if(testTeam == MIXED) {
+        var team = i % 2 == 0  ? BLUE : RED;
+        spawnSheep.reset(i, team, team, SENT);
+      } else {
+        spawnSheep.reset(i, testTeam, PLAIN, SENT);
+      }
+      spawnSheep.testColumnInit();
       spawnSheep.placeColumn(whichColumn);
       sheepList.push(spawnSheep);
     }

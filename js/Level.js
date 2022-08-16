@@ -37,6 +37,20 @@ SEND_SPEED.fill(defaultSendSpeed);
 
 // Sheep mode timeToExpiry
 // needs 2 values: minimum and maximum
+const ROAM_TIME_MIN = Array(NUM_LEVELS);
+const ROAM_TIME_MAX = Array(NUM_LEVELS);
+const GRAZE_TIME_MIN = Array(NUM_LEVELS);
+const GRAZE_TIME_MAX = Array(NUM_LEVELS);
+
+var defaultRoamTimeMin = 30;
+var defaultRoamTimeMax = 150;
+var defaultGrazeTimeMin = 90;
+var defaultGrazeTimeMax = 600;
+
+ROAM_TIME_MIN.fill(defaultRoamTimeMin);
+ROAM_TIME_MAX.fill(defaultRoamTimeMax);
+GRAZE_TIME_MIN.fill(defaultGrazeTimeMin);
+GRAZE_TIME_MAX.fill(defaultGrazeTimeMin);
 
 // Sheep roam speed
 const ROAM_SPEED = Array(NUM_LEVELS);
@@ -44,13 +58,17 @@ var defaultRoamSpeed = 10;
 ROAM_SPEED.fill(defaultRoamSpeed);
 
 // Rogue path
-const ROGUE_ROW = Array(10);
+const ROGUE_ROW = Array(NUM_LEVELS);
 var defaultRogueRow = 11;
 ROGUE_ROW.fill(defaultRogueRow);
 
-const ROGUE_SPEED = Array(10);
+const ROGUE_SPEED = Array(NUM_LEVELS);
 var defaultRogueSpeed = 5;
 ROGUE_SPEED.fill(defaultRogueSpeed);
+
+// Level 0
+ROAM_TIME_MIN[0] = 10;
+ROAM_TIME_MAX[0] = 100;
 
 // Level 5
 PLACING_DEPTH[5] = 500;
