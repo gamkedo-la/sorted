@@ -164,3 +164,15 @@ function drawAgentGrid() {
     drawTileY += TILE_H;
 	} // end of for each row
 } // end of drawArea func
+
+function updateMousePos(evt) {
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;
+  // account for margins, canvas position on page, scroll amount, etc.
+	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+	var mouseY = evt.clientY - rect.top - root.scrollTop;
+  return {
+    x: mouseX,
+    y: mouseY
+  };
+}

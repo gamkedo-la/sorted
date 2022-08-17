@@ -17,7 +17,6 @@ var player = new playerClass(1);
 function playerClass(id) {
   this.id = id;
   this.x = this.y = -100; // off screen
-  this.previousX = 0;
   this.ang = Math.PI;
   this.speed = 0;
   this.pic; // which image to use
@@ -57,7 +56,8 @@ function playerClass(id) {
   }
 
   this.move = function() {
-    this.previousX = this.x;
+    var nextX = this.x;
+    var nextY = this.y;
 
     if(this.keyHeld_drop) {
 
@@ -82,7 +82,7 @@ function playerClass(id) {
         var aligned;
         var nearestXdist = 999;
         for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-          var xDist = xDistance(this.x, sheepList[i].x);
+          var xDist = xDistance(nextX, sheepList[i].x);
           if(xDist < nearestXdist && xDist < ALIGN_LIMIT) {
             aligned = i;
           }
@@ -112,24 +112,25 @@ function playerClass(id) {
     if(this.keyHeld_left) {
       this.speed -= REVERSE_POWER;
     }
-    this.x += Math.cos(this.ang) * this.speed;
+    nextX += Math.cos(this.ang) * this.speed;
     this.y += Math.sin(this.ang) * this.speed;
     if (SHOULD_WRAP) {
-      if(this.x < 0 - HAT_MARGIN) {
-        this.x = canvas.width;
+      if(nextX < 0 - HAT_MARGIN) {
+        nextX = canvas.width;
       }
-      if(this.x > canvas.width + HAT_MARGIN) {
-        this.x = -HAT_MARGIN;
+      if(nextX > canvas.width + HAT_MARGIN) {
+        nextX = -HAT_MARGIN;
       }
     } else {
-      if(this.x < 0 + HAT_MARGIN) {
-        this.x = HAT_MARGIN;
+      if(nextX < 0 + HAT_MARGIN) {
+        nextX = HAT_MARGIN;
       }
-      if(this.x > canvas.width - HAT_MARGIN) {
-        this.x = canvas.width - HAT_MARGIN;
+      if(nextX > canvas.width - HAT_MARGIN) {
+        nextX = canvas.width - HAT_MARGIN;
       }
     }
-
+    this.x = nextX;
+    this.y = nextY;
     // if(this.x != this.previousX) {
     //   this.x = this.columnCentred(this.x);
     // }

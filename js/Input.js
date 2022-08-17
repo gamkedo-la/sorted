@@ -40,24 +40,32 @@ var mouseX = 0;
 var mouseY = 0;
 
 function setupInput() {
-	canvas.addEventListener('mousemove', updateMousePos);
+
+  // canvas.addEventListener('mousemove', function(evt) {
+  //   var mousePos = updateMousePos(evt);
+  //   document.getElementById("debug_3").innerHTML = "Cursor: " + mousePos.x + "," + mousePos.y;
+  // });
+  canvas.addEventListener('mousemove', mousemoveHandler);
+  // canvas.addEventListener('mousedown', mousedownHandler);
+
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
 
   player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
 }
 
+function mousemoveHandler(evt) {
+  var mousePos = updateMousePos(evt);
+  document.getElementById("debug_3").innerHTML = "Cursor: " + mousePos.x + "," + mousePos.y;
+}
+function mousedownHandler(evt) {
+  gameState = STATE_HELP;
+}
+
 function mouseTile(evt) {
   updateMousePos();
   tileIndex = getTileIndexAtPixelCoord(mouseX, mouseY);
   console.log(tileIndex)
-}
-function updateMousePos(evt) {
-	var rect = canvas.getBoundingClientRect();
-	var root = document.documentElement;
-
-	mouseX = evt.clientX - rect.left - root.scrollLeft;
-	mouseY = evt.clientY - rect.top - root.scrollTop;
 }
 
 // because pressed & released identical except true/false

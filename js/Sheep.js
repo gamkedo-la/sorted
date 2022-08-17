@@ -25,9 +25,6 @@ const ON_ROAD = 8;
 const IN_BLUE_LORRY = 9;
 const IN_RED_LORRY = 10;
 
-// sheepClass inherits from movingWrapPositionClass
-sheepClass.prototype = new movingWrapPositionClass();
-
 function sheepClass() {
   this.x = 0;
   this.y = 0;
@@ -75,28 +72,24 @@ function sheepClass() {
     this.x = randomRangeInt(0 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -2);
     this.y = randomRangeInt(TOP_MARGIN+10, depth);
   }
-
-  this.superclassMove = this.move; 
-  // saving a reference to parent class's move function
   
   this.move = function() {
-    var nextX = 0; // precaution as this makes error obvious 
-    var nextY = 0; // if previous sheep's nextXY carried over
+    var nextX = this.x; // previous location
+    var nextY = this.y;
 
     // covers any GOAL or FENCED
     if(this.levelDone) {
-      nextX = this.x;
-      nextY = this.y;
     }
 
+    // attached to player
     else if(this.state == HELD) {
       nextX = player.x;
-      nextY = player.y +24;
+      nextY = player.y + 24;
     }
 
     else if (this.state == CALLED) {
 console.log("Called", this.id)
-      nextY = this.y - TRACTOR_SPEED;
+      nextY -= TRACTOR_SPEED;
 
       if(nextY < player.y +20) { // arriving at Hat
         nextX = player.x;
@@ -140,16 +133,36 @@ console.log("Called", this.id)
       }
     }
 
+    // common to ROAM, CALLED, SENT
     if(this.isMovedBySpeed(this.state)) {
-      nextX = this.x + this.speed * Math.cos(this.ang);
-      nextY = this.y + this.speed * Math.sin(this.ang); 
+      nextX += this.speed * Math.cos(this.ang);
+      nextY += this.speed * Math.sin(this.ang); 
     }
 
-    // ideally wouldn't apply nextX,Y until end of function
-    this.x = nextX;
-    this.y = nextY;
-    this.superclassMove();
-    this.tileHandling(this.x, this.y);
+    // screenwrap horizontal
+    if(nextX < 0) {
+      nextX += canvas.width;
+      // this.ang += Math.PI;
+    } else if(nextX >= canvas.width) {
+      nextX -= canvas.width;
+      // this.ang += Math.PI;
+    }
+
+    // bounce down from top row if not Called
+    if(nextY < 50) {
+      if(this.state != CALLED) {
+        this.ang = 2*Math.PI - this.ang;
+      }
+    }
+    // bounce up from bottom row if not Sent 
+    if(nextY > 540) {
+      if(this.state != SENT) {
+        this.ang = 2*Math.PI - this.ang;
+      }
+    }
+
+    // if x,y change inside tileHandling must be returned as object
+    this.tileHandling(nextX, nextY);
 
     // if(this.stateIsOnGoal() == false) {
     //   if(this.collisionDetect() == true) {
@@ -160,6 +173,9 @@ console.log("Called", this.id)
     // }
 
     testIfLevelEnd();
+
+    this.x = nextX;
+    this.y = nextY;
 
     if(this.isModeTimed()) {
       this.timer--;
@@ -180,8 +196,12 @@ console.log("Called", this.id)
 
   // is .state changed before function or inside?  
   // change mode, set direction & speed
-  this.changeMode = function(newMode) {
+  // this.changeMode = function(newMode, x, y) {
+  this.changeMode = function(newMode,) {
     var prevMode = this.state;
+    // var nextX = x;
+    // var nextY = y;
+
   // console.log(this.id, this.state, newMode)
     if(newMode == ROAM) {
       this.state = ROAM;
@@ -200,11 +220,13 @@ console.log("Called", this.id)
     else if(newMode == FENCED) {
       this.state = FENCED;
       this.y = canvas.height - TILE_H * 3/2;
+      this.ang = Math.PI / 2;
       this.speed = 0;
       this.levelDone = true;
       // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
-      testIfLevelEnd();
-    } else {
+      testIfLevelEnd();  
+    } 
+    else {
       console.log("Else in changeMode, for ID", this.id)
       this.state = newMode;
       this.speed = 0; // stay still so it can be checked
@@ -212,6 +234,11 @@ console.log("Called", this.id)
     if(this.isModeTimed()) {
       this.setExpiry();
     }
+    // currently not needed because this .x.y set before timer handling
+    return {
+      x: nextX,
+      y: nextY
+    };
   } 
 
   // restart timer to expire mode 
@@ -268,7 +295,7 @@ console.log("Called", this.id)
     }
   }
 
-  this.tileHandling = function(x,y) {
+  this.tileHandling = function(nextX, nextY) {
     var tileCol = Math.floor(x / TILE_W);
     var tileRow = Math.floor(y / TILE_H);
     var tileIndexUnder = colRowToIndex(tileCol, tileRow);
@@ -285,10 +312,12 @@ console.log("Called", this.id)
           console.log("Sheep ID", this.id, "reached the blue pen.");
           this.gotoCentreOfTile(304);
           this.state = IN_BLUE_PEN;
+
         } else if(tileType == TILE_PEN_RED) {
           this.state = IN_RED_PEN;
           console.log("Sheep ID", this.id, "reached the red pen.");
           this.gotoCentreOfTile(306);
+
         } else if(tileType == TILE_GOAL) {
           this.state = ON_ROAD;
           // this.gotoCentreOfTile(305);
@@ -337,6 +366,11 @@ console.log("Called", this.id)
         } // end of terrain handling
       }
     } // end of valid col and row
+
+    return {
+      x: nextX,
+      y: nextY
+    };
   }
 
   this.isMovedBySpeed = function(mode) {
