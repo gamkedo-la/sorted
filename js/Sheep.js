@@ -29,8 +29,8 @@ const IN_RED_LORRY = 10;
 sheepClass.prototype = new movingWrapPositionClass();
 
 function sheepClass() {
-  this.x = 50;
-  this.y = 50;
+  this.x = 0;
+  this.y = 0;
   this.speed = 0;
   this.ang = Math.PI/2;
   this.orient = 0;
@@ -80,17 +80,18 @@ function sheepClass() {
   // saving a reference to parent class's move function
   
   this.move = function() {
-    nextX = 0;
-    nextY = 0;
+    var nextX = 0; // precaution as this makes error obvious 
+    var nextY = 0; // if previous sheep's nextXY carried over
 
+    // covers any GOAL or FENCED
     if(this.levelDone) {
-      //no action
+      nextX = this.x;
+      nextY = this.y;
     }
+
     else if(this.state == HELD) {
-      this.x = player.x;
-      this.y = player.y +24;
       nextX = player.x;
-      nextY = player.y +24; // late-night hack
+      nextY = player.y +24;
     }
 
     else if (this.state == CALLED) {
@@ -122,9 +123,7 @@ console.log("Called", this.id)
     }
 
     else if(this.state == SENT) { 
-      // sheep released by Hat
-      this.ang = Math.PI / 2;
-      this.speed = SEND_SPEED[currentLevel];
+      // isMovedBySpeed() handles angle effect
     }
 
     else if(this.state == GRAZE) {
@@ -146,12 +145,11 @@ console.log("Called", this.id)
       nextY = this.y + this.speed * Math.sin(this.ang); 
     }
 
-    if(this.speed > 0) {
-      this.x = nextX;
-      this.y = nextY;
-      this.superclassMove();
-      this.tileHandling(this.x, this.y);
-    }
+    // ideally wouldn't apply nextX,Y until end of function
+    this.x = nextX;
+    this.y = nextY;
+    this.superclassMove();
+    this.tileHandling(this.x, this.y);
 
     // if(this.stateIsOnGoal() == false) {
     //   if(this.collisionDetect() == true) {
@@ -163,7 +161,7 @@ console.log("Called", this.id)
 
     testIfLevelEnd();
 
-     if(this.isModeTimed()) {
+    if(this.isModeTimed()) {
       this.timer--;
       if(this.timer < 1) {
         if(this.state == ROAM || this.state == SENT) {
