@@ -1,4 +1,5 @@
-const HAT_MARGIN = 18; 
+const SHOULD_WRAP = false;
+const HAT_MARGIN = 18;
 
 // if can be tuned by level, changed from const to var
 // values kept here in case level-tuning assignment fails
@@ -121,12 +122,20 @@ function playerClass(id) {
     }
     this.x += Math.cos(this.ang) * this.speed;
     this.y += Math.sin(this.ang) * this.speed;
-    
-    if(this.x < 0 + HAT_MARGIN) {
-      this.x = HAT_MARGIN;
-    }
-    if(this.x > canvas.width - HAT_MARGIN) {
-      this.x = canvas.width - HAT_MARGIN;
+    if (SHOULD_WRAP) {
+      if(this.x < 0 - HAT_MARGIN) {
+        this.x = canvas.width;
+      }
+      if(this.x > canvas.width + HAT_MARGIN) {
+        this.x = -HAT_MARGIN;
+      }
+    } else {
+      if(this.x < 0 + HAT_MARGIN) {
+        this.x = HAT_MARGIN;
+      }
+      if(this.x > canvas.width - HAT_MARGIN) {
+        this.x = canvas.width - HAT_MARGIN;
+      }
     }
 
     // if(this.x != this.previousX) {
