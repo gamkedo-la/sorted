@@ -156,13 +156,13 @@ console.log("Called", this.id)
     }
     // bounce up from bottom row if not Sent 
     if(nextY > 540) {
-      if(this.state != SENT) {
+      if(this.isAllowedAtBottomRow() == false) {
         this.ang = 2*Math.PI - this.ang;
       }
     }
 
     // if x,y change inside tileHandling must be returned as object
-    this.tileHandling(nextX, nextY);
+    var pos = this.tileHandling(nextX, nextY);
 
     // if(this.stateIsOnGoal() == false) {
     //   if(this.collisionDetect() == true) {
@@ -171,11 +171,13 @@ console.log("Called", this.id)
     //     this.tileHandling();
     //   }
     // }
-
-    testIfLevelEnd();
-
-    this.x = nextX;
-    this.y = nextY;
+    if(pos != undefined) {
+      this.x = pos.nextX;
+      this.y = pos.nextY;
+    } else {
+      this.x = nextX;
+      this.y = nextY;
+    }
 
     if(this.isModeTimed()) {
       this.timer--;
@@ -188,6 +190,11 @@ console.log("Called", this.id)
         }
       }
     }
+    testIfLevelEnd();
+  }
+
+  this.isAllowedAtBottomRow = function() {
+    return this.state == SENT || this.state == FENCED || this.state == IN_BLUE_PEN || this.state == IN_RED_PEN || this.state == ON_ROAD 
   }
 
   this.isModeTimed = function() {
@@ -220,7 +227,7 @@ console.log("Called", this.id)
     else if(newMode == FENCED) {
       this.state = FENCED;
       // reference Y of row above fence, instead of canvas.height
-      this.y = TILE_H * 14.5;
+      nextY = TILE_H * 14.5;
       this.ang = Math.PI / 2;
       this.speed = 0;
       this.levelDone = true;
@@ -235,11 +242,12 @@ console.log("Called", this.id)
     if(this.isModeTimed()) {
       this.setExpiry();
     }
-    // currently not needed because this .x.y set before timer handling
-    // return {
-    //   x: nextX,
-    //   y: nextY
-    // };
+    // No, changeMode is also called from tileHandling
+    // XXX not needed because this .x.y set before timer handling
+    return {
+      x: nextX,
+      y: nextY
+    };
   } 
 
   // restart timer to expire mode 
