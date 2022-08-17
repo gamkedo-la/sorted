@@ -153,7 +153,7 @@ function drawAll() {
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].draw();
       if(editMode) {
-        sheepList[i].label();
+        sheepList[i].idLabel();
       }
     }
     player.draw();

@@ -41,7 +41,7 @@ function update_debug_report() {
   var reds = teamSizeSoFar[2];
   txt += "Sheep sorted: blue = " + blues + "; red = " + reds;
 
-  // txt += " - - Sheep in play = " + sheepInPlay; // not working yet
+  txt += " - - Sheep in play = " + sheepInPlay; 
 
   if(player.sheepIDheld != undefined) {
     txt += ". Sheep id " + player.sheepIDheld + " is under hat.";
@@ -58,14 +58,15 @@ function UI_level_number() {
 
 function testIfLevelEnd() {
   // if all sheep in states FENCED or PEN or ON_ROAD
-  outOfPlay = 0;
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    if(sheepList[i].levelDone) {
-      outOfPlay++;
-    }
-  }
-  // console.log("Out of play =", outOfPlay)
-  if(outOfPlay >= FLOCK_SIZE[currentLevel]) {
+  // outOfPlay = 0;
+  // for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+  //   if(sheepList[i].levelDone) {
+  //     outOfPlay++;
+  //   }
+  // }
+  // // console.log("Out of play =", outOfPlay)
+  // if(outOfPlay >= FLOCK_SIZE[currentLevel]) {
+  if(sheepInPlay < 1) {
     console.log("Level over", outOfPlay);
     gameState = STATE_LEVEL_OVER;
     calculateLevelScore();

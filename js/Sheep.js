@@ -80,6 +80,9 @@ function sheepClass() {
   // saving a reference to parent class's move function
   
   this.move = function() {
+    nextX = 0;
+    nextY = 0;
+
     if(this.levelDone) {
       //no action
     }
@@ -143,11 +146,12 @@ console.log("Called", this.id)
       nextY = this.y + this.speed * Math.sin(this.ang); 
     }
 
-    this.x = nextX;
-    this.y = nextY;
-    this.superclassMove();
-
-    this.tileHandling(this.x, this.y);
+    if(this.speed > 0) {
+      this.x = nextX;
+      this.y = nextY;
+      this.superclassMove();
+      this.tileHandling(this.x, this.y);
+    }
 
     // if(this.stateIsOnGoal() == false) {
     //   if(this.collisionDetect() == true) {
@@ -162,7 +166,12 @@ console.log("Called", this.id)
      if(this.isModeTimed()) {
       this.timer--;
       if(this.timer < 1) {
-        this.changeMode();
+        if(this.state == ROAM || this.state == SENT) {
+          this.changeMode(GRAZE);
+        }
+        else if(this.state == GRAZE) {
+          this.changeMode(ROAM);
+        }
       }
     }
   }
@@ -175,21 +184,20 @@ console.log("Called", this.id)
   // change mode, set direction & speed
   this.changeMode = function(newMode) {
     var prevMode = this.state;
-    if(this.state == GRAZE) {
+  // console.log(this.id, this.state, newMode)
+    if(newMode == ROAM) {
       this.state = ROAM;
       this.speed = ROAM_SPEED[currentLevel];
     }
-    else if(this.state == ROAM) {
+    else if(newMode == GRAZE) {
       this.state= GRAZE;
       this.speed = GRAZE_SPEED[currentLevel];
     }
-    else if(newMode == FENCED) {
-      this.state = FENCED;
-      this.y = canvas.height - TILE_H * 3/2;
-      this.speed = 0;
-      this.levelDone = true;
-      // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
-      testIfLevelEnd();
+    else if(newMode == SENT) {
+      this.state = SENT;
+      // set once when sent, may change on way
+      this.speed = SEND_SPEED[currentLevel]; 
+      this.ang = Math.PI/2 // straight down
     }
     else if(newMode == FENCED) {
       this.state = FENCED;
@@ -203,7 +211,7 @@ console.log("Called", this.id)
       this.state = newMode;
       this.speed = 0; // stay still so it can be checked
     }
-    if(this.isModeTimed) {
+    if(this.isModeTimed()) {
       this.setExpiry();
     }
   } 
@@ -290,6 +298,7 @@ console.log("Called", this.id)
         }  
         this.speed = 0;
         this.levelDone = true;
+        sheepInPlay--;
         // agentGrid[tileIndexUnder] = 1;
         // this.y += HOP_IN_PEN ; // move into pen
         update_debug_report();
@@ -304,23 +313,20 @@ console.log("Called", this.id)
           this.ang -= 0.1;
 
         } else if(tileType == TILE_HALT) {
-          // if anti-stuck code needed below is also needed here
-          this.state = GRAZE;
-          this.changeMode();
+          if(this.state != GRAZE) {
+            this.changeMode(GRAZE);
+          }
 
         } else if(tileType == TILE_ROAM) {
-          // if anti-stuck code needed below is also needed here
-          this.state = ROAM;
-          this.changeMode();
+          if(this.state != ROAM) {
+            this.changeMode(ROAM);
+          }
 
         } else if(tileType == TILE_ROAD) {
-          // if anti-stuck code needed below is also needed here
-
           if(this.state != FENCED) {
-
+            this.changeMode(FENCED);
+            sheepInPlay--;
           }
-          this.changeMode(FENCED);
-
 
         } else if(tileType != TILE_FIELD) {
           // undo car move to fix "car stuck in wall" bug
@@ -348,7 +354,6 @@ console.log("Called", this.id)
   }
  
   this.gotoCentreOfTile = function(tileIndex) {
-
     this.y = canvas.height - TILE_H / 2;
   }
 
@@ -367,26 +372,30 @@ console.log("Called", this.id)
       var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
       colorCircle(facingX, facingY, FACING_RADIUS, "red");
 
+      if(idLabel) {
+        this.idLabel();
+      }
       if(timerLabel) {
         this.timerLabel();
       }
     }
-  }
+  } // end of draw
 
-  this.label = function() {
+  this.idLabel = function() {
+    var fontSize = 12;
+    canvasContext.font = fontSize + "px Verdana";
     if(this.team != PLAIN) {
-      var fontSize = 12;
-      canvasContext.font = fontSize + "px Verdana";
-      // colorText(this.id, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
       colorText(this.id, this.x-8, this.y+6, "black");
+    } else {
+      colorText(this.id, this.x, this.y - SHEEP_RADIUS - fontSize/4, "white");
     }
   }
 
   this.timerLabel = function() {
-      var fontSize = 12;
-      canvasContext.font = fontSize + "px Verdana";
-      colorText(this.timer, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
-6  }
+    var fontSize = 12;
+    canvasContext.font = fontSize + "px Verdana";
+    colorText(this.timer, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
+  }
 
   this.scoreLabel = function() {
     if(this.team != PLAIN) {
@@ -396,6 +405,5 @@ console.log("Called", this.id)
       colorText(this.score, this.x -10, this.y+6, "black");
       // colorText(this.score, this.x -7, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
     }
-  }
-}
-
+  } // end of scoreLabel
+} // end of sheepClass

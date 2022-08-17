@@ -60,13 +60,14 @@ function playerClass(id) {
     this.previousX = this.x;
 
     if(this.keyHeld_drop) {
-      console.log('SEND a sheep');
-      var sheepHere = sheepList[this.sheepIDheld];
+
       if(this.sheepIDheld != null) {
+        var sheepHere = sheepList[this.sheepIDheld];
         this.sheepIDheld = null;
-        sheepHere.state = SENT;
-        sheepHere.speed = SEND_SPEED[currentLevel]; // set when drop, may change on way
-        sheepHere.ang = Math.PI/2 // straight down
+        sheepHere.changeMode(SENT);
+        console.log("Sent sheep id", sheepHere.id)
+      } else {
+        console.log('No sheep sent because clamp empty');
       }
     }
 
