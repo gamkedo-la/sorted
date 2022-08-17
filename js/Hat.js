@@ -59,7 +59,7 @@ function playerClass(id) {
     var nextX = this.x;
     var nextY = this.y;
 
-    if(this.keyHeld_drop) {
+    if(this.keyHeld_send) {
 
       if(this.sheepIDheld != null) {
         var sheepHere = sheepList[this.sheepIDheld];
@@ -71,7 +71,7 @@ function playerClass(id) {
       }
     }
 
-    if(this.keyHeld_tractor) {
+    if(this.keyHeld_call) {
       console.log('CALL a sheep');
       // check all sheep to see if any below Hat
       // or select a sheep using mouse like in RTS

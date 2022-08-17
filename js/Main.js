@@ -160,6 +160,10 @@ function drawAll() {
     if(currentLevel>=3) { // only on some levels
       dog.draw();
     }
+    // buttons
+    for(var i=0; i<NUM_BUTTONS; i++) {
+      colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red");
+    }
   }
   else if (gameState == STATE_LEVEL_OVER) {
     drawArea();

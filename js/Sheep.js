@@ -197,7 +197,7 @@ console.log("Called", this.id)
   // is .state changed before function or inside?  
   // change mode, set direction & speed
   // this.changeMode = function(newMode, x, y) {
-  this.changeMode = function(newMode,) {
+  this.changeMode = function(newMode) {
     var prevMode = this.state;
     // var nextX = x;
     // var nextY = y;
@@ -219,7 +219,8 @@ console.log("Called", this.id)
     }
     else if(newMode == FENCED) {
       this.state = FENCED;
-      this.y = canvas.height - TILE_H * 3/2;
+      // reference Y of row above fence, instead of canvas.height
+      this.y = TILE_H * 14.5;
       this.ang = Math.PI / 2;
       this.speed = 0;
       this.levelDone = true;
@@ -235,10 +236,10 @@ console.log("Called", this.id)
       this.setExpiry();
     }
     // currently not needed because this .x.y set before timer handling
-    return {
-      x: nextX,
-      y: nextY
-    };
+    // return {
+    //   x: nextX,
+    //   y: nextY
+    // };
   } 
 
   // restart timer to expire mode 
@@ -285,7 +286,6 @@ console.log("Called", this.id)
     var agentIndex = colRowToIndex(col, row);
     // tile entered is occupied by another sheep
     if(agentGrid[agentIndex] == 1) {
-      // this.y = canvas.height - TILE_H * 5/2;
       this.y = ((row-1) * TILE_H) + (TILE_H/2);
       console.log("retreat to Y=", this.y);
       this.speed = 0;
@@ -296,8 +296,8 @@ console.log("Called", this.id)
   }
 
   this.tileHandling = function(nextX, nextY) {
-    var tileCol = Math.floor(x / TILE_W);
-    var tileRow = Math.floor(y / TILE_H);
+    var tileCol = Math.floor(nextX / TILE_W);
+    var tileRow = Math.floor(nextY / TILE_H);
     var tileIndexUnder = colRowToIndex(tileCol, tileRow);
 
     if(tileCol >= 0 && tileCol < TILE_COLS &&

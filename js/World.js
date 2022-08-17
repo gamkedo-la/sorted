@@ -55,7 +55,7 @@ function checkGridMatchColsRows() {
   if(TILE_COLS * TILE_W > canvas.width) {
     console.log("Grid columns overflow canvas width");
   }
-  if(TILE_ROWS * TILE_H > canvas.height) {
+  if(TILE_ROWS * TILE_H > canvas.height-20) {
     console.log("Grid rows overflow canvas height");
   }
   if(areaGrid.length == numberTilesNeeded) {

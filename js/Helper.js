@@ -52,7 +52,7 @@ function update_debug_report() {
 function UI_level_number() {
   canvasContext.font = "18px Verdana";
   canvasContext.fillStyle = "white";
-  canvasContext.fillText("Level " + currentLevel  + ': "'  + levelNames[currentLevel] + '"', 10, canvas.height-10);
+  canvasContext.fillText("Level " + currentLevel  + ': "'  + levelNames[currentLevel] + '"', 10, canvas.height-TILE_H+10);
   canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
 
@@ -165,7 +165,7 @@ function drawAgentGrid() {
 	} // end of for each row
 } // end of drawArea func
 
-function updateMousePos(evt) {
+function getMousePos(evt) {
 	var rect = canvas.getBoundingClientRect();
 	var root = document.documentElement;
   // account for margins, canvas position on page, scroll amount, etc.

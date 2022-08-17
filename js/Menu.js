@@ -13,6 +13,7 @@ function drawMenu() {
     bodyLine("Play - press P", ++line);
     bodyLine("Score - press S", ++line);
     bodyLine("Help - press H", ++line);
+    bodyLine("Button bar - press B", ++line);
     bodyLine("Credits - press C", ++line);
     bodyLine("Edit mode - press F1", ++line);
   } else {

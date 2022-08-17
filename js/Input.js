@@ -39,12 +39,81 @@ const KEY_F9 = 120;
 var mouseX = 0;
 var mouseY = 0;
 
+const NUM_BUTTONS = 6;
+// arrowKeys, Menu, Pause?
+
+const buttonRects = []; //Array[NUM_BUTTONS];
+const buttonTop = 570;
+const buttonsLeft = 538; // 840-580=260
+const buttonWidth = 50;
+const buttonHeight = 48;
+const buttonNames = ["Left", "Right", "Call", "Send", "Menu", "Pause"];
+
+for(var i=0; i<NUM_BUTTONS; i++) {
+  buttonRects[i] = {
+    x: buttonsLeft + i * buttonWidth,
+    y: buttonTop,
+    width: buttonWidth,
+    height: buttonHeight
+  };
+}
+
+//Function to check whether a point is inside a rectangle
+function isInside(pos, rect) {
+  return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
+}
+
 function setupInput() {
 
-  // canvas.addEventListener('mousemove', function(evt) {
-  //   var mousePos = updateMousePos(evt);
-  //   document.getElementById("debug_3").innerHTML = "Cursor: " + mousePos.x + "," + mousePos.y;
-  // });
+  canvas.addEventListener('mousedown', function(evt) {
+    var mousePos = getMousePos(evt);
+
+    for(var i=0; i<NUM_BUTTONS; i++) {
+      if (isInside(mousePos,buttonRects[i])) {
+        console.log("Clicked inside rect", buttonNames[i]);
+
+        switch(buttonNames[i]) {
+          case "Left":
+            player.keyHeld_left = true;
+            break;
+          case "Right":
+            player.keyHeld_right = true;
+            break;
+          case "Call":
+            player.keyHeld_call = true;
+            break;
+          case "Send":
+            player.keyHeld_send = true;
+            break;
+        }
+      }
+    }
+  }, false);
+  canvas.addEventListener('mouseup', function(evt) {
+    var mousePos = getMousePos(evt);
+
+    for(var i=0; i<NUM_BUTTONS; i++) {
+      if (isInside(mousePos,buttonRects[i])) {
+        console.log("Clicked inside rect", buttonNames[i]);
+
+        switch(buttonNames[i]) {
+          case "Left":
+            player.keyHeld_left = false;
+            break;
+          case "Right":
+            player.keyHeld_right = false;
+            break;
+          case "Call":
+            player.keyHeld_call = false;
+            break;
+          case "Send":
+            player.keyHeld_send = false;
+            break;
+        }
+      }
+    }
+  }, false);
+
   canvas.addEventListener('mousemove', mousemoveHandler);
   // canvas.addEventListener('mousedown', mousedownHandler);
 
@@ -55,7 +124,7 @@ function setupInput() {
 }
 
 function mousemoveHandler(evt) {
-  var mousePos = updateMousePos(evt);
+  var mousePos = getMousePos(evt);
   document.getElementById("debug_3").innerHTML = "Cursor: " + mousePos.x + "," + mousePos.y;
 }
 function mousedownHandler(evt) {
@@ -78,10 +147,10 @@ function keySet(evt, whichPlayer, setTo) {
 		whichPlayer.keyHeld_right = setTo;
 	}
 	if(evt.keyCode == whichPlayer.controlKeyUp) {
-		whichPlayer.keyHeld_tractor = setTo;
+		whichPlayer.keyHeld_call = setTo;
 	}
 	if(evt.keyCode == whichPlayer.controlKeyDown) {
-		whichPlayer.keyHeld_drop = setTo;
+		whichPlayer.keyHeld_send = setTo;
 	}
 }
 
@@ -245,9 +314,9 @@ function buttonSet(setTo) {
 		whichPlayer.keyHeld_right = setTo;
 	}
 	if(evt.keyCode == whichPlayer.controlKeyUp) {
-		whichPlayer.keyHeld_tractor = setTo;
+		whichPlayer.keyHeld_call = setTo;
 	}
 	if(evt.keyCode == whichPlayer.controlKeyDown) {
-		whichPlayer.keyHeld_drop = setTo;
+		whichPlayer.keyHeld_send = setTo;
 	}
 }

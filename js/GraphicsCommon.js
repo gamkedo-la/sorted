@@ -10,6 +10,14 @@ function colorRect(topLeftX,topLeftY, boxWidth,boxHeight, fillColor) {
 	canvasContext.fillStyle = fillColor;
 	canvasContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
 }
+function colorRectBorder(topLeftX,topLeftY, boxWidth,boxHeight, fillColor, strokeColor) {
+	canvasContext.fillStyle = fillColor;
+	canvasContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
+  canvasContext.lineWidth = 3;
+  canvasContext.setLineDash([]); // colorLine set this
+  canvasContext.strokeStyle = strokeColor;
+  canvasContext.strokeRect(topLeftX,topLeftY, boxWidth,boxHeight);
+}
 
 function colorCircle(centerX,centerY, radius, fillColor) {
 	canvasContext.fillStyle = fillColor;
@@ -17,7 +25,6 @@ function colorCircle(centerX,centerY, radius, fillColor) {
 	canvasContext.arc(centerX,centerY, radius, 0,Math.PI*2, true);
 	canvasContext.fill();
 }
-
 function colorCircleBorder(centerX,centerY, radius, fillColor, strokeColor) {
   canvasContext.fillStyle = fillColor;
 	canvasContext.beginPath();
