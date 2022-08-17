@@ -43,8 +43,8 @@ const GRAZE_TIME_MIN = Array(NUM_LEVELS);
 const GRAZE_TIME_MAX = Array(NUM_LEVELS);
 
 var defaultRoamTimeMin = 30;
-var defaultRoamTimeMax = 150;
-var defaultGrazeTimeMin = 90;
+var defaultRoamTimeMax = 60;
+var defaultGrazeTimeMin = 120;
 var defaultGrazeTimeMax = 600;
 
 ROAM_TIME_MIN.fill(defaultRoamTimeMin);
@@ -59,7 +59,7 @@ ROAM_SPEED.fill(defaultRoamSpeed);
 
 // Sheep graze speed (if any)
 const GRAZE_SPEED = Array(NUM_LEVELS);
-var defaultGrazeSpeed = 0.1;
+var defaultGrazeSpeed = 0.05;
 GRAZE_SPEED.fill(defaultGrazeSpeed);
 
 // Rogue path

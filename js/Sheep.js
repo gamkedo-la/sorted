@@ -92,7 +92,6 @@ function sheepClass() {
 
     else if (this.state == CALLED) {
 console.log("Called", this.id)
-      this.ang = Math.PI * 3 / 2; // so it moves upward
       nextY = this.y - TRACTOR_SPEED;
 
       if(nextY < player.y +20) { // arriving at Hat
@@ -126,13 +125,15 @@ console.log("Called", this.id)
     }
 
     else if(this.state == GRAZE) {
-      if(randomRangeInt(1,30) == 1) {
-        this.ang += randomRange(-Math.PI/4, Math.PI/4)
+      // if(randomRangeInt(1, GRAZE_FACING[currentLevel]) == 1) {
+      if(randomRangeInt(1, 120) == 1) {
+        this.ang += randomRange(-Math.PI/8, Math.PI/8)
       }
     }
 
     else if(this.state == ROAM) {
-      if(randomRangeInt(1,90) == 1) {
+      // if(randomRangeInt(1, ROAM_FACING[currentLevel]) == 1) {
+      if(randomRangeInt(1, 30) == 1) {
         this.ang += randomRange(-Math.PI/4, Math.PI/4)
       }
     }
@@ -158,8 +159,7 @@ console.log("Called", this.id)
 
     testIfLevelEnd();
 
-    // if(isModeTimed()) {
-    if(this.state == ROAM || this.state == GRAZE) {
+     if(this.isModeTimed()) {
       this.timer--;
       if(this.timer < 1) {
         this.changeMode();
@@ -167,8 +167,14 @@ console.log("Called", this.id)
     }
   }
 
-  // change mode, set direction & speed, restart timer to expire mode 
-  this.changeMode = function() {
+  this.isModeTimed = function() {
+    return this.state == ROAM || this.state == GRAZE || this.state == SENT;
+  }
+
+  // is .state changed before function or inside?  
+  // change mode, set direction & speed
+  this.changeMode = function(newMode) {
+    var prevMode = this.state;
     if(this.state == GRAZE) {
       this.state = ROAM;
       this.speed = ROAM_SPEED[currentLevel];
@@ -177,15 +183,44 @@ console.log("Called", this.id)
       this.state= GRAZE;
       this.speed = GRAZE_SPEED[currentLevel];
     }
-    this.setExpiry();
+    else if(newMode == FENCED) {
+      this.state = FENCED;
+      this.y = canvas.height - TILE_H * 3/2;
+      this.speed = 0;
+      this.levelDone = true;
+      // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
+      testIfLevelEnd();
+    }
+    else if(newMode == FENCED) {
+      this.state = FENCED;
+      this.y = canvas.height - TILE_H * 3/2;
+      this.speed = 0;
+      this.levelDone = true;
+      // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
+      testIfLevelEnd();
+    } else {
+      console.log("Else in changeMode, for ID", this.id)
+      this.state = newMode;
+      this.speed = 0; // stay still so it can be checked
+    }
+    if(this.isModeTimed) {
+      this.setExpiry();
+    }
   } 
 
+  // restart timer to expire mode 
   this.setExpiry = function() {
     if(this.state == ROAM) {
       this.timer = randomRangeInt(ROAM_TIME_MIN[currentLevel], ROAM_TIME_MAX[currentLevel]);
     }
-    if(this.state == GRAZE) {
+    else if(this.state == GRAZE) {
       this.timer = randomRangeInt(GRAZE_TIME_MIN[currentLevel], GRAZE_TIME_MAX[currentLevel]);
+    }
+    else if(this.state == SENT) {
+      this.timer = 999;
+    }
+    else if(this.state == CALLED) {
+      this.timer = 999;
     }
   }
 
@@ -244,22 +279,18 @@ console.log("Called", this.id)
           console.log("Sheep ID", this.id, "reached the blue pen.");
           this.gotoCentreOfTile(304);
           this.state = IN_BLUE_PEN;
-          countBluePen++;
-          countSheepPenned++;
         } else if(tileType == TILE_PEN_RED) {
           this.state = IN_RED_PEN;
           console.log("Sheep ID", this.id, "reached the red pen.");
           this.gotoCentreOfTile(306);
-          countRedPen++;
-          countSheepPenned++;
         } else if(tileType == TILE_GOAL) {
           this.state = ON_ROAD;
-          this.gotoCentreOfTile(305);
+          // this.gotoCentreOfTile(305);
           console.log("Sheep ID", this.id, "is between pens.");
         }  
         this.speed = 0;
         this.levelDone = true;
-        agentGrid[tileIndexUnder] = 1;
+        // agentGrid[tileIndexUnder] = 1;
         // this.y += HOP_IN_PEN ; // move into pen
         update_debug_report();
         // test if level complete
@@ -275,21 +306,21 @@ console.log("Called", this.id)
         } else if(tileType == TILE_HALT) {
           // if anti-stuck code needed below is also needed here
           this.state = GRAZE;
-          this.speed = 0;
+          this.changeMode();
 
         } else if(tileType == TILE_ROAM) {
           // if anti-stuck code needed below is also needed here
           this.state = ROAM;
+          this.changeMode();
 
         } else if(tileType == TILE_ROAD) {
           // if anti-stuck code needed below is also needed here
-          this.state = FENCED;
-          //this.y = canvas.height - TILE_H - SHEEP_RADIUS/2;
-          this.y = canvas.height - TILE_H * 3/2;
-          this.speed = 0;
-          this.levelDone = true;
-          agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
-          testIfLevelEnd();
+
+          if(this.state != FENCED) {
+
+          }
+          this.changeMode(FENCED);
+
 
         } else if(tileType != TILE_FIELD) {
           // undo car move to fix "car stuck in wall" bug
@@ -306,10 +337,6 @@ console.log("Called", this.id)
 
   this.isMovedBySpeed = function(mode) {
     return mode == ROAM || mode == GRAZE || mode == CALLED || mode == SENT;
-  }
-
-  this.isModeTimed = function() {
-    return this.state == ROAM || this.state == GRAZE;
   }
 
   this.stateIsOnGoal = function() {
@@ -340,7 +367,9 @@ console.log("Called", this.id)
       var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
       colorCircle(facingX, facingY, FACING_RADIUS, "red");
 
-      this.timerLabel();
+      if(timerLabel) {
+        this.timerLabel();
+      }
     }
   }
 
@@ -352,13 +381,12 @@ console.log("Called", this.id)
       colorText(this.id, this.x-8, this.y+6, "black");
     }
   }
+
   this.timerLabel = function() {
-    if(this.team != PLAIN) {
       var fontSize = 12;
       canvasContext.font = fontSize + "px Verdana";
       colorText(this.timer, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
-    }
-  }
+6  }
 
   this.scoreLabel = function() {
     if(this.team != PLAIN) {

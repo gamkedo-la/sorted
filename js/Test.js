@@ -11,6 +11,8 @@ const DROP_IN_COLUMN = 2;
 var testMode = NORMAL_PLAY;
 var testColumnSet = false;
 
+var timerLabel = false;
+
 const TEST_NAMES = ["not automating, normal play", "a full row of sheep will drop", "some sheep will drop in one column - currently can select column 0 to 9 by pressing number key"];
 
 var testTeam = MIXED; // both teams, as in normal play

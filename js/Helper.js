@@ -1,6 +1,3 @@
-var countBluePen = 0;
-var countRedPen = 0;
-var countNotPen = 0;
 var outOfPlay = 0;
 var levelScore;
 var levelScores = [0,0,0,0,0,0,0,0,0,0];
@@ -49,13 +46,6 @@ function update_debug_report() {
   if(player.sheepIDheld != undefined) {
     txt += ". Sheep id " + player.sheepIDheld + " is under hat.";
   }
-
-  txt += "\nCounting sheep: in blue pen = " + countBluePen + "; in red pen = " + countRedPen;
-
-  var count = countPennedSheep();
-  var wrong = countSheepPenned - count;
-  txt += "\nScoring: in correct pen = " + count + "; in wrong pen = " + wrong;
-  
   document.getElementById("debug_2").innerText = txt;
 }
 

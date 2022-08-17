@@ -26,10 +26,14 @@ const KEY_NUM_7 = 55;
 const KEY_NUM_8 = 56;
 const KEY_NUM_9 = 57;
 
-const KEY_F1 = 112;
+const KEY_F1 = 112; // editMode
 const KEY_F2 = 113;
 const KEY_F3 = 114;
 const KEY_F4 = 115;
+const KEY_F5 = 116;
+const KEY_F6 = 117;
+const KEY_F7 = 118;
+const KEY_F8 = 119;
 const KEY_F9 = 120;
 
 var mouseX = 0;
@@ -180,7 +184,9 @@ function keyMode(key) {
   if(key == KEY_F4) {
     test_EndLevel();
   }
-  if(key == KEY_F9) {
+  if(key == KEY_F5) {
+    timerLabel = !timerLabel; // toggle
+    console.log("Timer label is", timerLabel)
   }
 
   if(key == KEY_A) {
