@@ -107,3 +107,12 @@ function makeHatRow(cols) {
   rowStr = rowStr.slice(0, -1); // remove final space
   return rowStr;
 }
+
+function strRowSameTile(cols, tile) {
+  var rowStr = '  '; // grid.js indent if pasting
+  var fieldStr = tile + ', ';
+  rowStr += fieldStr.repeat(cols);
+  rowStr = rowStr.slice(0, -1); // remove final space
+  return rowStr;
+}
+

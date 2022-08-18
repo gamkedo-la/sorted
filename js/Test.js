@@ -12,7 +12,8 @@ var testMode = NORMAL_PLAY;
 var testColumnSet = false;
 
 var idLabel = false;
-var timerLabel = false;
+var timerLabel = true;
+var modeLabel = true;
 
 const TEST_NAMES = ["not automating, normal play", "a full row of sheep will drop", "some sheep will drop in one column - currently can select column 0 to 9 by pressing number key"];
 

@@ -9,7 +9,7 @@ ROAM_TIME_MAX[0] = 100;
 GRAZE_TIME_MIN[0] = 30;
 GRAZE_TIME_MAX[0] = 300; 
 ROAM_SPEED[0] = 1.0; 
-GRAZE_SPEED[0] = 0.5; 
+GRAZE_SPEED[0] = 0.1; 
 HAT_POWER[0] = 1.0;
 CALL_SPEED[0] = 5;
 SEND_SPEED[0] = 10;
@@ -17,6 +17,7 @@ SEND_SPEED[0] = 10;
 // Level 1
 
 // Level 2
+PLACING_DEPTH[2] = 100;
 
 // Level 3
 

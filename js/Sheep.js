@@ -259,6 +259,7 @@ console.log("Called", this.id)
         } else if(tileType == TILE_HALT) {
           if(this.state != GRAZE) {
             this.changeMode(GRAZE);
+            this.ang += Math.PI/2;
           }
 
         } else if(tileType == TILE_ROAM) {
@@ -291,8 +292,8 @@ console.log("Called", this.id)
     };
   }
  
-  // change mode, also set direction & speed
   this.changeMode = function(newMode) {
+    // change state, also set direction & speed
     var prevMode = this.state;
 
   // console.log(this.id, this.state, newMode)
@@ -344,10 +345,10 @@ console.log("Called", this.id)
       this.timer = randomRangeInt(GRAZE_TIME_MIN[currentLevel], GRAZE_TIME_MAX[currentLevel]);
     }
     else if(this.state == SENT) {
-      this.timer = 999;
+      this.timer = 200;
     }
     else if(this.state == CALLED) {
-      this.timer = 999;
+      this.timer = 200;
     }
   }
 
@@ -421,6 +422,9 @@ console.log("Called", this.id)
       if(timerLabel) {
         this.timerLabel();
       }
+      if(modeLabel) {
+        this.modeLabel();
+      }
     }
   } // end of draw
 
@@ -435,9 +439,15 @@ console.log("Called", this.id)
   }
 
   this.timerLabel = function() {
+    var fontSize = 9;
+    canvasContext.font = fontSize + "px Verdana";
+    colorText(this.timer, this.x, this.y + SHEEP_RADIUS + fontSize, "yellow");
+  }
+
+  this.modeLabel = function() {
     var fontSize = 12;
     canvasContext.font = fontSize + "px Verdana";
-    colorText(this.timer, this.x, this.y + SHEEP_RADIUS + fontSize, "white");
+    colorText(this.state, this.x -26, this.y + SHEEP_RADIUS/2, "orange");
   }
 
   this.scoreLabel = function() {
