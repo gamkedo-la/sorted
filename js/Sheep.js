@@ -2,7 +2,6 @@ const SHEEP_RADIUS = 16;
 const SIDE_MARGIN = SHEEP_RADIUS/2 + 1;
 const TOP_MARGIN = 60;
 const FACING_RADIUS = 2;
-var countSheepPenned = 0;
 
 var teamSizeSoFar = [0,0,0];
 var sheepInPlay = 0;
@@ -29,8 +28,8 @@ function sheepClass() {
   this.x = 0;
   this.y = 0;
   this.speed = 0;
-  this.ang = Math.PI/2;
-  this.orient = 0;
+  this.ang = Math.PI/2; // move facing angle
+  this.orient = 0; // image display angle
   this.score = 0;
   this.timer = 0;
 
@@ -42,8 +41,8 @@ function sheepClass() {
     this.state = mode;
     this.ang = randomRange(0, Math.PI * 2);
     this.orient = 0;
-    this.gotoX = this.x;
-    this.gotoY = this.y;
+    // this.gotoX = this.x;
+    // this.gotoY = this.y;
     this.score = 0;
     this.levelDone = false;
     this.setExpiry();
@@ -71,11 +70,13 @@ function sheepClass() {
   this.placeRandom = function(depth) {
     this.x = randomRangeInt(0 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -2);
     this.y = randomRangeInt(TOP_MARGIN+10, depth);
+    console.log(this.id, this.x, this.y)
   }
   
   this.move = function() {
     var nextX = this.x; // previous location
     var nextY = this.y;
+    var prevMode = this.state;
 
     // covers any GOAL or FENCED
     if(this.levelDone) {
@@ -150,13 +151,14 @@ console.log("Called", this.id)
 
     // bounce down from top row if not Called
     if(nextY < 50) {
-      if(this.state != CALLED) {
+      console.log( this.isAllowedTopRow() )
+      if(this.isAllowedTopRow() == false) {
         this.ang = 2*Math.PI - this.ang;
       }
     }
     // bounce up from bottom row if not Sent 
     if(nextY > 540) {
-      if(this.isAllowedAtBottomRow() == false) {
+      if(this.isAllowedBottomRow() == false) {
         this.ang = 2*Math.PI - this.ang;
       }
     }
@@ -172,9 +174,10 @@ console.log("Called", this.id)
     //   }
     // }
     if(pos != undefined) {
-      this.x = pos.nextX;
-      this.y = pos.nextY;
-    } else {
+      this.x = pos.x;
+      this.y = pos.y;
+    } else {  
+      console.log("TileHandling failed to set x & y values");
       this.x = nextX;
       this.y = nextY;
     }
@@ -193,7 +196,11 @@ console.log("Called", this.id)
     testIfLevelEnd();
   }
 
-  this.isAllowedAtBottomRow = function() {
+  this.isAllowedTopRow = function() {
+    return this.state == CALLED || this.state == HELD || this.state == SENT // at release from clamp sheep is in top row
+  }
+
+  this.isAllowedBottomRow = function() {
     return this.state == SENT || this.state == FENCED || this.state == IN_BLUE_PEN || this.state == IN_RED_PEN || this.state == ON_ROAD 
   }
 
@@ -201,13 +208,92 @@ console.log("Called", this.id)
     return this.state == ROAM || this.state == GRAZE || this.state == SENT;
   }
 
-  // is .state changed before function or inside?  
-  // change mode, set direction & speed
-  // this.changeMode = function(newMode, x, y) {
+  this.tileHandling = function(nextX, nextY) {
+    var tileCol = Math.floor(nextX / TILE_W);
+    var tileRow = Math.floor(nextY / TILE_H);
+    var tileIndexUnder = colRowToIndex(tileCol, tileRow);
+
+    if(tileCol >= 0 && tileCol < TILE_COLS &&
+      tileRow >= 0 && tileRow < TILE_ROWS) {
+
+      var tileType = getTileTypeAtColRow(tileCol,tileRow);
+
+      // only when first entering pen tile
+      if( this.stateIsOnGoal() == false && this.onTileGoal(tileType) ) {
+
+        if(tileType == TILE_PEN_BLUE) {
+          console.log("Sheep ID", this.id, "reached the blue pen.");
+          nextX = TILE_W * 9.5;
+          nextY = TILE_H * 14.5;
+          this.state = IN_BLUE_PEN;
+
+        } else if(tileType == TILE_PEN_RED) {
+          this.state = IN_RED_PEN;
+          console.log("Sheep ID", this.id, "reached the red pen.");
+          nextX = TILE_W * 11.5;
+          nextY = TILE_H * 14.5;
+
+        } else if(tileType == TILE_GOAL) {
+          this.state = ON_ROAD;
+          nextY = TILE_H * 13.5;
+          console.log("Sheep ID", this.id, "is between pens.");
+        }  
+        this.speed = 0;
+        this.levelDone = true;
+        sheepInPlay--;
+        // agentGrid[tileIndexUnder] = 1;
+        // this.y += HOP_IN_PEN ; // move into pen
+        update_debug_report();
+        // test if level complete
+      } else {
+        // terrain handling
+
+        // deflection size governed by how many steps inside tile
+        // applied every loop
+        if(tileType == TILE_GO_LEFT) {  
+          this.ang += 0.1;
+        } else if(tileType == TILE_GO_RIGHT) {
+          this.ang -= 0.1;
+
+        // should only apply on entering
+        } else if(tileType == TILE_HALT) {
+          if(this.state != GRAZE) {
+            this.changeMode(GRAZE);
+          }
+
+        } else if(tileType == TILE_ROAM) {
+          if(this.state != ROAM) {
+            this.changeMode(ROAM);
+          }
+
+        } else if(tileType == TILE_ROAD) {
+          if(this.state != FENCED) {
+            this.changeMode(FENCED);
+            sheepInPlay--;
+            nextY = TILE_H * 13.5;
+          }
+
+        } else if(tileType != TILE_FIELD) {
+          // undo car move to fix "car stuck in wall" bug
+          // this.x -= Math.cos(this.ang) * this.speed;
+          // this.y -= Math.sin(this.ang) * this.speed;
+          // rebound from obstacle
+          // this.speed *= -1;
+          this.speed = 0;
+    
+        } // end of terrain handling
+      }
+    } // end of valid col and row
+
+    return {
+      x: nextX,
+      y: nextY
+    };
+  }
+ 
+  // change mode, also set direction & speed
   this.changeMode = function(newMode) {
     var prevMode = this.state;
-    // var nextX = x;
-    // var nextY = y;
 
   // console.log(this.id, this.state, newMode)
     if(newMode == ROAM) {
@@ -227,7 +313,6 @@ console.log("Called", this.id)
     else if(newMode == FENCED) {
       this.state = FENCED;
       // reference Y of row above fence, instead of canvas.height
-      nextY = TILE_H * 14.5;
       this.ang = Math.PI / 2;
       this.speed = 0;
       this.levelDone = true;
@@ -244,10 +329,10 @@ console.log("Called", this.id)
     }
     // No, changeMode is also called from tileHandling
     // XXX not needed because this .x.y set before timer handling
-    return {
-      x: nextX,
-      y: nextY
-    };
+    // return {
+    //   x: nextX,
+    //   y: nextY
+    // };
   } 
 
   // restart timer to expire mode 
@@ -303,84 +388,6 @@ console.log("Called", this.id)
     }
   }
 
-  this.tileHandling = function(nextX, nextY) {
-    var tileCol = Math.floor(nextX / TILE_W);
-    var tileRow = Math.floor(nextY / TILE_H);
-    var tileIndexUnder = colRowToIndex(tileCol, tileRow);
-
-    if(tileCol >= 0 && tileCol < TILE_COLS &&
-      tileRow >= 0 && tileRow < TILE_ROWS) {
-
-      var tileType = getTileTypeAtColRow(tileCol,tileRow);
-
-      // only when first entering pen tile
-      if( this.stateIsOnGoal() == false && this.onTileGoal(tileType) ) {
-
-        if(tileType == TILE_PEN_BLUE) {
-          console.log("Sheep ID", this.id, "reached the blue pen.");
-          this.gotoCentreOfTile(304);
-          this.state = IN_BLUE_PEN;
-
-        } else if(tileType == TILE_PEN_RED) {
-          this.state = IN_RED_PEN;
-          console.log("Sheep ID", this.id, "reached the red pen.");
-          this.gotoCentreOfTile(306);
-
-        } else if(tileType == TILE_GOAL) {
-          this.state = ON_ROAD;
-          // this.gotoCentreOfTile(305);
-          console.log("Sheep ID", this.id, "is between pens.");
-        }  
-        this.speed = 0;
-        this.levelDone = true;
-        sheepInPlay--;
-        // agentGrid[tileIndexUnder] = 1;
-        // this.y += HOP_IN_PEN ; // move into pen
-        update_debug_report();
-        // test if level complete
-      } else {
-        // terrain handling
-
-        // deflection size governed by how many steps inside tile
-        if(tileType == TILE_GO_LEFT) {  
-          this.ang += 0.1;
-        } else if(tileType == TILE_GO_RIGHT) {
-          this.ang -= 0.1;
-
-        } else if(tileType == TILE_HALT) {
-          if(this.state != GRAZE) {
-            this.changeMode(GRAZE);
-          }
-
-        } else if(tileType == TILE_ROAM) {
-          if(this.state != ROAM) {
-            this.changeMode(ROAM);
-          }
-
-        } else if(tileType == TILE_ROAD) {
-          if(this.state != FENCED) {
-            this.changeMode(FENCED);
-            sheepInPlay--;
-          }
-
-        } else if(tileType != TILE_FIELD) {
-          // undo car move to fix "car stuck in wall" bug
-          // this.x -= Math.cos(this.ang) * this.speed;
-          // this.y -= Math.sin(this.ang) * this.speed;
-          // rebound from obstacle
-          // this.speed *= -1;
-          this.speed = 0;
-    
-        } // end of terrain handling
-      }
-    } // end of valid col and row
-
-    return {
-      x: nextX,
-      y: nextY
-    };
-  }
-
   this.isMovedBySpeed = function(mode) {
     return mode == ROAM || mode == GRAZE || mode == CALLED || mode == SENT;
   }
@@ -391,10 +398,6 @@ console.log("Called", this.id)
 
   this.onTileGoal = function(tileType) {
     return tileType == TILE_GOAL || tileType == TILE_PEN_BLUE || tileType == TILE_PEN_RED;
-  }
- 
-  this.gotoCentreOfTile = function(tileIndex) {
-    this.y = canvas.height - TILE_H / 2;
   }
 
   this.draw = function() {

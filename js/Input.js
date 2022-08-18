@@ -43,10 +43,10 @@ const NUM_BUTTONS = 6;
 // arrowKeys, Menu, Pause?
 
 const buttonRects = []; //Array[NUM_BUTTONS];
-const buttonTop = 570;
-const buttonsLeft = 538; // 840-580=260
+const buttonTop = 576;
+const buttonsLeft = 538; // 840-538=302 6btns@50px
 const buttonWidth = 50;
-const buttonHeight = 48;
+const buttonHeight = 42;
 const buttonNames = ["Left", "Right", "Call", "Send", "Menu", "Pause"];
 
 for(var i=0; i<NUM_BUTTONS; i++) {
@@ -63,32 +63,43 @@ function isInside(pos, rect) {
   return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
 }
 
+var TOUCH_TEMP = false; // screen click to reach Play
 function setupInput() {
-
   canvas.addEventListener('mousedown', function(evt) {
     var mousePos = getMousePos(evt);
-
-    for(var i=0; i<NUM_BUTTONS; i++) {
-      if (isInside(mousePos,buttonRects[i])) {
-        console.log("Clicked inside rect", buttonNames[i]);
-
-        switch(buttonNames[i]) {
-          case "Left":
-            player.keyHeld_left = true;
-            break;
-          case "Right":
-            player.keyHeld_right = true;
-            break;
-          case "Call":
-            player.keyHeld_call = true;
-            break;
-          case "Send":
-            player.keyHeld_send = true;
-            break;
+    if (gameState != STATE_PLAY && TOUCH_TEMP == true) {
+      currentLevel = 0;
+      console.log("Level number now =", currentLevel);
+      levelRunning = true;
+      loadLevel(currentLevel);
+      gameState = STATE_PLAY;
+    } else {
+      for(var i=0; i<NUM_BUTTONS; i++) {
+        if (isInside(mousePos,buttonRects[i])) {
+          console.log("Clicked inside rect", buttonNames[i]);
+  
+          switch(buttonNames[i]) {
+            case "Left":
+              player.keyHeld_left = true;
+              break;
+            case "Right":
+              player.keyHeld_right = true;
+              break;
+            case "Call":
+              player.keyHeld_call = true;
+              break;
+            case "Send":
+              player.keyHeld_send = true;
+              break;
+            case "Menu":
+              gameState = STATE_MENU;
+              break;
+          }
         }
       }
     }
   }, false);
+   
   canvas.addEventListener('mouseup', function(evt) {
     var mousePos = getMousePos(evt);
 

@@ -67,11 +67,10 @@ function loadLevel(whichLevel) {
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
       var mode = i % 2 == 0 ? ROAM : GRAZE;
-      console.log(mode)
       var potential = i % 2 == 0 ? BLUE : RED;
       var team = PLAIN;
-      spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
       spawnSheep.reset(i, team, potential, mode);
+      spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
       sheepList.push(spawnSheep);
     }
     console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
@@ -114,13 +113,8 @@ function loadLevel(whichLevel) {
 
   // reset sorting
   teamSizeSoFar = [0,0,0];
-  // reset scoring
-  countBluePen = 0;
-  countRedPen = 0;
-  countNotPen = 0;
-  countSheepPenned = 0;
+  // reset level-ending detector
   sheepInPlay = FLOCK_SIZE[whichLevel];
-
   update_debug_report();
 }
 
@@ -160,11 +154,9 @@ function drawAll() {
     if(currentLevel>=3) { // only on some levels
       dog.draw();
     }
-    // buttons
-    for(var i=0; i<NUM_BUTTONS; i++) {
-      colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red");
-    }
+    drawButtons();
   }
+
   else if (gameState == STATE_LEVEL_OVER) {
     drawArea();
     player.draw();
@@ -184,6 +176,7 @@ function drawAll() {
       }
     }
   }
+
   else if(gameState == STATE_MENU) {
     drawMenu();
   }

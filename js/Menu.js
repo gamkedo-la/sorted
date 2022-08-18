@@ -109,3 +109,11 @@ function drawScoreboard() {
   colorText("Press M or Esc for menu", 100, 500, "white");
   canvasContext.textAlign = "left";
 }
+
+function drawButtons() {
+  for(var i=0; i<NUM_BUTTONS; i++) {
+    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red");
+    canvasContext.font = "14px Arial";
+    colorText(buttonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
+  }
+}
