@@ -142,7 +142,9 @@ function moveAll() {
 function drawAll() {
   if(gameState == STATE_PLAY) {
     drawArea();
-    drawAgentGrid();
+    if(AGENT_GRID) {
+      drawAgentGrid();
+    }
     UI_level_number();
 
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
