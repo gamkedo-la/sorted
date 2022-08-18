@@ -6,10 +6,10 @@ const MIXED = 3;
 const NORMAL_PLAY = 0;
 const DROP_A_ROW_FULL = 1;
 const DROP_IN_COLUMN = 2;
-// var testMode = DROP_IN_COLUMN;
+var testMode = DROP_IN_COLUMN;
 // var testMode = DROP_A_ROW_FULL;
-var testMode = NORMAL_PLAY;
-var testColumnSet = false;
+//var testMode = NORMAL_PLAY;
+var testColumnSet = false; // flag to get column number from keyb
 
 var idLabel = false;
 var timerLabel = true;

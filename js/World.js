@@ -1,4 +1,5 @@
-var currentLevel = null;
+var currentLevel = 1;
+
 const TILE_W = 40;
 const TILE_H = 40;
 const TILE_COLS = 21;

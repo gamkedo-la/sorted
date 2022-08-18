@@ -51,6 +51,7 @@ function sheepClass() {
 
   this.testRowInit = function() {
     this.speed = 15;
+    this.ang = Math.PI/2;
   }
 
   this.placeTop = function() {
@@ -60,6 +61,7 @@ function sheepClass() {
 
   this.testColumnInit = function() {
     this.speed = 3 + this.id * 3;
+    this.ang = Math.PI/2;
   }
 
   this.placeColumn = function(col) {
@@ -166,13 +168,6 @@ console.log("Called", this.id)
     // if x,y change inside tileHandling must be returned as object
     var pos = this.tileHandling(nextX, nextY);
 
-    // if(this.stateIsOnGoal() == false) {
-    //   if(this.collisionDetect() == true) {
-    //     this.agentHandling();
-    //   } else {
-    //     this.tileHandling();
-    //   }
-    // }
     if(pos != undefined) {
       this.x = pos.x;
       this.y = pos.y;
@@ -180,6 +175,14 @@ console.log("Called", this.id)
       console.log("TileHandling failed to set x & y values");
       this.x = nextX;
       this.y = nextY;
+    }
+
+    if(this.stateIsOnGoal() == false) {
+      if(this.collisionDetect() == true) {
+        this.agentHandling();
+      } else {
+        this.tileHandling();
+      }
     }
 
     if(this.isModeTimed()) {
@@ -241,8 +244,7 @@ console.log("Called", this.id)
         this.speed = 0;
         this.levelDone = true;
         sheepInPlay--;
-        // agentGrid[tileIndexUnder] = 1;
-        // this.y += HOP_IN_PEN ; // move into pen
+        agentGrid[tileIndexUnder] = 1;
         update_debug_report();
         // test if level complete
       } else {
@@ -272,6 +274,7 @@ console.log("Called", this.id)
             this.changeMode(FENCED);
             sheepInPlay--;
             nextY = TILE_H * 13.5;
+            agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
           }
 
         } else if(tileType != TILE_FIELD) {

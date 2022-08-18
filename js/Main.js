@@ -116,6 +116,7 @@ function loadLevel(whichLevel) {
   // reset level-ending detector
   sheepInPlay = FLOCK_SIZE[whichLevel];
   update_debug_report();
+  levelLoaded = whichLevel;
 }
 
 function updateAll() {
@@ -141,7 +142,7 @@ function moveAll() {
 function drawAll() {
   if(gameState == STATE_PLAY) {
     drawArea();
-    // drawAgentGrid();
+    drawAgentGrid();
     UI_level_number();
 
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
@@ -174,7 +175,7 @@ function drawAll() {
       } else {
         sheepList[i].scoreLabel();
       }
-    }
+    } // end of Level_Over
   }
 
   else if(gameState == STATE_MENU) {
