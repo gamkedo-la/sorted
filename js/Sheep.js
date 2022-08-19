@@ -418,9 +418,9 @@ console.log("Called", this.id)
       colorLine(player.x,player.y, this.x,this.y, "yellow")
     }
     if(editMode) {
-      var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
-      var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
-      colorCircle(facingX, facingY, FACING_RADIUS, "red");
+      // var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
+      // var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
+      // colorCircle(facingX, facingY, FACING_RADIUS, "red");
 
       canvasContext.textAlign = "center";
       if(idLabel) {
@@ -439,14 +439,26 @@ console.log("Called", this.id)
   this.idLabel = function() {
     var fontSize = 12;
     canvasContext.font = fontSize + "px Verdana";
+    var adjust; // ID label obscured when lower left
+
     if(this.team != PLAIN) {
       colorText(this.id, this.x-8, this.y+6, "black");
     } else {
       // draw ID on sheep's back
-      var backX = this.x - Math.cos(this.ang) * (SHEEP_RADIUS -2);
-      var backY = this.y - Math.sin(this.ang) * (SHEEP_RADIUS -2);
+      var ang = normaliseRadian(this.ang);
+      if(ang >= (3/2 * Math.PI) && ang <= 2*Math.PI) {
+        adjust = 25;
+      }
+      else if(ang >= 0 && ang <= Math.PI/2) {
+        adjust = 20;
+      }
+      else {
+        adjust = 15;
+      }
+      var backX = this.x - Math.cos(this.ang) * (SHEEP_RADIUS + adjust);
+      var backY = this.y - Math.sin(this.ang) * (SHEEP_RADIUS + adjust);
       // colorText(this.id, this.x, this.y - SHEEP_RADIUS - fontSize/4, "white");
-      colorText(this.id, backX, backY, "black");
+      colorText(this.id, backX, backY, "white");
     }
   }
 
@@ -462,7 +474,7 @@ console.log("Called", this.id)
   this.modeLabel = function() {
     var facingXoffset = this.x + Math.cos(this.ang - Math.PI/4) * (SHEEP_RADIUS +7);
     var facingYoffset = this.y + Math.sin(this.ang - Math.PI/4) * (SHEEP_RADIUS +7);
-    var fontSize = 12;
+    var fontSize = 10;
     canvasContext.font = fontSize + "px Verdana";
     // colorText(this.state, this.x -26, this.y + SHEEP_RADIUS/2, "orange");
     colorText(this.state, facingXoffset, facingYoffset, "white");

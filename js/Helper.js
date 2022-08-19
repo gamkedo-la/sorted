@@ -176,3 +176,13 @@ function getMousePos(evt) {
     y: mouseY
   };
 }
+
+function normaliseRadian(ang) {
+  while(ang < 0) {
+    ang += 2 * Math.PI;
+  }
+  if(ang > 2 * Math.PI) {
+    ang %= (2 * Math.PI);
+  } 
+  return ang; 
+}

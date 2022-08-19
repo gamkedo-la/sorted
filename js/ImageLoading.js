@@ -27,7 +27,7 @@ function loadImageForTileCode(tileCode, fileName) {
 function loadImages() {
 	var imageList = [
 		{varName: playerHatPic, theFile: "player_hat.png"},
-		{varName: sheepNormalPic, theFile: "sheep-normal-3.png"},
+		{varName: sheepNormalPic, theFile: "sheep-photopea.png"},
 		{varName: sheepTailPic, theFile: "sheep-tail-60.png"},
 		{varName: rogueDogPic, theFile: "tile_girl.png"},
 		{tileType: TILE_FIELD, theFile: "tile_grass.png"},
