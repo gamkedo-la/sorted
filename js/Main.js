@@ -20,7 +20,7 @@ const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282"];
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [2, 1, 2, 4, 4, 4, 6, 6, 8, 8];  
+const TEAM_SIZE = [1, 2, 2, 4, 4, 4, 6, 6, 8, 8];  
 const FLOCK_SIZE = [];
 for(var i=0; i<TEAM_SIZE.length; i++) {
   FLOCK_SIZE[i] = TEAM_SIZE[i] * 2;
@@ -142,6 +142,7 @@ function moveAll() {
 function drawAll() {
   if(gameState == STATE_PLAY) {
     drawArea();
+    drawLowRoad();
     if(AGENT_GRID) {
       drawAgentGrid();
     }
@@ -162,11 +163,12 @@ function drawAll() {
 
   else if (gameState == STATE_LEVEL_OVER) {
     drawArea();
+    drawLowRoad();
     player.draw();
     if(showAgentGrid) {
       drawAgentGrid();
     }
-    UI_level_number();
+    // UI_level_number();
     drawLevelOver();
 
     // draw label with score on sheep
@@ -177,8 +179,9 @@ function drawAll() {
       } else {
         sheepList[i].scoreLabel();
       }
-    } // end of Level_Over
-  }
+    }
+    drawLevelOverButtons();
+  } // end of Level_Over
 
   else if(gameState == STATE_MENU) {
     drawMenu();

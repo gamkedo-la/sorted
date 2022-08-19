@@ -56,7 +56,8 @@ function loadImages() {
     {tileType: TILE_PEN_RED, theFile: "tile_pen_red.png"},
     {tileType: TILE_ROAM, theFile: "tile_tree.png"},
 		{tileType: TILE_GO_LEFT, theFile: "tile_flag_left.png"},
-		{tileType: TILE_GO_RIGHT, theFile: "tile_flag_right.png"}
+		{tileType: TILE_GO_RIGHT, theFile: "tile_flag_right.png"},
+		{tileType: TILE_LOW_ROAD, theFile: "low_road_fence.png"}
 	];
 	picsToLoad = imageList.length;
 

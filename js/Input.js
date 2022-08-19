@@ -43,7 +43,7 @@ const NUM_BUTTONS = 6;
 // arrowKeys, Menu, Pause?
 
 const buttonRects = []; //Array[NUM_BUTTONS];
-const buttonTop = 576;
+const buttonTop = 586;
 const buttonsLeft = 538; // 840-538=302 6btns@50px
 const buttonWidth = 50;
 const buttonHeight = 42;

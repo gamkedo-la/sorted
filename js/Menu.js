@@ -17,11 +17,10 @@ function drawMenu() {
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(menuBGPic,0,0);
   drawMenuFlock();
-
-
+  
+  canvasContext.textAlign = "left";
   var line = 0;
   if(!editMode) {
-
     headLine("Menu");
     // bodyLine("Skip learning levels - press L", 1);
     bodyLine("Play - press P", ++line);
@@ -134,6 +133,16 @@ function drawButtons() {
   for(var i=0; i<NUM_BUTTONS; i++) {
     colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red");
     canvasContext.font = "14px Arial";
+    canvasContext.textAlign = "left";
+    colorText(buttonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
+  }
+}
+
+function drawLevelOverButtons() {
+  for(var i=4; i<5; i++) {
+    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red");
+    canvasContext.font = "14px Arial";
+    canvasContext.textAlign = "left";
     colorText(buttonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
   }
 }

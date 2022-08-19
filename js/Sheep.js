@@ -253,11 +253,20 @@ console.log("Called", this.id)
 
         // deflection size governed by how many steps inside tile
         // applied every loop
-        if(tileType == TILE_GO_LEFT) {  
-          this.ang += 0.1;
-        } else if(tileType == TILE_GO_RIGHT) {
-          this.ang -= 0.1;
+        if(tileType == TILE_GO_LEFT) {
+          if(this.state == SENT) {
+            this.ang += 0.1;
+          } else {
+            this.ang += 0.01;
+          }
 
+        } else if(tileType == TILE_GO_RIGHT) {
+          if(this.state == SENT) {
+            this.ang -= 0.1;
+          } else {
+            this.ang -= 0.01;
+          }
+          
         // should only apply on entering
         } else if(tileType == TILE_HALT) {
           if(this.state != GRAZE) {
@@ -268,6 +277,7 @@ console.log("Called", this.id)
         } else if(tileType == TILE_ROAM) {
           if(this.state != ROAM) {
             this.changeMode(ROAM);
+            this.ang = randomRange(0, Math.PI * 2);
           }
 
         } else if(tileType == TILE_ROAD) {
@@ -419,11 +429,11 @@ console.log("Called", this.id)
 
     drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
 
-    if(this.team == BLUE) {
-      drawBitmapCenteredWithRotation(sheepKnotBluePic, this.x,this.y, this.orient);
-    } else if(this.team == RED) {
-      drawBitmapCenteredWithRotation(sheepKnotRedPic, this.x,this.y, this.orient);
-    }  
+    // if(this.team == BLUE) {
+    //   drawBitmapCenteredWithRotation(sheepKnotBluePic, this.x,this.y, this.orient);
+    // } else if(this.team == RED) {
+    //   drawBitmapCenteredWithRotation(sheepKnotRedPic, this.x,this.y, this.orient);
+    // }  
     // if(this.team == PLAIN) {
     //   drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
     // } else {
@@ -502,9 +512,13 @@ console.log("Called", this.id)
   this.scoreLabel = function() {
     if(this.team != PLAIN) {
       var fontSize = 12;
+      canvasContext.textAlign = "center";
       canvasContext.font = fontSize + "px Verdana";
       // draw score in centre of sheep
-      colorText(this.score, this.x -10, this.y+6, "black");
+      colorText(this.score, this.x, this.y + TILE_H, "white");
+      // for upper sheep in stack of 2
+      // colorText(this.score, this.x, this.y - TILE_H/2 - 5, "white");
+      // colorText(this.score, this.x -10, this.y +6, "black");
       // colorText(this.score, this.x -7, this.y - SHEEP_RADIUS - SCORE_GAP, "white");
     }
   } // end of scoreLabel

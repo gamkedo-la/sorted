@@ -76,6 +76,17 @@ function tileTypeHasTransparency(tileType) {
         tileType == TILE_GO_RIGHT);
 }
 
+function drawLowRoad() {
+  var drawTileX = 0;
+  var drawTileY = TILE_H * TILE_ROWS;
+  var tileTypeHere = TILE_LOW_ROAD;
+  for(var i=0; i<TILE_COLS; i++) {  
+    var useImg = tilePics[tileTypeHere];
+    canvasContext.drawImage(useImg, drawTileX, drawTileY);
+    drawTileX += TILE_W;
+  }
+}
+
 // initially 21 cols, 9 levels
 function makePenRow(cols, penSize) {
   var middle = cols - penSize*2;
