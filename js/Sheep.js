@@ -406,13 +406,26 @@ console.log("Called", this.id)
 
   this.draw = function() {
     // tail shows facing by being in opposite direction
-    drawBitmapCenteredWithRotation(sheepTailPic, this.x,this.y, this.ang);
-
     if(this.team == PLAIN) {
-      drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
-    } else {
-      colorCircle(this.x, this.y, SHEEP_RADIUS, this.color);
-    }
+      drawBitmapCenteredWithRotation(sheepTailPic, this.x,this.y, this.ang);
+    } else if(this.team == BLUE) {
+      drawBitmapCenteredWithRotation(sheepTailBluePic, this.x,this.y, this.ang);
+    } else if(this.team == RED) {
+      drawBitmapCenteredWithRotation(sheepTailRedPic, this.x,this.y, this.ang);
+    }  
+
+    drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
+
+    if(this.team == BLUE) {
+      drawBitmapCenteredWithRotation(sheepBluePic, this.x,this.y, this.orient);
+    } else if(this.team == RED) {
+      drawBitmapCenteredWithRotation(sheepRedPic, this.x,this.y, this.orient);
+    }  
+    // if(this.team == PLAIN) {
+    //   drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
+    // } else {
+    //   colorCircle(this.x, this.y, SHEEP_RADIUS, this.color);
+    // }
     if(this.state == CALLED) {
       // draw line between sheep and hat
       colorLine(player.x,player.y, this.x,this.y, "yellow")
@@ -441,13 +454,16 @@ console.log("Called", this.id)
     canvasContext.font = fontSize + "px Verdana";
     var adjust; // ID label obscured when lower left
 
-    if(this.team != PLAIN) {
+    if(this.team == null) {
       colorText(this.id, this.x-8, this.y+6, "black");
     } else {
       // draw ID on sheep's back
       var ang = normaliseRadian(this.ang);
       if(ang >= (3/2 * Math.PI) && ang <= 2*Math.PI) {
         adjust = 25;
+      }
+      else if(ang >= (5/4 * Math.PI) && ang < 3/2 * Math.PI) {
+        adjust = 20;
       }
       else if(ang >= 0 && ang <= Math.PI/2) {
         adjust = 20;
