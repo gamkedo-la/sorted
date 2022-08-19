@@ -1,10 +1,24 @@
 const HEADER_FONT = 36;
 const BODY_FONT = 24;
-const TEXT_INDENT = 100;
-const LINE_SPACING = 60;
+const TEXT_INDENT = 225;
+const LINE_SPACING = 40;
+const MENU_TOP_MARGIN = 110; // room for the logo
+
+function drawMenuFlock() {
+    for (let x,y,i = 0; i<64; i++) {
+        x = Math.sin(performance.now()*0.00005+i*321) * 900;
+        y = 600 + Math.cos(performance.now()*0.00513+i*234) * 10;
+        r = Math.cos(performance.now()*0.005+i*456) * 0.5;
+        drawBitmapCenteredWithRotation(sheepNormalPic,x,y,r);
+    }
+}
 
 function drawMenu() {
   colorRect(0,0, canvas.width,canvas.height, "black");
+  canvasContext.drawImage(menuBGPic,0,0);
+  drawMenuFlock();
+
+
   var line = 0;
   if(!editMode) {
 
@@ -30,6 +44,9 @@ function drawMenu() {
 
 function drawHelp() {
   colorRect(0,0, canvas.width,canvas.height, "black");
+  canvasContext.drawImage(helpBGPic,0,0);
+  drawMenuFlock();
+
   var line = 0;
 
   smallHeadLine("Sorted! a game with sheep");
@@ -58,6 +75,9 @@ function drawHelp() {
 
 function drawCredits() {
   colorRect(0,0, canvas.width,canvas.height, "black");
+  canvasContext.drawImage(creditsBGPic,0,0);
+  drawMenuFlock();
+
   headLine("Credits");
   bodyLine("Contributor Name - ", 1);
   bodyLine("Contributor Name - ", 2);
@@ -68,21 +88,21 @@ function drawCredits() {
 
 function headLine(txt) {
   canvasContext.font = HEADER_FONT + "px Verdana";
-  colorText(txt, TEXT_INDENT, 100, "white");
+  colorText(txt, TEXT_INDENT, 100 + MENU_TOP_MARGIN, "white");
 }
 
 function bodyLine(txt, lineNum) {
   canvasContext.font = BODY_FONT + "px Verdana";
-  colorText(txt, TEXT_INDENT, 110 + lineNum * LINE_SPACING, "white");
+  colorText(txt, TEXT_INDENT, 110 + MENU_TOP_MARGIN + lineNum * LINE_SPACING, "white");
 }
 
 function smallHeadLine(txt) {
   canvasContext.font = 32 + "px Verdana";
-  colorText(txt, TEXT_INDENT, 100, "white");
+  colorText(txt, TEXT_INDENT, 100 + MENU_TOP_MARGIN, "white");
 }
 
 function smallBodyLine(txt, lineNum) {
-  colorText(txt, TEXT_INDENT, 140 + lineNum * 30, "white");
+  colorText(txt, TEXT_INDENT, 140 + lineNum * 30 + MENU_TOP_MARGIN, "white");
 }
 
 function drawLevelOver() {

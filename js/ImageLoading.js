@@ -8,6 +8,9 @@ var sheepTailPic = document.createElement("img");
 var sheepTailBluePic = document.createElement("img");
 var sheepTailRedPic = document.createElement("img");
 var rogueDogPic = document.createElement("img");
+var menuBGPic = document.createElement("img");
+var helpBGPic = document.createElement("img");
+var creditsBGPic = document.createElement("img");
 var tilePics = [];
 
 var picsToLoad = 0; // set automatically based on imageList in loadImages()
@@ -42,7 +45,10 @@ function loadImages() {
 		{varName: sheepRuffBluePic, theFile: "sheep-ruff-blue.png"},
 		{varName: sheepRuffRedPic, theFile: "sheep-ruff-red.png"},
 		{varName: rogueDogPic, theFile: "tile_girl.png"},
-		{tileType: TILE_FIELD, theFile: "tile_grass.png"},
+        {varName: menuBGPic, theFile: "menu-bg.png"},
+        {varName: helpBGPic, theFile: "help-bg.png"},
+        {varName: creditsBGPic, theFile: "credits-bg.png"},
+    {tileType: TILE_FIELD, theFile: "tile_grass.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},		
     {tileType: TILE_GOAL, theFile: "tile_road.png"},
     {tileType: TILE_ROAD, theFile: "tile_road_fence.png"},
