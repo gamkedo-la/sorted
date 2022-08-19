@@ -177,13 +177,13 @@ console.log("Called", this.id)
       this.y = nextY;
     }
 
-    if(this.stateIsOnGoal() == false) {
-      if(this.collisionDetect() == true) {
-        this.agentHandling();
-      } else {
-        this.tileHandling();
-      }
-    }
+    // if(this.stateIsOnGoal() == false) {
+    //   if(this.collisionDetect() == true) {
+    //     this.agentHandling();
+    //   } else {
+    //     this.tileHandling();
+    //   }
+    // }
 
     if(this.isModeTimed()) {
       this.timer--;
@@ -405,6 +405,9 @@ console.log("Called", this.id)
   }
 
   this.draw = function() {
+    // tail shows facing by being in opposite direction
+    drawBitmapCenteredWithRotation(sheepTailPic, this.x,this.y, this.ang);
+
     if(this.team == PLAIN) {
       drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
     } else {
@@ -419,6 +422,7 @@ console.log("Called", this.id)
       var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
       colorCircle(facingX, facingY, FACING_RADIUS, "red");
 
+      canvasContext.textAlign = "center";
       if(idLabel) {
         this.idLabel();
       }
@@ -428,6 +432,7 @@ console.log("Called", this.id)
       if(modeLabel) {
         this.modeLabel();
       }
+      canvasContext.textAlign = "left";
     }
   } // end of draw
 
@@ -437,20 +442,30 @@ console.log("Called", this.id)
     if(this.team != PLAIN) {
       colorText(this.id, this.x-8, this.y+6, "black");
     } else {
-      colorText(this.id, this.x, this.y - SHEEP_RADIUS - fontSize/4, "white");
+      // draw ID on sheep's back
+      var backX = this.x - Math.cos(this.ang) * (SHEEP_RADIUS -2);
+      var backY = this.y - Math.sin(this.ang) * (SHEEP_RADIUS -2);
+      // colorText(this.id, this.x, this.y - SHEEP_RADIUS - fontSize/4, "white");
+      colorText(this.id, backX, backY, "black");
     }
   }
 
   this.timerLabel = function() {
-    var fontSize = 9;
+    var facingXoffset = this.x + Math.cos(this.ang + Math.PI/4) * (SHEEP_RADIUS +8);
+    var facingYoffset = this.y + Math.sin(this.ang + Math.PI/4) * (SHEEP_RADIUS +8);
+    var fontSize = 8;
     canvasContext.font = fontSize + "px Verdana";
-    colorText(this.timer, this.x, this.y + SHEEP_RADIUS + fontSize, "yellow");
+    // colorText(this.timer, this.x, this.y + SHEEP_RADIUS + fontSize, "yellow");
+    colorText(this.timer, facingXoffset, facingYoffset, "yellow");
   }
 
   this.modeLabel = function() {
+    var facingXoffset = this.x + Math.cos(this.ang - Math.PI/4) * (SHEEP_RADIUS +7);
+    var facingYoffset = this.y + Math.sin(this.ang - Math.PI/4) * (SHEEP_RADIUS +7);
     var fontSize = 12;
     canvasContext.font = fontSize + "px Verdana";
-    colorText(this.state, this.x -26, this.y + SHEEP_RADIUS/2, "orange");
+    // colorText(this.state, this.x -26, this.y + SHEEP_RADIUS/2, "orange");
+    colorText(this.state, facingXoffset, facingYoffset, "white");
   }
 
   this.scoreLabel = function() {
