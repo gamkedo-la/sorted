@@ -1,6 +1,6 @@
 const HEADER_FONT = 36;
 const BODY_FONT = 24;
-const TEXT_INDENT = 225;
+var textIndent = 200;
 const LINE_SPACING = 40;
 const MENU_TOP_MARGIN = 110; // room for the logo
 
@@ -18,6 +18,7 @@ function drawMenu() {
   canvasContext.drawImage(menuBGPic,0,0);
   drawMenuFlock();
   
+  textIndent = 225;
   canvasContext.textAlign = "left";
   var line = 0;
   if(!editMode) {
@@ -46,8 +47,8 @@ function drawHelp() {
   canvasContext.drawImage(helpBGPic,0,0);
   drawMenuFlock();
 
+  textIndent = 130;
   var line = 0;
-
   smallHeadLine("Sorted! a game with sheep");
 
   // getLines() cutoffs based on canvas font when function called
@@ -77,31 +78,34 @@ function drawCredits() {
   canvasContext.drawImage(creditsBGPic,0,0);
   drawMenuFlock();
 
+  textIndent = 150;
+  var line = 0;
   headLine("Credits");
-  bodyLine("Contributor Name - ", 1);
-  bodyLine("Contributor Name - ", 2);
-  bodyLine("Contributor Name - ", 3);
-  bodyLine("Contributor Name - ", 4);
-  bodyLine("Contributor Name - ", 5);
+  bodyLine('Christer "McFunkypants" Kaitila - animated', ++line);
+  bodyLine('backgrounds for menu/help/credits', ++line);
+  bodyLine("Chris DeLeon - sheep face with parts in PSD", ++line);
+  bodyLine("H Trayford - screenwrap for player Hat", ++line);
+  bodyLine("Contributor Name - ", ++line);
+  bodyLine("Contributor Name - ", ++line);
 }
 
 function headLine(txt) {
   canvasContext.font = HEADER_FONT + "px Verdana";
-  colorText(txt, TEXT_INDENT, 100 + MENU_TOP_MARGIN, "white");
+  colorText(txt, textIndent, 100 + MENU_TOP_MARGIN, "white");
 }
 
 function bodyLine(txt, lineNum) {
   canvasContext.font = BODY_FONT + "px Verdana";
-  colorText(txt, TEXT_INDENT, 110 + MENU_TOP_MARGIN + lineNum * LINE_SPACING, "white");
+  colorText(txt, textIndent, 110 + MENU_TOP_MARGIN + lineNum * LINE_SPACING, "white");
 }
 
 function smallHeadLine(txt) {
   canvasContext.font = 32 + "px Verdana";
-  colorText(txt, TEXT_INDENT, 100 + MENU_TOP_MARGIN, "white");
+  colorText(txt, textIndent, 100 + MENU_TOP_MARGIN, "white");
 }
 
 function smallBodyLine(txt, lineNum) {
-  colorText(txt, TEXT_INDENT, 140 + lineNum * 30 + MENU_TOP_MARGIN, "white");
+  colorText(txt, textIndent, 140 + lineNum * 30 + MENU_TOP_MARGIN, "white");
 }
 
 function drawLevelOver() {
