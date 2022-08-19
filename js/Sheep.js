@@ -227,14 +227,14 @@ console.log("Called", this.id)
         if(tileType == TILE_PEN_BLUE) {
           console.log("Sheep ID", this.id, "reached the blue pen.");
           nextX = TILE_W * 9.5;
-          nextY = TILE_H * 14.5;
+          nextY = TILE_H * 14.4; // bring rear inside tile
           this.state = IN_BLUE_PEN;
 
         } else if(tileType == TILE_PEN_RED) {
           this.state = IN_RED_PEN;
           console.log("Sheep ID", this.id, "reached the red pen.");
           nextX = TILE_W * 11.5;
-          nextY = TILE_H * 14.5;
+          nextY = TILE_H * 14.4;
 
         } else if(tileType == TILE_GOAL) {
           this.state = ON_ROAD;
@@ -242,6 +242,7 @@ console.log("Called", this.id)
           console.log("Sheep ID", this.id, "is between pens.");
         }  
         this.speed = 0;
+        this.ang = Math.PI * 3/2;0
         this.levelDone = true;
         sheepInPlay--;
         agentGrid[tileIndexUnder] = 1;
@@ -317,7 +318,7 @@ console.log("Called", this.id)
     else if(newMode == FENCED) {
       this.state = FENCED;
       // reference Y of row above fence, instead of canvas.height
-      this.ang = Math.PI / 2;
+      this.ang = Math.PI * 3/2;
       this.speed = 0;
       this.levelDone = true;
       // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
@@ -410,16 +411,18 @@ console.log("Called", this.id)
       drawBitmapCenteredWithRotation(sheepTailPic, this.x,this.y, this.ang);
     } else if(this.team == BLUE) {
       drawBitmapCenteredWithRotation(sheepTailBluePic, this.x,this.y, this.ang);
+      // drawBitmapCenteredWithRotation(sheepRuffBluePic, this.x,this.y, this.orient);
     } else if(this.team == RED) {
       drawBitmapCenteredWithRotation(sheepTailRedPic, this.x,this.y, this.ang);
+      // drawBitmapCenteredWithRotation(sheepRuffRedPic, this.x,this.y, this.orient);
     }  
 
     drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
 
     if(this.team == BLUE) {
-      drawBitmapCenteredWithRotation(sheepBluePic, this.x,this.y, this.orient);
+      drawBitmapCenteredWithRotation(sheepKnotBluePic, this.x,this.y, this.orient);
     } else if(this.team == RED) {
-      drawBitmapCenteredWithRotation(sheepRedPic, this.x,this.y, this.orient);
+      drawBitmapCenteredWithRotation(sheepKnotRedPic, this.x,this.y, this.orient);
     }  
     // if(this.team == PLAIN) {
     //   drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);

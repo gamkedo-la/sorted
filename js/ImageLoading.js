@@ -1,7 +1,9 @@
 var playerHatPic = document.createElement("img");
 var sheepNormalPic = document.createElement("img");
-var sheepBluePic = document.createElement("img");
-var sheepRedPic = document.createElement("img");
+var sheepKnotBluePic = document.createElement("img");
+var sheepKnotRedPic = document.createElement("img");
+var sheepRuffBluePic = document.createElement("img");
+var sheepRuffRedPic = document.createElement("img");
 var sheepTailPic = document.createElement("img");
 var sheepTailBluePic = document.createElement("img");
 var sheepTailRedPic = document.createElement("img");
@@ -32,11 +34,13 @@ function loadImages() {
 	var imageList = [
 		{varName: playerHatPic, theFile: "player_hat.png"},
 		{varName: sheepNormalPic, theFile: "sheep-normal.png"},
-		{varName: sheepBluePic, theFile: "sheep-blue-hat.png"},
-		{varName: sheepRedPic, theFile: "sheep-red-hat.png"},
+		{varName: sheepKnotBluePic, theFile: "sheep-blue-hat.png"},
+		{varName: sheepKnotRedPic, theFile: "sheep-red-hat.png"},
 		{varName: sheepTailPic, theFile: "sheep-tail-60.png"},
 		{varName: sheepTailBluePic, theFile: "sheep-tail-blue.png"},
 		{varName: sheepTailRedPic, theFile: "sheep-tail-red.png"},
+		{varName: sheepRuffBluePic, theFile: "sheep-ruff-blue.png"},
+		{varName: sheepRuffRedPic, theFile: "sheep-ruff-red.png"},
 		{varName: rogueDogPic, theFile: "tile_girl.png"},
 		{tileType: TILE_FIELD, theFile: "tile_grass.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},		
