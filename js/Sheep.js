@@ -8,6 +8,7 @@ var sheepInPlay = 0;
 
 var SHEEP_DROP_SPEED = 10; // now tunable by level
 const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
+const  TILE_Y_ADJUST = 0.6;
 
 // sheep modes
 const GRAZE = 0;
@@ -236,10 +237,10 @@ console.log("Called", this.id)
     // tile entered is occupied by another sheep
     if(agentGrid[agentIndex] == 1) {
       nextX = nearestColumnCentre(nextX);
-      nextY = ((row-1) * TILE_H) + (TILE_H * 0.4);
+      nextY = ((row-1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
       console.log("Agenthandling: retreat to Y=", nextY);
       this.speed = 0;
-      this.ang = Math.PI*3/2;0
+      this.ang = Math.PI * 1/2;
       this.state = STACKED;
       sheepInPlay--;
       this.levelDone = true;
@@ -267,7 +268,7 @@ console.log("Called", this.id)
 
         if(tileType == TILE_PEN_BLUE) {
           console.log("Sheep ID", this.id, "reached the blue pen.");
-          nextY = TILE_H * 14.4; // bring rear inside tile
+          nextY = TILE_H * (14 + TILE_Y_ADJUST); // bring rear inside tile
           agentGrid[tileIndexUnder] = 1;
           this.state = IN_BLUE_PEN;
 
@@ -275,11 +276,11 @@ console.log("Called", this.id)
           agentGrid[tileIndexUnder] = 1;
           this.state = IN_RED_PEN;
           console.log("Sheep ID", this.id, "reached the red pen.");
-          nextY = TILE_H * 14.4;
+          nextY = TILE_H * (14 + TILE_Y_ADJUST);
 
         } else if(tileType == TILE_GOAL) {
           this.state = ON_ROAD;
-          nextY = TILE_H * 13.5;
+          nextY = TILE_H * (13 + TILE_Y_ADJUST);
           agentGrid[tileIndexUnder - TILE_COLS] = 1;
           console.log("Sheep ID", this.id, "is between pens.");
         }  
@@ -287,7 +288,7 @@ console.log("Called", this.id)
         nextX = nearestColumnCentre(nextX);
         // replaced // nextX = TILE_W * 11.5; // nextX = TILE_W * 9.5;
 
-        this.ang = Math.PI * 3/2;0
+        this.ang = Math.PI * 1/2;
         this.levelDone = true;
         sheepInPlay--;
         update_debug_report();
@@ -315,7 +316,14 @@ console.log("Called", this.id)
         } else if(tileType == TILE_HALT) {
           if(this.state != GRAZE) {
             this.changeMode(GRAZE);
-            this.ang += Math.PI/2;
+            // if arriving at lake from above
+            if(this.ang > 1/4*Math.PI && this.ang < 3/4*Math.PI) {
+              // nextY -= this.speed; // stay at edge of lake
+              nextY = nearestRowEdge(nextY) -10;
+              console.log("Avoid walking into water");
+            }
+            var turn = randomRangeInt(1,2) == 1 ? 1 : (-1); 
+            this.ang += turn * Math.PI/2;
           }
 
         } else if(tileType == TILE_ROAM) {
@@ -329,7 +337,7 @@ console.log("Called", this.id)
             this.changeMode(FENCED);
             sheepInPlay--;
             nextX = nearestColumnCentre(nextX);
-            nextY = TILE_H * 13.5;
+            nextY = TILE_H * (13 + TILE_Y_ADJUST);
             agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
           }
 
@@ -373,7 +381,7 @@ console.log("Called", this.id)
     else if(newMode == FENCED) {
       this.state = FENCED;
       // reference Y of row above fence, instead of canvas.height
-      this.ang = Math.PI * 3/2;
+      this.ang = Math.PI * 1/2;
       this.speed = 0;
       this.levelDone = true;
       // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;

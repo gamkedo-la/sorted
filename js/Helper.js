@@ -201,3 +201,8 @@ function nearestColumnCentre(x) {
   // colCentre = roundToNearest(x, TILE_W) + TILE_W/2;
   return TILE_W/2 + (Math.round((x - TILE_W/2) / TILE_W) * TILE_W);
 }
+
+function nearestRowEdge(y) {
+  rowEdge = roundToNearest(y, TILE_H);
+  return rowEdge;
+}
