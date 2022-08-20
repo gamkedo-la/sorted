@@ -23,6 +23,7 @@ const FENCED = 7;
 const ON_ROAD = 8;
 const IN_BLUE_LORRY = 9;
 const IN_RED_LORRY = 10;
+const STACKED = 11;
 
 function sheepClass() {
   this.x = 0;
@@ -45,6 +46,7 @@ function sheepClass() {
     // this.gotoY = this.y;
     this.score = 0;
     this.levelDone = false;
+    this.occupancyTested = false;
     this.setExpiry();
     this.setSpeed();
   }
@@ -75,10 +77,17 @@ function sheepClass() {
     console.log(this.id, this.x, this.y)
   }
   
+  // 1st, mode governs speed
+  // 2nd, check screenwrap X and bounce Y
+  // 3rd, test if tile occupied
+  // 4th, tile handling
+  
   this.move = function() {
     var nextX = this.x; // previous location
     var nextY = this.y;
     var prevMode = this.state;
+    var tileOccupied;
+    var pos; // temporary position
 
     // covers any GOAL or FENCED
     if(this.levelDone) {
@@ -153,7 +162,7 @@ console.log("Called", this.id)
 
     // bounce down from top row if not Called
     if(nextY < 50) {
-      console.log( this.isAllowedTopRow() )
+      // console.log( this.isAllowedTopRow() )
       if(this.isAllowedTopRow() == false) {
         this.ang = 2*Math.PI - this.ang;
       }
@@ -166,24 +175,32 @@ console.log("Called", this.id)
     }
 
     // if x,y change inside tileHandling must be returned as object
-    var pos = this.tileHandling(nextX, nextY);
+    // var pos = this.tileHandling(nextX, nextY);
+
+    // if(this.levelDone == false && this.occupancyTested == false) {
+    if(this.levelDone == false) {
+      tileOccupied = this.isTileOccupied(nextX, nextY);
+      // console.log(this.id + " entering tile occupied=" + tileOccupied);
+      if(tileOccupied) {
+        this.occupancyTested == true;
+        pos = this.agentHandling(nextX, nextY);
+        // console.log("pos", pos)
+      } else {
+        pos = this.tileHandling(nextX, nextY);
+      }
+      if(pos == undefined) {
+        console.log("Collision or TileHandling failed to set x & y values");
+      }
+    }
 
     if(pos != undefined) {
       this.x = pos.x;
       this.y = pos.y;
     } else {  
-      console.log("TileHandling failed to set x & y values");
+      // console.log("ID " + this.id + " didnt do occupancy test or tilehandling")
       this.x = nextX;
       this.y = nextY;
     }
-
-    // if(this.stateIsOnGoal() == false) {
-    //   if(this.collisionDetect() == true) {
-    //     this.agentHandling();
-    //   } else {
-    //     this.tileHandling();
-    //   }
-    // }
 
     if(this.isModeTimed()) {
       this.timer--;
@@ -199,16 +216,40 @@ console.log("Called", this.id)
     testIfLevelEnd();
   }
 
-  this.isAllowedTopRow = function() {
-    return this.state == CALLED || this.state == HELD || this.state == SENT // at release from clamp sheep is in top row
+  this.isTileOccupied = function(nextX, nextY) {
+    var col = Math.floor(nextX / TILE_W);
+    var row = Math.floor(nextY / TILE_H);
+    var agentIndex = colRowToIndex(col, row);
+    // tile entered is occupied by another sheep
+    if(agentGrid[agentIndex] == "1") {
+      console.log("Collision by sheep ID=" + this.id + " row=" + row + " arrival Y=" + nextY + " index=" + agentIndex);
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  this.isAllowedBottomRow = function() {
-    return this.state == SENT || this.state == FENCED || this.state == IN_BLUE_PEN || this.state == IN_RED_PEN || this.state == ON_ROAD 
-  }
-
-  this.isModeTimed = function() {
-    return this.state == ROAM || this.state == GRAZE || this.state == SENT;
+  this.agentHandling = function(nextX, nextY) {
+    var col = Math.floor(nextX / TILE_W);
+    var row = Math.floor(nextY / TILE_H);
+    var agentIndex = colRowToIndex(col, row);
+    // tile entered is occupied by another sheep
+    if(agentGrid[agentIndex] == 1) {
+      nextX = nearestColumnCentre(nextX);
+      nextY = ((row-1) * TILE_H) + (TILE_H * 0.4);
+      console.log("Agenthandling: retreat to Y=", nextY);
+      this.speed = 0;
+      this.ang = Math.PI*3/2;0
+      this.state = STACKED;
+      sheepInPlay--;
+      this.levelDone = true;
+      agentGrid[agentIndex - TILE_COLS] = 1;
+      // console.log("agentHandling sheep " + this.id + " row " + row)
+    }
+    return {
+      x: nextX,
+      y: nextY
+    };
   }
 
   this.tileHandling = function(nextX, nextY) {
@@ -226,26 +267,29 @@ console.log("Called", this.id)
 
         if(tileType == TILE_PEN_BLUE) {
           console.log("Sheep ID", this.id, "reached the blue pen.");
-          nextX = TILE_W * 9.5;
           nextY = TILE_H * 14.4; // bring rear inside tile
+          agentGrid[tileIndexUnder] = 1;
           this.state = IN_BLUE_PEN;
 
         } else if(tileType == TILE_PEN_RED) {
+          agentGrid[tileIndexUnder] = 1;
           this.state = IN_RED_PEN;
           console.log("Sheep ID", this.id, "reached the red pen.");
-          nextX = TILE_W * 11.5;
           nextY = TILE_H * 14.4;
 
         } else if(tileType == TILE_GOAL) {
           this.state = ON_ROAD;
           nextY = TILE_H * 13.5;
+          agentGrid[tileIndexUnder - TILE_COLS] = 1;
           console.log("Sheep ID", this.id, "is between pens.");
         }  
         this.speed = 0;
+        nextX = nearestColumnCentre(nextX);
+        // replaced // nextX = TILE_W * 11.5; // nextX = TILE_W * 9.5;
+
         this.ang = Math.PI * 3/2;0
         this.levelDone = true;
         sheepInPlay--;
-        agentGrid[tileIndexUnder] = 1;
         update_debug_report();
         // test if level complete
       } else {
@@ -284,6 +328,7 @@ console.log("Called", this.id)
           if(this.state != FENCED) {
             this.changeMode(FENCED);
             sheepInPlay--;
+            nextX = nearestColumnCentre(nextX);
             nextY = TILE_H * 13.5;
             agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
           }
@@ -375,36 +420,20 @@ console.log("Called", this.id)
     }
   }
 
-  this.collisionDetect = function() {
-    var col = Math.floor(this.x / TILE_W);
-    var row = Math.floor(this.y / TILE_H);
-    var agentIndex = colRowToIndex(col, row);
-    // tile entered is occupied by another sheep
-    if(agentGrid[agentIndex] == 1) {
-      console.log("colliding sheep ID=" + this.id + " row=" + row + " arrival Y=" + this.y + " index=" + agentIndex);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  this.agentHandling = function() {
-    var col = Math.floor(this.x / TILE_W);
-    var row = Math.floor(this.y / TILE_H);
-    var agentIndex = colRowToIndex(col, row);
-    // tile entered is occupied by another sheep
-    if(agentGrid[agentIndex] == 1) {
-      this.y = ((row-1) * TILE_H) + (TILE_H/2);
-      console.log("retreat to Y=", this.y);
-      this.speed = 0;
-      this.levelDone = true;
-      agentGrid[agentIndex - TILE_COLS] = 1;
-      // console.log("agentHandling sheep " + this.id + " row " + row)
-    }
-  }
-
   this.isMovedBySpeed = function(mode) {
     return mode == ROAM || mode == GRAZE || mode == CALLED || mode == SENT;
+  }
+
+  this.isAllowedTopRow = function() {
+    return this.state == CALLED || this.state == HELD || this.state == SENT // at release from clamp sheep is in top row
+  }
+
+  this.isAllowedBottomRow = function() {
+    return this.state == SENT || this.state == FENCED || this.state == IN_BLUE_PEN || this.state == IN_RED_PEN || this.state == ON_ROAD || this.state == STACKED 
+  }
+
+  this.isModeTimed = function() {
+    return this.state == ROAM || this.state == GRAZE || this.state == SENT;
   }
 
   this.stateIsOnGoal = function() {

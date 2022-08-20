@@ -90,8 +90,8 @@ function playerClass(id) {
 
         if(aligned != undefined) {
           var location = sheepList[aligned].state;
-          if(location == IN_BLUE_PEN || location == IN_RED_PEN || location == FENCED) {
-            console.log('Sheep in a pen or end of field cannot be beckoned')
+          if(location == IN_BLUE_PEN || location == IN_RED_PEN || location == ON_ROAD || location == FENCED || location == STACKED) {
+            console.log('Sheep on goal or fence or stacked at end of field cannot be beckoned')
           } else {
             sheepList[aligned].state = CALLED;
             sheepList[aligned].timer = 0;
@@ -111,6 +111,7 @@ function playerClass(id) {
     }
     if(this.keyHeld_left) {
       this.speed -= REVERSE_POWER;
+      console.log("keyHeld_left changing speed", this.speed)
     }
     nextX += Math.cos(this.ang) * this.speed;
     this.y += Math.sin(this.ang) * this.speed;
@@ -136,12 +137,6 @@ function playerClass(id) {
     // }
     // tileHandling(this);
   } // end of move()
-
-  this.columnCentred = function(x) {
-    console.log("centre Hat in column")
-    //this.x = Math.round(this.x / TILE_W) * TILE_W;
-    return TILE_W/2 + (Math.round((x - TILE_W/2) / TILE_W) * TILE_W);
-  }
 
   this.draw = function() {
     drawBitmapCenteredWithRotation(this.pic, this.x,this.y, this.ang);

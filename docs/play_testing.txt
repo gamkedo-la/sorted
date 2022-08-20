@@ -1,8 +1,11 @@
 # Playtesting feedback - SORTED
 
-## Is there anything that doesn't work in the way that y ou expected it would?
+## Is there anything that doesn't work in the way that you expected it would?
 
 ## Is there any game action that you would like to be possible that is not enabled?
+
+## UI
+On an iPad click buttons don't respond. When whole canvas clickable iPad responds but couldn't leave that test in build because on web first click is needed to make game window active.
 
 ## Level 1
 

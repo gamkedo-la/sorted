@@ -155,7 +155,11 @@ function drawAgentGrid() {
       var agent = agentGrid[arrayIndex];
       // var x = colRowToCentreX(col, row);
       //canvasContext.font
-      colorText(agent, drawTileX + TILE_W/2, drawTileY + TILE_H/2, "white");
+      fontColor = (agent == 1) ? "black" : "white";
+      fontSize = (agent == 1) ? 24 : 12;
+      canvasContext.font = fontSize + "px Arial";
+      canvasContext.textAlign = "center";
+      colorText(agent, drawTileX + TILE_W/2, drawTileY + TILE_H/2, fontColor);
 
       drawTileX += TILE_W;
       arrayIndex++;
@@ -185,4 +189,15 @@ function normaliseRadian(ang) {
     ang %= (2 * Math.PI);
   } 
   return ang; 
+}
+
+function roundToNearest( number, multiple ){
+  var half = multiple/2;
+  return number+half - (number+half) % multiple;
+}
+
+//   console.log("centre Hat in column")
+function nearestColumnCentre(x) {
+  // colCentre = roundToNearest(x, TILE_W) + TILE_W/2;
+  return TILE_W/2 + (Math.round((x - TILE_W/2) / TILE_W) * TILE_W);
 }

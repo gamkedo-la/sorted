@@ -42,6 +42,10 @@ var mouseY = 0;
 const NUM_BUTTONS = 6;
 // arrowKeys, Menu, Pause?
 
+const TOP_HALF_SCREEN = {
+  x: 0, y: 0, width: 840, height: 200
+}
+
 const buttonRects = []; //Array[NUM_BUTTONS];
 const buttonTop = 586;
 const buttonsLeft = 538; // 840-538=302 6btns@50px
@@ -63,15 +67,17 @@ function xyIsInRect(pos, rect) {
   return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
 }
 
-var TOUCH_TEMP = false; // screen click to reach Play
+var TOUCH_TEMP = true; // screen click to reach Play
 function setupInput() {
   canvas.addEventListener('mousedown', function(evt) {
     var mousePos = getMousePos(evt);
     if (gameState != STATE_PLAY && TOUCH_TEMP == true) {
-      console.log("Level number now =", currentLevel);
-      levelRunning = true;
-      loadLevel(currentLevel);
-      gameState = STATE_PLAY;
+      if (xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
+        console.log("Level number now =", currentLevel);
+        levelRunning = true;
+        loadLevel(currentLevel);
+        gameState = STATE_PLAY;
+      }
     } else {
       for(var i=0; i<NUM_BUTTONS; i++) {
         if (xyIsInRect(mousePos,buttonRects[i])) {
@@ -79,7 +85,8 @@ function setupInput() {
   
           switch(buttonNames[i]) {
             case "Left":
-              player.keyHeld_left = true;
+              player.keyHeld_left = true;            
+console.log("Mousedown keyHeld_left", player.keyHeld_left)
               break;
             case "Right":
               player.keyHeld_right = true;
@@ -104,11 +111,10 @@ function setupInput() {
 
     for(var i=0; i<NUM_BUTTONS; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
-        console.log("Clicked inside rect", buttonNames[i]);
-
         switch(buttonNames[i]) {
           case "Left":
             player.keyHeld_left = false;
+console.log("Mouseup keyHeld_left", player.keyHeld_left)
             break;
           case "Right":
             player.keyHeld_right = false;
@@ -152,6 +158,7 @@ function keySet(evt, whichPlayer, setTo) {
   // console.log("Key: "+evt.keyCode, setTo);
   if(evt.keyCode == whichPlayer.controlKeyLeft) {
 		whichPlayer.keyHeld_left = setTo;
+// console.log("keyHeld_left", setTo);
 	}
 	if(evt.keyCode == whichPlayer.controlKeyRight) {
 		whichPlayer.keyHeld_right = setTo;
