@@ -6,10 +6,11 @@ const STATE_EDIT = 0;
 const STATE_MENU = 2;
 const STATE_PLAY = 1;
 const STATE_LEVEL_OVER = 4;
+const STATE_GAME_OVER = 7;
 const STATE_SCOREBOARD = 5;
 
 var gameState = STATE_MENU;
-var editMode = true;
+var editMode = false;
 var levelLoaded = null;
 var levelRunning = false;
 var nearGoal = false; // if true, pens at row near top
@@ -194,6 +195,9 @@ function drawAll() {
   } 
   else if(gameState == STATE_SCOREBOARD) {
     drawScoreboard();
+  }
+  else if(gameState == STATE_GAME_OVER) {
+    drawGameOver();
   }
   else if(gameState == STATE_HELP) {
     drawHelp();

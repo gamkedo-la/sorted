@@ -150,3 +150,12 @@ function drawLevelOverButtons() {
     colorText(buttonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
   }
 }
+
+function drawGameOver() {
+  colorRect(0,0, canvas.width,canvas.height, "black");
+  canvasContext.drawImage(creditsBGPic,0,0);
+  drawMenuFlock();
+
+  textIndent = 200;
+  headLine("Game Over!");
+}

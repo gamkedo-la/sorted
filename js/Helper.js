@@ -1,7 +1,6 @@
 var outOfPlay = 0;
 var levelScore;
 var levelScores = [0,0,0,0,0,0,0,0,0,0];
-var nextLevel = 1;
 
 function randomRange(min, max) {
   return Math.random() * (max - min) + min;
@@ -70,6 +69,7 @@ function testIfLevelEnd() {
     console.log("Level over", outOfPlay);
     gameState = STATE_LEVEL_OVER;
     calculateLevelScore();
+    levelRunning = false;
   }
 }
 

@@ -182,7 +182,12 @@ function keyState(key) {
 
     case STATE_LEVEL_OVER:
       if(key == KEY_ESC || key == KEY_M) {
-        gameState = STATE_MENU;
+        if(currentLevel == LAST_LEVEL) {
+          gameState = STATE_GAME_OVER;
+          console.log("Game Over!");
+        } else {
+          gameState = STATE_MENU;
+        }
       }
       break;
     case STATE_SCOREBOARD:
@@ -199,11 +204,14 @@ function keyState(key) {
       if(key == KEY_P) {
         gameState = STATE_PLAY;
         if(!levelRunning) {
-          currentLevel = nextLevel;
-          levelRunning = true;
-          // currentLevel++;
-          loadLevel(currentLevel);
-          checkGridMatchColsRows();
+          if(currentLevel == LAST_LEVEL) {
+            console.log("No more Levels!");
+          } else {
+            levelRunning = true;
+            currentLevel++;
+            loadLevel(currentLevel);
+            checkGridMatchColsRows();
+          }
         }
         break;
       }
@@ -277,6 +285,7 @@ function keyMode(key) {
   }
   if(key == KEY_F4) {
     test_EndLevel();
+    levelRunning = false;
   }
   if(key == KEY_F5) {
     timerLabel = !timerLabel; // toggle
