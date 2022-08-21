@@ -111,7 +111,9 @@ function playerClass(id) {
     }
     if(this.keyHeld_left) {
       this.speed -= REVERSE_POWER;
-      console.log("keyHeld_left changing speed", this.speed)
+      if(TOUCH_TEST) {
+        console.log("keyHeld_left changing speed", this.speed)
+      }
     }
     nextX += Math.cos(this.ang) * this.speed;
     this.y += Math.sin(this.ang) * this.speed;

@@ -490,9 +490,9 @@ console.log("Called", this.id)
       colorLine(player.x,player.y, this.x,this.y, "yellow")
     }
     if(editMode) {
-      // var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
-      // var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
-      // colorCircle(facingX, facingY, FACING_RADIUS, "red");
+      var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
+      var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
+      colorCircle(facingX, facingY, FACING_RADIUS, "red");
 
       canvasContext.textAlign = "center";
       if(idLabel) {

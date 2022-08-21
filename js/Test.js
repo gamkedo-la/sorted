@@ -12,6 +12,9 @@ var testMode = NORMAL_PLAY;
 var testColumnSet = false; // flag to get column number from keyb
 const AGENT_GRID = false; // toggle overlay grid for testing
 
+const TOUCH_TEST = false; // touch devices test code
+// screen click to reach Play; 
+
 var idLabel = false;
 var timerLabel = true;
 var modeLabel = true;

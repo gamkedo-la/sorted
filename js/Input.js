@@ -67,11 +67,11 @@ function xyIsInRect(pos, rect) {
   return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
 }
 
-var TOUCH_TEMP = true; // screen click to reach Play
 function setupInput() {
   canvas.addEventListener('mousedown', function(evt) {
     var mousePos = getMousePos(evt);
-    if (gameState != STATE_PLAY && TOUCH_TEMP == true) {
+
+    if (gameState != STATE_PLAY && TOUCH_TEST == true) {
       if (xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
         console.log("Level number now =", currentLevel);
         levelRunning = true;
@@ -81,12 +81,15 @@ function setupInput() {
     } else {
       for(var i=0; i<NUM_BUTTONS; i++) {
         if (xyIsInRect(mousePos,buttonRects[i])) {
-          console.log("Clicked inside rect", buttonNames[i]);
-  
+if(TOUCH_TEST) {
+  console.log("Clicked inside rect", buttonNames[i]);
+}             
           switch(buttonNames[i]) {
             case "Left":
-              player.keyHeld_left = true;            
-console.log("Mousedown keyHeld_left", player.keyHeld_left)
+              player.keyHeld_left = true;
+if(TOUCH_TEST) {
+  console.log("Mousedown keyHeld_left", player.keyHeld_left)
+}     
               break;
             case "Right":
               player.keyHeld_right = true;
@@ -114,7 +117,9 @@ console.log("Mousedown keyHeld_left", player.keyHeld_left)
         switch(buttonNames[i]) {
           case "Left":
             player.keyHeld_left = false;
-console.log("Mouseup keyHeld_left", player.keyHeld_left)
+if(TOUCH_TEST) {
+  console.log("Mouseup keyHeld_left", player.keyHeld_left)
+}
             break;
           case "Right":
             player.keyHeld_right = false;

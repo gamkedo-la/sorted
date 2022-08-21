@@ -83,9 +83,9 @@ function drawCredits() {
   headLine("Credits");
   bodyLine('Christer "McFunkypants" Kaitila - animated', ++line);
   bodyLine('backgrounds for menu/help/credits', ++line);
-  bodyLine("Chris DeLeon - sheep face with parts in PSD", ++line);
-  bodyLine("H Trayford - screenwrap for player Hat", ++line);
-  bodyLine("Contributor Name - ", ++line);
+  bodyLine("Chris DeLeon - sheep face with asset parts", ++line);
+  bodyLine("Tim Waskett - algorithms for sheep roaming", ++line);
+  bodyLine("H Trayford - screenwrap for player-hat", ++line);
   bodyLine("Contributor Name - ", ++line);
 }
 
