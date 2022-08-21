@@ -90,7 +90,7 @@ function playerClass(id) {
 
         if(aligned != undefined) {
           var location = sheepList[aligned].state;
-          if(location == IN_BLUE_PEN || location == IN_RED_PEN || location == ON_ROAD || location == FENCED || location == STACKED) {
+          if(isSheepCallBlocked(location)) {
             console.log('Sheep on goal or fence or stacked at end of field cannot be beckoned')
           } else {
             sheepList[aligned].state = CALLED;
@@ -148,4 +148,9 @@ function playerClass(id) {
       var dist = distance(this.x,this.y, sheepList[i].x,sheepList[i].y);
     }
   }
+}
+
+function isSheepCallBlocked(location) {
+  callable = (location == IN_BLUE_PEN || location == IN_RED_PEN || location == ON_ROAD || location == FENCED || location == STACKED || location == STUCK);
+  return callable;
 }

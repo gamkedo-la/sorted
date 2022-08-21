@@ -10,7 +10,7 @@ const STATE_GAME_OVER = 7;
 const STATE_SCOREBOARD = 5;
 
 var gameState = STATE_MENU;
-var editMode = false;
+var editMode = true;
 var levelLoaded = null;
 var levelRunning = false;
 var nearGoal = false; // if true, pens at row near top

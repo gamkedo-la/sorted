@@ -25,6 +25,7 @@ const ON_ROAD = 8;
 const IN_BLUE_LORRY = 9;
 const IN_RED_LORRY = 10;
 const STACKED = 11;
+const STUCK = 12;
 
 function sheepClass() {
   this.x = 0;
@@ -326,10 +327,18 @@ console.log("Called", this.id)
             this.ang += turn * Math.PI/2;
           }
 
-        } else if(tileType == TILE_ROAM) {
+        } else if(tileType == TILE_LOST) {
           if(this.state != ROAM) {
             this.changeMode(ROAM);
             this.ang = randomRange(0, Math.PI * 2);
+          }
+
+        } else if(tileType == TILE_STUCK) {
+          if(this.state != STUCK) {
+            this.speed = 0;
+            this.state = STUCK;
+            this.levelDone = true;
+            sheepInPlay--; 
           }
 
         } else if(tileType == TILE_ROAD) {
@@ -551,8 +560,8 @@ console.log("Called", this.id)
       var fontSize = 12;
       canvasContext.textAlign = "center";
       canvasContext.font = fontSize + "px Verdana";
-      // draw score in centre of sheep
-      colorText(this.score, this.x, this.y + TILE_H, "white");
+      // draw score below sheep
+      colorText(this.score, this.x, this.y + TILE_H -6, "white");
       // for upper sheep in stack of 2
       // colorText(this.score, this.x, this.y - TILE_H/2 - 5, "white");
       // colorText(this.score, this.x -10, this.y +6, "black");
