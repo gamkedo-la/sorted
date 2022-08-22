@@ -143,7 +143,7 @@ console.log("Called", this.id)
     else if(this.state == ROAM) {
       // if(randomRangeInt(1, ROAM_FACING[currentLevel]) == 1) {
       if(randomRangeInt(1, 30) == 1) {
-        this.ang += randomRange(-Math.PI/4, Math.PI/4)
+        this.ang += randomRange(-Math.PI/8, Math.PI/8)
       }
     }
 
