@@ -16,6 +16,7 @@ function drawMenuFlock() {
 function drawMenu() {
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(menuBGPic,0,0);
+  decals.draw();
   drawMenuFlock();
   
   textIndent = 225;

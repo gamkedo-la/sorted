@@ -220,6 +220,23 @@ console.log("Called", this.id)
       }
     }
     testIfLevelEnd();
+    this.leaveHoofprints();
+  }
+
+  // occasionally leave a hoof-print if we've travelled far enough
+  this.leaveHoofprints = function() {
+    const mindist = 8;
+    const leftrightoffset = 6;
+    const alpha = 0.4;
+    const rot = 0;
+    if (!this.lastHoofprintPos) this.lastHoofprintPos = {x:-999,y:-999};
+    if ((Math.abs(this.x-this.lastHoofprintPos.x)>=mindist) || (Math.abs(this.y-this.lastHoofprintPos.y)>=mindist)) {
+        console.log("hoofprint!");
+        this.lastHoofprintPos.x = this.x;
+        this.lastHoofprintPos.y = this.y;
+        if (!this.hoofprintCount) this.hoofprintCount = 1; else this.hoofprintCount++;
+        decals.add(this.x+(this.hoofprintCount%2?0:leftrightoffset),this.y+(this.hoofprintCount%2?0:leftrightoffset),rot,alpha,hoofprintPic);
+    }
   }
 
   this.isTileOccupied = function(nextX, nextY) {

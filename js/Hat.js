@@ -61,7 +61,7 @@ function playerClass(id) {
 
 if(TOUCH_TEST) {
   let msg = "inside player.move() keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right ;
-  console.log(msg);
+  //console.log(msg);
   document.getElementById("debug_3").innerHTML = msg; 
 }    
 

@@ -14,6 +14,7 @@ var levelLoaded = null;
 var levelRunning = false;
 var nearGoal = false; // if true, pens at row near top
 var showAgentGrid = false;
+var decals; // grass, flowers, footprints, pebbles, etc
 
 const TEAM_NAMES = ["plain", "blue", "red"];
 const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282"];
@@ -37,7 +38,18 @@ window.onload = function() {
 	loadImages();
 }
 
+function setupDecals() {
+    decals = new decalOverlay(); // grass, flowers, footprints, pebbles, etc
+    decals.scatterDecorations(150,flower1Pic);
+    decals.scatterDecorations(150,flower2Pic);
+    decals.scatterDecorations(150,flower3Pic);
+    decals.scatterDecorations(150,grass1Pic);
+    decals.scatterDecorations(150,grass2Pic);
+    decals.scatterDecorations(150,grass3Pic);
+}
+
 function imageLoadingDoneSoStartGame() {
+    setupDecals()
 	var framesPerSecond = 30;
 	setInterval(updateAll, 1000/framesPerSecond);
 
@@ -143,7 +155,7 @@ function drawAll() {
   if(gameState == STATE_PLAY) {
     drawArea();
     drawLowRoad();
-
+    decals.draw();
     UI_level_number();
 
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
@@ -171,6 +183,7 @@ function drawAll() {
     drawArea();
     drawLowRoad();
     player.draw();
+    decals.draw();
 
     // UI_level_number();
     drawLevelOver();

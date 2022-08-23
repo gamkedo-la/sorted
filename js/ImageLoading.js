@@ -12,6 +12,15 @@ var menuBGPic = document.createElement("img");
 var helpBGPic = document.createElement("img");
 var creditsBGPic = document.createElement("img");
 var controlsPic = document.createElement("img");
+var flower1Pic = document.createElement("img");
+var flower2Pic = document.createElement("img");
+var flower3Pic = document.createElement("img");
+var grass1Pic = document.createElement("img");
+var grass2Pic = document.createElement("img");
+var grass3Pic = document.createElement("img");
+var hoofprintPic = document.createElement("img");
+
+
 var tilePics = [];
 
 var picsToLoad = 0; // set automatically based on imageList in loadImages()
@@ -50,6 +59,13 @@ function loadImages() {
         {varName: helpBGPic, theFile: "help-bg.png"},
         {varName: creditsBGPic, theFile: "credits-bg.png"},
         {varName: controlsPic, theFile: "controls.png"},
+        {varName: flower1Pic, theFile: "flower1.png"},
+        {varName: flower2Pic, theFile: "flower2.png"},
+        {varName: flower3Pic, theFile: "flower3.png"},
+        {varName: grass1Pic, theFile: "grass1.png"},
+        {varName: grass2Pic, theFile: "grass2.png"},
+        {varName: grass3Pic, theFile: "grass3.png"},
+        {varName: hoofprintPic, theFile: "hoofprint.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},		
     {tileType: TILE_GOAL, theFile: "tile_road.png"},
