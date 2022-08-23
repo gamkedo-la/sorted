@@ -59,8 +59,13 @@ function playerClass(id) {
     var nextX = this.x;
     var nextY = this.y;
 
-    if(this.keyHeld_send) {
+    if(TOUCH_TEST) {
+      let msg = "inside player.move() keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right ;
+      console.log(msg);
+      document.getElementById("debug_3").innerHTML = msg; 
+    }    
 
+    if(this.keyHeld_send) {
       if(this.sheepIDheld != null) {
         var sheepHere = sheepList[this.sheepIDheld];
         this.sheepIDheld = null;
@@ -111,17 +116,23 @@ function playerClass(id) {
     } // end of CALL (tractor)
 
     this.speed *= GROUNDSPEED_DECAY_MULT;
+
     if(this.keyHeld_right) {
       this.speed += DRIVE_POWER;
     }
+
     if(this.keyHeld_left) {
       this.speed -= REVERSE_POWER;
       if(TOUCH_TEST) {
-        console.log("keyHeld_left changing speed", this.speed)
+        let msg = "keyHeld_left changing speed " + this.speed;
+        console.log(msg);
+        document.getElementById("debug_4").innerHTML = msg;
       }
     }
+
     nextX += Math.cos(this.ang) * this.speed;
     this.y += Math.sin(this.ang) * this.speed;
+    
     if (SHOULD_WRAP) {
       if(nextX < 0 - HAT_MARGIN) {
         nextX = canvas.width;
@@ -147,6 +158,8 @@ function playerClass(id) {
 
   this.draw = function() {
     drawBitmapCenteredWithRotation(this.pic, this.x,this.y, this.ang);
+    // document.getElementById("debug_4").innerHTML = "Hat posX=" + Math.floor(this.x);
+    //// document.getElementById("debug_4").innerHTML = "Hat posX=" + this.x;
   }
 
   // not used

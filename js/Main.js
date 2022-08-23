@@ -204,4 +204,6 @@ function drawAll() {
   else {
     console.log("Game in unknown state.");
   }
+
+  // document.getElementById("debug_4").innerHTML = debug3txt;
 }

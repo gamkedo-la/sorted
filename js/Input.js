@@ -38,6 +38,7 @@ const KEY_F9 = 120;
 
 var mouseX = 0;
 var mouseY = 0;
+var debug3txt = '';
 
 const NUM_BUTTONS = 6;
 // arrowKeys, Menu, Pause?
@@ -86,10 +87,7 @@ if(TOUCH_TEST) {
 }             
           switch(buttonNames[i]) {
             case "Left":
-              player.keyHeld_left = true;
-if(TOUCH_TEST) {
-  console.log("Mousedown keyHeld_left", player.keyHeld_left)
-}     
+              player.keyHeld_left = true;   
               break;
             case "Right":
               player.keyHeld_right = true;
@@ -104,6 +102,11 @@ if(TOUCH_TEST) {
               gameState = STATE_MENU;
               break;
           }
+if(TOUCH_TEST) {
+  let msg = "in Input::Mousedown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
+  console.log(msg);
+  document.getElementById("debug_2").innerHTML = msg; 
+}  
         }
       }
     }
@@ -146,8 +149,9 @@ if(TOUCH_TEST) {
 
 function mousemoveHandler(evt) {
   var mousePos = getMousePos(evt);
-  document.getElementById("debug_3").innerHTML = "Cursor: " + mousePos.x + "," + mousePos.y;
+  debug3txt = "Cursor: " + mousePos.x + "," + mousePos.y;
 }
+
 function mousedownHandler(evt) {
   gameState = STATE_HELP;
 }
