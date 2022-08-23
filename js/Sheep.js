@@ -131,6 +131,7 @@ console.log("Called", this.id)
 
     else if(this.state == SENT) { 
       // isMovedBySpeed() handles angle effect
+      // if waggle while Sent, that goes here
     }
 
     else if(this.state == GRAZE) {
@@ -167,12 +168,14 @@ console.log("Called", this.id)
       // console.log( this.isAllowedTopRow() )
       if(this.isAllowedTopRow() == false) {
         this.ang = 2*Math.PI - this.ang;
+        nextY = this.y; // stops oscillation
       }
     }
     // bounce up from bottom row if not Sent 
     if(nextY > 540) {
       if(this.isAllowedBottomRow() == false) {
         this.ang = 2*Math.PI - this.ang;
+        nextY = this.y; // stops oscillation
       }
     }
 
@@ -183,7 +186,8 @@ console.log("Called", this.id)
     if(this.levelDone == false) {
       tileOccupied = this.isTileOccupied(nextX, nextY);
       // console.log(this.id + " entering tile occupied=" + tileOccupied);
-      if(tileOccupied) {
+      // prevent unteamed sheep from stacking
+      if(tileOccupied && this.team != PLAIN) {
         this.occupancyTested == true;
         pos = this.agentHandling(nextX, nextY);
         // console.log("pos", pos)
@@ -407,7 +411,7 @@ console.log("Called", this.id)
       // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
       testIfLevelEnd();  
     }
-    
+
     else {
       console.log("Else in changeMode, for ID", this.id)
       this.state = newMode;

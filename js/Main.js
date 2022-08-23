@@ -20,7 +20,7 @@ const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282"];
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [4, 2, 2, 4, 4, 4, 6, 6, 8, 8];  
+const TEAM_SIZE = [8, 2, 2, 4, 4, 4, 6, 6, 8, 8];  
 const FLOCK_SIZE = [];
 for(var i=0; i<TEAM_SIZE.length; i++) {
   FLOCK_SIZE[i] = TEAM_SIZE[i] * 2;
