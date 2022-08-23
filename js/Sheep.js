@@ -269,21 +269,24 @@ console.log("Called", this.id)
 
         if(tileType == TILE_PEN_BLUE) {
           console.log("Sheep ID", this.id, "reached the blue pen.");
-          nextY = TILE_H * (14 + TILE_Y_ADJUST); // bring rear inside tile
           agentGrid[tileIndexUnder] = 1;
           this.state = IN_BLUE_PEN;
+          this.orient = Math.PI * 1/2;
+          nextY = TILE_H * (14 + TILE_Y_ADJUST); // bring rear inside tile
 
         } else if(tileType == TILE_PEN_RED) {
+          console.log("Sheep ID", this.id, "reached the red pen.");
           agentGrid[tileIndexUnder] = 1;
           this.state = IN_RED_PEN;
-          console.log("Sheep ID", this.id, "reached the red pen.");
+          this.orient = Math.PI * 3/2;
           nextY = TILE_H * (14 + TILE_Y_ADJUST);
 
         } else if(tileType == TILE_GOAL) {
+          console.log("Sheep ID", this.id, "is between pens.");
           this.state = ON_ROAD;
           nextY = TILE_H * (13 + TILE_Y_ADJUST);
           agentGrid[tileIndexUnder - TILE_COLS] = 1;
-          console.log("Sheep ID", this.id, "is between pens.");
+          
         }  
         this.speed = 0;
         nextX = nearestColumnCentre(nextX);
@@ -377,15 +380,23 @@ console.log("Called", this.id)
       this.state = ROAM;
       this.speed = ROAM_SPEED[currentLevel];
     }
+
     else if(newMode == GRAZE) {
       this.state= GRAZE;
       this.speed = GRAZE_SPEED[currentLevel];
     }
+
     else if(newMode == SENT) {
       this.state = SENT;
       // set once when sent, may change on way
       this.speed = SEND_SPEED[currentLevel]; 
       this.ang = Math.PI/2 // straight down
+      if(this.team == BLUE) {
+        this.orient = Math.PI * 1/2;
+      } else {
+        this.orient = Math.PI * 3/2;
+      }
+      
     }
     else if(newMode == FENCED) {
       this.state = FENCED;
@@ -395,7 +406,8 @@ console.log("Called", this.id)
       this.levelDone = true;
       // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
       testIfLevelEnd();  
-    } 
+    }
+    
     else {
       console.log("Else in changeMode, for ID", this.id)
       this.state = newMode;

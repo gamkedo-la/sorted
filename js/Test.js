@@ -12,7 +12,7 @@ var testMode = NORMAL_PLAY;
 var testColumnSet = false; // flag to get column number from keyb
 const AGENT_GRID = false; // toggle overlay grid for testing
 
-const ITCH = true; // touch devices test code
+const ITCH = false; // touch devices test code
 // screen click to reach Play; 
 var editMode = (ITCH) ? false : true;
 const TOUCH_TEST = (ITCH) ? true : false;

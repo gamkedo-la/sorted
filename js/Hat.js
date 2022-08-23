@@ -97,7 +97,12 @@ function playerClass(id) {
             sheepList[aligned].timer = 0;
             sheepList[aligned].speed = CALL_SPEED[currentLevel];
             // change facing to upward
-            sheepList[aligned].ang = Math.PI * 3 / 2; 
+            sheepList[aligned].ang = Math.PI * 3 / 2;
+            if(sheepList[aligned].potentialTeam == BLUE) {
+              sheepList[aligned].orient = Math.PI * 1/4;
+            } else {
+              sheepList[aligned].orient = Math.PI * 7/4;
+            }
           }
         } else {
           console.log("No sheep X-aligned to tractor")
