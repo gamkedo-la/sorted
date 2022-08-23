@@ -11,6 +11,7 @@ var rogueDogPic = document.createElement("img");
 var menuBGPic = document.createElement("img");
 var helpBGPic = document.createElement("img");
 var creditsBGPic = document.createElement("img");
+var controlsPic = document.createElement("img");
 var tilePics = [];
 
 var picsToLoad = 0; // set automatically based on imageList in loadImages()
@@ -48,6 +49,7 @@ function loadImages() {
         {varName: menuBGPic, theFile: "menu-bg.png"},
         {varName: helpBGPic, theFile: "help-bg.png"},
         {varName: creditsBGPic, theFile: "credits-bg.png"},
+        {varName: controlsPic, theFile: "controls.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},		
     {tileType: TILE_GOAL, theFile: "tile_road.png"},

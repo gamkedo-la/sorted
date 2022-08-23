@@ -160,7 +160,11 @@ function drawAll() {
     if(showAgentGrid && editMode) {
       drawAgentGrid();
     }
+    
     drawButtons();
+
+    drawTutorial();
+
   }
 
   else if (gameState == STATE_LEVEL_OVER) {
@@ -206,4 +210,18 @@ function drawAll() {
   }
 
   document.getElementById("debug_5").innerHTML = debug5txt;
+}
+
+var tutorial_start_time = 0;
+var tutorial_timespan = 5000; // ms
+function drawTutorial() {
+    // display the controls reference gui tutorial popup
+    // for a few seconds, then fade it out
+    let now = performance.now();
+    if (!tutorial_start_time) tutorial_start_time = now;
+    if (now < tutorial_start_time + tutorial_timespan) {
+        canvasContext.globalAlpha = 1-((now-tutorial_start_time)/tutorial_timespan);
+        canvasContext.drawImage(controlsPic,320,75); 
+        canvasContext.globalAlpha = 1;
+    }
 }

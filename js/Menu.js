@@ -40,6 +40,9 @@ function drawMenu() {
     bodyLine("Help/Title - press H", ++line);
     bodyLine("toggle Edit mode - press F1", ++line);
   }
+
+  canvasContext.drawImage(controlsPic,550,250); // controls reference gui tutorial popup
+
 }
 
 function drawHelp() {
