@@ -246,6 +246,11 @@ console.log("Called", this.id)
       console.log("Agenthandling: retreat to Y=", nextY);
       this.speed = 0;
       this.ang = Math.PI * 1/2;
+      if(this.team == BLUE) {
+        this.orient = Math.PI * 1/2;
+      } else {
+        this.orient = Math.PI * 3/2;
+      }
       this.state = STACKED;
       sheepInPlay--;
       this.levelDone = true;
@@ -406,6 +411,11 @@ console.log("Called", this.id)
       this.state = FENCED;
       // reference Y of row above fence, instead of canvas.height
       this.ang = Math.PI * 1/2;
+      if(this.team == BLUE) {
+        this.orient = Math.PI * 1/2;
+      } else {
+        this.orient = Math.PI * 3/2;
+      }
       this.speed = 0;
       this.levelDone = true;
       // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
