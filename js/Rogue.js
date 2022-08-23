@@ -16,15 +16,28 @@ function rogueClass() {
   }
 
   this.move = function() {
-    // or wrap?
-    if(this.x < 0 + TILE_W/2) { // if rogue has moved beyond the left edge
-      this.speedX *= -1; // reverse rogue's horizontal direction
+    var nextX = this.x; // previous location
+    var nextY = this.y;
+    // screenwrap horizontal
+    if(nextX < 0) {
+      nextX += canvas.width;
+      // this.ang += Math.PI;
+    } else if(nextX >= canvas.width) {
+      nextX -= canvas.width;
+      // this.ang += Math.PI;
     }
-    if(this.x > canvas.width - TILE_W/2 +2) { // if rogue has moved beyond the right edge
-      this.speedX *= -1; // reverse rogue's horizontal direction
-    }
-    this.x += this.speedX;
-    this.y += this.speedY;
+    // if(this.x < 0 + TILE_W/2) { // if rogue has moved beyond the left edge
+    //   this.speedX *= -1; // reverse rogue's horizontal direction
+    // }
+    // if(this.x > canvas.width - TILE_W/2 +2) { // if rogue has moved beyond the right edge
+    //   this.speedX *= -1; // reverse rogue's horizontal direction
+    // }
+    nextX += this.speedX;
+    nextY += this.speedY;
+    // collision handling 
+    // tileHandling
+    this.x = nextX;
+    this.y = nextY;
   }
 
   this.draw = function() {
