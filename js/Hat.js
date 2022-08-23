@@ -59,11 +59,11 @@ function playerClass(id) {
     var nextX = this.x;
     var nextY = this.y;
 
-    if(TOUCH_TEST) {
-      let msg = "inside player.move() keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right ;
-      console.log(msg);
-      document.getElementById("debug_3").innerHTML = msg; 
-    }    
+if(TOUCH_TEST) {
+  let msg = "inside player.move() keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right ;
+  console.log(msg);
+  document.getElementById("debug_3").innerHTML = msg; 
+}    
 
     if(this.keyHeld_send) {
       if(this.sheepIDheld != null) {
@@ -82,8 +82,11 @@ function playerClass(id) {
       // or select a sheep using mouse like in RTS
       if(this.sheepIDheld != null) {
         console.log('Cannot call a sheep while one already held');
-      } else {
-
+      } 
+      else if( isAnySheepCalledAlready() ) {
+        console.log('Cannot call a sheep while another being called');
+      } 
+      else {
         var aligned;
         var nearestXdist = 999;
         for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
@@ -173,4 +176,14 @@ function playerClass(id) {
 function isSheepCallBlocked(location) {
   callable = (location == IN_BLUE_PEN || location == IN_RED_PEN || location == ON_ROAD || location == FENCED || location == STACKED || location == STUCK);
   return callable;
+}
+
+function isAnySheepCalledAlready() {
+  var calledAlready = false;
+  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+    if( sheepList[i].state == CALLED) {
+      calledAlready = true;
+    }
+  }
+  return calledAlready;
 }

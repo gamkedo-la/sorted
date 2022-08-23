@@ -38,7 +38,7 @@ const KEY_F9 = 120;
 
 var mouseX = 0;
 var mouseY = 0;
-var debug3txt = '';
+var debug5txt = '';
 
 const NUM_BUTTONS = 6;
 // arrowKeys, Menu, Pause?
@@ -149,7 +149,7 @@ if(TOUCH_TEST) {
 
 function mousemoveHandler(evt) {
   var mousePos = getMousePos(evt);
-  debug3txt = "Cursor: " + mousePos.x + "," + mousePos.y;
+  debug5txt = "Cursor: " + mousePos.x + "," + mousePos.y;
 }
 
 function mousedownHandler(evt) {

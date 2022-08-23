@@ -205,5 +205,5 @@ function drawAll() {
     console.log("Game in unknown state.");
   }
 
-  // document.getElementById("debug_4").innerHTML = debug3txt;
+  document.getElementById("debug_5").innerHTML = debug5txt;
 }
