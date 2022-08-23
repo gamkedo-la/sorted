@@ -76,7 +76,7 @@ function loadLevel(whichLevel) {
     console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
   }
 
-  else if(testMode == DROP_A_ROW_FULL) {
+  else if(testMode == SEND_A_ROW_FULL) {
     console.log("Test send row of sheep in level " + whichLevel + " - " + levelNames[whichLevel]);
     FLOCK_SIZE[whichLevel] = TILE_COLS;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
@@ -94,7 +94,7 @@ function loadLevel(whichLevel) {
     test_EndLevel();
   }
 
-  else if(testMode == DROP_IN_COLUMN) { 
+  else if(testMode == SEND_IN_COLUMN) { 
     console.log("Testing column of sheep in level " + whichLevel + " - " + levelNames[whichLevel]);
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();

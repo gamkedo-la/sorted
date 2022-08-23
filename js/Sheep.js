@@ -6,7 +6,7 @@ const FACING_RADIUS = 2;
 var teamSizeSoFar = [0,0,0];
 var sheepInPlay = 0;
 
-var SHEEP_DROP_SPEED = 10; // now tunable by level
+var SHEEP_SEND_SPEED = 10; // now tunable by level
 const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
 const  TILE_Y_ADJUST = 0.6;
 
@@ -396,9 +396,9 @@ console.log("Called", this.id)
       this.speed = SEND_SPEED[currentLevel]; 
       this.ang = Math.PI/2 // straight down
       if(this.team == BLUE) {
-        this.orient = Math.PI * 1/2;
+        this.orient = Math.PI * 1/4;
       } else {
-        this.orient = Math.PI * 3/2;
+        this.orient = Math.PI * 7/4;
       }
       
     }
@@ -432,7 +432,7 @@ console.log("Called", this.id)
   this.setExpiry = function() {
     if(this.state == ROAM) {
       this.timer = randomRangeInt(ROAM_TIME_MIN[currentLevel], ROAM_TIME_MAX[currentLevel]);
-    }
+    } 
     else if(this.state == GRAZE) {
       this.timer = randomRangeInt(GRAZE_TIME_MIN[currentLevel], GRAZE_TIME_MAX[currentLevel]);
     }

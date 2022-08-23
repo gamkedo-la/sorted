@@ -234,7 +234,7 @@ function keyState(key) {
       }
       if(editMode) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
-          if(testMode == NORMAL_PLAY || testMode == DROP_A_ROW_FULL || testColumnSet) {
+          if(testMode == NORMAL_PLAY || testMode == SEND_A_ROW_FULL || testColumnSet) {
             currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
             // console.log("Level number now =", currentLevel);
             levelRunning = true;
