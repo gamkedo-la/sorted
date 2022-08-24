@@ -25,7 +25,8 @@ const ON_ROAD = 8;
 const IN_BLUE_LORRY = 9;
 const IN_RED_LORRY = 10;
 const STACKED = 11;
-const STUCK = 12;
+const CONVEYOR = 12;
+const STUCK = 13;
 
 function sheepClass() {
   this.x = 0;
@@ -145,6 +146,27 @@ console.log("Called sheep id=", this.id)
       // if(randomRangeInt(1, ROAM_FACING[currentLevel]) == 1) {
       if(randomRangeInt(1, 30) == 1) {
         this.ang += randomRange(-Math.PI/8, Math.PI/8)
+      }
+    }
+
+    else if(this.state == CONVEYOR) {
+      var deltaX = this.gotoX - this.x;
+      var moveX = CONVEYOR_SPEED[currentLevel];
+
+      if(deltaX > 0) {  // goto is right of current position
+        if(deltaX > moveX) {
+          nextX += moveX;
+        } else {
+          nextX = this.gotoX; // arrive at end of conveyor
+          this.changeMode(GRAZE);
+        }
+      } else {          // goto is left of current position
+        if(Math.abs(deltaX) > moveX) {
+          nextX -= moveX;
+        } else {
+          nextX = this.gotoX;
+          this.changeMode(GRAZE);
+        }
       }
     }
 
@@ -328,14 +350,14 @@ console.log("Called sheep id=", this.id)
 
         // deflection size governed by how many steps inside tile
         // applied every loop
-        if(tileType == TILE_GO_LEFT) {
+        if(tileType == TILE_BEND_LEFT) {
           if(this.state == SENT) {
             this.ang += 0.1;
           } else {
             this.ang += 0.01;
           }
 
-        } else if(tileType == TILE_GO_RIGHT) {
+        } else if(tileType == TILE_BEND_RIGHT) {
           if(this.state == SENT) {
             this.ang -= 0.1;
           } else {
@@ -379,7 +401,20 @@ console.log("Called sheep id=", this.id)
             agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
           }
 
-        } else if(tileType != TILE_FIELD) {
+        } else if( this.isTileConveyor(tileType) ) {
+          if(this.state != CONVEYOR) {
+            this.changeMode(CONVEYOR);
+            if(tileType == TILE_CONVEYOR_LEFT) {
+              this.gotoX = nextX - TILE_W;
+              this.ang = Math.PI;
+            } else if(tileType == TILE_CONVEYOR_RIGHT) {
+              this.gotoX = nextX + TILE_W;
+              this.ang = 0;
+            }
+          }
+        } // end of entering Conveyor mode
+
+        else if(tileType != TILE_FIELD) {
           // undo car move to fix "car stuck in wall" bug
           // this.x -= Math.cos(this.ang) * this.speed;
           // this.y -= Math.sin(this.ang) * this.speed;
@@ -402,6 +437,8 @@ console.log("Called sheep id=", this.id)
     var prevMode = this.state;
 
   // console.log(this.id, this.state, newMode)
+
+    // if these two swapping might cause trouble when a third mode (e.g. Conveyor) ends and wants to change to Graze or Roam; fixed now
     if(newMode == ROAM) {
       this.state = ROAM;
       this.speed = ROAM_SPEED[currentLevel];
@@ -409,6 +446,12 @@ console.log("Called sheep id=", this.id)
 
     else if(newMode == GRAZE) {
       this.state= GRAZE;
+      this.speed = GRAZE_SPEED[currentLevel];
+    }
+
+    else if(newMode == CONVEYOR) {
+      this.state= CONVEYOR;
+      this.orient = 0; // normal upright
       this.speed = GRAZE_SPEED[currentLevel];
     }
 
@@ -421,9 +464,9 @@ console.log("Called sheep id=", this.id)
         this.orient = Math.PI * 1/4;
       } else {
         this.orient = Math.PI * 7/4;
-      }
-      
+      }  
     }
+
     else if(newMode == FENCED) {
       this.state = FENCED;
       // reference Y of row above fence, instead of canvas.height
@@ -440,7 +483,7 @@ console.log("Called sheep id=", this.id)
     }
 
     else {
-      console.log("Else in changeMode, for ID", this.id)
+      console.log("Unprocessed changeMode for ID", this.id)
       this.state = newMode;
       this.speed = 0; // stay still so it can be checked
     }
@@ -502,6 +545,10 @@ console.log("Called sheep id=", this.id)
 
   this.onTileGoal = function(tileType) {
     return tileType == TILE_GOAL || tileType == TILE_PEN_BLUE || tileType == TILE_PEN_RED;
+  }
+
+  this.isTileConveyor = function(tileType) {
+    return tileType == TILE_CONVEYOR_LEFT || tileType == TILE_CONVEYOR_RIGHT
   }
 
   this.draw = function() {

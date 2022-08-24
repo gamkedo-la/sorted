@@ -74,8 +74,10 @@ function loadImages() {
     {tileType: TILE_PEN_RED, theFile: "tile_pen_red.png"},
     {tileType: TILE_LOST, theFile: "tile_tree.png"},
     {tileType: TILE_STUCK, theFile: "tile_stuck.png"},
-		{tileType: TILE_GO_LEFT, theFile: "tile_flag_left.png"},
-		{tileType: TILE_GO_RIGHT, theFile: "tile_flag_right.png"},
+		{tileType: TILE_BEND_LEFT, theFile: "tile_bend_left.png"},
+		{tileType: TILE_BEND_RIGHT, theFile: "tile_bend_right.png"},
+		{tileType: TILE_CONVEYOR_LEFT, theFile: "tile_conveyor_left.png"},
+		{tileType: TILE_CONVEYOR_RIGHT, theFile: "tile_conveyor_right.png"},
 		{tileType: TILE_LOW_ROAD, theFile: "low_road_fence.png"}
 	];
 	picsToLoad = imageList.length;

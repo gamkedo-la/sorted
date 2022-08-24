@@ -73,8 +73,8 @@ function checkGridMatchColsRows() {
 
 function tileTypeHasTransparency(tileType) {
   return(tileType == TILE_UNSORT ||
-        tileType == TILE_GO_LEFT ||
-        tileType == TILE_GO_RIGHT);
+        tileType == TILE_BEND_LEFT ||
+        tileType == TILE_BEND_RIGHT);
 }
 
 function drawLowRoad() {
