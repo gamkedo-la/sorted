@@ -76,6 +76,7 @@ function setupInput() {
       if (xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
         console.log("Level number now =", currentLevel);
         levelRunning = true;
+console.log('Loading from upper-screen click')
         loadLevel(currentLevel);
         gameState = STATE_PLAY;
       }
@@ -178,9 +179,14 @@ function keySet(evt, whichPlayer, setTo) {
 	if(evt.keyCode == whichPlayer.controlKeyDown) {
 		whichPlayer.keyHeld_send = setTo;
 	}
+
+// I plan to delete this, sorry: in PlayerMode it is making numberkeys active in the middle of gameplay jumping to another level, or restarting current level.
   if(evt.keyCode >= KEY_NUM_0 && evt.keyCode <= KEY_NUM_9) {
+console.log("Loading from H's code in keySet() via Num-key")
     loadLevel(evt.keyCode - KEY_NUM_0);
   }
+/////////////////////////////////////////////////////
+
 }
 
 function keyState(key) {
@@ -221,6 +227,8 @@ function keyState(key) {
           } else {
             levelRunning = true;
             currentLevel++;
+console.log('Loading from menu key P.');
+// console.log("Level number now =", currentLevel);
             loadLevel(currentLevel);
             checkGridMatchColsRows();
           }
@@ -239,8 +247,9 @@ function keyState(key) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
           if(testMode == NORMAL_PLAY || testMode == SEND_A_ROW_FULL || testColumnSet) {
             currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
-            // console.log("Level number now =", currentLevel);
             levelRunning = true;
+console.log('Loading from editMode menu with earlier Num-key code');
+// console.log("Level number now =", currentLevel);
             loadLevel(currentLevel);
             checkGridMatchColsRows();
             gameState = STATE_PLAY;

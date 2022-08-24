@@ -85,7 +85,7 @@ function loadLevel(whichLevel) {
       spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
       sheepList.push(spawnSheep);
     }
-    console.log("Loading level " + whichLevel + " - " + levelNames[whichLevel]);
+    console.log("Level loaded: " + whichLevel + " - " + levelNames[whichLevel]);
   }
 
   else if(testMode == SEND_A_ROW_FULL) {
