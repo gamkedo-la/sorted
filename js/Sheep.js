@@ -43,6 +43,7 @@ function sheepClass() {
     this.color = TEAM_COLOURS[team];
     this.potentialTeam = potential;
     this.state = mode;
+    this.previousMode = mode;
     this.ang = randomRange(0, Math.PI * 2);
     this.orient = 0;
     // this.gotoX = this.x;
@@ -158,14 +159,14 @@ console.log("Called sheep id=", this.id)
           nextX += moveX;
         } else {
           nextX = this.gotoX; // arrive at end of conveyor
-          this.changeMode(GRAZE);
+          this.changeMode(this.previousMode);
         }
       } else {          // goto is left of current position
         if(Math.abs(deltaX) > moveX) {
           nextX -= moveX;
         } else {
           nextX = this.gotoX;
-          this.changeMode(GRAZE);
+          this.changeMode(this.previousMode);
         }
       }
     }
@@ -434,7 +435,7 @@ console.log("Called sheep id=", this.id)
  
   this.changeMode = function(newMode) {
     // change state, also set direction & speed
-    var prevMode = this.state;
+    this.previousMode = this.state;
 
   // console.log(this.id, this.state, newMode)
 
