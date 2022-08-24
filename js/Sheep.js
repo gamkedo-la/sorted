@@ -76,7 +76,7 @@ function sheepClass() {
   this.placeRandom = function(depth) {
     this.x = randomRangeInt(0 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -2);
     this.y = randomRangeInt(TOP_MARGIN+10, depth);
-    console.log(this.id, this.x, this.y)
+    // console.log(this.id, this.x, this.y)
   }
   
   // 1st, mode governs speed

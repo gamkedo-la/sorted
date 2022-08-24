@@ -61,7 +61,7 @@ function checkGridMatchColsRows() {
     console.log("Grid rows overflow canvas height");
   }
   if(areaGrid.length == numberTilesNeeded) {
-    console.log("Grid has correct number of tiles matching columns * rows", areaGrid.length, numberTilesNeeded);
+    // console.log("Grid has correct number of tiles matching columns * rows", areaGrid.length, numberTilesNeeded);
   }
   if(areaGrid.length > numberTilesNeeded) {
     console.log("Grid has more tiles than allowed for by columns * rows", areaGrid.length, numberTilesNeeded);
