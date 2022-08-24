@@ -178,6 +178,9 @@ function keySet(evt, whichPlayer, setTo) {
 	if(evt.keyCode == whichPlayer.controlKeyDown) {
 		whichPlayer.keyHeld_send = setTo;
 	}
+  if(evt.keyCode >= KEY_NUM_0 && evt.keyCode <= KEY_NUM_9) {
+    loadLevel(evt.keyCode - KEY_NUM_0);
+  }
 }
 
 function keyState(key) {
