@@ -1,5 +1,5 @@
-const HEADER_FONT = 36;
-const BODY_FONT = 24;
+const HEADER_FONT = 32;
+const BODY_FONT = 22;
 var textIndent = 200;
 const LINE_SPACING = 40;
 const MENU_TOP_MARGIN = 110; // room for the logo
@@ -19,10 +19,10 @@ function drawMenu() {
   decals.draw();
   drawMenuFlock();
   
-  textIndent = 225;
   canvasContext.textAlign = "left";
   var line = 0;
   if(!editMode) {
+    textIndent = 225;
     headLine("Menu");
     // bodyLine("Skip learning levels - press L", 1);
     bodyLine("Play - press P", ++line);
@@ -32,10 +32,11 @@ function drawMenu() {
     bodyLine("Credits - press C", ++line);
     bodyLine("Edit mode - press F1", ++line);
   } else {
+    textIndent = 190;
     headLine("Edit mode menu");
     bodyLine("Level select - press key 0-9", ++line);
-    bodyLine("Automate test level - press A", ++line);
-    bodyLine("Team paint level test - press T", ++line);
+    bodyLine("Automate test - press A", ++line);
+    bodyLine("Team paint test - press T", ++line);
     // bodyLine("Play (resume) - press P", ++line);
     bodyLine("Scoreboard - press S", ++line);
     bodyLine("Help/Title - press H", ++line);
@@ -51,30 +52,36 @@ function drawHelp() {
   canvasContext.drawImage(helpBGPic,0,0);
   drawMenuFlock();
 
-  textIndent = 130;
+  textIndent = 120;
   var line = 0;
-  smallHeadLine("Sorted! a game with sheep");
 
   // getLines() cutoffs based on canvas font when function called
   canvasContext.font = 20 + "px Verdana";
 
-  smallBodyLine("Aim: get all sheep to bottom row, sorting into two groups.", ++line);
+  var yTop = (editMode) ? 55 : 80;
 
-  var txt = "How to play: move the hat sideways (use arrow keys), call a sheep (Up arrow key), send a sheep (Down arrow). Points gained for each sheep depend on whether the sheep arrives on correct side of the field, and how far horizontally from field's centre. Score bonus points for a sheep arriving exactly on the goal (chequered tile).";
+  // if(!editMode) {
+  //   smallHeadLine("Sorted! a game with sheep", yTop);
+  // }
+
+  smallBodyLine("Aim: get all sheep to bottom row, sorting two groups.", ++line, yTop);
+
+  var txt = "How to play: move Hat sideways (use arrow keys), call a sheep (Up arrow key), send a sheep (Down arrow). Points are gained if a sheep arrives on correct side of the field, and closer to field's horizontal centre scores more. Bonus points for a sheep arriving on the goal (chequered tile).";
 
   var txtLines = getLines(canvasContext, txt, 600);
   line++; // gap between paragraphs
 
   for(var i=0; i<txtLines.length; i++) {
-    smallBodyLine(txtLines[i], ++line);
+    smallBodyLine(txtLines[i], ++line, yTop);
   }
 
+  line++; // gap between paragraphs
+  smallBodyLine("Menu: press key M or Esc", ++line, yTop);
   if(editMode) {
     line++; // gap between paragraphs
-    smallBodyLine("EditMode: Level 0 is integration test level.", ++line);  
+    smallBodyLine("EditMode: Level 0 is integration test level.", ++line, yTop);  
   }
-  line++; // gap between paragraphs
-  smallBodyLine("Menu: press key M or Esc", ++line);
+
 }
 
 function drawCredits() {
@@ -103,13 +110,14 @@ function bodyLine(txt, lineNum) {
   colorText(txt, textIndent, 110 + MENU_TOP_MARGIN + lineNum * LINE_SPACING, "white");
 }
 
-function smallHeadLine(txt) {
+function smallHeadLine(txt, yTop) {
   canvasContext.font = 32 + "px Verdana";
-  colorText(txt, textIndent, 100 + MENU_TOP_MARGIN, "white");
+  colorText(txt, textIndent, yTop + MENU_TOP_MARGIN, "white");
 }
 
-function smallBodyLine(txt, lineNum) {
-  colorText(txt, textIndent, 140 + lineNum * 30 + MENU_TOP_MARGIN, "white");
+function smallBodyLine(txt, lineNum,startY) {
+  canvasContext.font = 24 + "px Verdana";
+  colorText(txt, textIndent, startY + lineNum * 30 + MENU_TOP_MARGIN, "white");
 }
 
 function drawLevelOver() {
