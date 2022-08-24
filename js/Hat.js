@@ -37,22 +37,26 @@ function playerClass(id) {
     this.speed = 0;
     this.ang = 0;
     this.sheepIDheld = null;  // ID of sheep carried
-    var StartTileFound = false;
+    this.gotoX = null;
+
+    var hatFound = false;
 
     for(var eachRow=0;eachRow<TILE_ROWS;eachRow++) {
       for(var eachCol=0;eachCol<TILE_COLS;eachCol++) {
         var arrayIndex = colRowToIndex(eachCol, eachRow);
 
         // seek starting position tile
-        if(areaGrid[arrayIndex] == TILE_PLAYERSTART) {
-          areaGrid[arrayIndex] = TILE_FIELD;      
+        if(agentGrid[arrayIndex] == HAT_START) {
           this.x = eachCol * TILE_W + TILE_W/2;
           this.y = eachRow * TILE_H + TILE_H/2;
+          hatFound = true;
           return;
         }    
       }
     } // loop rows until Start found
-    // console.log("Starting tile not found for player", this.id);
+    if(!hatFound) {
+      console.log("Start location not found for player", this.id);
+    }
   }
 
   this.move = function() {
@@ -118,35 +122,56 @@ if(TOUCH_TEST) {
       }
     } // end of CALL (tractor)
 
-    this.speed *= GROUNDSPEED_DECAY_MULT;
+    if(this.gotoX == null) {
+      this.speed *= GROUNDSPEED_DECAY_MULT;
 
-    if(this.keyHeld_right) {
-      this.speed += DRIVE_POWER;
-    }
-    if(keyHeld_right) {
-      this.speed += DRIVE_POWER;
+      if(this.keyHeld_right) {
+        this.speed += DRIVE_POWER;
+      }
+      if(keyHeld_right) {
+        this.speed += DRIVE_POWER;
+      }
+  
+      if(this.keyHeld_left) {
+        this.speed -= REVERSE_POWER;
+        if(TOUCH_TEST) {
+          let msg = "keyHeld_left changing speed " + this.speed;
+          console.log(msg);
+          document.getElementById("debug_4").innerHTML = msg;
+        }
+      }
+      if(keyHeld_left) {
+        this.speed -= REVERSE_POWER;
+        if(TOUCH_TEST) {
+          let msg = "global keyHeld_left changing speed " + this.speed;
+          console.log(msg);
+          document.getElementById("debug_4").innerHTML = msg;
+        }
+      }
+  
+      nextX += Math.cos(this.ang) * this.speed;
+      this.y += Math.sin(this.ang) * this.speed;
     }
 
-    if(this.keyHeld_left) {
-      this.speed -= REVERSE_POWER;
-      if(TOUCH_TEST) {
-        let msg = "keyHeld_left changing speed " + this.speed;
-        console.log(msg);
-        document.getElementById("debug_4").innerHTML = msg;
+    else { // gotoX has been set
+      var deltaX = this.gotoX - this.x;
+      var moveX = HAT_MAX_SPEED[currentLevel];
+
+      if(deltaX > 0) {  // goto is right of current position
+        if(deltaX > moveX) {
+          nextX += moveX;
+        } else {
+          nextX = this.gotoX;
+        }
+      } else {          // goto is left of current position
+        if(Math.abs(deltaX) > moveX) {
+          nextX -= moveX;
+        } else {
+          nextX = this.gotoX;
+        }
       }
     }
-    if(keyHeld_left) {
-      this.speed -= REVERSE_POWER;
-      if(TOUCH_TEST) {
-        let msg = "global keyHeld_left changing speed " + this.speed;
-        console.log(msg);
-        document.getElementById("debug_4").innerHTML = msg;
-      }
-    }
 
-    nextX += Math.cos(this.ang) * this.speed;
-    this.y += Math.sin(this.ang) * this.speed;
-    
     if (SHOULD_WRAP) {
       if(nextX < 0 - HAT_MARGIN) {
         nextX = canvas.width;
@@ -162,8 +187,10 @@ if(TOUCH_TEST) {
         nextX = canvas.width - HAT_MARGIN;
       }
     }
+
     this.x = nextX;
     this.y = nextY;
+    
     // if(this.x != this.previousX) {
     //   this.x = this.columnCentred(this.x);
     // }

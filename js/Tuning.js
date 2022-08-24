@@ -22,6 +22,10 @@ const HAT_FRICTION = Array(NUM_LEVELS);
 var defaultHatFriction = 0.94;
 HAT_FRICTION.fill(defaultHatFriction);
 
+const HAT_MAX_SPEED = Array(NUM_LEVELS);
+var defaultHatMaxSpeed = 10;
+HAT_MAX_SPEED.fill(defaultHatMaxSpeed);
+
 // const HAT_MARGIN = 18; // stops hat going off side edge
 
 // Call a sheep
