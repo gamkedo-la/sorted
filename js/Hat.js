@@ -123,11 +123,22 @@ if(TOUCH_TEST) {
     if(this.keyHeld_right) {
       this.speed += DRIVE_POWER;
     }
+    if(keyHeld_right) {
+      this.speed += DRIVE_POWER;
+    }
 
     if(this.keyHeld_left) {
       this.speed -= REVERSE_POWER;
       if(TOUCH_TEST) {
         let msg = "keyHeld_left changing speed " + this.speed;
+        console.log(msg);
+        document.getElementById("debug_4").innerHTML = msg;
+      }
+    }
+    if(keyHeld_left) {
+      this.speed -= REVERSE_POWER;
+      if(TOUCH_TEST) {
+        let msg = "global keyHeld_left changing speed " + this.speed;
         console.log(msg);
         document.getElementById("debug_4").innerHTML = msg;
       }

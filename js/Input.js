@@ -1,3 +1,6 @@
+var keyHeld_left = false;
+var keyHeld_right = false;
+
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
@@ -69,6 +72,7 @@ function xyIsInRect(pos, rect) {
 }
 
 function setupInput() {
+
   canvas.addEventListener('mousedown', function(evt) {
     var mousePos = getMousePos(evt);
 
@@ -88,9 +92,12 @@ if(TOUCH_TEST) {
 }             
           switch(buttonNames[i]) {
             case "Left":
-              player.keyHeld_left = true;   
+              keyHeld_left = true;
+              buttonLeftPress();
+              // player.keyHeld_left = true;   
               break;
             case "Right":
+              keyHeld_right = true;
               player.keyHeld_right = true;
               break;
             case "Call":
@@ -120,12 +127,15 @@ if(TOUCH_TEST) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
         switch(buttonNames[i]) {
           case "Left":
-            player.keyHeld_left = false;
+            keyHeld_left = false;
+            buttonLeftRelease();
+            // player.keyHeld_left = false;
 if(TOUCH_TEST) {
   console.log("Mouseup keyHeld_left", player.keyHeld_left)
 }
             break;
           case "Right":
+            keyHeld_right = false;
             player.keyHeld_right = false;
             break;
           case "Call":
@@ -337,11 +347,15 @@ function keyReleased(evt) {
 function buttonMenu() {
   gameState = STATE_MENU;
 }
-function buttonLeft() {
+function buttonLeftPress() {
+  // debug5txt  = "inside buttonLeftPress()"
   player.keyHeld_left = true;
 }
 function buttonRight() {
   player.keyHeld_right = true;
+}
+function buttonLeftRelease() {
+  player.keyHeld_left = false;
 }
 
 function buttonSet(setTo) {
