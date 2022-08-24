@@ -21,9 +21,6 @@ function playerClass(id) {
   this.speed = 0;
   this.pic; // which image to use
 
-  this.keyHeld_Gas = false;
-  this.keyHeld_Reverse = false;
-
   // store ASCII number of key assigned
   this.setupInput = function(upKey, downKey, leftKey, rightKey) {
     this.controlKeyUp = upKey; 
@@ -82,6 +79,8 @@ if(TOUCH_TEST) {
 
     if(this.keyHeld_call) {
       console.log('CALL a sheep');
+      callSound.play();
+
       // check all sheep to see if any below Hat
       // or select a sheep using mouse like in RTS
       if(this.sheepIDheld != null) {

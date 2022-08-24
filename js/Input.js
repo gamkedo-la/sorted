@@ -173,12 +173,11 @@ function mouseTile(evt) {
   console.log(tileIndex)
 }
 
-// because pressed & released identical except true/false
+// keySet() handles in-game-level inputs
 function keySet(evt, whichPlayer, setTo) {
-  // console.log("Key: "+evt.keyCode, setTo);
+  // this helps press & release functions are identical except for true/false
   if(evt.keyCode == whichPlayer.controlKeyLeft) {
 		whichPlayer.keyHeld_left = setTo;
-// console.log("keyHeld_left", setTo);
 	}
 	if(evt.keyCode == whichPlayer.controlKeyRight) {
 		whichPlayer.keyHeld_right = setTo;
@@ -191,6 +190,7 @@ function keySet(evt, whichPlayer, setTo) {
 	}
 }
 
+// keyState() handles in-menu inputs
 function keyState(key) {
   switch (gameState) {
 

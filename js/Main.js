@@ -29,6 +29,7 @@ for(var i=0; i<TEAM_SIZE.length; i++) {
 var sheepList = [];
 
 var boopSound = new SoundOverlapsClass("sound/test_sound");
+var callSound = new SoundOverlapsClass("sound/call_1_quiet");
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
