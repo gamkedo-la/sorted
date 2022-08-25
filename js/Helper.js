@@ -206,3 +206,8 @@ function nearestRowEdge(y) {
   rowEdge = roundToNearest(y, TILE_H);
   return rowEdge;
 }
+
+// check if a point is inside a rectangle
+function xyIsInRect(pos, rect) {
+  return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
+}

@@ -13,7 +13,6 @@ var gameState = STATE_MENU;
 var levelLoaded = null;
 var levelRunning = false;
 var nearGoal = false; // if true, pens at row near top
-var showAgentGrid = false;
 var decals; // grass, flowers, footprints, pebbles, etc
 
 const TEAM_NAMES = ["plain", "blue", "red"];
@@ -153,6 +152,7 @@ function moveAll() {
 }
 
 function drawAll() {
+
   if(gameState == STATE_PLAY) {
     drawArea();
     drawLowRoad();
@@ -170,8 +170,12 @@ function drawAll() {
       dog.draw();
     }
 
-    if(showAgentGrid && editMode) {
-      drawAgentGrid();
+    if(editMode) {
+      if(showAgentGridValues) {
+        drawAgentGrid();
+      } else if(showAreaGridValues) {
+        showGridValues(areaGrid, 14, "white");
+      }
     }
     
     drawButtons();
@@ -192,15 +196,21 @@ function drawAll() {
     // draw label with score on sheep
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].draw();
-      if(endLevelshowID) {
-        sheepList[i].label();
+      if(endLevelShowID) {
+        sheepList[i].idLabel();
       } else {
         sheepList[i].scoreLabel();
       }
     }
-    if(showAgentGrid && editMode) {
-      drawAgentGrid();
+
+    if(editMode) {
+      if(showAgentGridValues) {
+        drawAgentGrid();
+      } else if(showAreaGridValues) {
+        showGridValues(areaGrid, 14, "white");
+      }
     }
+
     drawLevelOverButtons();
   } // end of Level_Over
 

@@ -4,9 +4,9 @@
   border: 0;
 }
 /* remove before deployment */
-/* body {
+body {
   margin: 10px;
-} */
+}
 p {
   margin-left: 5px;
 }

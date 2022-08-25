@@ -129,3 +129,22 @@ function strRowSameTile(cols, tile) {
   return rowStr;
 }
 
+function showGridValues(grid, fontSize, fontColor) {
+  var arrayIndex = 0;
+  var drawTileX = 0;
+  var drawTileY = 0;
+
+	for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
+		for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+      var cell = grid[arrayIndex];
+      canvasContext.font = fontSize + "px Arial";
+      canvasContext.textAlign = "center";
+      colorText(cell, drawTileX + TILE_W/2, drawTileY + TILE_H/2, fontColor);
+
+      drawTileX += TILE_W;
+      arrayIndex++;
+		} // end of for each col
+    drawTileX = 0;
+    drawTileY += TILE_H;
+	} // end of for each row
+}

@@ -66,11 +66,6 @@ for(var i=0; i<NUM_BUTTONS; i++) {
   };
 }
 
-//Function to check whether a point is inside a rectangle
-function xyIsInRect(pos, rect) {
-  return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
-}
-
 function setupInput() {
 
   canvas.addEventListener('mousedown', function(evt) {
@@ -173,8 +168,8 @@ function mouseTile(evt) {
   console.log(tileIndex)
 }
 
-// keySet() handles in-game-level inputs
-function keySet(evt, whichPlayer, setTo) {
+// handles in-game-level keyboard input
+function arrowKeySet(evt, whichPlayer, setTo) {
   // this helps press & release functions are identical except for true/false
   if(evt.keyCode == whichPlayer.controlKeyLeft) {
 		whichPlayer.keyHeld_left = setTo;
@@ -190,8 +185,8 @@ function keySet(evt, whichPlayer, setTo) {
 	}
 }
 
-// keyState() handles in-menu inputs
-function keyState(key) {
+// handles in-menu keyboard input, depending on gameState
+function menuKeyChoice(key) {
   switch (gameState) {
 
     case STATE_PLAY:
@@ -208,11 +203,6 @@ function keyState(key) {
         } else {
           gameState = STATE_MENU;
         }
-      }
-      break;
-    case STATE_SCOREBOARD:
-      if(key == KEY_ESC || key == KEY_M) {
-        gameState = STATE_MENU;
       }
       break;
 
@@ -264,6 +254,12 @@ console.log('Loading from menu key P.');
       }
       break;
 
+    case STATE_SCOREBOARD:
+      if(key == KEY_ESC || key == KEY_M) {
+        gameState = STATE_MENU;
+      }
+      break;
+
     case STATE_CREDITS:
       if(key == KEY_M) {
         gameState = STATE_MENU;
@@ -285,34 +281,56 @@ console.log('Loading from menu key P.');
   }
 }
 
-// usable from any gameState?
-// what is the difference between keyState() and keyMode()?
-function keyMode(key) {
+// detect Fn key, usable from any gameState
+function getFunctionKeys(key) {
+
   if(key == KEY_F1) {
     editMode = !editMode; // toggle
   }
+
   if(key == KEY_F2) {
-    nearGoal = !nearGoal; // toggle
-    if(nearGoal) {
-      saveGrid = areaGrid.slice();
-      insertNearGoal();
-    }
+    timerLabel = !timerLabel; // toggle
+    console.log("Timer label is", timerLabel)
   }
+
   if(key == KEY_F3) {
-    endLevelshowID = !endLevelshowID; // toggle
-    if(endLevelshowID) {
+    modeLabel = !modeLabel; // toggle
+    console.log("Mode label is", modeLabel)
+  }
+
+  if(key == KEY_F4) {
+    test_EndLevel();
+    levelRunning = false;
+  }
+
+  if(key == KEY_F5) {
+    endLevelShowID = !endLevelShowID; // toggle
+    if(endLevelShowID) {
       console.log("At end of Level show sheep ID for debugging.")
     } else {
       console.log("At end of Level show points awarded for each sheep.")
     }
   }
-  if(key == KEY_F4) {
-    test_EndLevel();
-    levelRunning = false;
+
+  // cycle through options because can only show one grid
+  if(key == KEY_F6) {
+    if (noGridValuesDisplay() ) {
+      showAreaGridValues = true; 
+      console.log("showAreaGridValues is now", showAreaGridValues);
+    }
+    else if(showAreaGridValues) {
+      showAgentGridValues = true;
+      showAreaGridValues = false;
+      console.log("showAgentGridValues is now", showAgentGridValues);
+      console.log('Tiles occupied by out-of-play sheep are labelled "1"')
+    }
+    else if(showAgentGridValues) {
+      showAgentGridValues = false;
+
+    }
   }
-  if(key == KEY_F5) {
-    timerLabel = !timerLabel; // toggle
-    console.log("Timer label is", timerLabel)
+  function noGridValuesDisplay() {
+    return (!showAreaGridValues && !showAgentGridValues)
   }
 
   if(key == KEY_A) {
@@ -332,18 +350,24 @@ function keyMode(key) {
   }
 }
 
-// maybe flip set keyHeld_
 function keyPressed(evt) {
-  keySet(evt, player, true);
-  keyMode(evt.keyCode); // toggle Edit mode
-  keyState(evt.keyCode); // play, menu, or credits
+  // arrowKeys 
+  arrowKeySet(evt, player, true);
+  
+  // toggle Edit mode, design/test tools
+  getFunctionKeys(evt.keyCode);
+
+  // Menu
+  menuKeyChoice(evt.keyCode); // play, menu, or credits
 	evt.preventDefault();
 }
 
+// only relevant to arrowKeys, not Menu or Fn keys 
 function keyReleased(evt) {
-  keySet(evt, player, false);
+  arrowKeySet(evt, player, false);
 }
 
+// mouse-clickable on-screen buttons
 function buttonMenu() {
   gameState = STATE_MENU;
 }
@@ -357,7 +381,6 @@ function buttonRight() {
 function buttonLeftRelease() {
   player.keyHeld_left = false;
 }
-
 function buttonSet(setTo) {
   // console.log("Key: "+evt.keyCode, setTo);
   if(evt.keyCode == whichPlayer.controlKeyLeft) {
