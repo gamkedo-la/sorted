@@ -41,22 +41,30 @@ const KEY_F9 = 120;
 
 var mouseX = 0;
 var mouseY = 0;
-var debug5txt = '';
 
-const NUM_BUTTONS = 6;
-// arrowKeys, Menu, Pause?
-
-const TOP_HALF_SCREEN = {
+const TOP_HALF_SCREEN = { // for testing iPad
   x: 0, y: 0, width: 840, height: 200
 }
 
+function setupInput() {
+  canvas.addEventListener('mousemove', mousemoveHandler);
+  canvas.addEventListener('mousedown', mousedownHandler);
+  canvas.addEventListener('mouseup', mouseupHandler);
+
+	document.addEventListener('keydown', keyPressed);
+	document.addEventListener('keyup', keyReleased);
+
+  player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
+}
+
+var debug5txt = '';
+const NUM_BUTTONS = 6; // arrowKeys, Menu, Pause
 const buttonRects = []; //Array[NUM_BUTTONS];
 const buttonTop = 586;
 const buttonsLeft = 538; // 840-538=302 6btns@50px
 const buttonWidth = 50;
 const buttonHeight = 42;
 const buttonNames = ["Left", "Right", "Call", "Send", "Menu", "Pause"];
-
 for(var i=0; i<NUM_BUTTONS; i++) {
   buttonRects[i] = {
     x: buttonsLeft + i * buttonWidth,
@@ -66,100 +74,89 @@ for(var i=0; i<NUM_BUTTONS; i++) {
   };
 }
 
-function setupInput() {
-
-  canvas.addEventListener('mousedown', function(evt) {
-    var mousePos = getMousePos(evt);
-
-    if (gameState != STATE_PLAY && TOUCH_TEST == true) {
-      if (xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
-        console.log("Level number now =", currentLevel);
-        levelRunning = true;
-console.log('Loading level from upper-screen click')
-        loadLevel(currentLevel);
-        gameState = STATE_PLAY;
-      }
-    } else {
-      for(var i=0; i<NUM_BUTTONS; i++) {
-        if (xyIsInRect(mousePos,buttonRects[i])) {
-if(TOUCH_TEST) {
-  console.log("Clicked inside rect", buttonNames[i]);
-}             
-          switch(buttonNames[i]) {
-            case "Left":
-              keyHeld_left = true;
-              buttonLeftPress();
-              // player.keyHeld_left = true;   
-              break;
-            case "Right":
-              keyHeld_right = true;
-              player.keyHeld_right = true;
-              break;
-            case "Call":
-              player.keyHeld_call = true;
-              break;
-            case "Send":
-              player.keyHeld_send = true;
-              break;
-            case "Menu":
-              gameState = STATE_MENU;
-              break;
-          }
-if(TOUCH_TEST) {
-  let msg = "in Input::Mousedown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-  console.log(msg);
-  document.getElementById("debug_2").innerHTML = msg; 
-}  
-        }
-      }
-    }
-  }, false);
-   
-  canvas.addEventListener('mouseup', function(evt) {
-    var mousePos = getMousePos(evt);
-
-    for(var i=0; i<NUM_BUTTONS; i++) {
-      if (xyIsInRect(mousePos,buttonRects[i])) {
-        switch(buttonNames[i]) {
-          case "Left":
-            keyHeld_left = false;
-            buttonLeftRelease();
-            // player.keyHeld_left = false;
-if(TOUCH_TEST) {
-  console.log("Mouseup keyHeld_left", player.keyHeld_left)
-}
-            break;
-          case "Right":
-            keyHeld_right = false;
-            player.keyHeld_right = false;
-            break;
-          case "Call":
-            player.keyHeld_call = false;
-            break;
-          case "Send":
-            player.keyHeld_send = false;
-            break;
-        }
-      }
-    }
-  }, false);
-
-  canvas.addEventListener('mousemove', mousemoveHandler);
-  // canvas.addEventListener('mousedown', mousedownHandler);
-
-	document.addEventListener('keydown', keyPressed);
-	document.addEventListener('keyup', keyReleased);
-
-  player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
-}
-
 function mousemoveHandler(evt) {
   var mousePos = getMousePos(evt);
   debug5txt = "Cursor: " + mousePos.x + "," + mousePos.y;
 }
 
 function mousedownHandler(evt) {
-  gameState = STATE_HELP;
+  var mousePos = getMousePos(evt);
+  if (gameState != STATE_PLAY) {
+    if (xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
+      console.log('Loading level from upper-screen click, used for testing iPad and other touch devices.');
+      loadLevel(currentLevel);
+      levelRunning = true;
+      console.log("Level number now =", currentLevel);
+      gameState = STATE_PLAY;
+    }
+  } else {
+    for(var i=0; i<NUM_BUTTONS; i++) {
+      if (xyIsInRect(mousePos,buttonRects[i])) {
+
+        if(TOUCH_TEST) {
+          console.log("Clicked inside rect", buttonNames[i]);
+        }             
+        
+        switch(buttonNames[i]) {
+          case "Left":
+            keyHeld_left = true;
+            buttonLeftPress();
+            // player.keyHeld_left = true;   
+            break;
+          case "Right":
+            keyHeld_right = true;
+            player.keyHeld_right = true;
+            break;
+          case "Call":
+            player.keyHeld_call = true;
+            break;
+          case "Send":
+            player.keyHeld_send = true;
+            break;
+          case "Menu":
+            gameState = STATE_MENU;
+            break;
+          case "Pause":
+            console.log("Pause is warmup task on Trello");
+            break;
+        }
+
+        if(TOUCH_TEST) {
+          let msg = "in Input::Mousedown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
+          console.log(msg);
+          document.getElementById("debug_2").innerHTML = msg; 
+        }  
+      }
+    }
+  }
+}
+
+function mouseupHandler(evt) { 
+  var mousePos = getMousePos(evt);
+  for(var i=0; i<NUM_BUTTONS; i++) {
+    if (xyIsInRect(mousePos,buttonRects[i])) {
+      switch(buttonNames[i]) {
+        case "Left":
+          keyHeld_left = false;
+          buttonLeftRelease();
+          // player.keyHeld_left = false;
+if(TOUCH_TEST) {
+console.log("Mouseup keyHeld_left", player.keyHeld_left)
+}
+          break;
+        case "Right":
+          keyHeld_right = false;
+          player.keyHeld_right = false;
+          break;
+        case "Call":
+          player.keyHeld_call = false;
+          break;
+        case "Send":
+          player.keyHeld_send = false;
+          break;
+      }
+    }
+  }
 }
 
 function mouseTile(evt) {
