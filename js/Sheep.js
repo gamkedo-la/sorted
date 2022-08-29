@@ -402,7 +402,7 @@ console.log("Called sheep id=", this.id)
             this.state = STUCK;
             this.levelDone = true;
             // definitely need endRow, and Stuck is not a scoring result
-            this.endCol = col;
+            this.endCol = tileCol;
             this.endTime = step[currentLevel];
             sheepInPlay--; 
           }

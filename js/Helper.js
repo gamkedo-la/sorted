@@ -117,7 +117,7 @@ function calculateLevelScore() {
       }
       levelScore += sheepList[i].score;
 
-      console.log(sheepList[i].id, x, team, mode, offSide, done)
+      // console.log(sheepList[i].id, x, team, mode, offSide, done)
     }
   }
   levelScores[currentLevel] = levelScore;
@@ -214,25 +214,38 @@ function xyIsInRect(pos, rect) {
   return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
 }
 
-function writeToFile(data) {
-  let fso = CreateObject("Scripting.FileSystemObject"); 
-  let s   = fso.CreateTextFile("filename.txt", True);
-  s.writeline(data);
-  s.writeline("-----------------------------");
-  s.Close();
+function downloader(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+  document.body.removeChild(element);
 }
 
-var textFile = null,
-  makeTextFile = function(text) {
-    var data = new Blob([text], {type: 'text/plain'});
+// downloader() supersedes functions below
 
-    // If replacing a previously generated file we must
-    // manually revoke object URL to avoid memory leaks.
-    if (textFile !== null) {
-      window.URL.revokeObjectURL(textFile);
-    }
+// function writeToFile(data) {
+//   let fso = CreateObject("Scripting.FileSystemObject"); 
+//   let s   = fso.CreateTextFile("filename.txt", True);
+//   s.writeline(data);
+//   s.Close();
+// }
 
-    textFile = window.URL.createObjectURL(data);
+// var textFile = null,
+//   makeTextFile = function(text) {
+//     var data = new Blob([text], {type: 'text/plain'});
 
-    return textFile;
-  };
+//     // If replacing a previously generated file we must
+//     // manually revoke object URL to avoid memory leaks.
+//     if (textFile !== null) {
+//       window.URL.revokeObjectURL(textFile);
+//     }
+//     textFile = window.URL.createObjectURL(data);
+
+//     return textFile;
+//   };
+
