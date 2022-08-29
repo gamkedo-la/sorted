@@ -93,6 +93,7 @@ function drawCredits() {
   headLine("Credits");
 
   var line = 0;
+  bodyLine("Patrick McKeown - lead designer/programmer.", ++line);
   var txt = 'Christer "McFunkypants" Kaitila - title and animated heads on menu/help/credits; decal system with flowers and grass; hoofprints behind sheep.'
   canvasContext.font = BODY_FONT + "px Verdana";
   var txtLines = getLines(canvasContext, txt, 700);
@@ -100,9 +101,8 @@ console.log(txtLines.length + txtLines[2])
 for(var i=0; i<txtLines.length; i++) {
   bodyLine(txtLines[i], ++line);
 }
-  // bodyLine('Christer "McFunkypants" Kaitila - animated', ++line);
-  // bodyLine('background for menu/help/credits', ++line);
-  bodyLine("Chris DeLeon - sheep-head multi-part image asset.", ++line);
+
+  bodyLine("Chris DeLeon - sheep-head multi-part image; foundation of Classic games code and art.", ++line);
   bodyLine("Tim Waskett - algorithm for sheep roaming.", ++line);
   bodyLine("H Trayford - screenwrap for hat; level 7 experimental design.", ++line);
 

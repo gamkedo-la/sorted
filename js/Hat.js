@@ -71,7 +71,9 @@ if(TOUCH_TEST) {
         var sheepHere = sheepList[this.sheepIDheld];
         this.sheepIDheld = null;
         sheepHere.changeMode(SENT);
-        console.log("Sent sheep id", sheepHere.id)
+        sheepHere.sentX = this.x;
+        sheepHere.beginTime = step[currentLevel];
+        console.log("Sent sheep id", sheepHere.id);
       } else {
         console.log('No sheep sent because clamp empty');
       }

@@ -393,3 +393,10 @@ function buttonSet(setTo) {
 		whichPlayer.keyHeld_send = setTo;
 	}
 }
+
+// for file output
+create.addEventListener('click', function () {
+  var link = document.getElementById('downloadlink');
+  link.href = makeTextFile("Sheep data");
+  link.style.display = 'block';
+}, false);

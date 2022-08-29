@@ -36,6 +36,10 @@ function sheepClass() {
   this.orient = 0; // image display angle
   this.score = 0;
   this.timer = 0;
+  this.sentX = null;
+  this.endTime = null;
+  this.endCol = null;
+  this.endRow = null;
 
   this.reset = function(i, team, potential, mode) {
     this.id = i;
@@ -294,6 +298,8 @@ console.log("Called sheep id=", this.id)
       this.state = STACKED;
       sheepInPlay--;
       this.levelDone = true;
+      this.endTime = step[currentLevel];
+      
       agentGrid[agentIndex - TILE_COLS] = 1;
       // console.log("agentHandling sheep " + this.id + " row " + row)
     }
@@ -344,6 +350,7 @@ console.log("Called sheep id=", this.id)
         this.ang = Math.PI * 1/2;
         this.levelDone = true;
         sheepInPlay--;
+        this.endTime = step[currentLevel];
         update_debug_report();
         // test if level complete
       } else {

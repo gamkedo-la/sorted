@@ -211,3 +211,26 @@ function nearestRowEdge(y) {
 function xyIsInRect(pos, rect) {
   return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
 }
+
+function writeToFile(data) {
+  let fso = CreateObject("Scripting.FileSystemObject"); 
+  let s   = fso.CreateTextFile("filename.txt", True);
+  s.writeline(data);
+  s.writeline("-----------------------------");
+  s.Close();
+}
+
+var textFile = null,
+  makeTextFile = function(text) {
+    var data = new Blob([text], {type: 'text/plain'});
+
+    // If replacing a previously generated file we must
+    // manually revoke object URL to avoid memory leaks.
+    if (textFile !== null) {
+      window.URL.revokeObjectURL(textFile);
+    }
+
+    textFile = window.URL.createObjectURL(data);
+
+    return textFile;
+  };

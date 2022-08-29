@@ -12,6 +12,11 @@ const STATE_SCOREBOARD = 5;
 var gameState = STATE_MENU;
 var levelLoaded = null;
 var levelRunning = false;
+
+var step = Array(NUM_LEVELS);
+step.fill(0);
+// const fs = require('fs');
+
 var nearGoal = false; // if true, pens at row near top
 var decals; // grass, flowers, footprints, pebbles, etc
 
@@ -134,6 +139,7 @@ function loadLevel(whichLevel) {
 function updateAll() {
 	moveAll();
 	drawAll();
+  step++; // level time steps
 }
 
 function moveAll() {
@@ -209,7 +215,15 @@ function drawAll() {
       } else if(showAreaGridValues) {
         showGridValues(areaGrid, 14, "white");
       }
-    }
+
+      // sheep outcome data to write in a file
+      let data = "Learning how to write in a file."
+      writeToFile(data);
+
+      // fs.writeFile('Output.txt', data, (err) => {  
+      //   if (err) throw err;
+      // })
+    } // end of (editMode)
 
     drawLevelOverButtons();
   } // end of Level_Over

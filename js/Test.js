@@ -15,7 +15,7 @@ var testColumnSet = false; // flag to get column number from keyb
 var showAreaGridValues = false;
 var showAgentGridValues = false;
 
-const ITCH = false; // touch devices test code
+const ITCH = true; // touch devices test code
 // screen click to reach Play; 
 var editMode = (ITCH) ? false : true;
 const TOUCH_TEST = (ITCH) ? true : false;
