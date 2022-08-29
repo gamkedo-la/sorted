@@ -71,7 +71,7 @@ if(TOUCH_TEST) {
         var sheepHere = sheepList[this.sheepIDheld];
         this.sheepIDheld = null;
         sheepHere.changeMode(SENT);
-        sheepHere.sentX = this.x;
+        sheepHere.sentX = Math.round(this.x);
         sheepHere.beginTime = step[currentLevel];
         console.log("Sent sheep id", sheepHere.id);
       } else {

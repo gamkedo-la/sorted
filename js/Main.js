@@ -12,9 +12,11 @@ const STATE_SCOREBOARD = 5;
 var gameState = STATE_MENU;
 var levelLoaded = null;
 var levelRunning = false;
+var levelTestDataReady = false;
 
 var step = Array(NUM_LEVELS);
 step.fill(0);
+var levelData;
 // const fs = require('fs');
 
 var nearGoal = false; // if true, pens at row near top
@@ -95,6 +97,8 @@ function loadLevel(whichLevel) {
 
   else if(testMode == SEND_A_ROW_FULL) {
     console.log("Test send row of sheep in level " + whichLevel + " - " + levelNames[whichLevel]);
+    
+    // overwriting to use flocksize array seems a bad approach
     FLOCK_SIZE[whichLevel] = TILE_COLS;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
@@ -139,7 +143,7 @@ function loadLevel(whichLevel) {
 function updateAll() {
 	moveAll();
 	drawAll();
-  step++; // level time steps
+  step[currentLevel]++; // level time steps
 }
 
 function moveAll() {
@@ -183,11 +187,9 @@ function drawAll() {
         showGridValues(areaGrid, 14, "white");
       }
     }
-    
     drawButtons();
 
     drawTutorial();
-
   }
 
   else if (gameState == STATE_LEVEL_OVER) {
@@ -216,13 +218,23 @@ function drawAll() {
         showGridValues(areaGrid, 14, "white");
       }
 
-      // sheep outcome data to write in a file
-      let data = "Learning how to write in a file."
-      writeToFile(data);
-
-      // fs.writeFile('Output.txt', data, (err) => {  
-      //   if (err) throw err;
-      // })
+      // do once per level-ending
+      if(levelTestDataReady) {
+        levelTestDataReady = false;
+        var filename = "level_" + currentLevel + "_";
+        // sheep outcome data file downloads automatically
+        if(testMode == NORMAL_PLAY) {
+          levelData = playResult();
+          filename +=  "play.tsv";
+          downloader(filename, levelData);
+          console.log("Results of play downloaded to " + filename);
+        } else {
+          levelData = testResult();
+          filename +=  "test.tsv";
+          downloader(filename, levelData);
+          console.log("Results of test downloaded to " + filename);
+        }
+      }
     } // end of (editMode)
 
     drawLevelOverButtons();

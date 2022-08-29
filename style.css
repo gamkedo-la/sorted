@@ -4,9 +4,11 @@
   border: 0;
 }
 /* remove before deployment */
-/* body {
+body {
   margin: 10px;
-} */
+}
 p {
   margin-left: 5px;
 }
+pre {-moz-tab-size: 10;} /* Firefox */
+pre {tab-size: 10;}

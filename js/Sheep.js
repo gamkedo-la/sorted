@@ -37,6 +37,7 @@ function sheepClass() {
   this.score = 0;
   this.timer = 0;
   this.sentX = null;
+  this.beginTime = null;
   this.endTime = null;
   this.endCol = null;
   this.endRow = null;
@@ -67,6 +68,7 @@ function sheepClass() {
   this.placeTop = function() {
     this.x = TILE_W/2 + this.id * TILE_W;
     this.y = TILE_H * 3/2 -15;
+    this.sentX = this.x; // won't go through player.send()
   }
 
   this.testColumnInit = function() {
@@ -298,6 +300,7 @@ console.log("Called sheep id=", this.id)
       this.state = STACKED;
       sheepInPlay--;
       this.levelDone = true;
+      this.endCol = col;
       this.endTime = step[currentLevel];
       
       agentGrid[agentIndex - TILE_COLS] = 1;
@@ -350,6 +353,7 @@ console.log("Called sheep id=", this.id)
         this.ang = Math.PI * 1/2;
         this.levelDone = true;
         sheepInPlay--;
+        this.endCol = tileCol;
         this.endTime = step[currentLevel];
         update_debug_report();
         // test if level complete
@@ -397,12 +401,17 @@ console.log("Called sheep id=", this.id)
             this.speed = 0;
             this.state = STUCK;
             this.levelDone = true;
+            // definitely need endRow, and Stuck is not a scoring result
+            this.endCol = col;
+            this.endTime = step[currentLevel];
             sheepInPlay--; 
           }
 
         } else if(tileType == TILE_ROAD) {
           if(this.state != FENCED) {
             this.changeMode(FENCED);
+            this.endCol = tileCol;
+            this.endTime = step[currentLevel];
             sheepInPlay--;
             nextX = nearestColumnCentre(nextX);
             nextY = TILE_H * (13 + TILE_Y_ADJUST);

@@ -81,6 +81,8 @@ function calculateLevelScore() {
   levelScore = 0;
   var offSide;
   var mode, team, x, score;
+  console.log("Calculating end-of-level score for each sheep");
+  levelTestDataReady = true;
   
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     offSide = false;

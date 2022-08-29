@@ -394,9 +394,23 @@ function buttonSet(setTo) {
 	}
 }
 
-// for file output
-create.addEventListener('click', function () {
-  var link = document.getElementById('downloadlink');
-  link.href = makeTextFile("Sheep data");
-  link.style.display = 'block';
-}, false);
+// for file output, not needed if downloader() is OK
+// create.addEventListener('click', function () {
+//   var link = document.getElementById('downloadlink');
+//   link.href = makeTextFile(levelData);
+//   link.style.display = 'block';
+// }, false);
+
+function downloader(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+  document.body.removeChild(element);
+}
+
+
