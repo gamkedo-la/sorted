@@ -35,6 +35,7 @@ function playerClass(id) {
     this.ang = 0;
     this.sheepIDheld = null;  // ID of sheep carried
     this.gotoX = null;
+    this.callWhenInPlace = false;
 
     var hatFound = false;
 
@@ -104,8 +105,9 @@ if(TOUCH_TEST) {
         if(aligned != undefined) {
           var location = sheepList[aligned].state;
           if(isSheepCallBlocked(location)) {
-            console.log('Sheep on goal or fence or stacked at end of field cannot be beckoned')
+            console.log('Sheep on goal or fence or stacked at end of field cannot be called')
           } else {
+            console.log("Called sheep id =", sheepList[aligned].id);
             sheepList[aligned].state = CALLED;
             sheepList[aligned].timer = 0;
             sheepList[aligned].speed = CALL_SPEED[currentLevel];
@@ -118,9 +120,10 @@ if(TOUCH_TEST) {
             }
           }
         } else {
-          console.log("No sheep X-aligned to tractor")
+          console.log("No sheep is X-aligned to calling farmer-clamp")
         }
       }
+      this.keyHeld_call = false;
     } // end of CALL (tractor)
 
     if(this.gotoX == null) {
@@ -129,8 +132,12 @@ if(TOUCH_TEST) {
       if(this.keyHeld_right) {
         this.speed += DRIVE_POWER;
       }
-      if(keyHeld_right) {
-        this.speed += DRIVE_POWER;
+
+      if(TOUCH_TEST) {
+        // does global vs property help iPad? no
+        if(keyHeld_right) {
+          this.speed += DRIVE_POWER;
+        }
       }
   
       if(this.keyHeld_left) {
@@ -141,37 +148,48 @@ if(TOUCH_TEST) {
           document.getElementById("debug_4").innerHTML = msg;
         }
       }
-      if(keyHeld_left) {
-        this.speed -= REVERSE_POWER;
-        if(TOUCH_TEST) {
-          let msg = "global keyHeld_left changing speed " + this.speed;
-          console.log(msg);
-          document.getElementById("debug_4").innerHTML = msg;
-        }
+
+      if(TOUCH_TEST) {
+      // does global vs property help iPad? no
+        if(keyHeld_left) {
+          this.speed -= REVERSE_POWER;
+          if(TOUCH_TEST) {
+            let msg = "global keyHeld_left changing speed " + this.speed;
+            console.log(msg);
+            document.getElementById("debug_4").innerHTML = msg;
+          }
+        }        
       }
-  
+
       nextX += Math.cos(this.ang) * this.speed;
       this.y += Math.sin(this.ang) * this.speed;
     }
 
-    else { // gotoX has been set
+    else { // gotoX has been set, for demo
+
       var deltaX = this.gotoX - this.x;
       var moveX = HAT_MAX_SPEED[currentLevel];
 
       if(deltaX > 0) {  // goto is right of current position
         if(deltaX > moveX) {
           nextX += moveX;
-        } else {
+        } else { // reaching required position
           nextX = this.gotoX;
+          if(this.callWhenInPlace) {
+            this.keyHeld_call = true;
+          }
         }
-      } else {          // goto is left of current position
+      } else {       // goto is left of current position
         if(Math.abs(deltaX) > moveX) {
           nextX -= moveX;
         } else {
           nextX = this.gotoX;
+          if(this.callWhenInPlace) {
+            this.keyHeld_call = true;
+          }
         }
       }
-    }
+    } // end of Hat demo automated movement 
 
     if (SHOULD_WRAP) {
       if(nextX < 0 - HAT_MARGIN) {
@@ -225,4 +243,9 @@ function isAnySheepCalledAlready() {
     }
   }
   return calledAlready;
+}
+
+function hatDemo(x) {
+  player.gotoX = x;
+  player.callWhenInPlace = true;
 }

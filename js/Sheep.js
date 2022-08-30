@@ -110,7 +110,6 @@ function sheepClass() {
     }
 
     else if (this.state == CALLED) {
-console.log("Called sheep id=", this.id)
       nextY -= TRACTOR_SPEED;
 
       if(nextY < player.y +20) { // arriving at Hat
