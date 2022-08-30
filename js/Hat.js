@@ -36,6 +36,7 @@ function playerClass(id) {
     this.sheepIDheld = null;  // ID of sheep carried
     this.gotoX = null;
     this.callWhenInPlace = false;
+    this.sendWhenInPlace = false;
 
     var hatFound = false;
 
@@ -78,9 +79,11 @@ if(TOUCH_TEST) {
       } else {
         console.log('No sheep sent because clamp empty');
       }
+      this.keyHeld_send = false;
     }
 
     if(this.keyHeld_call) {
+      this.keyHeld_call = false;
       console.log('CALL a sheep');
       callSound.play();
 
@@ -123,7 +126,6 @@ if(TOUCH_TEST) {
           console.log("No sheep is X-aligned to calling farmer-clamp")
         }
       }
-      this.keyHeld_call = false;
     } // end of CALL (tractor)
 
     if(this.gotoX == null) {
@@ -177,6 +179,11 @@ if(TOUCH_TEST) {
           nextX = this.gotoX;
           if(this.callWhenInPlace) {
             this.keyHeld_call = true;
+            this.callWhenInPlace = false;
+          }
+          if(this.sendWhenInPlace) {
+            this.keyHeld_send = true;
+            this.sendWhenInPlace = false;
           }
         }
       } else {       // goto is left of current position
@@ -186,6 +193,11 @@ if(TOUCH_TEST) {
           nextX = this.gotoX;
           if(this.callWhenInPlace) {
             this.keyHeld_call = true;
+            this.callWhenInPlace = false;
+          }
+          if(this.sendWhenInPlace) {
+            this.keyHeld_send = true;
+            this.sendWhenInPlace = false;
           }
         }
       }
@@ -245,7 +257,21 @@ function isAnySheepCalledAlready() {
   return calledAlready;
 }
 
-function hatDemo(x) {
+// purpose of Hat Demo functions is to enable me to talk on video instead of focusing on moving Hat to particular place to demo
+
+// for Call to be usable need to identify nearest sheep first
+function hatDemoX(x) {
   player.gotoX = x;
   player.callWhenInPlace = true;
+  // unsure how to combine this with Sending demo
+  // must not set send's gotoX until after Call happens
+}
+
+function hatDemoHoldingX(x) {
+  player.gotoX = x;
+  player.sendWhenInPlace = true;
+}
+function hatDemoHoldingCol(col) {
+  player.gotoX = (col * TILE_W) - (TILE_W / 2);
+  player.sendWhenInPlace = true;
 }
