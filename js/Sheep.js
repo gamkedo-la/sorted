@@ -214,8 +214,9 @@ function sheepClass() {
     if(this.levelDone == false) {
       tileOccupied = this.isTileOccupied(nextX, nextY);
       // console.log(this.id + " entering tile occupied=" + tileOccupied);
+
       // prevent unteamed sheep from stacking
-      if(tileOccupied && this.team != PLAIN) {
+      if(tileOccupied && this.team != PLAIN && testMode == NORMAL_PLAY) {
         this.occupancyTested == true;
         pos = this.agentHandling(nextX, nextY);
         // console.log("pos", pos)
@@ -248,7 +249,9 @@ function sheepClass() {
       }
     }
     testIfLevelEnd();
-    this.leaveHoofprints();
+    if(testMode == NORMAL_PLAY) {
+      this.leaveHoofprints();
+    }
   }
 
   // occasionally leave a hoof-print if we've travelled far enough
@@ -273,7 +276,7 @@ function sheepClass() {
     var agentIndex = colRowToIndex(col, row);
     // tile entered is occupied by another sheep
     if(agentGrid[agentIndex] == "1") {
-      console.log("Collision by sheep ID=" + this.id + " row=" + row + " arrival Y=" + nextY + " index=" + agentIndex);
+      // console.log("Collision by sheep ID=" + this.id + " row=" + row + " arrival Y=" + nextY + " index=" + agentIndex);
       return true;
     } else {
       return false;

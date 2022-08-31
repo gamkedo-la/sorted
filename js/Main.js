@@ -8,6 +8,7 @@ const STATE_PLAY = 1;
 const STATE_LEVEL_OVER = 4;
 const STATE_GAME_OVER = 7;
 const STATE_SCOREBOARD = 5;
+const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over']
 
 var gameState = STATE_MENU;
 var levelLoaded = null;
@@ -95,7 +96,7 @@ function loadLevel(whichLevel) {
     console.log("Level loaded: " + whichLevel + " - " + levelNames[whichLevel]);
   }
 
-  else if(testMode == SEND_A_ROW_FULL) {
+  else if(testMode == SEND_COLUMNS_CENTRE_ONLY) {
     console.log("Test send row of sheep in level " + whichLevel + " - " + levelNames[whichLevel]);
     
     // overwriting to use flocksize array seems a bad approach
@@ -115,8 +116,9 @@ function loadLevel(whichLevel) {
     test_EndLevel();
   }
 
-  else if(testMode == SEND_IN_COLUMN) { 
+  else if(testMode == SEND_IN_COLUMN) {
     console.log("Testing column of sheep in level " + whichLevel + " - " + levelNames[whichLevel]);
+    FLOCK_SIZE[whichLevel] = 3 //TILE_W;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
       if(testTeam == MIXED) {
@@ -132,6 +134,24 @@ function loadLevel(whichLevel) {
     test_EndLevel();
   }
 
+  // cannot be done like this, need Xoffset increment by 1 at End-Level
+  // and a flag to keep doing test until Xoffset reaches 40 (TILE_W)
+  else if(testMode == SEND_EVERY_X) { 
+    console.log("Testing send from each X in level " + whichLevel + " - " + levelNames[whichLevel]);
+    FLOCK_SIZE[whichLevel] = TILE_COLS;
+    // loop every X pixel position within a tile width
+    for(var Xoffset=0; Xoffset < 2; Xoffset++) {  // limit really TILE_W
+      for(var col=0; col < TILE_COLS; col++) {
+        var spawnSheep = new sheepClass();
+        spawnSheep.reset(col, testTeam, PLAIN, SENT);
+        spawnSheep.testRowInit();
+        spawnSheep.placeTop();
+        sheepList.push(spawnSheep);
+      }
+      testTimer = 999;
+    } 
+  }
+
   // reset sorting
   teamSizeSoFar = [0,0,0];
   // reset level-ending detector
@@ -143,7 +163,7 @@ function loadLevel(whichLevel) {
 function updateAll() {
 	moveAll();
 	drawAll();
-  step[currentLevel]++; // level time steps
+  step[currentLevel]++; // level timesteps
 }
 
 function moveAll() {

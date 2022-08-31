@@ -81,8 +81,10 @@ function mousemoveHandler(evt) {
 
 function mousedownHandler(evt) {
   var mousePos = getMousePos(evt);
-  if (gameState != STATE_PLAY) {
-    if (xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
+
+  if (gameState != STATE_PLAY && gameState != STATE_LEVEL_OVER) {
+
+    if (TOUCH_TEST && xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
       console.log('Loading level from upper-screen click, used for testing iPad and other touch devices.');
       loadLevel(currentLevel);
       levelRunning = true;
@@ -234,7 +236,7 @@ console.log('Loading from menu key P.');
       }
       if(editMode) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
-          if(testMode == NORMAL_PLAY || testMode == SEND_A_ROW_FULL || testColumnSet) {
+          if(testMode == NORMAL_PLAY || testMode == SEND_EVERY_X || testMode == SEND_COLUMNS_CENTRE_ONLY || testColumnSet) {
             currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
             levelRunning = true;
 // console.log('Loading level from editMode menu with Num-key');
@@ -333,14 +335,14 @@ function getFunctionKeys(key) {
   if(key == KEY_A) {
     // testMode = !testMode; // toggle
     testMode++;
-    if(testMode > 2) {
+    if(testMode > 3) { // to prevent choice of Every_X test change to 2
       testMode = 0;
     }
     console.log(TEST_NAMES[testMode]);
   }
   if(key == KEY_T) {
     testTeam++;
-    if(testTeam > 3) {
+    if(testTeam > 3) { 
       testTeam = 0;
     }
     console.log("Paint for automated test is", TEAM_NAMES[testTeam]);

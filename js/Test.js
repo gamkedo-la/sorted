@@ -4,12 +4,13 @@ const RED = 2;
 const MIXED = 3;
 
 const NORMAL_PLAY = 0;
-const SEND_A_ROW_FULL = 1;
+const SEND_COLUMNS_CENTRE_ONLY = 1;
 const SEND_IN_COLUMN = 2;
-// var testMode = SEND_IN_COLUMN;
-// var testMode = SEND_A_ROW_FULL;
+const SEND_EVERY_X = 3;
+
 var testMode = NORMAL_PLAY;
 var testColumnSet = false; // flag to get column number from keyb
+var testTimer = null;
 
 // toggle overlay grids for design/testing
 var showAreaGridValues = false;
@@ -24,7 +25,7 @@ var idLabel = false;
 var timerLabel = true;
 var modeLabel = true;
 
-const TEST_NAMES = ["not automating, normal play", "a full row of sheep will drop", "some sheep will drop in one column - currently can select column 0 to 9 by pressing number key"];
+const TEST_NAMES = ["not automating, normal play", "a full row of sheep will drop", "some sheep will drop in one column - currently can select column 0 to 9 by pressing number key", "testing Send from every X location"];
 
 var testTeam = MIXED; // both teams, as in normal play
 var whichColumn = 10; // for automated test

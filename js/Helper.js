@@ -93,10 +93,11 @@ function calculateLevelScore() {
     
     x = sheepList[i].x;
 
-    if(team == BLUE && x >= canvas.width/2) {
+    // central tile scores for both teams (adjust by TILE_W/2)
+    if(team == BLUE && x >= canvas.width/2 + TILE_W/2) {
       offSide = true;
     }
-    else if(team == RED && x < canvas.width/2) {
+    else if(team == RED && x < canvas.width/2 - TILE_W/2) {
       offSide = true;
     }
 

@@ -264,7 +264,7 @@ function hatDemoX(x) {
   player.gotoX = x;
   player.callWhenInPlace = true;
   // unsure how to combine this with Sending demo
-  // must   not set send's gotoX until after Call happens
+  // must not set send's gotoX until after Call happens
 }
 
 function hatDemoHoldingX(x) {
