@@ -259,7 +259,7 @@ function sheepClass() {
     const rot = 0;
     if (!this.lastHoofprintPos) this.lastHoofprintPos = {x:-999,y:-999};
     if ((Math.abs(this.x-this.lastHoofprintPos.x)>=mindist) || (Math.abs(this.y-this.lastHoofprintPos.y)>=mindist)) {
-        console.log("hoofprint!");
+        // console.log("hoofprint!");
         this.lastHoofprintPos.x = this.x;
         this.lastHoofprintPos.y = this.y;
         if (!this.hoofprintCount) this.hoofprintCount = 1; else this.hoofprintCount++;
@@ -322,7 +322,7 @@ function sheepClass() {
       var tileType = getTileTypeAtColRow(tileCol,tileRow);
 
       // only when first entering pen tile
-      if( this.stateIsOnGoal() == false && this.onTileGoal(tileType) ) {
+      if( this.stateIsInGoal() == false && this.onTileGoal(tileType) ) {
 
         if(tileType == TILE_PEN_BLUE) {
           console.log("Sheep ID", this.id, "reached the blue pen.");
@@ -555,7 +555,7 @@ function sheepClass() {
     return this.state == ROAM || this.state == GRAZE || this.state == SENT;
   }
 
-  this.stateIsOnGoal = function() {
+  this.stateIsInGoal = function() {
     return this.state == IN_BLUE_PEN || this.state == IN_RED_PEN;
   }
 
@@ -565,6 +565,12 @@ function sheepClass() {
 
   this.isTileConveyor = function(tileType) {
     return tileType == TILE_CONVEYOR_LEFT || tileType == TILE_CONVEYOR_RIGHT
+  }
+
+  this.distFrom = function(otherX, otherY) {
+    var deltaX = otherX-this.x;
+    var deltaY = otherY-this.y;
+    return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
   }
 
   this.draw = function() {

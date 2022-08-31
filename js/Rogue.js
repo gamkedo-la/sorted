@@ -19,6 +19,17 @@ function rogueClass() {
     var nextX = this.x; // previous location
     var nextY = this.y;
 
+    // detect sheep
+    var nearestSheep = this.findNearestSheep(this.x, this.y, sheepList);
+
+    if(this.isRogueClose(nearestSheep)) {
+      if(nearestSheep.team != PLAIN) {
+        console.log("Unsort sheep id =", nearestSheep.id);
+        nearestSheep.team = PLAIN;
+        nearestSheep.color = TEAM_COLOURS[PLAIN];
+      }
+    }
+
     // screenwrap horizontal
     if(nextX < 0) {
       nextX += canvas.width;
@@ -27,12 +38,6 @@ function rogueClass() {
       nextX -= canvas.width;
       // this.ang += Math.PI;
     }
-    // if(this.x < 0 + TILE_W/2) { // if rogue has moved beyond the left edge
-    //   this.speedX *= -1; // reverse rogue's horizontal direction
-    // }
-    // if(this.x > canvas.width - TILE_W/2 +2) { // if rogue has moved beyond the right edge
-    //   this.speedX *= -1; // reverse rogue's horizontal direction
-    // }
 
     nextX += this.speedX;
     nextY += this.speedY;
@@ -48,6 +53,28 @@ function rogueClass() {
   this.draw = function() {
     // colorCircle(this.x, this.y, 30, "yellow");
     drawBitmapCenteredWithRotation(this.pic, this.x,this.y, this.ang);
+  }
+
+  this.findNearestSheep = function(x,y) {
+    var nearestSheepDist = 999;
+    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+      let distTo = sheepList[i].distFrom(x,y);
+      if(distTo < nearestSheepDist) {
+        nearestSheepDist = distTo;
+        nearestSheep = sheepList[i];
+      }
+    }
+    // console.log("Rogue found nearest sheep id =", nearestSheep.id)
+    return nearestSheep;
+  }
+
+  const ROGUE_RANGE = 80;
+  this.isRogueClose = function(nearestSheep) {
+    if(nearestSheep.distFrom(this.x, this.y) < ROGUE_RANGE) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 } // end of rogue class
