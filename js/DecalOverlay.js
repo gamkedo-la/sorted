@@ -43,12 +43,14 @@ var decalOverlay = function() {
         decalContext.clearRect(0, 0, decalCanvas.width, decalCanvas.height);
 	};
 
-    this.scatterDecorations = function(howMany=150, spritePic) {
+    this.scatterDecorations = function(howMany=150, spritePic, bottomMargin) {
         //console.log("Scattering decoration decals");
+        if (!spritePic) return;
+        if (!bottomMargin) bottomMargin = 0; //avoid null
         var x,y;
         for (var i=0; i<howMany; i++) {
             x = randomInteger(0,decalCanvas.width);
-            y = randomInteger(0,decalCanvas.height);
+            y = randomInteger(0,decalCanvas.height-bottomMargin);
             this.add(x,y,0,1,spritePic);
         }
     }

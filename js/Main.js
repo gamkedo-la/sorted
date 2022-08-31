@@ -10,6 +10,8 @@ const STATE_GAME_OVER = 7;
 const STATE_SCOREBOARD = 5;
 const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over']
 
+const ROAD_HEIGHT = 80; // a margin where no flowers or grass grows - see scatterDecals()
+
 var gameState = STATE_MENU;
 var levelLoaded = null;
 var levelRunning = false;
@@ -48,12 +50,12 @@ window.onload = function() {
 
 function setupDecals() {
     decals = new decalOverlay(); // grass, flowers, footprints, pebbles, etc
-    decals.scatterDecorations(150,flower1Pic);
-    decals.scatterDecorations(150,flower2Pic);
-    decals.scatterDecorations(150,flower3Pic);
-    decals.scatterDecorations(150,grass1Pic);
-    decals.scatterDecorations(150,grass2Pic);
-    decals.scatterDecorations(150,grass3Pic);
+    decals.scatterDecorations(150,flower1Pic,ROAD_HEIGHT);
+    decals.scatterDecorations(150,flower2Pic,ROAD_HEIGHT);
+    decals.scatterDecorations(150,flower3Pic,ROAD_HEIGHT);
+    decals.scatterDecorations(150,grass1Pic,ROAD_HEIGHT);
+    decals.scatterDecorations(150,grass2Pic,ROAD_HEIGHT);
+    decals.scatterDecorations(150,grass3Pic,ROAD_HEIGHT);
 }
 
 function imageLoadingDoneSoStartGame() {
