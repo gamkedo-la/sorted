@@ -2,6 +2,8 @@ const HEADER_FONT = 32;
 const BODY_FONT = 22;
 var textIndent = 200;
 const LINE_SPACING = 40;
+const PARAGRAPH_LINE_SPACING = 30;
+const PARAGRAPH_GAP = 20;
 const MENU_TOP_MARGIN = 110; // room for the logo
 
 function drawMenuFlock() {
@@ -92,21 +94,39 @@ function drawCredits() {
   textIndent = 80;
   headLine("Credits");
 
-  var line = 0;
-  bodyLine("Patrick McKeown - lead designer/programmer.", ++line);
-  var txt = 'Christer "McFunkypants" Kaitila - title and animated heads on menu/help/credits; decal system with flowers and grass; hoofprints behind sheep.'
   canvasContext.font = BODY_FONT + "px Verdana";
+  var line = 0;
+  var paragraph = 0;
+
+  paragraphLine("Patrick McKeown - lead, programmer.", ++line, paragraph);
+  paragraph++;
+
+  var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grass; hoofprints behind sheep; many soundfx for sheep and dog.'
   var txtLines = getLines(canvasContext, txt, 700);
-console.log(txtLines.length + txtLines[2])
-for(var i=0; i<txtLines.length; i++) {
-  bodyLine(txtLines[i], ++line);
-}
+  // console.log(txtLines.length + txtLines[2])
+  for(var i=0; i<txtLines.length; i++) {
+    paragraphLine(txtLines[i], ++line, paragraph);
+  }
+  paragraph++;
 
-  bodyLine("Chris DeLeon - sheep-head multi-part image; foundation of Classic games code and art.", ++line);
-  bodyLine("Tim Waskett - algorithm for sheep roaming.", ++line);
-  bodyLine("H Trayford - screenwrap for hat; level 7 experimental design.", ++line);
+  var txt = "Chris DeLeon - sheep-head multi-part image; foundation of classic games code and tile art.";
+  var txtLines = getLines(canvasContext, txt, 700);
+  for(var i=0; i<txtLines.length; i++) {
+    paragraphLine(txtLines[i], ++line, paragraph);
+  }
+  paragraph++;
+  // bodyLine("Chris DeLeon - sheep-head multi-part image; foundation of Classic games code and art.", ++line);
+  
+  paragraphLine("Tim Waskett - algorithm for sheep roaming.", ++line, paragraph);
+  paragraph++;
 
-  bodyLine("Contributor Name - ", ++line);
+  paragraphLine("H Trayford - screenwrap for hat; experiment in level design.", ++line, paragraph);
+  paragraph++;
+
+  paragraphLine("Gonzalo Delgado - concept art for rogue dog.", ++line, paragraph);
+  paragraph++;
+
+  paragraphLine("Contributor name - description.", ++line, paragraph);
 }
 
 function headLine(txt) {
@@ -117,6 +137,12 @@ function headLine(txt) {
 function bodyLine(txt, lineNum) {
   canvasContext.font = BODY_FONT + "px Verdana";
   colorText(txt, textIndent, 110 + MENU_TOP_MARGIN + lineNum * LINE_SPACING, "white");
+}
+
+function paragraphLine(txt, lineNum, paragraph) {
+  canvasContext.font = BODY_FONT + "px Verdana";
+  let y = 125 + MENU_TOP_MARGIN + (paragraph * PARAGRAPH_GAP) + (lineNum * PARAGRAPH_LINE_SPACING);
+  colorText(txt, textIndent, y, "white");
 }
 
 function smallHeadLine(txt, yTop) {

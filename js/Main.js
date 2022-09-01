@@ -166,6 +166,7 @@ function updateAll() {
 	moveAll();
 	drawAll();
   step[currentLevel]++; // level timesteps
+  player.callGapTimer--; // prevents immediate call again
 }
 
 function moveAll() {

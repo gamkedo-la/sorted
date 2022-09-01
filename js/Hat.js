@@ -34,6 +34,7 @@ function playerClass(id) {
     this.speed = 0;
     this.ang = 0;
     this.sheepIDheld = null;  // ID of sheep carried
+    this.callGapTimer = 0;
     this.gotoX = null;
     this.callWhenInPlace = false;
     this.sendWhenInPlace = false;
@@ -83,50 +84,56 @@ if(TOUCH_TEST) {
     }
 
     if(this.keyHeld_call) {
-      this.keyHeld_call = false;
-      console.log('CALL a sheep');
-      callSound.play();
+      if(this.callGapTimer > 0) {
+        console.log("Cannot call again so soon");
 
-      // check all sheep to see if any below Hat
-      // or select a sheep using mouse like in RTS
-      if(this.sheepIDheld != null) {
-        console.log('Cannot call a sheep while one already held');
-      } 
-      else if( isAnySheepCalledAlready() ) {
-        console.log('Cannot call a sheep while another being called');
-      } 
-      else {
-        var aligned;
-        var nearestXdist = 999;
-        for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-          var xDist = xDistance(nextX, sheepList[i].x);
-          if(xDist < nearestXdist && xDist < ALIGN_LIMIT) {
-            aligned = i;
-          }
-        }
-
-        if(aligned != undefined) {
-          var location = sheepList[aligned].state;
-          if(isSheepCallBlocked(location)) {
-            console.log('Sheep on goal or fence or stacked at end of field cannot be called')
-          } else {
-            console.log("Called sheep id =", sheepList[aligned].id);
-            sheepList[aligned].state = CALLED;
-            sheepList[aligned].timer = 0;
-            sheepList[aligned].speed = CALL_SPEED[currentLevel];
-            // change facing to upward
-            sheepList[aligned].ang = Math.PI * 3 / 2;
-            if(sheepList[aligned].potentialTeam == BLUE) {
-              sheepList[aligned].orient = Math.PI * 1/4;
-            } else {
-              sheepList[aligned].orient = Math.PI * 7/4;
+      } else {
+        this.keyHeld_call = false;
+        console.log('CALL a sheep');
+        callSound.play();
+        this.callGapTimer = 30;
+  
+        // check all sheep to see if any below Hat
+        // or select a sheep using mouse like in RTS
+        if(this.sheepIDheld != null) {
+          console.log('Cannot call a sheep while one already held');
+        } 
+        else if( isAnySheepCalledAlready() ) {
+          console.log('Cannot call a sheep while another being called');
+        } 
+        else {
+          var aligned;
+          var nearestXdist = 999;
+          for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+            var xDist = xDistance(nextX, sheepList[i].x);
+            if(xDist < nearestXdist && xDist < ALIGN_LIMIT) {
+              aligned = i;
             }
           }
-        } else {
-          console.log("No sheep is X-aligned to calling farmer-clamp")
+  
+          if(aligned != undefined) {
+            var location = sheepList[aligned].state;
+            if(isSheepCallBlocked(location)) {
+              console.log('Sheep on goal or fence or stacked at end of field cannot be called')
+            } else {
+              console.log("Called sheep id =", sheepList[aligned].id);
+              sheepList[aligned].state = CALLED;
+              sheepList[aligned].timer = 0;
+              sheepList[aligned].speed = CALL_SPEED[currentLevel];
+              // change facing to upward
+              sheepList[aligned].ang = Math.PI * 3 / 2;
+              if(sheepList[aligned].potentialTeam == BLUE) {
+                sheepList[aligned].orient = Math.PI * 1/4;
+              } else {
+                sheepList[aligned].orient = Math.PI * 7/4;
+              }
+            }
+          } else {
+            console.log("No sheep is X-aligned to calling farmer-clamp")
+          }
         }
       }
-    } // end of CALL (tractor)
+    } // end of CALL
 
     if(this.gotoX == null) {
       this.speed *= GROUNDSPEED_DECAY_MULT;
