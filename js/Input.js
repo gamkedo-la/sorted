@@ -17,6 +17,8 @@ const KEY_C = 67;
 const KEY_P = 80;
 const KEY_H = 72;
 const KEY_T = 84;
+const KEY_R = 82;
+const KEY_L = 76;
 
 const KEY_NUM_0 = 48;
 const KEY_NUM_1 = 49;
@@ -201,6 +203,27 @@ function menuKeyChoice(key) {
           console.log("Game Over!");
         } else {
           gameState = STATE_MENU;
+        }
+      }
+      if(key == KEY_R) {
+        gameState = STATE_PLAY;
+        if(!levelRunning) {
+          levelRunning = true;
+          loadLevel(currentLevel);
+          checkGridMatchColsRows();
+        }
+      }
+      if(key == KEY_L) {
+        gameState = STATE_PLAY;
+        if(!levelRunning) {
+          if(currentLevel == LAST_LEVEL) {
+            console.log("No more Levels!");
+          } else {
+            currentLevel++;
+            levelRunning = true;
+            loadLevel(currentLevel);
+            checkGridMatchColsRows();
+          }
         }
       }
       break;

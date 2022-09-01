@@ -156,13 +156,21 @@ function smallBodyLine(txt, lineNum,startY) {
 }
 
 function drawLevelOver() {
+  var nextLevel = currentLevel + 1;
+  var advanceFontSize = Math.sqrt(levelScores[currentLevel]) + 12;
+  var y = 50;
   canvasContext.textAlign = "center";
+  colorRect(canvas.width/2 -180,y, 360,270, "black")
   canvasContext.font = "24px Arial";
-  colorText("Level "+ currentLevel + " completed", canvas.width/2, 200, "white");
+  colorText("Level "+ currentLevel + " completed", canvas.width/2, y+50, "white");
   canvasContext.font = "36px Arial";
-  colorText("Score = " + levelScores[currentLevel], canvas.width/2, 240, "white");
+  colorText("Score = " + levelScores[currentLevel], canvas.width/2, y+100, "white");
   canvasContext.font = "16px Arial";
-  colorText("Press M or Esc for menu", canvas.width/2, 300, "white");
+  colorText("Press key M for menu", canvas.width/2, y+140, "white");
+  colorText("key R to play again level " + currentLevel + " - or key", canvas.width/2, y+170, "white");
+  canvasContext.font = advanceFontSize + "px Arial";
+  colorText("L to advance to level " + nextLevel, canvas.width/2, y + 190 + advanceFontSize, "white");
+  // colorText("H to hide/show this box", canvas.width/2, y+210, "white");
   canvasContext.textAlign = "left";
 }
 
