@@ -229,10 +229,11 @@ function menuKeyChoice(key) {
       break;
 
     case STATE_MENU:
+
       if(key == KEY_C) {
         gameState = STATE_CREDITS;
-        break;
       }
+
       if(key == KEY_P) {
         gameState = STATE_PLAY;
         if(!levelRunning) {
@@ -247,16 +248,16 @@ console.log('Loading from menu key P.');
             checkGridMatchColsRows();
           }
         }
-        break;
       }
+
       if(key == KEY_S) {
         gameState = STATE_SCOREBOARD;
-        break;
       }
+      
       if(key == KEY_H) {
         gameState = STATE_HELP;
-        break;
       }
+
       if(editMode) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
           if(testMode == NORMAL_PLAY || testMode == SEND_ALL_X_ALL_COLUMNS || testMode == SEND_COLUMNS_CENTRE_ONLY || testColumnSet) {
@@ -274,7 +275,29 @@ console.log('Loading from menu key P.');
             testColumnSet = true;
           }
         }
-      }
+
+        if(key == KEY_A) {
+          // testMode = !testMode; // toggle
+          testMode++;
+          if(testMode > 2) { // stack Column is 3, Every_X is 4
+            testMode = 0;
+          }
+          console.log(TEST_NAMES[testMode]);
+        }
+
+        if(key == KEY_T) {
+          testTeam++;
+          if(testTeam > 3) { 
+            testTeam = 0;
+          }
+          console.log("Paint for automated test is", TEAM_NAMES[testTeam]);
+        }
+
+        if(key == KEY_L) {
+          gameState = STATE_DESIGN_LEVEL;
+          console.log("Level design");
+        }
+      } // editMode
       break;
 
     case STATE_SCOREBOARD:
@@ -355,22 +378,6 @@ function getFunctionKeys(key) {
   
   function noGridValuesDisplay() {
     return (!showAreaGridValues && !showAgentGridValues)
-  }
-
-  if(key == KEY_A) {
-    // testMode = !testMode; // toggle
-    testMode++;
-    if(testMode > 2) { // stack Column is 3, Every_X is 4
-      testMode = 0;
-    }
-    console.log(TEST_NAMES[testMode]);
-  }
-  if(key == KEY_T) {
-    testTeam++;
-    if(testTeam > 3) { 
-      testTeam = 0;
-    }
-    console.log("Paint for automated test is", TEAM_NAMES[testTeam]);
   }
 }
 

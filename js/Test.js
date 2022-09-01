@@ -28,7 +28,7 @@ var idLabel = false;
 var timerLabel = true;
 var modeLabel = true;
 
-const TEST_NAMES = ["not automating, normal play", "a full row of sheep will drop", "every X in one column - currently can select column 0 to 9 by pressing number key", "some sheep will drop in one column - currently can select column 0 to 9 by pressing number key", "testing Send from every X location"];
+const TEST_NAMES = ["not automating, normal play", "from each column's centre a sheep will be Sent", "every X in one column - select column 0 to 9 by using number key", "sheep Sent to stack from one column centre - select column 0 to 9 using number key", "testing Send from every X location in all columns"];
 
 var testTeam = MIXED; // both teams, as in normal play
 var whichColumn = 10; // for automated test

@@ -6,6 +6,7 @@ const STATE_EDIT = 0;
 const STATE_MENU = 2;
 const STATE_PLAY = 1;
 const STATE_LEVEL_OVER = 4;
+const STATE_DESIGN_LEVEL = 8;
 const STATE_GAME_OVER = 7;
 const STATE_SCOREBOARD = 5;
 const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over']
@@ -25,8 +26,8 @@ var levelData;
 var nearGoal = false; // if true, pens at row near top
 var decals; // grass, flowers, footprints, pebbles, etc
 
-const TEAM_NAMES = ["plain", "blue", "red"];
-const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282"];
+const TEAM_NAMES = ["plain", "blue", "red", "mixed"];
+const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple"];
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
@@ -185,9 +186,10 @@ function updateAll() {
 }
 
 function moveAll() {
-  if(gameState == STATE_MENU || gameState == STATE_CREDITS) {
+  if(gameState == STATE_MENU || gameState == STATE_CREDITS || gameState == STATE_DESIGN_LEVEL) {
     return;
   }
+
   else if(gameState == STATE_PLAY) {
     player.move();
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
@@ -277,6 +279,10 @@ function drawAll() {
 
     drawLevelOverButtons();
   } // end of Level_Over
+
+  else if(gameState == STATE_DESIGN_LEVEL) {
+    drawDesignLevel();
+  }
 
   else if(gameState == STATE_MENU) {
     drawMenu();
