@@ -5,8 +5,11 @@ const MIXED = 3;
 
 const NORMAL_PLAY = 0;
 const SEND_COLUMNS_CENTRE_ONLY = 1;
-const SEND_IN_COLUMN = 2;
-const SEND_EVERY_X = 3;
+const SEND_ALL_X_ONE_COLUMN = 2;
+const SEND_IN_COLUMN = 3;
+const SEND_ALL_X_ALL_COLUMNS = 4;
+
+const TEST_SEND_SPEED = 10;
 
 var testMode = NORMAL_PLAY;
 var testColumnSet = false; // flag to get column number from keyb
@@ -25,7 +28,7 @@ var idLabel = false;
 var timerLabel = true;
 var modeLabel = true;
 
-const TEST_NAMES = ["not automating, normal play", "a full row of sheep will drop", "some sheep will drop in one column - currently can select column 0 to 9 by pressing number key", "testing Send from every X location"];
+const TEST_NAMES = ["not automating, normal play", "a full row of sheep will drop", "every X in one column - currently can select column 0 to 9 by pressing number key", "some sheep will drop in one column - currently can select column 0 to 9 by pressing number key", "testing Send from every X location"];
 
 var testTeam = MIXED; // both teams, as in normal play
 var whichColumn = 10; // for automated test
@@ -38,7 +41,14 @@ var endLevelShowID = false; // otherwise show score per ball
 const SEPARATOR = "\t"; // ", "
 
 function testResult() {
-  var output = "Level " + currentLevel + " - test send full row\n";
+  var output = "Level " + currentLevel + " - test send from ";
+  if(testMode == SEND_COLUMNS_CENTRE_ONLY) {
+    output += "centre of each column\n";
+  }
+  else if(testMode == SEND_ALL_X_ONE_COLUMN) {
+    output += "all X of one column\n";
+  }
+
   output += "sentX" + SEPARATOR + "col" + SEPARATOR + "state" + SEPARATOR + "endTime\n";
   var txtLine;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {

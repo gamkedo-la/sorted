@@ -236,7 +236,8 @@ console.log('Loading from menu key P.');
       }
       if(editMode) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
-          if(testMode == NORMAL_PLAY || testMode == SEND_EVERY_X || testMode == SEND_COLUMNS_CENTRE_ONLY || testColumnSet) {
+          if(testMode == NORMAL_PLAY || testMode == SEND_ALL_X_ALL_COLUMNS || testMode == SEND_COLUMNS_CENTRE_ONLY || testColumnSet) {
+          // if(testMode == NORMAL_PLAY || testMode == SEND_ALL_X_ALL_COLUMNS || testMode == SEND_COLUMNS_CENTRE_ONLY || testMode == SEND_ALL_X_ONE_COLUMN || testColumnSet) {
             currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
             levelRunning = true;
 // console.log('Loading level from editMode menu with Num-key');
@@ -328,6 +329,7 @@ function getFunctionKeys(key) {
 
     }
   }
+  
   function noGridValuesDisplay() {
     return (!showAreaGridValues && !showAgentGridValues)
   }
@@ -335,7 +337,7 @@ function getFunctionKeys(key) {
   if(key == KEY_A) {
     // testMode = !testMode; // toggle
     testMode++;
-    if(testMode > 3) { // to prevent choice of Every_X test change to 2
+    if(testMode > 2) { // stack Column is 3, Every_X is 4
       testMode = 0;
     }
     console.log(TEST_NAMES[testMode]);

@@ -136,9 +136,24 @@ function loadLevel(whichLevel) {
     test_EndLevel();
   }
 
+  else if(testMode == SEND_ALL_X_ONE_COLUMN) { 
+    console.log("Testing send from each X in column " + whichColumn + " of level " + whichLevel);
+    FLOCK_SIZE[whichLevel] = TILE_W; // 40
+    // loop every X pixel position within a tile width
+    for(var Xoffset=0; Xoffset < TILE_W; Xoffset++) {  // limit really TILE_W
+        var spawnSheep = new sheepClass();
+        spawnSheep.reset(col, testTeam, PLAIN, SENT);
+        spawnSheep.testColumnXInit();
+        spawnSheep.placeColumnX(whichColumn, Xoffset);
+        sheepList.push(spawnSheep);
+    }
+    whichColumn = null;
+    testColumnSet = false;
+  }
+
   // cannot be done like this, need Xoffset increment by 1 at End-Level
   // and a flag to keep doing test until Xoffset reaches 40 (TILE_W)
-  else if(testMode == SEND_EVERY_X) { 
+  else if(testMode == SEND_ALL_X_ALL_COLUMNS) { 
     console.log("Testing send from each X in level " + whichLevel + " - " + levelNames[whichLevel]);
     FLOCK_SIZE[whichLevel] = TILE_COLS;
     // loop every X pixel position within a tile width

@@ -75,10 +75,20 @@ function sheepClass() {
     this.speed = 3 + this.id * 3;
     this.ang = Math.PI/2;
   }
+  this.testColumnXInit = function() {
+    this.speed = TEST_SEND_SPEED;
+    this.ang = Math.PI/2;
+  }
 
   this.placeColumn = function(col) {
     this.x = TILE_W/2 + col * TILE_W;
     this.y = TILE_H * 3/2 -15;
+    this.sentX = this.x;
+  }
+  this.placeColumnX = function(col, Xoffset) {
+    this.x = (col * TILE_W) + Xoffset;
+    this.y = TILE_H * 3/2 -15;
+    this.sentX = this.x;
   }
 
   this.placeRandom = function(depth) {
