@@ -192,9 +192,13 @@ function moveAll() {
 
   else if(gameState == STATE_PLAY) {
     player.move();
+    
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].move();
     }
+    
+    flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
+
     if(currentLevel>=3) { // dog present on later levels only
       dog.move();
     }
