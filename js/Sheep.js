@@ -343,6 +343,7 @@ function sheepClass() {
           this.state = IN_BLUE_PEN;
           this.orient = Math.PI * 1/2;
           nextY = TILE_H * (14 + TILE_Y_ADJUST); // bring rear inside tile
+          random_baa_sound(BAA_VOLUME);
 
         } else if(tileType == TILE_PEN_RED) {
           console.log("Sheep ID", this.id, "reached the red pen.");
@@ -350,12 +351,16 @@ function sheepClass() {
           this.state = IN_RED_PEN;
           this.orient = Math.PI * 3/2;
           nextY = TILE_H * (14 + TILE_Y_ADJUST);
+          random_baa_sound(BAA_VOLUME);
 
         } else if(tileType == TILE_GOAL) {
           console.log("Sheep ID", this.id, "is between pens.");
           this.state = ON_ROAD;
           nextY = TILE_H * (13 + TILE_Y_ADJUST);
           agentGrid[tileIndexUnder - TILE_COLS] = 1;
+          
+          // fixme: perhaps we need some "unhappy" BAA sounds?
+          // random_baa_sound(BAA_VOLUME); 
           
         }  
         this.speed = 0;

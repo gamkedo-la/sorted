@@ -1,9 +1,11 @@
 // a way to play random sheep sounds
 
-var flock_sounds, baa_sounds; // init on demand
+const BAA_VOLUME = 1.0; // volume of sheep sfx when entering the pen
 const AMBIENT_BAA_VOLUME_MAX = 0.05; // quietly
 const AMBIENT_BAA_VOLUME_MIN = 0.01; // but not too quietly
 const AMBIENT_BAA_CHANCE = 0.025; // rarely
+
+var flock_sounds, baa_sounds; // arrays that init on demand
 
 // play when a sheep enters a gate
 function random_baa_sound(volume=0.5) {
