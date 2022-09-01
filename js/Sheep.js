@@ -353,7 +353,7 @@ function sheepClass() {
           nextY = TILE_H * (14 + TILE_Y_ADJUST);
           random_baa_sound(BAA_VOLUME);
 
-        } else if(tileType == TILE_GOAL) {
+        } else if(tileType == TILE_CENTRE) {
           console.log("Sheep ID", this.id, "is between pens.");
           this.state = ON_ROAD;
           nextY = TILE_H * (13 + TILE_Y_ADJUST);
@@ -578,7 +578,7 @@ function sheepClass() {
   }
 
   this.onTileGoal = function(tileType) {
-    return tileType == TILE_GOAL || tileType == TILE_PEN_BLUE || tileType == TILE_PEN_RED;
+    return tileType == TILE_CENTRE || tileType == TILE_PEN_BLUE || tileType == TILE_PEN_RED;
   }
 
   this.isTileConveyor = function(tileType) {

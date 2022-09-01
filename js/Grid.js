@@ -1,7 +1,7 @@
 const TILE_FIELD = 0;
 const TILE_PEN_BLUE = 1;
 const TILE_PEN_RED = 2;
-const TILE_GOAL = 10; // ? this can be tile_road
+const TILE_CENTRE = 10; // ? this can be tile_road
 const TILE_ROAD = 3;
 
 const TILE_BEND_LEFT = 4;

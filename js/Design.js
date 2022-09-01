@@ -24,4 +24,6 @@ function drawDesignLevel() {
     drawTileX = 0;
     drawTileY += TILE_H;
   } // end of for each row
+
+  drawLowRoad();
 }

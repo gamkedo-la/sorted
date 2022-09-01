@@ -243,7 +243,6 @@ function drawAll() {
     decals.draw();
 
     // UI_level_number();
-    drawLevelOver();
 
     // draw label with score on sheep
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
@@ -281,6 +280,7 @@ function drawAll() {
       }
     } // end of (editMode)
 
+    drawLevelOver();
     drawLevelOverButtons();
   } // end of Level_Over
 

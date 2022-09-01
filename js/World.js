@@ -92,7 +92,7 @@ function drawLowRoad() {
 function makePenRow(cols, penSize) {
   var middle = cols - penSize*2;
   var rowStr = '  '; // grid.js indent if pasting
-  var fieldStr = TILE_GOAL + ', ';
+  var fieldStr = TILE_CENTRE + ', ';
   var bluePenStr = TILE_PEN_BLUE + ', ';
   var redPenStr = TILE_PEN_RED + ', ';
   rowStr += bluePenStr.repeat(penSize);

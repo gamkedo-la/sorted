@@ -155,21 +155,22 @@ function smallBodyLine(txt, lineNum,startY) {
   colorText(txt, textIndent, startY + lineNum * 30 + MENU_TOP_MARGIN, "white");
 }
 
+const POPUP_W = 400;
 function drawLevelOver() {
   var nextLevel = currentLevel + 1;
-  var advanceFontSize = Math.sqrt(levelScores[currentLevel]) + 12;
+  var advanceFontSize = (6 * Math.sqrt(levelScores[currentLevel]) ) / FLOCK_SIZE[currentLevel] + 14;
   var y = 50;
   canvasContext.textAlign = "center";
-  colorRect(canvas.width/2 -180,y, 360,270, "black")
+  colorRect(canvas.width/2 -POPUP_W/2, y, POPUP_W, 270, "black")
   canvasContext.font = "24px Arial";
   colorText("Level "+ currentLevel + " completed", canvas.width/2, y+50, "white");
   canvasContext.font = "36px Arial";
   colorText("Score = " + levelScores[currentLevel], canvas.width/2, y+100, "white");
   canvasContext.font = "16px Arial";
   colorText("Press key M for menu", canvas.width/2, y+140, "white");
-  colorText("key R to play again level " + currentLevel + " - or key", canvas.width/2, y+170, "white");
+  colorText("key R to play again level " + currentLevel, canvas.width/2, y+175, "white");
   canvasContext.font = advanceFontSize + "px Arial";
-  colorText("L to advance to level " + nextLevel, canvas.width/2, y + 190 + advanceFontSize, "white");
+  colorText("key L to advance to level " + nextLevel, canvas.width/2, y + 193 + advanceFontSize, "white");
   // colorText("H to hide/show this box", canvas.width/2, y+210, "white");
   canvasContext.textAlign = "left";
 }

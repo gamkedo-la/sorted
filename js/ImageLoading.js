@@ -68,7 +68,7 @@ function loadImages() {
         {varName: hoofprintPic, theFile: "hoofprint.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},		
-    {tileType: TILE_GOAL, theFile: "tile_road.png"},
+    {tileType: TILE_CENTRE, theFile: "tile_road.png"},
     {tileType: TILE_ROAD, theFile: "tile_road_fence.png"},
     {tileType: TILE_PEN_BLUE, theFile: "tile_pen_blue.png"},
     {tileType: TILE_PEN_RED, theFile: "tile_pen_red.png"},

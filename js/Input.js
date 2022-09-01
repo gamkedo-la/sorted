@@ -1,5 +1,6 @@
 var keyHeld_left = false;
 var keyHeld_right = false;
+var selectedTile = null;
 
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
@@ -60,6 +61,7 @@ function setupInput() {
 }
 
 var debug5txt = '';
+
 const NUM_BUTTONS = 6; // arrowKeys, Menu, Pause
 const buttonRects = []; //Array[NUM_BUTTONS];
 const buttonTop = 586;
@@ -84,8 +86,7 @@ function mousemoveHandler(evt) {
 function mousedownHandler(evt) {
   var mousePos = getMousePos(evt);
 
-  if (gameState != STATE_PLAY && gameState != STATE_LEVEL_OVER) {
-
+  if (gameState == STATE_MENU) {
     if (TOUCH_TEST && xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
       console.log('Loading level from upper-screen click, used for testing iPad and other touch devices.');
       loadLevel(currentLevel);
@@ -93,7 +94,9 @@ function mousedownHandler(evt) {
       console.log("Level number now =", currentLevel);
       gameState = STATE_PLAY;
     }
-  } else {
+  } 
+  
+  else if (gameState == STATE_PLAY || gameState == STATE_LEVEL_OVER) {
     for(var i=0; i<NUM_BUTTONS; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
 
@@ -133,6 +136,11 @@ function mousedownHandler(evt) {
       }
     }
   }
+
+  else if (gameState == STATE_DESIGN_LEVEL) {
+    // calculate row & column, add tile to grid, display
+
+  } // End of Design-Level mousedown handling
 }
 
 function mouseupHandler(evt) { 
@@ -319,6 +327,15 @@ console.log('Loading from menu key P.');
       if(key == KEY_M) {
         gameState = STATE_MENU;
         boopSound.play();
+      }
+      break;
+
+    case STATE_DESIGN_LEVEL:
+      if(key == KEY_S) {
+
+      }
+      if(key == KEY_L) {
+        selectedTile = TILE_CONVEYOR_LEFT;
       }
       break;
 
