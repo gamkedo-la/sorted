@@ -2,10 +2,10 @@ var audioFormat;
 
 function setFormat() {
   var audio = new Audio();
-  if (audio.canPlayType("audio/mp3")) {
+  if (audio.canPlayType("audio/mp3")) { // 98.72% of browsers as of 2022
       audioFormat = ".mp3";
   } else {
-      audioFormat = ".ogg";
+      audioFormat = ".ogg"; // for the 1% running an obsolete browser
   }
 }
 
@@ -42,11 +42,13 @@ function SoundOverlapsClass(filenameWithPath) {
 
   var altSoundTurn = false;
   
-  this.play = function() {
+  this.play = function(volume=1) {
     if(altSoundTurn) { // no "this." prefix since "var" is local/private
+      altSound.volume=volume;
       altSound.currentTime = 0;
       altSound.play();
     } else {
+      mainSound.volume=volume;
       mainSound.currentTime = 0;
       mainSound.play();
     }
