@@ -36,10 +36,10 @@ PLACING_DEPTH[3] = 400; // for demo video
 // Level 4
 
 // Level 5
-PLACING_DEPTH[5] = 500;
-HAT_POWER[5] = 3.0; // fast Hat
-CALL_SPEED[5] = 10;
-SEND_SPEED[5] = 20;
+PLACING_DEPTH[5] = 150;
+HAT_POWER[5] = 1.5; // fast Hat
+CALL_SPEED[5] = 8;
+SEND_SPEED[5] = 10;
 
 // Level 6
 PLACING_DEPTH[6] = 100;

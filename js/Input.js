@@ -308,6 +308,8 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
 
         if(key == KEY_D) {
           gameState = STATE_DESIGN_LEVEL;
+          areaGrid = levelList[designLevel].slice();
+          designGridSet = true;
           console.log("Design Level");
         }
       } // editMode
@@ -339,17 +341,26 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
       if(key == KEY_M || key == KEY_ESC) {
         gameState = STATE_MENU;
       }
-      if(key == KEY_S) {
+      // if(key == KEY_S) {
+      // }
+      // if(key == KEY_L) {
+      //   tileType = TILE_CONVEYOR_LEFT;
+      // }
 
-      }
-      if(key == KEY_L) {
-        tileType = TILE_CONVEYOR_LEFT;
-      }
-
+      // temporarily using number keys to select tiletype
       if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
-        designLevel = key - KEY_NUM_0; // key '1' is code 49
-        console.log("Number key from Designer = ", designLevel)
-        drawLevelDesigner(designLevel);
+        tileType = key - KEY_NUM_0;
+        if(tileType == 8 || tileType == 9) {
+          console.log("Tile types 8 and 9 are not defined");
+        } else {
+          console.log("Tile type selected =", tileType, TILE_NAMES[tileType]);
+          designTileReady = true;
+        }
+
+        // When tiles are selected visually, use numkeys to select Level.
+        // designLevel = key - KEY_NUM_0; // key '1' is code 49
+        // console.log("Number key from Designer = ", designLevel)
+        // drawLevelDesigner(designLevel);
         // loadDesignLevel(designLevel);
       }
       break;

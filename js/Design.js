@@ -1,14 +1,20 @@
 var designLevel = 0; // blank start
-var tileType = 0;
-var gridIndex = 304;
+var tileType = null;
+var gridIndex = 283;
+
+var designTileReady = false;
+var designGridSet = false;
 
 // draw base with grass and road
 // "level_" + designLevel;
 function drawLevelDesigner(whichLevel) {
-  areaGrid = levelList[whichLevel].slice();
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
+
+  if(!designGridSet) {
+    areaGrid = levelList[designLevel].slice();
+  }
 
   for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
     for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
@@ -34,10 +40,11 @@ function drawLevelDesigner(whichLevel) {
 
 function levelDesignerTitle() {
   canvasContext.font = "24px Arial";
-  colorText("Level Designer", 20,30, "white");
+  let y = TILE_H * 15;
+  colorText("Level Designer", 20, y, "white");
   canvasContext.font = "16px Arial";
   // colorText("key M returns to Menu", 600,30, "white");
-  let msg = "Click to select tile; key M returns to Menu";
+  let msg = "Click to choose location; Number key to choose tiletype; M returns to Menu";
   document.getElementById("debug_1").innerHTML = msg;
 }
 
@@ -52,4 +59,39 @@ function outlineSelectedTile(index) {
   canvasContext.setLineDash([]); 
   canvasContext.strokeStyle = "yellow";
   canvasContext.strokeRect(topLeftX,topLeftY, TILE_W,TILE_H);
+}
+
+function clearDesign() {
+  areaGrid = levelList[0].slice();
+}
+
+function formatDesign() {
+  var output = 'const level_' + designLevel + ' = [\n'; 
+  var arrayIndex = 0;
+  var space = '';
+
+  for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
+    var line = ' ';
+    for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+      let tile = areaGrid[arrayIndex];
+      getLength(tile) > 1 ? space = ' ' : space = '  ';
+
+      line += space + areaGrid[arrayIndex] + ',';
+      arrayIndex++;
+    }
+    output += line + '\n';
+  }
+  output += '];\n';
+
+  saveDesign(output);
+  return output;
+}
+
+function saveDesign(output) {
+  let filename = 'design_level_' + designLevel + '.txt';
+  downloader(filename, output);
+}
+
+function getLength(number) {
+  return number.toString().length;
 }

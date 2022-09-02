@@ -15,6 +15,7 @@ function rogueClass() {
     this.ang = 0;
     this.speedX = ROGUE_SPEED[currentLevel];
     this.speedY = 0;
+    this.barkTimer = 0;
   }
 
   this.move = function() {
@@ -27,7 +28,11 @@ function rogueClass() {
     // is close enough to smell a sheep
     if(this.isRogueClose(nearestSheep, ROGUE_WOOF_RANGE)) {
       console.log("Rogue smells sheep id =", nearestSheep.id);
-      rogueSound.play();
+      if(this.barkTimer < 1) {
+        rogueSound.play();
+        this.barkTimer = 40;
+      }
+
     }
 
     // is close enough to unsort

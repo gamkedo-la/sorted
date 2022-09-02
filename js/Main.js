@@ -14,9 +14,10 @@ const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreb
 const ROAD_HEIGHT = 80; // a margin where no flowers or grass grows - see scatterDecals()
 
 var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; // 
+var designLevel = 5;
+
 var levelLoaded = null;
 var playLevel = 0; // not changed by editMode or state levelEditor
-var levelRunning = false;
 var levelRunning = false;
 var levelTestDataReady = false;
 
@@ -187,11 +188,20 @@ function updateAll() {
 	drawAll();
   step[currentLevel]++; // level timesteps
   player.callGapTimer--; // prevents immediate call again
+  dog.barkTimer--;
 }
 
 function moveAll() {
-  if(gameState == STATE_MENU || gameState == STATE_CREDITS || gameState == STATE_DESIGN_LEVEL) {
+  if(gameState == STATE_MENU || gameState == STATE_CREDITS) {
     return;
+  }
+
+  else if(gameState == STATE_DESIGN_LEVEL) {
+    if(designTileReady) {
+      // console.log('move.design', gridIndex, tileType);
+      areaGrid[gridIndex] = tileType;
+      designTileReady = false;
+    }
   }
 
   else if(gameState == STATE_PLAY) {
@@ -292,7 +302,6 @@ function drawAll() {
     drawLevelDesigner(designLevel);
     levelDesignerTitle();
     outlineSelectedTile(gridIndex);
-    // areaGrid[index] = tileType;
   }
 
   else if(gameState == STATE_MENU) {

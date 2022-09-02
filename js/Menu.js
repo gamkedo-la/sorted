@@ -157,7 +157,8 @@ function smallBodyLine(txt, lineNum,startY) {
 const POPUP_W = 400;
 function drawLevelOver() {
   var nextLevel = currentLevel + 1;
-  var advanceFontSize = (6 * Math.sqrt(levelScores[currentLevel]) ) / FLOCK_SIZE[currentLevel] + 14;
+  // var advanceFontSize = (6 * Math.sqrt(levelScores[currentLevel]) ) / FLOCK_SIZE[currentLevel] + 14;
+  var advanceFontSize = 12 + Math.sqrt( levelScores[currentLevel] / FLOCK_SIZE[currentLevel] +1 );
   var y = 50;
   canvasContext.textAlign = "center";
   colorRect(canvas.width/2 -POPUP_W/2, y, POPUP_W, 270, "black")
