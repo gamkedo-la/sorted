@@ -15,7 +15,7 @@ const ROAD_HEIGHT = 80; // a margin where no flowers or grass grows - see scatte
 
 var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; // 
 var levelLoaded = null;
-var playLevel = 1; // not changed by editMode or state levelEditor
+var playLevel = 0; // not changed by editMode or state levelEditor
 var levelRunning = false;
 var levelTestDataReady = false;
 
@@ -62,7 +62,7 @@ function setupDecals() {
 }
 
 function imageLoadingDoneSoStartGame() {
-    setupDecals()
+  setupDecals();
 	var framesPerSecond = 30;
 	setInterval(updateAll, 1000/framesPerSecond);
 
@@ -287,8 +287,10 @@ function drawAll() {
   } // end of Level_Over
 
   else if(gameState == STATE_DESIGN_LEVEL) {
-    drawLevelDesigner();
+    drawLevelDesigner(designLevel);
     levelDesignerTitle();
+    outlineSelectedTile(gridIndex);
+    // areaGrid[index] = tileType;
   }
 
   else if(gameState == STATE_MENU) {

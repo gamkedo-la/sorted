@@ -20,12 +20,25 @@ function colRowToIndex(col, row) {
 	return col + TILE_COLS * row;
 }
 
+function indexToCol(index) {
+  return (index % TILE_COLS);
+}
+function indexToRow(index) {
+  return Math.floor(index / TILE_COLS);
+}
+
 function getTileIndexAtPixelCoord(pixelX, pixelY) {
   var tileCol = pixelX / TILE_W;
   var tileRow = pixelY / TILE_H;
   tileCol = Math.floor( tileCol );
   tileRow = Math.floor( tileRow );
   return(colRowToIndex(tileCol, tileRow));
+}
+function getColFromX(x) {
+  return Math.floor( x / TILE_W );
+}
+function getRowFromX(y) {
+  return Math.floor( y / TILE_H );
 }
 
 function drawArea() {

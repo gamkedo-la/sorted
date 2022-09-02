@@ -137,11 +137,12 @@ function mousedownHandler(evt) {
   }
 
   else if (gameState == STATE_DESIGN_LEVEL) {
-    // calculate row & column, add tile to grid, display
-    let index = getTileIndexAtPixelCoord(mousePos.x, mousePos.x);
-    console.log("Designer", mousePos.x, index);
-    areaGrid[index] = selectedTile;
+    // select grid cell to outline
+    gridIndex = getTileIndexAtPixelCoord(mousePos.x, mousePos.y);
+    // console.log("Designer", mousePos.x, mousePos.y, gridIndex);
+
   } // End of Design-Level mousedown handling
+
 }
 
 function mouseupHandler(evt) { 
@@ -207,7 +208,7 @@ function menuKeyChoice(key) {
 
     case STATE_LEVEL_OVER:
       if(key == KEY_ESC || key == KEY_M) {
-        if(currentLevel == LAST_LEVEL) {
+        if(playLevel == LAST_LEVEL) {
           gameState = STATE_GAME_OVER;
           console.log("Game Over!");
         } else {
@@ -218,19 +219,20 @@ function menuKeyChoice(key) {
         gameState = STATE_PLAY;
         if(!levelRunning) {
           levelRunning = true;
-          loadLevel(currentLevel);
+          loadLevel(playLevel);
           checkGridMatchColsRows();
         }
       }
       if(key == KEY_L) {
         gameState = STATE_PLAY;
         if(!levelRunning) {
-          if(currentLevel == LAST_LEVEL) {
+          if(playLevel == LAST_LEVEL) {
             console.log("No more Levels!");
           } else {
-            currentLevel++;
+            playLevel++;
+            currentLevel = playLevel;
             levelRunning = true;
-            loadLevel(currentLevel);
+            loadLevel(playLevel);
             checkGridMatchColsRows();
           }
         }
@@ -246,14 +248,16 @@ function menuKeyChoice(key) {
       if(key == KEY_P) {
         gameState = STATE_PLAY;
         if(!levelRunning) {
-          if(currentLevel == LAST_LEVEL) {
+          // this condition should be caught by levelOver handling
+          if(playLevel == LAST_LEVEL) {
             console.log("No more Levels!");
           } else {
             levelRunning = true;
-            currentLevel++;
+            playLevel++;
+            currentLevel = playLevel;
 console.log('Loading from menu key P.');
-// console.log("Level number now =", currentLevel);
-            loadLevel(currentLevel);
+console.log("Level number now playLevel=" + playLevel + " currentLevel=" + currentLevel);
+            loadLevel(playLevel);
             checkGridMatchColsRows();
           }
         }
@@ -339,12 +343,12 @@ console.log('Loading from menu key P.');
 
       }
       if(key == KEY_L) {
-        selectedTile = TILE_CONVEYOR_LEFT;
+        tileType = TILE_CONVEYOR_LEFT;
       }
 
       if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
         designLevel = key - KEY_NUM_0; // key '1' is code 49
-        console.log("Number key from Designer screen", designLevel)
+        console.log("Number key from Designer = ", designLevel)
         drawLevelDesigner(designLevel);
         // loadDesignLevel(designLevel);
       }

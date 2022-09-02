@@ -27,26 +27,26 @@ function drawMenu() {
     textIndent = 225;
     headLine("Menu");
     // bodyLine("Skip learning levels - press L", 1);
-    bodyLine("Play - press P", ++line);
-    bodyLine("Score - press S", ++line);
-    bodyLine("Help - press H", ++line);
-    // bodyLine("Button bar - press B", ++line);
-    bodyLine("Credits - press C", ++line);
-    bodyLine("Edit mode - press F1", ++line);
+    bodyLine("Play - key P", ++line);
+    bodyLine("Score - key S", ++line);
+    bodyLine("Help - key H", ++line);
+    // bodyLine("Button bar - key B", ++line);
+    bodyLine("Credits - key C", ++line);
+    bodyLine("Edit mode - key F1", ++line);
   } else {
     textIndent = 190;
     headLine("Edit mode menu");
-    bodyLine("Level select - press key 0-9", ++line);
-    bodyLine("Automate test - press A", ++line);
-    bodyLine("Team paint test - press T", ++line);
-    // bodyLine("Play (resume) - press P", ++line);
-    bodyLine("Scoreboard - press S", ++line);
-    bodyLine("Help/Title - press H", ++line);
-    bodyLine("toggle Edit mode - press F1", ++line);
+    bodyLine("Level select - key 0-9", ++line);
+    bodyLine("Design level - key D", ++line);
+    bodyLine("Automate test - key A", ++line);
+    bodyLine("Team paint test - key T", ++line);
+
+    bodyLine("Scoreboard - key S", ++line);
+    bodyLine("Help/Title - key H", ++line);
+    bodyLine("toggle Edit mode - key F1", ++line);
   }
 
   canvasContext.drawImage(controlsPic,550,250); // controls reference gui tutorial popup
-
 }
 
 function drawHelp() {
@@ -83,7 +83,6 @@ function drawHelp() {
     line++; // gap between paragraphs
     smallBodyLine("EditMode: Level 0 is integration test level.", ++line, yTop);  
   }
-
 }
 
 function drawCredits() {
