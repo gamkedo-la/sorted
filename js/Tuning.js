@@ -72,7 +72,7 @@ var defaultRogueRow = 11;
 ROGUE_ROW.fill(defaultRogueRow);
 
 const ROGUE_SPEED = Array(NUM_LEVELS);
-var defaultRogueSpeed = 5;
+var defaultRogueSpeed = 2;
 ROGUE_SPEED.fill(defaultRogueSpeed);
 
 const CONVEYOR_SPEED = Array(NUM_LEVELS);

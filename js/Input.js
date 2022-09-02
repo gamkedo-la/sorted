@@ -147,6 +147,7 @@ function mousedownHandler(evt) {
 
 function mouseupHandler(evt) { 
   var mousePos = getMousePos(evt);
+  
   for(var i=0; i<NUM_BUTTONS; i++) {
     if (xyIsInRect(mousePos,buttonRects[i])) {
       switch(buttonNames[i]) {
@@ -171,12 +172,6 @@ console.log("Mouseup keyHeld_left", player.keyHeld_left)
       }
     }
   }
-}
-
-function mouseTile(evt) {
-  updateMousePos();
-  tileIndex = getTileIndexAtPixelCoord(mouseX, mouseY);
-  console.log(tileIndex)
 }
 
 // handles in-game-level keyboard input
@@ -215,6 +210,7 @@ function menuKeyChoice(key) {
           gameState = STATE_MENU;
         }
       }
+
       if(key == KEY_R) {
         gameState = STATE_PLAY;
         if(!levelRunning) {
@@ -223,6 +219,7 @@ function menuKeyChoice(key) {
           checkGridMatchColsRows();
         }
       }
+      
       if(key == KEY_L) {
         gameState = STATE_PLAY;
         if(!levelRunning) {
@@ -246,7 +243,6 @@ function menuKeyChoice(key) {
       }
 
       if(key == KEY_P) {
-        gameState = STATE_PLAY;
         if(!levelRunning) {
           // this condition should be caught by levelOver handling
           if(playLevel == LAST_LEVEL) {
@@ -259,7 +255,10 @@ console.log('Loading from menu key P.');
 console.log("Level number now playLevel=" + playLevel + " currentLevel=" + currentLevel);
             loadLevel(playLevel);
             checkGridMatchColsRows();
+            gameState = STATE_PLAY;
           }
+        } else {
+          gameState = STATE_PLAY; // return to game
         }
       }
 
@@ -275,11 +274,12 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
           if(testMode == NORMAL_PLAY || testMode == SEND_ALL_X_ALL_COLUMNS || testMode == SEND_COLUMNS_CENTRE_ONLY || testColumnSet) {
           // if(testMode == NORMAL_PLAY || testMode == SEND_ALL_X_ALL_COLUMNS || testMode == SEND_COLUMNS_CENTRE_ONLY || testMode == SEND_ALL_X_ONE_COLUMN || testColumnSet) {
-            currentLevel = key - KEY_NUM_0; // 1 on keyb is code 49
+            testLevel = key - KEY_NUM_0; // 1 on keyb is code 49
+            currentLevel = testLevel;
             levelRunning = true;
 // console.log('Loading level from editMode menu with Num-key');
 // console.log("Level number now =", currentLevel);
-            loadLevel(currentLevel);
+            loadLevel(testLevel);
             checkGridMatchColsRows();
             gameState = STATE_PLAY;
           } else {

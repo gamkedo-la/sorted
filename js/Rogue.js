@@ -1,7 +1,9 @@
+const ROGUE_UNSORT_RANGE = 50;
+const ROGUE_WOOF_RANGE = 100;
+
 var dog = new rogueClass();
 
 function rogueClass() {
-
   this.init = function(whichPic) {
     this.pic = whichPic;
     this.reset();
@@ -11,7 +13,7 @@ function rogueClass() {
     this.x = randomRangeInt(20 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -18);
     this.y = 425;
     this.ang = 0;
-    this.speedX = 5;
+    this.speedX = ROGUE_SPEED[currentLevel];
     this.speedY = 0;
   }
 
@@ -22,7 +24,14 @@ function rogueClass() {
     // detect sheep
     var nearestSheep = this.findNearestSheep(this.x, this.y, sheepList);
 
-    if(this.isRogueClose(nearestSheep)) {
+    // is close enough to smell a sheep
+    if(this.isRogueClose(nearestSheep, ROGUE_WOOF_RANGE)) {
+      console.log("Rogue smells sheep id =", nearestSheep.id);
+      rogueSound.play();
+    }
+
+    // is close enough to unsort
+    if(this.isRogueClose(nearestSheep, ROGUE_UNSORT_RANGE)) {
       if(nearestSheep.team != PLAIN) {
         console.log("Unsort sheep id =", nearestSheep.id);
         nearestSheep.team = PLAIN;
@@ -68,9 +77,8 @@ function rogueClass() {
     return nearestSheep;
   }
 
-  const ROGUE_RANGE = 80;
-  this.isRogueClose = function(nearestSheep) {
-    if(nearestSheep.distFrom(this.x, this.y) < ROGUE_RANGE) {
+  this.isRogueClose = function(nearestSheep, range) {
+    if(nearestSheep.distFrom(this.x, this.y) < range) {
       return true;
     } else {
       return false;

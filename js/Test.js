@@ -14,6 +14,7 @@ const TEST_SEND_SPEED = 10;
 var testMode = NORMAL_PLAY;
 var testColumnSet = false; // flag to get column number from keyb
 var testTimer = null;
+var testLevel = 0;
 
 // toggle overlay grids for design/testing
 var showAreaGridValues = false;

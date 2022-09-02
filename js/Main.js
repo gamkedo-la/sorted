@@ -17,6 +17,7 @@ var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; //
 var levelLoaded = null;
 var playLevel = 0; // not changed by editMode or state levelEditor
 var levelRunning = false;
+var levelRunning = false;
 var levelTestDataReady = false;
 
 var step = Array(NUM_LEVELS);
@@ -42,6 +43,7 @@ var sheepList = [];
 var boopSound = new SoundOverlapsClass("sound/test_sound");
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
 var stuckSound = new SoundOverlapsClass("sound/baa08");
+var rogueSound = new SoundOverlapsClass("sound/woof01");
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
