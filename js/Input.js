@@ -1,6 +1,5 @@
 var keyHeld_left = false;
 var keyHeld_right = false;
-var selectedTile = null;
 
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
@@ -139,7 +138,9 @@ function mousedownHandler(evt) {
 
   else if (gameState == STATE_DESIGN_LEVEL) {
     // calculate row & column, add tile to grid, display
-
+    let index = getTileIndexAtPixelCoord(mousePos.x, mousePos.x);
+    console.log("Designer", mousePos.x, index);
+    areaGrid[index] = selectedTile;
   } // End of Design-Level mousedown handling
 }
 
@@ -301,9 +302,9 @@ console.log('Loading from menu key P.');
           console.log("Paint for automated test is", TEAM_NAMES[testTeam]);
         }
 
-        if(key == KEY_L) {
+        if(key == KEY_D) {
           gameState = STATE_DESIGN_LEVEL;
-          console.log("Level design");
+          console.log("Design Level");
         }
       } // editMode
       break;
@@ -331,11 +332,21 @@ console.log('Loading from menu key P.');
       break;
 
     case STATE_DESIGN_LEVEL:
+      if(key == KEY_M || key == KEY_ESC) {
+        gameState = STATE_MENU;
+      }
       if(key == KEY_S) {
 
       }
       if(key == KEY_L) {
         selectedTile = TILE_CONVEYOR_LEFT;
+      }
+
+      if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
+        designLevel = key - KEY_NUM_0; // key '1' is code 49
+        console.log("Number key from Designer screen", designLevel)
+        drawLevelDesigner(designLevel);
+        // loadDesignLevel(designLevel);
       }
       break;
 

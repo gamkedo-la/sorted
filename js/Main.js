@@ -13,8 +13,9 @@ const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreb
 
 const ROAD_HEIGHT = 80; // a margin where no flowers or grass grows - see scatterDecals()
 
-var gameState = STATE_MENU;
+var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; // 
 var levelLoaded = null;
+var playLevel = 1; // not changed by editMode or state levelEditor
 var levelRunning = false;
 var levelTestDataReady = false;
 
@@ -40,6 +41,7 @@ var sheepList = [];
 
 var boopSound = new SoundOverlapsClass("sound/test_sound");
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
+var stuckSound = new SoundOverlapsClass("sound/baa08");
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
@@ -285,7 +287,8 @@ function drawAll() {
   } // end of Level_Over
 
   else if(gameState == STATE_DESIGN_LEVEL) {
-    drawDesignLevel();
+    drawLevelDesigner();
+    levelDesignerTitle();
   }
 
   else if(gameState == STATE_MENU) {

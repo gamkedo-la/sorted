@@ -417,6 +417,7 @@ function sheepClass() {
           if(this.state != STUCK) {
             this.speed = 0;
             this.state = STUCK;
+            stuckSound.play();
             this.levelDone = true;
             // definitely need endRow, and Stuck is not a scoring result
             this.endCol = tileCol;
