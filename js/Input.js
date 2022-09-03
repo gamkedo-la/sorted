@@ -68,6 +68,7 @@ const buttonsLeft = 538; // 840-538=302 6btns@50px
 const buttonWidth = 50;
 const buttonHeight = 42;
 const buttonNames = ["Left", "Right", "Call", "Send", "Menu", "Pause"];
+
 for(var i=0; i<NUM_BUTTONS; i++) {
   buttonRects[i] = {
     x: buttonsLeft + i * buttonWidth,
@@ -87,7 +88,7 @@ function mousedownHandler(evt) {
 
   if (gameState == STATE_MENU) {
     if (TOUCH_TEST && xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
-      console.log('Loading level from upper-screen click, used for testing iPad and other touch devices.');
+      report('Loading level from upper-screen click, used for testing iPad and other touch devices.');
       loadLevel(currentLevel);
       levelRunning = true;
       console.log("Level number now =", currentLevel);
@@ -100,7 +101,7 @@ function mousedownHandler(evt) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
 
         if(TOUCH_TEST) {
-          console.log("Clicked inside rect", buttonNames[i]);
+          report("Clicked inside rect", buttonNames[i]);
         }             
         
         switch(buttonNames[i]) {

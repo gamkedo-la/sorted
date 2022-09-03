@@ -6,11 +6,11 @@ const HAT_MARGIN = 18;
 
 // hat moves like car
 var GROUNDSPEED_DECAY_MULT = 0.94; 
-var DRIVE_POWER = 1.0;
-var REVERSE_POWER = 1.0;
+var drivePower = 1.0;
+var reversePower = 1.0;
 // Call
+var tractorSpeed = 3; // speed of sheep moving up
 var ALIGN_LIMIT = 20; // hat not exactly above sheep
-var TRACTOR_SPEED = 3; // speed of sheep moving up
 
 var player = new playerClass(1);
 
@@ -20,6 +20,10 @@ function playerClass(id) {
   this.ang = Math.PI;
   this.speed = 0;
   this.pic; // which image to use
+  this.keyHeld_left = false;
+  this.keyHeld_right = false;
+  this.keyHeld_call = false;
+  this.keyHeld_send = false;
 
   // store ASCII number of key assigned
   this.setupInput = function(upKey, downKey, leftKey, rightKey) {
@@ -139,18 +143,18 @@ if(TOUCH_TEST) {
       this.speed *= GROUNDSPEED_DECAY_MULT;
 
       if(this.keyHeld_right) {
-        this.speed += DRIVE_POWER;
+        this.speed += drivePower;
       }
 
       if(TOUCH_TEST) {
         // does global vs property help iPad? no
         if(keyHeld_right) {
-          this.speed += DRIVE_POWER;
+          this.speed += drivePower;
         }
       }
   
       if(this.keyHeld_left) {
-        this.speed -= REVERSE_POWER;
+        this.speed -= reversePower;
         if(TOUCH_TEST) {
           let msg = "keyHeld_left changing speed " + this.speed;
           console.log(msg);
@@ -161,7 +165,7 @@ if(TOUCH_TEST) {
       if(TOUCH_TEST) {
       // does global vs property help iPad? no
         if(keyHeld_left) {
-          this.speed -= REVERSE_POWER;
+          this.speed -= reversePower;
           if(TOUCH_TEST) {
             let msg = "global keyHeld_left changing speed " + this.speed;
             console.log(msg);

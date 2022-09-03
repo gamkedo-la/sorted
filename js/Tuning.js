@@ -66,6 +66,8 @@ const GRAZE_SPEED = Array(NUM_LEVELS);
 var defaultGrazeSpeed = 0.05;
 GRAZE_SPEED.fill(defaultGrazeSpeed);
 
+// Sheep conveyor speed
+
 // Rogue path
 const ROGUE_ROW = Array(NUM_LEVELS);
 var defaultRogueRow = 11;

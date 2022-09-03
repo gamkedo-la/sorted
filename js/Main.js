@@ -80,12 +80,12 @@ function loadLevel(whichLevel) {
   player.reset(playerHatPic, "Shepherding Hat");
 
   GROUNDSPEED_DECAY_MULT = HAT_FRICTION[whichLevel]; // hat moves like car
-  DRIVE_POWER = HAT_POWER[whichLevel];
-  REVERSE_POWER = HAT_POWER[whichLevel];
-  TRACTOR_SPEED = CALL_SPEED[whichLevel];
+  drivePower = HAT_POWER[whichLevel];
+  reversePower = HAT_POWER[whichLevel];
+  tractorSpeed = CALL_SPEED[whichLevel];
 
   if(whichLevel>=3) { // dog present on later levels only
-    dog.init(rogueDogPic);
+    dog.init(dogPic);
   }
 
   sheepList = [];  // fresh set of sheep

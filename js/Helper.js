@@ -215,6 +215,11 @@ function xyIsInRect(pos, rect) {
   return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
 }
 
+function report(msg) {
+  console.log(msg);
+  document.getElementById("debug_1").innerHTML = msg;
+}
+
 function downloader(filename, text) {
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));

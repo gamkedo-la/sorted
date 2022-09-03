@@ -6,9 +6,8 @@ const FACING_RADIUS = 2;
 var teamSizeSoFar = [0,0,0];
 var sheepInPlay = 0;
 
-var SHEEP_SEND_SPEED = 10; // now tunable by level
 const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
-const  TILE_Y_ADJUST = 0.6;
+const  TILE_Y_ADJUST = 0.6; // position outOfPlay sheep in tile
 
 // sheep modes
 const GRAZE = 0;
@@ -120,7 +119,7 @@ function sheepClass() {
     }
 
     else if (this.state == CALLED) {
-      nextY -= TRACTOR_SPEED;
+      nextY -= tractorSpeed;
 
       if(nextY < player.y +20) { // arriving at Hat
         nextX = player.x;
@@ -297,6 +296,7 @@ function sheepClass() {
     var col = Math.floor(nextX / TILE_W);
     var row = Math.floor(nextY / TILE_H);
     var agentIndex = colRowToIndex(col, row);
+
     // tile entered is occupied by another sheep
     if(agentGrid[agentIndex] == 1) {
       nextX = nearestColumnCentre(nextX);
@@ -487,7 +487,8 @@ function sheepClass() {
     else if(newMode == CONVEYOR) {
       this.state= CONVEYOR;
       this.orient = 0; // normal upright
-      this.speed = GRAZE_SPEED[currentLevel];
+      this.speed = ROAM_SPEED[currentLevel];
+      // console.log('Conveyor speed', this.speed);
     }
 
     else if(newMode == SENT) {
