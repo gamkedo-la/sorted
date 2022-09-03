@@ -1,6 +1,7 @@
 var outOfPlay = 0;
 var levelScore;
 var levelScores = [0,0,0,0,0,0,0,0,0,0];
+var levelMaxScores = [0,0,0,0,0,0,0,0,0,0];
 
 function randomRange(min, max) {
   return Math.random() * (max - min) + min;
@@ -79,6 +80,7 @@ function isInPen(mode) {
 
 function calculateLevelScore() {
   levelScore = 0;
+  levelMaxScores[currentLevel] = 180 * FLOCK_SIZE[currentLevel];
   var offSide;
   var mode, team, x, score;
   console.log("Calculating end-of-level score for each sheep");
