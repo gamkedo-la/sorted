@@ -106,23 +106,34 @@ function mousedownHandler(evt) {
         
         switch(buttonNames[i]) {
           case "Left":
-            keyHeld_left = true;
-            buttonLeftPress();
-            // player.keyHeld_left = true;   
+            player.keyHeld_left = true;
+            if(TOUCH_TEST) {
+              player.speed -= drivePower;
+              keyHeld_left = true;
+              buttonLeftPress();
+            }
             break;
+
           case "Right":
-            keyHeld_right = true;
             player.keyHeld_right = true;
+            if(TOUCH_TEST) {
+              player.speed += drivePower;
+              keyHeld_right = true;
+            }
             break;
+
           case "Call":
             player.keyHeld_call = true;
             break;
+
           case "Send":
             player.keyHeld_send = true;
             break;
+
           case "Menu":
             gameState = STATE_MENU;
             break;
+
           case "Pause":
             console.log("Pause is warmup task on Trello");
             break;
@@ -151,22 +162,31 @@ function mouseupHandler(evt) {
   
   for(var i=0; i<NUM_BUTTONS; i++) {
     if (xyIsInRect(mousePos,buttonRects[i])) {
+
       switch(buttonNames[i]) {
         case "Left":
-          keyHeld_left = false;
-          buttonLeftRelease();
-          // player.keyHeld_left = false;
-if(TOUCH_TEST) {
-console.log("Mouseup keyHeld_left", player.keyHeld_left)
-}
+          player.keyHeld_left = false;
+          if(TOUCH_TEST) {
+            keyHeld_left = false;
+            buttonLeftRelease();
+            let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
+            report(msg);
+          }
           break;
+
         case "Right":
-          keyHeld_right = false;
           player.keyHeld_right = false;
+          if(TOUCH_TEST) {
+            keyHeld_right = false;
+            let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
+            report(msg);
+          }
           break;
+
         case "Call":
           player.keyHeld_call = false;
           break;
+
         case "Send":
           player.keyHeld_send = false;
           break;
