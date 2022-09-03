@@ -19,7 +19,7 @@ var grass1Pic = document.createElement("img");
 var grass2Pic = document.createElement("img");
 var grass3Pic = document.createElement("img");
 var hoofprintPic = document.createElement("img");
-
+var dogPic = document.createElement("img");
 
 var tilePics = [];
 
@@ -66,6 +66,7 @@ function loadImages() {
         {varName: grass2Pic, theFile: "grass2.png"},
         {varName: grass3Pic, theFile: "grass3.png"},
         {varName: hoofprintPic, theFile: "hoofprint.png"},
+        {varName: dogPic, theFile: "dog_normal.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},		
     {tileType: TILE_CENTRE, theFile: "tile_road.png"},
