@@ -73,9 +73,9 @@ const playButtonNames = ["Left", "Right", "Call", "Send", "Menu", "Pause"];
 
 var buttonTop;
 var buttonsLeft;
-if(TOUCH_TEST) {
-  buttonTop = 2;
-  buttonsLeft = 2; 
+if(PHONE_TEST) {
+  buttonTop = 5;
+  buttonsLeft = 120; 
 } else {
   buttonTop = 586;
   buttonsLeft = 538; // 840-538=302 6btns@50px
@@ -212,7 +212,6 @@ function mousedownHandler(evt) {
     // console.log("Designer", mousePos.x, mousePos.y, gridIndex);
 
   } // End of Design-Level mousedown handling
-
 }
 
 function mouseupHandler(evt) { 
@@ -242,11 +241,13 @@ function mouseupHandler(evt) {
             break;
   
           case "Call":
-            player.keyHeld_call = false;
+            // not needed since there is a timer before Call allowed
+            // player.keyHeld_call = false;
             break;
   
           case "Send":
-            player.keyHeld_send = false;
+            // code likely inefficient without this, but does work 
+            // player.keyHeld_send = false;
             break;
         }
       }

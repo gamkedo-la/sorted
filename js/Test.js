@@ -20,10 +20,11 @@ var testLevel = 0;
 var showAreaGridValues = false;
 var showAgentGridValues = false;
 
-const ITCH = true; // touch devices test code
+const ITCH = false; // touch devices test code
 // screen click to reach Play; 
 var editMode = (ITCH) ? false : true;
 var TOUCH_TEST = (ITCH) ? true : false;
+var PHONE_TEST = false; //enable manually to test small screens
 
 var idLabel = false;
 var timerLabel = true;
@@ -84,4 +85,10 @@ function playResult() {
     output += txtLine + "\n";
   }
   return output;
+}
+
+function is_touch_enabled() {
+  return ( 'ontouchstart' in window ) ||
+         ( navigator.maxTouchPoints > 0 ) ||
+         ( navigator.msMaxTouchPoints > 0 );
 }
