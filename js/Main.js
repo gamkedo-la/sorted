@@ -245,7 +245,7 @@ function drawAll() {
         showGridValues(areaGrid, 14, "white");
       }
     }
-    drawButtons();
+    drawPlayButtons();
 
     drawTutorial();
   }
@@ -306,6 +306,7 @@ function drawAll() {
 
   else if(gameState == STATE_MENU) {
     drawMenu();
+    drawMenuButtons();
   }
   else if(gameState == STATE_CREDITS) {
     drawCredits();
@@ -323,6 +324,10 @@ function drawAll() {
     console.log("Game in unknown state.");
   }
 
+  if( requireButtonGotoMenu() ) {
+    drawLevelOverButtons();
+  }
+  
   document.getElementById("debug_5").innerHTML = debug5txt;
 }
 

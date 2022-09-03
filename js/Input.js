@@ -61,15 +61,27 @@ function setupInput() {
 
 var debug5txt = '';
 
-const NUM_BUTTONS = 6; // arrowKeys, Menu, Pause
-const buttonRects = []; //Array[NUM_BUTTONS];
-const buttonTop = 586;
-const buttonsLeft = 538; // 840-538=302 6btns@50px
+const buttonRects = []; // Array[PLAY_BUTTONS_NUM];
 const buttonWidth = 50;
-const buttonHeight = 42;
-const buttonNames = ["Left", "Right", "Call", "Send", "Menu", "Pause"];
+const buttonHeight = 38;
 
-for(var i=0; i<NUM_BUTTONS; i++) {
+const MENU_BUTTONS_NUM = 5; // arrowKeys, Menu, Pause
+const PLAY_BUTTONS_NUM = 6; // arrowKeys, Menu, Pause
+
+const menuButtonNames = ["Play", "Score", "Help", "Credits", "Editor"];
+const playButtonNames = ["Left", "Right", "Call", "Send", "Menu", "Pause"];
+
+var buttonTop;
+var buttonsLeft;
+if(TOUCH_TEST) {
+  buttonTop = 2;
+  buttonsLeft = 2; 
+} else {
+  buttonTop = 586;
+  buttonsLeft = 538; // 840-538=302 6btns@50px
+}
+
+for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
   buttonRects[i] = {
     x: buttonsLeft + i * buttonWidth,
     y: buttonTop,
@@ -87,24 +99,70 @@ function mousedownHandler(evt) {
   var mousePos = getMousePos(evt);
 
   if (gameState == STATE_MENU) {
-    if (TOUCH_TEST && xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
-      report('Loading level from upper-screen click, used for testing iPad and other touch devices.');
-      loadLevel(currentLevel);
-      levelRunning = true;
-      console.log("Level number now =", currentLevel);
-      gameState = STATE_PLAY;
+
+    for(var i=0; i<MENU_BUTTONS_NUM-1; i++) {
+      if ( xyIsInRect(mousePos, buttonRects[i]) ) {           
+        report( 'Button down ' + i + ' ' + menuButtonNames[i] )
+
+        switch(menuButtonNames[i]) {
+          case "Play":
+            if(!levelRunning) {
+              levelRunning = true;
+              playLevel++;
+              currentLevel = playLevel;
+              loadLevel(playLevel);
+              checkGridMatchColsRows(); 
+            } 
+            gameState = STATE_PLAY; // return to game
+            break;
+
+          case "Score":
+            gameState = STATE_SCOREBOARD;
+            if(TOUCH_TEST) {
+            }
+            break;
+
+          case "Help":
+            gameState = STATE_HELP;
+            break;
+
+          case "Credits":
+            gameState = STATE_CREDITS;
+            break;
+
+          // case "Editor":
+          //   editMode = true;
+          //   break;
+        }
+      } // if click/tap inside button area
     }
+
+    // if (TOUCH_TEST && xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
+    //   report('Loading level from upper-screen click, used for testing iPad and other touch devices.');
+    //   loadLevel(currentLevel);
+    //   levelRunning = true;
+    //   console.log("Level number now =", currentLevel);
+    //   gameState = STATE_PLAY;
+    // }
   } 
   
+  
+  else if ( requireButtonGotoMenu() ) {
+    if (xyIsInRect(mousePos, buttonRects[4])) {           
+      report( 'Button return to menu' )
+      gameState = STATE_MENU;
+    }
+  }
+
   else if (gameState == STATE_PLAY || gameState == STATE_LEVEL_OVER) {
-    for(var i=0; i<NUM_BUTTONS; i++) {
+    for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
 
         if(TOUCH_TEST) {
-          report("Clicked inside rect", buttonNames[i]);
+          report("Clicked inside rect", playButtonNames[i]);
         }             
         
-        switch(buttonNames[i]) {
+        switch(playButtonNames[i]) {
           case "Left":
             player.keyHeld_left = true;
             if(TOUCH_TEST) {
@@ -159,37 +217,38 @@ function mousedownHandler(evt) {
 
 function mouseupHandler(evt) { 
   var mousePos = getMousePos(evt);
+  if(gameState ==  STATE_PLAY) {
+    for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
+      if (xyIsInRect(mousePos,buttonRects[i])) {
   
-  for(var i=0; i<NUM_BUTTONS; i++) {
-    if (xyIsInRect(mousePos,buttonRects[i])) {
-
-      switch(buttonNames[i]) {
-        case "Left":
-          player.keyHeld_left = false;
-          if(TOUCH_TEST) {
-            keyHeld_left = false;
-            buttonLeftRelease();
-            let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-            report(msg);
-          }
-          break;
-
-        case "Right":
-          player.keyHeld_right = false;
-          if(TOUCH_TEST) {
-            keyHeld_right = false;
-            let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-            report(msg);
-          }
-          break;
-
-        case "Call":
-          player.keyHeld_call = false;
-          break;
-
-        case "Send":
-          player.keyHeld_send = false;
-          break;
+        switch(playButtonNames[i]) {
+          case "Left":
+            player.keyHeld_left = false;
+            if(TOUCH_TEST) {
+              keyHeld_left = false;
+              buttonLeftRelease();
+              let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
+              report(msg);
+            }
+            break;
+  
+          case "Right":
+            player.keyHeld_right = false;
+            if(TOUCH_TEST) {
+              keyHeld_right = false;
+              let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
+              report(msg);
+            }
+            break;
+  
+          case "Call":
+            player.keyHeld_call = false;
+            break;
+  
+          case "Send":
+            player.keyHeld_send = false;
+            break;
+        }
       }
     }
   }
