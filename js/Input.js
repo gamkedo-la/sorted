@@ -166,17 +166,14 @@ function mousedownHandler(evt) {
           case "Left":
             player.keyHeld_left = true;
             if(TOUCH_TEST) {
-              player.speed -= drivePower;
-              keyHeld_left = true;
-              buttonLeftPress();
+              // player.speed -= drivePower;
             }
             break;
 
           case "Right":
             player.keyHeld_right = true;
             if(TOUCH_TEST) {
-              player.speed += drivePower;
-              keyHeld_right = true;
+              // player.speed += drivePower;
             }
             break;
 
@@ -222,19 +219,16 @@ function mouseupHandler(evt) {
   
         switch(playButtonNames[i]) {
           case "Left":
-            player.keyHeld_left = false;
+            // player.keyHeld_left = false;
             if(TOUCH_TEST) {
-              keyHeld_left = false;
-              buttonLeftRelease();
               let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
               report(msg);
             }
             break;
   
           case "Right":
-            player.keyHeld_right = false;
+            // player.keyHeld_right = false;
             if(TOUCH_TEST) {
-              keyHeld_right = false;
               let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
               report(msg);
             }
@@ -246,8 +240,11 @@ function mouseupHandler(evt) {
             break;
   
           case "Send":
-            // code likely inefficient without this, but does work 
-            // player.keyHeld_send = false;
+            // code inefficient without falsing, but works
+            if(!isTouchDevice) {
+              console.log("keyHeld_send = false because not Touch device"); 
+              player.keyHeld_send = false;
+            }
             break;
         }
       }
@@ -318,6 +315,7 @@ function menuKeyChoice(key) {
       break;
 
     case STATE_MENU:
+      menuSound.play();
 
       if(key == KEY_C) {
         gameState = STATE_CREDITS;

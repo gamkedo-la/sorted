@@ -45,6 +45,7 @@ var boopSound = new SoundOverlapsClass("sound/test_sound");
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
 var stuckSound = new SoundOverlapsClass("sound/baa08");
 var rogueSound = new SoundOverlapsClass("sound/woof01");
+var menuSound = new SoundOverlapsClass("sound/menu1");
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
