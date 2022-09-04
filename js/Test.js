@@ -16,14 +16,33 @@ var testColumnSet = false; // flag to get column number from keyb
 var testTimer = null;
 var testLevel = 0;
 
+var touchDevice = null;
+
+function isTouchDevice() {
+  return ( 'ontouchstart' in window ) ||
+         ( navigator.maxTouchPoints > 0 ) ||
+         ( navigator.msMaxTouchPoints > 0 );
+}
+
+var TOUCH_TEST = null; // tested in Main.js onload
+
+function touchTest() {
+  touchDevice = isTouchDevice() ? true : false;
+  if (touchDevice) {
+    console.log("Touch device detected");
+  } else {
+    console.log("Not a touch device");
+  }
+  TOUCH_TEST = touchDevice ? true : false;
+}
+
 // toggle overlay grids for design/testing
 var showAreaGridValues = false;
 var showAgentGridValues = false;
 
 const ITCH = false; // touch devices test code
-// screen click to reach Play; 
+// need screen click to reach Play; 
 var editMode = (ITCH) ? false : true;
-var TOUCH_TEST = (ITCH) ? true : false;
 var PHONE_TEST = false; //enable manually to test small screens
 
 var idLabel = false;
@@ -85,10 +104,4 @@ function playResult() {
     output += txtLine + "\n";
   }
   return output;
-}
-
-function isTouchDevice() {
-  return ( 'ontouchstart' in window ) ||
-         ( navigator.maxTouchPoints > 0 ) ||
-         ( navigator.msMaxTouchPoints > 0 );
 }

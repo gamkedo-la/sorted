@@ -214,7 +214,7 @@ function mouseupHandler(evt) {
   
         switch(playButtonNames[i]) {
           case "Left":
-            // player.keyHeld_left = false;
+            player.keyHeld_left = false;
             if(TOUCH_TEST) {
               let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
               report(msg);
@@ -222,7 +222,7 @@ function mouseupHandler(evt) {
             break;
   
           case "Right":
-            // player.keyHeld_right = false;
+            player.keyHeld_right = false;
             if(TOUCH_TEST) {
               let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
               report(msg);
@@ -412,7 +412,7 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
       break;
 
     case STATE_DESIGN_LEVEL:
-      
+
       if(key == KEY_M || key == KEY_ESC) {
         gameState = STATE_MENU;
       }
@@ -523,36 +523,6 @@ function keyPressed(evt) {
 // only relevant to arrowKeys, not Menu or Fn keys 
 function keyReleased(evt) {
   arrowKeySet(evt, player, false);
-}
-
-// mouse-clickable on-screen buttons
-function buttonMenu() {
-  gameState = STATE_MENU;
-}
-function buttonLeftPress() {
-  // debug5txt  = "inside buttonLeftPress()"
-  player.keyHeld_left = true;
-}
-function buttonRight() {
-  player.keyHeld_right = true;
-}
-function buttonLeftRelease() {
-  player.keyHeld_left = false;
-}
-function buttonSet(setTo) {
-  // console.log("Key: "+evt.keyCode, setTo);
-  if(evt.keyCode == whichPlayer.controlKeyLeft) {
-		whichPlayer.keyHeld_left = setTo;
-	}
-	if(evt.keyCode == whichPlayer.controlKeyRight) {
-		whichPlayer.keyHeld_right = setTo;
-	}
-	if(evt.keyCode == whichPlayer.controlKeyUp) {
-		whichPlayer.keyHeld_call = setTo;
-	}
-	if(evt.keyCode == whichPlayer.controlKeyDown) {
-		whichPlayer.keyHeld_send = setTo;
-	}
 }
 
 // for file output, not needed if downloader() is OK

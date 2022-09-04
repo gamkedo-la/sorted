@@ -52,6 +52,7 @@ window.onload = function() {
   colorRect(0,0, canvas.width,canvas.height, "red");
   colorText("Loading Images", 0,0, "white");
 	loadImages();
+  touchTest();
 }
 
 function setupDecals() {
