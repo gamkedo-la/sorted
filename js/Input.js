@@ -216,6 +216,7 @@ function mouseupHandler(evt) {
           case "Left":
             player.keyHeld_left = false;
             if(TOUCH_TEST) {
+              player.speed -= drivePower;
               let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
               report(msg);
             }
@@ -224,6 +225,7 @@ function mouseupHandler(evt) {
           case "Right":
             player.keyHeld_right = false;
             if(TOUCH_TEST) {
+              player.speed += drivePower;
               let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
               report(msg);
             }
@@ -236,9 +238,11 @@ function mouseupHandler(evt) {
   
           case "Send":
             // code inefficient without falsing, but works
-            if(!isTouchDevice) {
-              console.log("keyHeld_send = false because not Touch device"); 
+            if(TOUCH_TEST) {
+              report("Touch device so disable send=false via mouseup");
+            } else {
               player.keyHeld_send = false;
+              report("keyHeld_send = false because not Touch device");
             }
             break;
         }
