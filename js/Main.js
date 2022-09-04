@@ -14,7 +14,6 @@ const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreb
 const ROAD_HEIGHT = 80; // a margin where no flowers or grass grows - see scatterDecals()
 
 var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; // 
-var designLevel = 5;
 
 var levelLoaded = null;
 var playLevel = 0; // not changed by editMode or state levelEditor
@@ -34,7 +33,7 @@ const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple"];
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [4, 2, 2, 3, 3, 4, 4, 4, 4, 4];  
+const TEAM_SIZE = [4, 2, 2, 3, 3, 4, 4, 4, 2, 4];  
 const FLOCK_SIZE = [];
 for(var i=0; i<TEAM_SIZE.length; i++) {
   FLOCK_SIZE[i] = TEAM_SIZE[i] * 2;
@@ -199,8 +198,10 @@ function moveAll() {
 
   else if(gameState == STATE_DESIGN_LEVEL) {
     if(designTileReady) {
-      // console.log('move.design', gridIndex, tileType);
+      console.log('main (move) design', gridIndex, tileType);
       areaGrid[gridIndex] = tileType;
+      designGrid[gridIndex] = tileType;
+      drawLevelDesigner(designLevel);
       designTileReady = false;
     }
   }

@@ -136,24 +136,8 @@ function mousedownHandler(evt) {
         }
       } // if click/tap inside button area
     }
-
-    // if (TOUCH_TEST && xyIsInRect(mousePos, TOP_HALF_SCREEN)) {
-    //   report('Loading level from upper-screen click, used for testing iPad and other touch devices.');
-    //   loadLevel(currentLevel);
-    //   levelRunning = true;
-    //   console.log("Level number now =", currentLevel);
-    //   gameState = STATE_PLAY;
-    // }
   } 
   
-  
-  else if ( requireButtonGotoMenu() ) {
-    if (xyIsInRect(mousePos, buttonRects[4])) {           
-      report( 'Button return to menu' )
-      gameState = STATE_MENU;
-    }
-  }
-
   else if (gameState == STATE_PLAY || gameState == STATE_LEVEL_OVER) {
     for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
@@ -206,9 +190,20 @@ function mousedownHandler(evt) {
   else if (gameState == STATE_DESIGN_LEVEL) {
     // select grid cell to outline
     gridIndex = getTileIndexAtPixelCoord(mousePos.x, mousePos.y);
-    // console.log("Designer", mousePos.x, mousePos.y, gridIndex);
+    console.log("Designer", mousePos.x, mousePos.y, gridIndex);
 
+    if (xyIsInRect(mousePos, buttonRects[4])) {           
+      report( 'Button return to menu' )
+      gameState = STATE_MENU;
+    }
   } // End of Design-Level mousedown handling
+
+  else if ( requireButtonGotoMenu() ) {
+    if (xyIsInRect(mousePos, buttonRects[4])) {           
+      report( 'Button return to menu' )
+      gameState = STATE_MENU;
+    }
+  }
 }
 
 function mouseupHandler(evt) { 
@@ -417,6 +412,7 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
       break;
 
     case STATE_DESIGN_LEVEL:
+      
       if(key == KEY_M || key == KEY_ESC) {
         gameState = STATE_MENU;
       }
@@ -498,6 +494,15 @@ function getFunctionKeys(key) {
     }
   }
   
+  if(key == KEY_F7) {
+    designLevel++;
+    if(designLevel > 9) {
+      designLevel = 0;
+    }
+    designGridSet = false;
+    drawLevelDesigner();
+  }
+
   function noGridValuesDisplay() {
     return (!showAreaGridValues && !showAgentGridValues)
   }

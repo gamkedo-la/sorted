@@ -209,7 +209,7 @@ function drawPlayButtons() {
 }
 
 function requireButtonGotoMenu() {
-  return gameState == STATE_CREDITS || gameState == STATE_HELP || gameState == STATE_SCOREBOARD || gameState == STATE_DESIGN_LEVEL
+  return gameState == STATE_CREDITS || gameState == STATE_HELP || gameState == STATE_SCOREBOARD
 }
 
 function drawLevelOverButtons() {

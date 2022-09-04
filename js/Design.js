@@ -1,6 +1,7 @@
 var designLevel = 0; // blank start
 var tileType = null;
 var gridIndex = 283;
+var designGrid = [];
 
 var designTileReady = false;
 var designGridSet = false;
@@ -14,18 +15,21 @@ function drawLevelDesigner(whichLevel) {
 
   if(!designGridSet) {
     areaGrid = levelList[designLevel].slice();
+    designGrid = levelList[designLevel].slice();
   }
 
   for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
     for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
 
       var tileTypeHere = areaGrid[arrayIndex];
+      var tileTypeHere = designGrid[arrayIndex];
 
       if(tileTypeHasTransparency(tileTypeHere)) {
         canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);  
       }
 
       var useImg = tilePics[tileTypeHere];
+      console.log('useImg', useImg)
       canvasContext.drawImage(useImg, drawTileX, drawTileY);
 
       drawTileX += TILE_W;
@@ -41,7 +45,7 @@ function drawLevelDesigner(whichLevel) {
 function levelDesignerTitle() {
   canvasContext.font = "24px Arial";
   let y = TILE_H * 15;
-  colorText("Level Designer", 20, y, "white");
+  colorText("Design Level " + designLevel, 20, y, "white");
   canvasContext.font = "16px Arial";
   // colorText("key M returns to Menu", 600,30, "white");
   let msg = "Click to choose location; Number key to choose tiletype; M returns to Menu";
