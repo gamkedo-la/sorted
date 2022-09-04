@@ -150,14 +150,18 @@ function mousedownHandler(evt) {
           case "Left":
             player.keyHeld_left = true;
             if(TOUCH_TEST) {
-              // player.speed -= drivePower;
+              player.speed -= drivePower;
+              let msg = "in Input::MouseDown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
+              report(msg);
             }
             break;
 
           case "Right":
             player.keyHeld_right = true;
             if(TOUCH_TEST) {
-              // player.speed += drivePower;
+              player.speed += drivePower;
+              let msg = "in Input::MouseDown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
+              report(msg);
             }
             break;
 
@@ -204,7 +208,7 @@ function mousedownHandler(evt) {
       gameState = STATE_MENU;
     }
   }
-}
+} // end of mousedownHandler
 
 function mouseupHandler(evt) { 
   var mousePos = getMousePos(evt);
@@ -216,7 +220,6 @@ function mouseupHandler(evt) {
           case "Left":
             player.keyHeld_left = false;
             if(TOUCH_TEST) {
-              player.speed -= drivePower;
               let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
               report(msg);
             }
@@ -225,7 +228,6 @@ function mouseupHandler(evt) {
           case "Right":
             player.keyHeld_right = false;
             if(TOUCH_TEST) {
-              player.speed += drivePower;
               let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
               report(msg);
             }

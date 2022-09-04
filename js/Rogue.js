@@ -1,5 +1,5 @@
-const ROGUE_UNSORT_RANGE = 50;
-const ROGUE_WOOF_RANGE = 100;
+const ROGUE_UNSORT_RANGE = 40;
+const ROGUE_WOOF_RANGE = 80;
 
 var dog = new rogueClass();
 

@@ -18,9 +18,9 @@ const TILE_NAMES = ['Field', 'Lost', 'Stuck', 'Halt', 'Bend left', 'Bend right',
 
 var areaGrid = [];
 var saveGrid = [];
-
+8
 // level 0 scratchpad for asset integration testing
-const levelNames =["Testing", "Call and send", "Avoid the lakes", "Rogue appears", "Out of the woods", "Name of Level 5", "Name of Level 6", "Name of Level 7", "Name of Level 8", "Name of Level 9"];
+const levelNames =["Tes8ting", "Call and send", "Avoid the lakes", "Rogue appears", "Out of the woods", "Name of Level 5", "Name of Level 6", "Name of Level 7", "Rogue test woof & unsort", "Name of Level 9"];
 
 const level_0 = [
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -176,7 +176,7 @@ const level_8 = [
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+   1,  1,  1,  1,  1,  1,  1,  1,  1,  0,  0,  0,  1,  1,  1,  1,  1,  1,  1,  1,  1,
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
