@@ -217,9 +217,17 @@ function xyIsInRect(pos, rect) {
   return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
 }
 
-function report(msg) {
+function debugAndConsole(msg, debugN) {
   console.log(msg);
-  document.getElementById("debug_1").innerHTML = msg;
+  debugParagName = "debug_" + debugN;
+  debugTextLine[debugN] += ' ' + msg;
+  // console.log(debugParagName);
+  document.getElementById(debugParagName).innerHTML = debugTextLine[debugN];
+}
+
+function debugOnly(msg, debugN) {
+  debugParagName = "debug_" + debugN;
+  document.getElementById(debugParagName).innerHTML = msg;
 }
 
 function downloader(filename, text) {

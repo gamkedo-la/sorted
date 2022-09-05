@@ -51,8 +51,9 @@ window.onload = function() {
 	canvasContext = canvas.getContext('2d');
   colorRect(0,0, canvas.width,canvas.height, "red");
   colorText("Loading Images", 0,0, "white");
+  resetDebugText();
+  deviceTests();
 	loadImages();
-  touchTest();
 }
 
 function setupDecals() {
@@ -190,6 +191,7 @@ function updateAll() {
   step[currentLevel]++; // level timesteps
   player.callGapTimer--; // prevents immediate call again
   dog.barkTimer--;
+  resetDebugText();
 }
 
 function moveAll() {
@@ -329,9 +331,7 @@ function drawAll() {
 
   if( requireButtonGotoMenu() ) {
     drawLevelOverButtons();
-  }
-  
-  document.getElementById("debug_5").innerHTML = debug5txt;
+  }  
 }
 
 var tutorial_start_time = 0;

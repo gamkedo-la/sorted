@@ -1,52 +1,5 @@
-var keyHeld_left = false;
-var keyHeld_right = false;
-
-const KEY_LEFT_ARROW = 37;
-const KEY_UP_ARROW = 38;
-const KEY_RIGHT_ARROW = 39;
-const KEY_DOWN_ARROW = 40;
-
-const KEY_W = 87;
-const KEY_A = 65;
-const KEY_S = 83;
-const KEY_D = 68;
-
-const KEY_ESC = 27;
-const KEY_M = 77;
-const KEY_C = 67;
-const KEY_P = 80;
-const KEY_H = 72;
-const KEY_T = 84;
-const KEY_R = 82;
-const KEY_L = 76;
-
-const KEY_NUM_0 = 48;
-const KEY_NUM_1 = 49;
-const KEY_NUM_2 = 50;
-const KEY_NUM_3 = 51;
-const KEY_NUM_4 = 52;
-const KEY_NUM_5 = 53;
-const KEY_NUM_6 = 54;
-const KEY_NUM_7 = 55;
-const KEY_NUM_8 = 56;
-const KEY_NUM_9 = 57;
-
-const KEY_F1 = 112; // editMode
-const KEY_F2 = 113;
-const KEY_F3 = 114;
-const KEY_F4 = 115;
-const KEY_F5 = 116;
-const KEY_F6 = 117;
-const KEY_F7 = 118;
-const KEY_F8 = 119;
-const KEY_F9 = 120;
-
 var mouseX = 0;
 var mouseY = 0;
-
-const TOP_HALF_SCREEN = { // for testing iPad
-  x: 0, y: 0, width: 840, height: 200
-}
 
 function setupInput() {
   canvas.addEventListener('mousemove', mousemoveHandler);
@@ -55,11 +8,8 @@ function setupInput() {
 
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
-
   player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
 }
-
-var debug5txt = '';
 
 const buttonRects = []; // Array[PLAY_BUTTONS_NUM];
 const buttonWidth = 50;
@@ -73,7 +23,7 @@ const playButtonNames = ["Left", "Right", "Call", "Send", "Menu", "Pause"];
 
 var buttonTop;
 var buttonsLeft;
-if(PHONE_TEST) {
+if(DISPLAY_CUTOFF_TEST) {
   buttonTop = 5;
   buttonsLeft = 120; 
 } else {
@@ -90,9 +40,10 @@ for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
   };
 }
 
+const notConsole = 0;
 function mousemoveHandler(evt) {
   var mousePos = getMousePos(evt);
-  debug5txt = "Cursor: " + mousePos.x + "," + mousePos.y;
+  debugOnly("Cursor: " + mousePos.x + "," + mousePos.y, 3, notConsole);
 }
 
 function mousedownHandler(evt) {
@@ -102,7 +53,7 @@ function mousedownHandler(evt) {
 
     for(var i=0; i<MENU_BUTTONS_NUM-1; i++) {
       if ( xyIsInRect(mousePos, buttonRects[i]) ) {           
-        report( 'Button down ' + i + ' ' + menuButtonNames[i] )
+        debugAndConsole( 'Button down ' + i + ' ' + menuButtonNames[i], 2 )
 
         switch(menuButtonNames[i]) {
           case "Play":
@@ -138,12 +89,12 @@ function mousedownHandler(evt) {
     }
   } 
   
-  else if (gameState == STATE_PLAY || gameState == STATE_LEVEL_OVER) {
+  else if (gameState == STATE_PLAY) {
     for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
 
         if(TOUCH_TEST) {
-          report("Clicked inside rect", playButtonNames[i]);
+          debugAndConsole("Clicked inside rect " + playButtonNames[i], 2);
         }             
         
         switch(playButtonNames[i]) {
@@ -183,7 +134,7 @@ function mousedownHandler(evt) {
     for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
         if(TOUCH_TEST) {
-          report("Clicked inside rect", playButtonNames[i]);
+          debugAndConsole("Clicked inside rect", playButtonNames[i], 1);
         }             
         switch(playButtonNames[i]) {
           case "Menu":
@@ -200,14 +151,14 @@ function mousedownHandler(evt) {
     console.log("Designer", mousePos.x, mousePos.y, gridIndex);
 
     if (xyIsInRect(mousePos, buttonRects[4])) {           
-      report( 'Button return to menu' )
+      debugAndConsole( 'Button return to menu', 1 )
       gameState = STATE_MENU;
     }
   } // End of Design-Level mousedown handling
 
   else if ( requireButtonGotoMenu() ) {
     if (xyIsInRect(mousePos, buttonRects[4])) {           
-      report( 'Button return to menu' )
+      debugAndConsole( 'Button return to menu', 1 )
       gameState = STATE_MENU;
     }
   }
@@ -239,10 +190,10 @@ function mouseupHandler(evt) {
           case "Send":
             // code inefficient without setting false, but works
             if(TOUCH_TEST) {
-              report("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately");
+              debugAndConsole("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately", 1);
             } else {
               player.keyHeld_send = false;
-              // report("keyHeld_send = false because not Touch device");
+              // debugAndConsole("keyHeld_send = false because not Touch device", 1 );
             }
             break;
         }

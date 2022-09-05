@@ -65,13 +65,7 @@ function playerClass(id) {
 
   this.move = function() {
     var nextX = this.x;
-    var nextY = this.y;
-
-if(TOUCH_TEST) {
-  let msg = "inside player.move() keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right ;
-  //console.log(msg);
-  document.getElementById("debug_3").innerHTML = msg; 
-}    
+    var nextY = this.y;  
 
     if(this.keyHeld_send) {
       if(this.sheepIDheld != null) {
@@ -140,45 +134,26 @@ if(TOUCH_TEST) {
     } // end of CALL
 
     if(this.gotoX == null) {
+
       this.speed *= GROUNDSPEED_DECAY_MULT;
 
       if(this.keyHeld_right) {
         this.speed += drivePower;
-      }
-
-      if(TOUCH_TEST) {
-        // does global vs property help iPad? no
-        if(keyHeld_right) {
-          this.speed += drivePower;
-        }
       }
   
       if(this.keyHeld_left) {
         this.speed -= reversePower;
         if(TOUCH_TEST) {
           let msg = "keyHeld_left changing speed " + this.speed;
-          console.log(msg);
-          document.getElementById("debug_4").innerHTML = msg;
+          debugAndConsole(msg, 4);
         }
-      }
-
-      if(TOUCH_TEST) {
-      // does global vs property help iPad? no
-        if(keyHeld_left) {
-          this.speed -= reversePower;
-          if(TOUCH_TEST) {
-            let msg = "global keyHeld_left changing speed " + this.speed;
-            console.log(msg);
-            document.getElementById("debug_4").innerHTML = msg;
-          }
-        }        
       }
 
       nextX += Math.cos(this.ang) * this.speed;
       this.y += Math.sin(this.ang) * this.speed;
     }
 
-    else { // gotoX has been set, for demo
+    else { // gotoX has been set, Touch or Demo/Test
 
       var deltaX = this.gotoX - this.x;
       var moveX = HAT_MAX_SPEED[currentLevel];

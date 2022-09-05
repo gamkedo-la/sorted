@@ -1,4 +1,8 @@
-const PLAIN = 0; // bitmap Normal
+// no ITCH branch, now merged into main
+// var editMode = (ITCH) ? false : true;
+var editMode = true;
+
+const PLAIN = 0; // sheep normal colour
 const BLUE = 1;
 const RED = 2;
 const MIXED = 3;
@@ -14,39 +18,26 @@ const SEND_ALL_X_ALL_COLUMNS = 4;
 
 const TEST_SEND_SPEED = 10;
 
+const DEBUGS = 5;
+var debugTextLine = Array(DEBUGS);
+
 var testMode = NORMAL_PLAY;
-var testColumnSet = false; // flag to get column number from keyb
+var testColumnSet = false; // flag to get column number from keypress
 var testTimer = null;
 var testLevel = 0;
 
-var touchDevice = null;
+var touchDevice = null; // tested in Main.js onload
+var TOUCH_TEST = null; // enable to activate Touch handling code
 
-function isTouchDevice() {
-  return ( 'ontouchstart' in window ) ||
-         ( navigator.maxTouchPoints > 0 ) ||
-         ( navigator.msMaxTouchPoints > 0 );
-}
+var deviceScale = 1.0;
+var DISPLAY_CUTOFF_TEST = null; //enable for devices (e.g. Retina) which are not displaying bottom and right of game area because of pixel scaling. Temporarily buttons top-left so that some navigation can be tested.
 
-var TOUCH_TEST = null; // tested in Main.js onload
-
-function touchTest() {
-  touchDevice = isTouchDevice() ? true : false;
-  if (touchDevice) {
-    console.log("Touch device detected");
-  } else {
-    console.log("Not a touch device");
-  }
-  TOUCH_TEST = touchDevice ? true : false;
-}
+var deviceWidth = null;
+var deviceHeight = null;
 
 // toggle overlay grids for design/testing
 var showAreaGridValues = false;
 var showAgentGridValues = false;
-
-const ITCH = false; // touch devices test code
-// need screen click to reach Play; 
-var editMode = (ITCH) ? false : true;
-var PHONE_TEST = false; //enable manually to test small screens
 
 var idLabel = false;
 var timerLabel = true;
@@ -63,6 +54,47 @@ var endLevelShowID = false; // otherwise show score per ball
 // playedLevel.fill(false);
 
 const SEPARATOR = "\t"; // ", "
+
+function resetDebugText() {
+  debugTextLine.fill('');
+}
+
+function isTouchDevice() {
+  return ( 'ontouchstart' in window ) ||
+         ( navigator.maxTouchPoints > 0 ) ||
+         ( navigator.msMaxTouchPoints > 0 );
+}
+
+function touchTest() {
+  touchDevice = isTouchDevice() ? true : false;
+  if (touchDevice) {
+    debugAndConsole("Touch device detected. ", 0);
+  } else {
+    debugAndConsole("This is not a Touch device. ", 0);
+  }
+  TOUCH_TEST = touchDevice ? true : false;
+}
+
+function scalingTest() {
+  deviceScale = window.devicePixelRatio;
+  debugAndConsole("devicePixelRatio = " + deviceScale, 0);
+  // if (touchDevice && deviceScale >= 2) {
+  //   debugAndConsole("Device is using double-scale pixels", 3);
+  // }
+}
+
+function screenTest() {
+  deviceWidth = window.screen.width;
+  deviceHeight = window.screen.height;
+  debugAndConsole("Screen width " + deviceWidth + " height " + deviceHeight + ". ", 0);
+}
+
+// runs in Main.js onload
+function deviceTests() {
+  touchTest();
+  screenTest();  
+  scalingTest();
+}
 
 function testResult() {
   var output = "Level " + currentLevel + " - test send from ";
@@ -113,13 +145,14 @@ function touchArrowHandling(direction) {
   if(TOUCH_TEST) {
     // direction, left is -1, right is +1
     player.speed += drivePower * direction;
+    console.log("touchArrow ", drivePower, direction)
   }
 }
 
 function touchArrowDebug() {
   if(TOUCH_TEST) {
     let msg = "in Input::MouseDown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-    console.log(msg);
-    document.getElementById("debug_2").innerHTML = msg; 
+    debugAndConsole(msg, 3);
   }
 }
+
