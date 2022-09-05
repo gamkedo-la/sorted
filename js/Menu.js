@@ -5,6 +5,7 @@ const LINE_SPACING = 40;
 const PARAGRAPH_LINE_SPACING = 30;
 const PARAGRAPH_GAP = 20;
 const MENU_TOP_MARGIN = 110; // room for the logo
+const CREDITS_TOP_MARGIN = 80; // no logo on Credits
 
 function drawMenuFlock() {
     for (let x,y,i = 0; i<64; i++) {
@@ -26,16 +27,14 @@ function drawMenu() {
   if(!editMode) {
     textIndent = 225;
     headLine("Menu");
-    // bodyLine("Skip learning levels - press L", 1);
     bodyLine("Play - key P", ++line);
     bodyLine("Score - key S", ++line);
     bodyLine("Help - key H", ++line);
-    // bodyLine("Button bar - key B", ++line);
     bodyLine("Credits - key C", ++line);
     bodyLine("Edit mode - key F1", ++line);
   } else {
     textIndent = 190;
-    headLine("Edit mode menu");
+    headLine("Edit-mode menu");
     bodyLine("Level select - key 0-9", ++line);
     // bodyLine("Design level - key D", ++line);
     bodyLine("Automate test - key A", ++line);
@@ -88,14 +87,19 @@ function drawHelp() {
 function drawCredits() {
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(creditsBGPic,0,0);
-  drawMenuFlock();
+  // drawMenuFlock();
 
   textIndent = 80;
-  headLine("Credits");
+  //headLine("Credits");
+  canvasContext.font = HEADER_FONT + "px Verdana";
+  colorText("Credits", textIndent, CREDITS_TOP_MARGIN, "white");
 
   canvasContext.font = BODY_FONT + "px Verdana";
   var line = 0;
-  var paragraph = 0;
+  var paragraph = 1;
+
+  paragraphLine("No more updates as Chris DeLeon will compile Credits.", ++line, paragraph);
+  paragraph++;
 
   paragraphLine("Patrick McKeown - lead, programmer.", ++line, paragraph);
   paragraph++;
@@ -114,18 +118,21 @@ function drawCredits() {
     paragraphLine(txtLines[i], ++line, paragraph);
   }
   paragraph++;
-  // bodyLine("Chris DeLeon - sheep-head multi-part image; foundation of Classic games code and art.", ++line);
+
+  paragraphLine("Gonzalo Delgado - concept art and sprite for rogue dog.", ++line, paragraph);
+  paragraph++;
   
   paragraphLine("Tim Waskett - algorithm for sheep roaming.", ++line, paragraph);
   paragraph++;
 
-  paragraphLine("Gonzalo Delgado - concept art for dog; image for rogue dog.", ++line, paragraph);
+  var txt = "H Trayford - maximum possible score; screenwrap hat; experiment in level design.";
+  var txtLines = getLines(canvasContext, txt, 700);
+  for(var i=0; i<txtLines.length; i++) {
+    paragraphLine(txtLines[i], ++line, paragraph);
+  }
   paragraph++;
 
-  paragraphLine("H Trayford - screenwrap for hat; experiment in level design.", ++line, paragraph);
-  paragraph++;
-
-  paragraphLine("Contributor name - description.", ++line, paragraph);
+  // paragraphLine("Contributor name - description.", ++line, paragraph);
 }
 
 function headLine(txt) {
@@ -140,7 +147,7 @@ function bodyLine(txt, lineNum) {
 
 function paragraphLine(txt, lineNum, paragraph) {
   canvasContext.font = BODY_FONT + "px Verdana";
-  let y = 125 + MENU_TOP_MARGIN + (paragraph * PARAGRAPH_GAP) + (lineNum * PARAGRAPH_LINE_SPACING);
+  let y = CREDITS_TOP_MARGIN + (paragraph * PARAGRAPH_GAP) + (lineNum * PARAGRAPH_LINE_SPACING);
   colorText(txt, textIndent, y, "white");
 }
 
