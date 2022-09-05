@@ -149,20 +149,12 @@ function mousedownHandler(evt) {
         switch(playButtonNames[i]) {
           case "Left":
             player.keyHeld_left = true;
-            if(TOUCH_TEST) {
-              player.speed -= drivePower;
-              let msg = "in Input::MouseDown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-              report(msg);
-            }
+            touchArrowHandling(LEFT);
             break;
 
           case "Right":
             player.keyHeld_right = true;
-            if(TOUCH_TEST) {
-              player.speed += drivePower;
-              let msg = "in Input::MouseDown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-              report(msg);
-            }
+            touchArrowHandling(RIGHT);
             break;
 
           case "Call":
@@ -180,13 +172,24 @@ function mousedownHandler(evt) {
           case "Pause":
             console.log("Pause is warmup task on Trello");
             break;
-        }
+        } 
+      }
+    }
+  }
 
+  // currently only button is return to Menu, but will need
+  // extra buttons for Replay and Adavance to next level. 
+  else if (gameState == STATE_LEVEL_OVER) {
+    for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
+      if (xyIsInRect(mousePos,buttonRects[i])) {
         if(TOUCH_TEST) {
-          let msg = "in Input::Mousedown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-          console.log(msg);
-          document.getElementById("debug_2").innerHTML = msg; 
-        }  
+          report("Clicked inside rect", playButtonNames[i]);
+        }             
+        switch(playButtonNames[i]) {
+          case "Menu":
+            gameState = STATE_MENU;
+            break;
+        } 
       }
     }
   }
@@ -217,34 +220,29 @@ function mouseupHandler(evt) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
   
         switch(playButtonNames[i]) {
+
           case "Left":
             player.keyHeld_left = false;
-            if(TOUCH_TEST) {
-              let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-              report(msg);
-            }
+            touchArrowDebug();
             break;
   
           case "Right":
             player.keyHeld_right = false;
-            if(TOUCH_TEST) {
-              let msg = "in Input::MouseUp player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-              report(msg);
-            }
+            touchArrowDebug();
             break;
   
           case "Call":
-            // not needed since there is a timer before Call allowed
             // player.keyHeld_call = false;
+            // not needed since there is a timer before next Call allowed
             break;
   
           case "Send":
-            // code inefficient without falsing, but works
+            // code inefficient without setting false, but works
             if(TOUCH_TEST) {
-              report("Touch device so disable send=false via mouseup");
+              report("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately");
             } else {
               player.keyHeld_send = false;
-              report("keyHeld_send = false because not Touch device");
+              // report("keyHeld_send = false because not Touch device");
             }
             break;
         }

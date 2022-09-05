@@ -37,7 +37,7 @@ function drawMenu() {
     textIndent = 190;
     headLine("Edit mode menu");
     bodyLine("Level select - key 0-9", ++line);
-    bodyLine("Design level - key D", ++line);
+    // bodyLine("Design level - key D", ++line);
     bodyLine("Automate test - key A", ++line);
     bodyLine("Team paint test - key T", ++line);
 
@@ -100,7 +100,7 @@ function drawCredits() {
   paragraphLine("Patrick McKeown - lead, programmer.", ++line, paragraph);
   paragraph++;
 
-  var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grass; hoofprints behind sheep; many soundfx for sheep and dog.'
+  var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grass; hoofprints behind sheep; many soundfx for sheep, and dog; ambient sheep sounds; baa when sheep enters goal.'
   var txtLines = getLines(canvasContext, txt, 700);
   // console.log(txtLines.length + txtLines[2])
   for(var i=0; i<txtLines.length; i++) {
@@ -119,10 +119,10 @@ function drawCredits() {
   paragraphLine("Tim Waskett - algorithm for sheep roaming.", ++line, paragraph);
   paragraph++;
 
-  paragraphLine("H Trayford - screenwrap for hat; experiment in level design.", ++line, paragraph);
+  paragraphLine("Gonzalo Delgado - concept art for dog; image for rogue dog.", ++line, paragraph);
   paragraph++;
 
-  paragraphLine("Gonzalo Delgado - concept art for rogue dog.", ++line, paragraph);
+  paragraphLine("H Trayford - screenwrap for hat; experiment in level design.", ++line, paragraph);
   paragraph++;
 
   paragraphLine("Contributor name - description.", ++line, paragraph);

@@ -3,6 +3,9 @@ const BLUE = 1;
 const RED = 2;
 const MIXED = 3;
 
+const LEFT = -1; // arrow key X direction
+const RIGHT = +1;
+
 const NORMAL_PLAY = 0;
 const SEND_COLUMNS_CENTRE_ONLY = 1;
 const SEND_ALL_X_ONE_COLUMN = 2;
@@ -104,4 +107,19 @@ function playResult() {
     output += txtLine + "\n";
   }
   return output;
+}
+
+function touchArrowHandling(direction) {
+  if(TOUCH_TEST) {
+    // direction, left is -1, right is +1
+    player.speed += drivePower * direction;
+  }
+}
+
+function touchArrowDebug() {
+  if(TOUCH_TEST) {
+    let msg = "in Input::MouseDown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
+    console.log(msg);
+    document.getElementById("debug_2").innerHTML = msg; 
+  }
 }
