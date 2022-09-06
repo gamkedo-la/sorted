@@ -73,6 +73,9 @@ function imageLoadingDoneSoStartGame() {
 
   canvasContext.font = "15px Arial";
 	setupInput();
+
+  BAR.innerHTML = '';
+  makeBarButtons(menuButtonList);
 }
 
 function loadLevel(whichLevel) {
@@ -250,7 +253,9 @@ function drawAll() {
         showGridValues(areaGrid, 14, "white");
       }
     }
+    
     drawPlayButtons();
+    // makeBarButtons(playButtonList)
 
     drawTutorial();
   }

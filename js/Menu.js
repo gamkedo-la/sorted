@@ -17,12 +17,12 @@ function drawMenuFlock() {
 }
 
 function drawMenu() {
-  BAR.innerHTML = '';
-  if (!editMode) {
-    makeBarButtons(menuButtonList);
-  } else {
-    makeBarButtons(editmodeButtonList);
-  }
+  // BAR.innerHTML = '';
+  // if (!editMode) {
+  //   makeBarButtons(menuButtonList);
+  // } else {
+  //   makeBarButtons(editmodeButtonList);
+  // }
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(menuBGPic,0,0);
   decals.draw();
@@ -55,8 +55,8 @@ function drawMenu() {
 }
 
 function drawHelp() {
-  BAR.innerHTML = '';
-  makeBarButtons(offMenuButtonList);
+  // BAR.innerHTML = '';
+  // makeBarButtons(offMenuButtonList);
 
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(helpBGPic,0,0);
@@ -94,8 +94,8 @@ function drawHelp() {
 }
 
 function drawCredits() {
-  BAR.innerHTML = '';
-  makeBarButtons(offMenuButtonList);
+  // BAR.innerHTML = '';  not wiped every interval, draw one when selected
+  // makeBarButtons(offMenuButtonList);
 
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(creditsBGPic,0,0);
@@ -174,9 +174,10 @@ function smallBodyLine(txt, lineNum,startY) {
 }
 
 const POPUP_W = 400;
+
 function drawLevelOver() {
-  BAR.innerHTML = '';
-  makeBarButtons(levelEndButtonList);
+  // BAR.innerHTML = '';
+  // makeBarButtons(levelEndButtonList);
 
   var nextLevel = currentLevel + 1;
   // var advanceFontSize = (6 * Math.sqrt(levelScores[currentLevel]) ) / FLOCK_SIZE[currentLevel] + 14;
