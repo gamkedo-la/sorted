@@ -9,11 +9,13 @@ const STATE_LEVEL_OVER = 4;
 const STATE_DESIGN_LEVEL = 8;
 const STATE_GAME_OVER = 7;
 const STATE_SCOREBOARD = 5;
+
 const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over']
 
 const ROAD_HEIGHT = 80; // a margin where no flowers or grass grows - see scatterDecals()
 
 var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; // 
+var paused = false;
 
 var levelLoaded = null;
 var playLevel = 0; // not changed by editMode or state levelEditor
@@ -198,7 +200,7 @@ function updateAll() {
 }
 
 function moveAll() {
-  if(gameState == STATE_MENU || gameState == STATE_CREDITS) {
+  if(gameState == STATE_MENU || gameState == STATE_CREDITS || paused) {
     return;
   }
 
@@ -228,6 +230,10 @@ function moveAll() {
 }
 
 function drawAll() {
+
+  if(paused) {
+    return;
+  }
 
   if(gameState == STATE_PLAY) {
     drawArea();

@@ -5,6 +5,7 @@ const playButtonList = ["Left", "Right", "Call", "Send", "Pause", "Menu"];
 const levelEndButtonList = ["Replay", "Advance", "Menu"];
 const gameOverButtonList = ["Restart", "Menu", "Quit"];
 const offMenuButtonList = ["Menu"];
+const designButtonList = ["Menu"];
 const editmodeButtonList = ["Test", "Team", "Player"];
 var functionName = null;
 
@@ -41,32 +42,19 @@ function touchstartPlayHandler() {
     currentLevel = playLevel;
     loadLevel(playLevel);
     checkGridMatchColsRows(); 
-  } 
-  gameState = STATE_PLAY; // return to game
-  BAR.innerHTML = '';
-  makeBarButtons(playButtonList);
+  }
+  gotoPlay("bar touchstart Play");
 }
 
 function touchstartScoreHandler() {
-  gameState = STATE_SCOREBOARD;
-  BAR.innerHTML = ''; // clear buttons
-  makeBarButtons(offMenuButtonList);
-  if(TOUCH_TEST) {
-  }
+  gotoScore("bar touchstart Score");
 }
+
 function touchstartHelpHandler() {
-  gameState = STATE_HELP;
-  BAR.innerHTML = ''; // clear buttons
-  makeBarButtons(offMenuButtonList);
-  if(TOUCH_TEST) {
-  }
+  gotoHelp("bar touchstart Help");
 }
 function touchstartCreditsHandler() {
-  gameState = STATE_CREDITS;
-  BAR.innerHTML = ''; // clear buttons
-  makeBarButtons(offMenuButtonList);
-  if(TOUCH_TEST) {
-  }
+  gotoCredits("bar touchstart Credits");
 }
 function touchstartQuitHandler() {
   window.close();
@@ -75,6 +63,7 @@ function touchstartQuitHandler() {
 // handle touchstarts on Play screen
 function touchstartLeftHandler() {
   player.keyHeld_left = true;
+
 }
 function touchstartRightHandler() {
   player.keyHeld_right = true;
@@ -101,17 +90,18 @@ function touchendSendHandler() {
 }
 
 function touchstartPauseHandler() {
-  // gameState = STATE_PAUSE;
+  togglePause();
 }
 function touchstartMenuHandler() {
-  gameState = STATE_MENU;
+  gotoMenu("bar touchstart Menu");
 }
 
 
 // old buttons on canvas
 function drawMenuButtons() {
+  canvasContext.lineWidth = 1;
   for(var i=0; i<MENU_BUTTONS_NUM-1; i++) {
-    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red");
+    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
     canvasContext.font = "14px Arial";
     canvasContext.textAlign = "left";
     colorText(menuButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
@@ -119,8 +109,9 @@ function drawMenuButtons() {
 }
 
 function drawPlayButtons() {
+  canvasContext.lineWidth = 1;
   for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
-    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red");
+    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
     canvasContext.font = "14px Arial";
     canvasContext.textAlign = "left";
     colorText(playButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
@@ -129,7 +120,7 @@ function drawPlayButtons() {
 
 function drawLevelOverButtons() {
   for(var i=4; i<5; i++) {
-    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red");
+    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
     canvasContext.font = "14px Arial";
     canvasContext.textAlign = "left";
     colorText(playButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");

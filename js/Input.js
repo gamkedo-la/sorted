@@ -13,7 +13,7 @@ function setupInput() {
 
 const buttonRects = []; // Array[PLAY_BUTTONS_NUM];
 const buttonWidth = 50;
-const buttonHeight = 38;
+const buttonHeight = 30;
 
 const MENU_BUTTONS_NUM = 5; // arrowKeys, Menu, Pause
 const PLAY_BUTTONS_NUM = 6; // arrowKeys, Menu, Pause
@@ -27,8 +27,8 @@ if(DISPLAY_CUTOFF_TEST) {
   buttonTop = 5;
   buttonsLeft = 120; 
 } else {
-  buttonTop = 586;
-  buttonsLeft = 538; // 840-538=302 6btns@50px
+  buttonTop = 601;
+  buttonsLeft = 540; // 840-538=302 6btns@50px
 }
 
 for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
@@ -63,22 +63,20 @@ function mousedownHandler(evt) {
               currentLevel = playLevel;
               loadLevel(playLevel);
               checkGridMatchColsRows(); 
-            } 
-            gameState = STATE_PLAY; // return to game
+            }
+            gotoPlay("canvasButton"); // return to game
             break;
 
           case "Score":
-            gameState = STATE_SCOREBOARD;
-            if(TOUCH_TEST) {
-            }
+            gotoScore("canvasButton");
             break;
 
           case "Help":
-            gameState = STATE_HELP;
+            gotoHelp("canvasButton");
             break;
 
           case "Credits":
-            gameState = STATE_CREDITS;
+            gotoCredits("canvasButton");
             break;
 
           // case "Editor":
@@ -117,11 +115,11 @@ function mousedownHandler(evt) {
             break;
 
           case "Menu":
-            gameState = STATE_MENU;
+            gotoMenu("Play's CanvasButton Menu");
             break;
 
           case "Pause":
-            console.log("Pause is warmup task on Trello");
+            togglePause();
             break;
         } 
       }
@@ -138,7 +136,7 @@ function mousedownHandler(evt) {
         }             
         switch(playButtonNames[i]) {
           case "Menu":
-            gameState = STATE_MENU;
+            gotoMenu("LevelOver's CanvasButton Menu");
             break;
         } 
       }
@@ -158,8 +156,8 @@ function mousedownHandler(evt) {
 
   else if ( requireButtonGotoMenu() ) {
     if (xyIsInRect(mousePos, buttonRects[4])) {           
-      debugAndConsole( 'Button return to menu', 1 )
       gameState = STATE_MENU;
+      gotoMenu("DesignLevel's CanvasButton Menu");
     }
   }
 } // end of mousedownHandler
@@ -224,8 +222,12 @@ function menuKeyChoice(key) {
   switch (gameState) {
 
     case STATE_PLAY:
-      if(key == KEY_ESC || key == KEY_M) {
+      if (key == KEY_ESC || key == KEY_M) {
         gameState = STATE_MENU;
+      }
+      else if (key == KEY_SPACE) {
+        togglePause();
+
       }
       break;
 

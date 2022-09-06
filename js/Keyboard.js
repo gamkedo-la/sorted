@@ -5,6 +5,7 @@ const KEY_LEFT_ARROW = 37; // player movement
 const KEY_RIGHT_ARROW = 39;
 const KEY_UP_ARROW = 38; // Call
 const KEY_DOWN_ARROW = 40; // Send
+const KEY_SPACE = 32; // Pause
 
 const KEY_M = 77; // Menu
 const KEY_S = 83; // Scoreboard
