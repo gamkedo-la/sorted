@@ -1,10 +1,10 @@
 var currentLevel = 0; // load level increments
 const LAST_LEVEL = 6;
 
-const TILE_W = 40;
-const TILE_H = 40;
-const TILE_COLS = 21;
-const TILE_ROWS = 15;
+const TILE_W = 50;
+const TILE_H = 50;
+const TILE_COLS = 14;
+const TILE_ROWS = 14;
 
 function getTileTypeAtColRow(col, row) {
 	if(col >= 0 && col < TILE_COLS &&
