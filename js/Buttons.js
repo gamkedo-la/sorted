@@ -41,7 +41,7 @@ function touchstartPlayHandler() {
     playLevel++;
     currentLevel = playLevel;
     loadLevel(playLevel);
-    checkGridMatchColsRows(); 
+    checkGridMatchColsRows();
   }
   gotoPlay("bar touchstart Play");
 }
@@ -89,21 +89,20 @@ function touchendSendHandler() {
   player.keyHeld_send = false;
 }
 
-function touchstartPauseHandler() {
-  togglePause();
-}
 function touchstartMenuHandler() {
   gotoMenu("bar touchstart Menu");
 }
-
+function touchstartPauseHandler() {
+  togglePause();
+}
 
 // old buttons on canvas
 function drawMenuButtons() {
   canvasContext.lineWidth = 1;
   for(var i=0; i<MENU_BUTTONS_NUM-1; i++) {
     colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
-    canvasContext.font = "14px Arial";
     canvasContext.textAlign = "left";
+    canvasContext.font = "14px Arial";
     colorText(menuButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
   }
 }

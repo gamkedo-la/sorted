@@ -52,7 +52,7 @@ function drawArea() {
       var tileTypeHere = areaGrid[arrayIndex];
 
       if(tileTypeHasTransparency(tileTypeHere)) {
-        canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);  
+        canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
       }
 
       var useImg = tilePics[tileTypeHere];
@@ -86,15 +86,21 @@ function checkGridMatchColsRows() {
 
 function tileTypeHasTransparency(tileType) {
   return(tileType == TILE_UNSORT ||
+        tileType == TILE_LOST ||
+        tileType == TILE_STUCK ||
+        tileType == TILE_HALT ||
         tileType == TILE_BEND_LEFT ||
-        tileType == TILE_BEND_RIGHT);
+        tileType == TILE_BEND_RIGHT ||
+        tileType == TILE_CONVEYOR_LEFT ||
+        tileType == TILE_CONVEYOR_RIGHT
+        );
 }
 
 function drawLowRoad() {
   var drawTileX = 0;
   var drawTileY = TILE_H * TILE_ROWS;
   var tileTypeHere = TILE_LOW_ROAD;
-  for(var i=0; i<TILE_COLS; i++) {  
+  for(var i=0; i<TILE_COLS; i++) {
     var useImg = tilePics[tileTypeHere];
     canvasContext.drawImage(useImg, drawTileX, drawTileY);
     drawTileX += TILE_W;

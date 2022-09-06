@@ -25,7 +25,7 @@ var buttonTop;
 var buttonsLeft;
 if(DISPLAY_CUTOFF_TEST) {
   buttonTop = 5;
-  buttonsLeft = 120; 
+  buttonsLeft = 120;
 } else {
   buttonTop = 601;
   buttonsLeft = 540; // 840-538=302 6btns@50px
@@ -52,7 +52,7 @@ function mousedownHandler(evt) {
   if (gameState == STATE_MENU) {
 
     for(var i=0; i<MENU_BUTTONS_NUM-1; i++) {
-      if ( xyIsInRect(mousePos, buttonRects[i]) ) {           
+      if ( xyIsInRect(mousePos, buttonRects[i]) ) {
         debugAndConsole( 'Button down ' + i + ' ' + menuButtonNames[i], 2 )
 
         switch(menuButtonNames[i]) {
@@ -62,7 +62,7 @@ function mousedownHandler(evt) {
               playLevel++;
               currentLevel = playLevel;
               loadLevel(playLevel);
-              checkGridMatchColsRows(); 
+              checkGridMatchColsRows();
             }
             gotoPlay("canvasButton"); // return to game
             break;
@@ -85,16 +85,16 @@ function mousedownHandler(evt) {
         }
       } // if click/tap inside button area
     }
-  } 
-  
+  }
+
   else if (gameState == STATE_PLAY) {
     for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
 
         if(TOUCH_TEST) {
           debugAndConsole("Clicked inside rect " + playButtonNames[i], 2);
-        }             
-        
+        }
+
         switch(playButtonNames[i]) {
           case "Left":
             player.keyHeld_left = true;
@@ -121,24 +121,24 @@ function mousedownHandler(evt) {
           case "Pause":
             togglePause();
             break;
-        } 
+        }
       }
     }
   }
 
   // currently only button is return to Menu, but will need
-  // extra buttons for Replay and Adavance to next level. 
+  // extra buttons for Replay and Adavance to next level.
   else if (gameState == STATE_LEVEL_OVER) {
     for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
         if(TOUCH_TEST) {
           debugAndConsole("Clicked inside rect", playButtonNames[i], 1);
-        }             
+        }
         switch(playButtonNames[i]) {
           case "Menu":
             gotoMenu("LevelOver's CanvasButton Menu");
             break;
-        } 
+        }
       }
     }
   }
@@ -148,43 +148,43 @@ function mousedownHandler(evt) {
     gridIndex = getTileIndexAtPixelCoord(mousePos.x, mousePos.y);
     console.log("Designer", mousePos.x, mousePos.y, gridIndex);
 
-    if (xyIsInRect(mousePos, buttonRects[4])) {           
+    if (xyIsInRect(mousePos, buttonRects[4])) {
       debugAndConsole( 'Button return to menu', 1 )
       gameState = STATE_MENU;
     }
   } // End of Design-Level mousedown handling
 
   else if ( requireButtonGotoMenu() ) {
-    if (xyIsInRect(mousePos, buttonRects[4])) {           
+    if (xyIsInRect(mousePos, buttonRects[4])) {
       gameState = STATE_MENU;
       gotoMenu("DesignLevel's CanvasButton Menu");
     }
   }
 } // end of mousedownHandler
 
-function mouseupHandler(evt) { 
+function mouseupHandler(evt) {
   var mousePos = getMousePos(evt);
   if(gameState ==  STATE_PLAY) {
     for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
-  
+
         switch(playButtonNames[i]) {
 
           case "Left":
             player.keyHeld_left = false;
             touchArrowDebug();
             break;
-  
+
           case "Right":
             player.keyHeld_right = false;
             touchArrowDebug();
             break;
-  
+
           case "Call":
             // player.keyHeld_call = false;
             // not needed since there is a timer before next Call allowed
             break;
-  
+
           case "Send":
             // code inefficient without setting false, but works
             if(TOUCH_TEST) {
@@ -249,7 +249,7 @@ function menuKeyChoice(key) {
           checkGridMatchColsRows();
         }
       }
-      
+
       if(key == KEY_L) {
         gameState = STATE_PLAY;
         if(!levelRunning) {
@@ -296,7 +296,7 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
       if(key == KEY_S) {
         gameState = STATE_SCOREBOARD;
       }
-      
+
       if(key == KEY_H) {
         gameState = STATE_HELP;
       }
@@ -331,16 +331,16 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
 
         if(key == KEY_T) {
           testTeam++;
-          if(testTeam > 3) { 
+          if(testTeam > 3) {
             testTeam = 0;
           }
           console.log("Paint for automated test is", TEAM_NAMES[testTeam]);
         }
 
-        if(key == KEY_D) {
-          gameState = STATE_DESIGN_LEVEL;
-          areaGrid = levelList[designLevel].slice();
-          designGridSet = true;
+        if(key == KEY_D) { // disbale because bug errors
+          // gameState = STATE_DESIGN_LEVEL;
+          // areaGrid = levelList[designLevel].slice();
+          // designGridSet = true;
           console.log("Design Level");
         }
       } // editMode
@@ -360,7 +360,7 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
         gameState = STATE_PLAY;
       }
       break;
-      
+
     case STATE_HELP:
       if(key == KEY_M) {
         gameState = STATE_MENU;
@@ -436,7 +436,7 @@ function getFunctionKeys(key) {
   // cycle through options because can only show one grid
   if(key == KEY_F6) {
     if (noGridValuesDisplay() ) {
-      showAreaGridValues = true; 
+      showAreaGridValues = true;
       console.log("showAreaGridValues is now", showAreaGridValues);
     }
     else if(showAreaGridValues) {
@@ -450,7 +450,7 @@ function getFunctionKeys(key) {
 
     }
   }
-  
+
   if(key == KEY_F7) {
     designLevel++;
     if(designLevel > 9) {
@@ -466,9 +466,9 @@ function getFunctionKeys(key) {
 }
 
 function keyPressed(evt) {
-  // arrowKeys 
+  // arrowKeys
   arrowKeySet(evt, player, true);
-  
+
   // toggle Edit mode, design/test tools
   getFunctionKeys(evt.keyCode);
 
@@ -477,7 +477,7 @@ function keyPressed(evt) {
 	evt.preventDefault();
 }
 
-// only relevant to arrowKeys, not Menu or Fn keys 
+// only relevant to arrowKeys, not Menu or Fn keys
 function keyReleased(evt) {
   arrowKeySet(evt, player, false);
 }
