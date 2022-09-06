@@ -17,6 +17,12 @@ function drawMenuFlock() {
 }
 
 function drawMenu() {
+  BAR.innerHTML = '';
+  if (!editMode) {
+    makeBarButtons(menuButtonList);
+  } else {
+    makeBarButtons(editmodeButtonList);
+  }
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(menuBGPic,0,0);
   decals.draw();
@@ -49,6 +55,9 @@ function drawMenu() {
 }
 
 function drawHelp() {
+  BAR.innerHTML = '';
+  makeBarButtons(offMenuButtonList);
+
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(helpBGPic,0,0);
   drawMenuFlock();
@@ -85,6 +94,9 @@ function drawHelp() {
 }
 
 function drawCredits() {
+  BAR.innerHTML = '';
+  makeBarButtons(offMenuButtonList);
+
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(creditsBGPic,0,0);
   // drawMenuFlock();
@@ -163,6 +175,9 @@ function smallBodyLine(txt, lineNum,startY) {
 
 const POPUP_W = 400;
 function drawLevelOver() {
+  BAR.innerHTML = '';
+  makeBarButtons(levelEndButtonList);
+
   var nextLevel = currentLevel + 1;
   // var advanceFontSize = (6 * Math.sqrt(levelScores[currentLevel]) ) / FLOCK_SIZE[currentLevel] + 14;
   var advanceFontSize = 12 + Math.sqrt( levelScores[currentLevel] / FLOCK_SIZE[currentLevel] +1 );
@@ -184,6 +199,9 @@ function drawLevelOver() {
 }
 
 function drawScoreboard() {
+  BAR.innerHTML = '';
+  makeBarButtons(offMenuButtonList);
+
   colorRect(0,0, canvas.width,canvas.height, "black");
   // canvasContext.textAlign = "center";
   canvasContext.font = "24px Arial";
@@ -197,38 +215,10 @@ function drawScoreboard() {
   canvasContext.textAlign = "left";
 }
 
-function drawMenuButtons() {
-  for(var i=0; i<MENU_BUTTONS_NUM-1; i++) {
-    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red");
-    canvasContext.font = "14px Arial";
-    canvasContext.textAlign = "left";
-    colorText(menuButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
-  }
-}
-
-function drawPlayButtons() {
-  for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
-    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red");
-    canvasContext.font = "14px Arial";
-    canvasContext.textAlign = "left";
-    colorText(playButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
-  }
-}
-
-function requireButtonGotoMenu() {
-  return gameState == STATE_CREDITS || gameState == STATE_HELP || gameState == STATE_SCOREBOARD
-}
-
-function drawLevelOverButtons() {
-  for(var i=4; i<5; i++) {
-    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red");
-    canvasContext.font = "14px Arial";
-    canvasContext.textAlign = "left";
-    colorText(playButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
-  }
-}
-
 function drawGameOver() {
+  BAR.innerHTML = '';
+  makeBarButtons(gameOverButtonList);
+
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(creditsBGPic,0,0);
   drawMenuFlock();

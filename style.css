@@ -1,14 +1,51 @@
-*, body, canvas {
+*, body, div, canvas {
   padding: 0;
   margin: 0;
   border: 0;
 }
-/* remove before deployment */
-body {
-  margin: 5px;
+canvas {
+  border: red 5px solid;
 }
 p {
   margin-left: 5px;
 }
+
+.flexbox {
+  display: flex;
+}
+.field {
+  background: #adadad;
+  flex: 0 0 810px;
+}
+.bar {
+  background: #32c962;
+  flex: 0 0 140px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 8px #999;
+  margin-left: 10px;
+  margin-top: 20px;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
 pre {-moz-tab-size: 10;} /* Firefox */
 pre {tab-size: 10;}
