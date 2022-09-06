@@ -7,18 +7,53 @@ const gameOverButtonList = ["Restart", "Menu", "Quit"];
 const offMenuButtonList = ["Menu"];
 const editmodeButtonList = ["Test", "Team", "Player"];
 
+function requireButtonGotoMenu() {
+  return gameState == STATE_CREDITS || gameState == STATE_HELP || gameState == STATE_SCOREBOARD
+}
+
+function buttonPlayHandler() {
+  if(!levelRunning) {
+    levelRunning = true;
+    playLevel++;
+    currentLevel = playLevel;
+    loadLevel(playLevel);
+    checkGridMatchColsRows(); 
+  } 
+  gameState = STATE_PLAY; // return to game
+}
+
+function buttonScoreHandler() {
+  gameState = STATE_SCOREBOARD;
+  if(TOUCH_TEST) {
+  }
+}
+function buttonHelpHandler() {
+  gameState = STATE_HELP;
+  if(TOUCH_TEST) {
+  }
+}
+function buttonCreditsHandler() {
+  gameState = STATE_CREDITS;
+  if(TOUCH_TEST) {
+  }
+}
+function buttonQuitHandler() {
+  window.close();
+}
+
+var functionName = null;
 function makeBarButtons(btnList) {
   for (var i=0; i<btnList.length; i++) {
     var btn = document.createElement("button");
     btn.classList.add("button");
     btn.innerHTML = btnList[i];
+    functionName = "button" + btnList[i] + 'Handler';
+    // console.log(functionName)
+    btn.addEventListener('touchstart', window[functionName]);
     BAR.appendChild(btn);
   }
 }
 
-function requireButtonGotoMenu() {
-  return gameState == STATE_CREDITS || gameState == STATE_HELP || gameState == STATE_SCOREBOARD
-}
 
 // old buttons on canvas
 function drawMenuButtons() {
