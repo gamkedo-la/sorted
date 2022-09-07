@@ -14,7 +14,7 @@ const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreb
 
 const ROAD_HEIGHT = 80; // a margin where no flowers or grass grows - see scatterDecals()
 
-var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; // 
+var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; //
 var paused = false;
 
 var levelLoaded = null;
@@ -35,7 +35,7 @@ const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple"];
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [4, 2, 2, 3, 3, 4, 4, 4, 2, 4];  
+const TEAM_SIZE = [4, 2, 2, 3, 3, 4, 4, 4, 2, 4];
 const FLOCK_SIZE = [];
 for(var i=0; i<TEAM_SIZE.length; i++) {
   FLOCK_SIZE[i] = TEAM_SIZE[i] * 2;
@@ -113,7 +113,7 @@ function loadLevel(whichLevel) {
 
   else if(testMode == SEND_COLUMNS_CENTRE_ONLY) {
     console.log("Test send row of sheep in level " + whichLevel + " - " + levelNames[whichLevel]);
-    
+
     // overwriting to use flocksize array seems a bad approach
     FLOCK_SIZE[whichLevel] = TILE_COLS;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
@@ -149,7 +149,7 @@ function loadLevel(whichLevel) {
     test_EndLevel();
   }
 
-  else if(testMode == SEND_ALL_X_ONE_COLUMN) { 
+  else if(testMode == SEND_ALL_X_ONE_COLUMN) {
     console.log("Testing send from each X in column " + whichColumn + " of level " + whichLevel);
     FLOCK_SIZE[whichLevel] = TILE_W; // 40
     // loop every X pixel position within a tile width
@@ -166,7 +166,7 @@ function loadLevel(whichLevel) {
 
   // cannot be done like this, need Xoffset increment by 1 at End-Level
   // and a flag to keep doing test until Xoffset reaches 40 (TILE_W)
-  else if(testMode == SEND_ALL_X_ALL_COLUMNS) { 
+  else if(testMode == SEND_ALL_X_ALL_COLUMNS) {
     console.log("Testing send from each X in level " + whichLevel + " - " + levelNames[whichLevel]);
     FLOCK_SIZE[whichLevel] = TILE_COLS;
     // loop every X pixel position within a tile width
@@ -179,7 +179,7 @@ function loadLevel(whichLevel) {
         sheepList.push(spawnSheep);
       }
       testTimer = 999;
-    } 
+    }
   }
 
   // reset sorting
@@ -216,11 +216,11 @@ function moveAll() {
 
   else if(gameState == STATE_PLAY) {
     player.move();
-    
+
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].move();
     }
-    
+
     flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
 
     if(currentLevel>=3) { // dog present on later levels only
@@ -259,7 +259,7 @@ function drawAll() {
         showGridValues(areaGrid, 14, "white");
       }
     }
-    
+
     drawPlayButtons();
     // makeBarButtons(playButtonList)
 
@@ -326,7 +326,7 @@ function drawAll() {
   }
   else if(gameState == STATE_CREDITS) {
     drawCredits();
-  } 
+  }
   else if(gameState == STATE_SCOREBOARD) {
     drawScoreboard();
   }
@@ -342,7 +342,7 @@ function drawAll() {
 
   if( requireButtonGotoMenu() ) {
     drawLevelOverButtons();
-  }  
+  }
 }
 
 var tutorial_start_time = 0;
@@ -354,7 +354,7 @@ function drawTutorial() {
     if (!tutorial_start_time) tutorial_start_time = now;
     if (now < tutorial_start_time + tutorial_timespan) {
         canvasContext.globalAlpha = 1-((now-tutorial_start_time)/tutorial_timespan);
-        canvasContext.drawImage(controlsPic,320,75); 
+        canvasContext.drawImage(controlsPic,320,75);
         canvasContext.globalAlpha = 1;
     }
 }

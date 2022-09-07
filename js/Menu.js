@@ -1,11 +1,14 @@
+const MENU_TOP_MARGIN = 110; // room for the logo
+const CREDITS_TOP_MARGIN = 50; // no logo on Credits
+
 const HEADER_FONT = 32;
 const BODY_FONT = 22;
+const CREDITS_FONT = 18;
+
 var textIndent = 200;
 const LINE_SPACING = 40;
 const PARAGRAPH_LINE_SPACING = 30;
 const PARAGRAPH_GAP = 20;
-const MENU_TOP_MARGIN = 110; // room for the logo
-const CREDITS_TOP_MARGIN = 80; // no logo on Credits
 
 function drawMenuFlock() {
     for (let x,y,i = 0; i<64; i++) {
@@ -27,7 +30,7 @@ function drawMenu() {
   canvasContext.drawImage(menuBGPic,0,0);
   decals.draw();
   drawMenuFlock();
-  
+
   canvasContext.textAlign = "left";
   var line = 0;
   if(!editMode) {
@@ -89,7 +92,7 @@ function drawHelp() {
   smallBodyLine("Menu: press key M or Esc", ++line, yTop);
   if(editMode) {
     line++; // gap between paragraphs
-    smallBodyLine("EditMode: Level 0 is integration test level.", ++line, yTop);  
+    smallBodyLine("EditMode: Level 0 is integration test level.", ++line, yTop);
   }
 }
 
@@ -101,23 +104,23 @@ function drawCredits() {
   canvasContext.drawImage(creditsBGPic,0,0);
   // drawMenuFlock();
 
-  textIndent = 80;
+  textIndent = 50;
   //headLine("Credits");
   canvasContext.font = HEADER_FONT + "px Verdana";
   colorText("Credits", textIndent, CREDITS_TOP_MARGIN, "white");
 
-  canvasContext.font = BODY_FONT + "px Verdana";
+  canvasContext.font = CREDITS_FONT + "px Verdana";
   var line = 0;
   var paragraph = 1;
 
-  paragraphLine("No more updates as Chris DeLeon will compile Credits.", ++line, paragraph);
+  paragraphLine("No more updates as Credits will be compiled by Chris DeLeon.", ++line, paragraph);
   paragraph++;
 
-  paragraphLine("Patrick McKeown - lead, programmer.", ++line, paragraph);
-  paragraph++;
+  // paragraphLine("Patrick McKeown - lead, programmer.", ++line, paragraph);
+  // paragraph++;
 
   var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grass; hoofprints behind sheep; many soundfx for sheep, and dog; ambient sheep sounds; baa when sheep enters goal.'
-  var txtLines = getLines(canvasContext, txt, 700);
+  var txtLines = getLines(canvasContext, txt, 800);
   // console.log(txtLines.length + txtLines[2])
   for(var i=0; i<txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
@@ -125,7 +128,7 @@ function drawCredits() {
   paragraph++;
 
   var txt = "Chris DeLeon - sheep-head multi-part image; foundation of classic games code and tile art.";
-  var txtLines = getLines(canvasContext, txt, 700);
+  var txtLines = getLines(canvasContext, txt, 800);
   for(var i=0; i<txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
   }
@@ -133,12 +136,12 @@ function drawCredits() {
 
   paragraphLine("Gonzalo Delgado - concept art and sprite for rogue dog.", ++line, paragraph);
   paragraph++;
-  
+
   paragraphLine("Tim Waskett - algorithm for sheep roaming.", ++line, paragraph);
   paragraph++;
 
-  var txt = "H Trayford - maximum possible score; screenwrap hat; experiment in level design.";
-  var txtLines = getLines(canvasContext, txt, 700);
+  var txt = "H Trayford - maximum possible score; screenwrap hat.";
+  var txtLines = getLines(canvasContext, txt, 800);
   for(var i=0; i<txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
   }
