@@ -57,14 +57,14 @@ function mousedownHandler(evt) {
 
         switch(menuButtonNames[i]) {
           case "Play":
-            if(!levelRunning) {
+            if(!levelRunning) { // otherwise return to level mid-play
               levelRunning = true;
               playLevel++;
               currentLevel = playLevel;
               loadLevel(playLevel);
               checkGridMatchColsRows();
             }
-            gotoPlay("canvasButton"); // return to game
+            gotoPlay("canvasButton");
             break;
 
           case "Score":
@@ -274,7 +274,7 @@ function menuKeyChoice(key) {
       }
 
       if(key == KEY_P) {
-        if(!levelRunning) {
+        if(!levelRunning) { // otherwise return mid-level
           // this condition should be caught by levelOver handling
           if(playLevel == LAST_LEVEL) {
             console.log("No more Levels!");
@@ -282,15 +282,12 @@ function menuKeyChoice(key) {
             levelRunning = true;
             playLevel++;
             currentLevel = playLevel;
-console.log('Loading from menu key P.');
 console.log("Level number now playLevel=" + playLevel + " currentLevel=" + currentLevel);
             loadLevel(playLevel);
             checkGridMatchColsRows();
-            gameState = STATE_PLAY;
           }
-        } else {
-          gameState = STATE_PLAY; // return to game
         }
+        gotoPlay("key P");
       }
 
       if(key == KEY_S) {
@@ -312,7 +309,7 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
 // console.log("Level number now =", currentLevel);
             loadLevel(testLevel);
             checkGridMatchColsRows();
-            gameState = STATE_PLAY;
+            gotoPlay("Key number from Edit-mode Menu");
           } else {
             whichColumn = key - KEY_NUM_0;
             console.log("Test column = " + whichColumn + ". Now select a level.");

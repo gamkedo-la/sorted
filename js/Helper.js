@@ -41,7 +41,7 @@ function update_debug_report() {
   var reds = teamSizeSoFar[2];
   txt += "Sheep sorted: blue = " + blues + "; red = " + reds;
 
-  txt += " - - Sheep in play = " + sheepInPlay; 
+  txt += " - - Sheep in play = " + sheepInPlay;
 
   if(player.sheepIDheld != undefined) {
     txt += ". Sheep id " + player.sheepIDheld + " is under hat.";
@@ -52,7 +52,7 @@ function update_debug_report() {
 function UI_level_number() {
   canvasContext.font = "18px Verdana";
   canvasContext.fillStyle = "white";
-  canvasContext.fillText("Level " + currentLevel  + ': "'  + levelNames[currentLevel] + '"', 10, canvas.height-11);
+  canvasContext.fillText("Level " + currentLevel  + ': "'  + LEVEL_NAMES[currentLevel] + '"', 10, canvas.height-11);
   canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
 
@@ -85,14 +85,14 @@ function calculateLevelScore() {
   var mode, team, x, score;
   console.log("Calculating end-of-level score for each sheep");
   levelTestDataReady = true;
-  
+
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     offSide = false;
     mode = sheepList[i].state;
     id = sheepList[i].id;
     team = sheepList[i].team;
     done = sheepList[i].levelDone;
-    
+
     x = sheepList[i].x;
 
     // central tile scores for both teams (adjust by TILE_W/2)
@@ -192,8 +192,8 @@ function normaliseRadian(ang) {
   }
   if(ang > 2 * Math.PI) {
     ang %= (2 * Math.PI);
-  } 
-  return ang; 
+  }
+  return ang;
 }
 
 function roundToNearest( number, multiple ){
@@ -242,53 +242,10 @@ function downloader(filename, text) {
   document.body.removeChild(element);
 }
 
-function gotoMenu(from) {
-  gameState = STATE_MENU;
-  BAR.innerHTML = ''; // clear buttons
-  makeBarButtons(menuButtonList);
-  debugAndConsole('return via ' + from, 1 )
-}
-
-function gotoPlay(from) {
-  gameState = STATE_PLAY;
-  BAR.innerHTML = '';
-  makeBarButtons(playButtonList);
-  debugAndConsole('Play via ' + from, 1 )
-}
-function gotoScore(from) {
-  gameState = STATE_SCOREBOARD;
-  BAR.innerHTML = '';
-  makeBarButtons(offMenuButtonList);
-  debugAndConsole('Score via ' + from, 1 )
-}
-function gotoHelp(from) {
-  gameState = STATE_HELP;
-  BAR.innerHTML = '';
-  makeBarButtons(offMenuButtonList);
-  debugAndConsole('Help via' + from, 1 )
-}
-function gotoScore(from) {
-  gameState = STATE_CREDITS;
-  BAR.innerHTML = '';
-  makeBarButtons(offMenuButtonList);
-  debugAndConsole('Credits via ' + from, 1 )
-}
-
-function gotoDesign(from) {
-  gameState = STATE_DESIGN_LEVEL;
-  BAR.innerHTML = '';
-  makeBarButtons(designButtonList);
-  debugAndConsole('Design via ' + from, 1 )
-}
-
-function togglePause() {
-  paused = !paused;
-}
-
 // downloader() supersedes functions below
 
 // function writeToFile(data) {
-//   let fso = CreateObject("Scripting.FileSystemObject"); 
+//   let fso = CreateObject("Scripting.FileSystemObject");
 //   let s   = fso.CreateTextFile("filename.txt", True);
 //   s.writeline(data);
 //   s.Close();

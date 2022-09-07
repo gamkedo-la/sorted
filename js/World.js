@@ -76,7 +76,7 @@ function checkGridMatchColsRows() {
   if(TILE_COLS * TILE_W > canvas.width) {
     console.log("Grid columns overflow canvas width");
   }
-  if(TILE_ROWS * TILE_H > canvas.height-20) {
+  if(TILE_ROWS * TILE_H > canvas.height) {
     console.log("Grid rows overflow canvas height");
   }
   if(areaGrid.length == numberTilesNeeded) {
@@ -199,8 +199,8 @@ function colRowToXY(col, row) {
 }
 
 const TEAM_POST_COLOURS = [ "white", "blue", "#ca1504", "purple"];
-const POST_SIZE = 4;
-const POST_GAP = 8;
+const POST_SIZE = 5;
+const POST_GAP = 10;
 
 function colDrawGoalFence(col, team) {
   let row = TILE_ROWS - 1; // bottom row always
@@ -224,7 +224,7 @@ function colDrawGoalFence(col, team) {
     colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
   }
 }
-function xyDrawGoalFence(x,y, team) {
+function xyDrawGoalFence(x, y, team) {
   var topLeft = { x: x, y: y };
   // left fence
   var x1 = topLeft.x;

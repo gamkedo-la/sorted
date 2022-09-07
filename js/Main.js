@@ -108,11 +108,11 @@ function loadLevel(whichLevel) {
       spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
       sheepList.push(spawnSheep);
     }
-    console.log("Level loaded: " + whichLevel + " - " + levelNames[whichLevel]);
+    console.log("Level loaded: " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
   }
 
   else if(testMode == SEND_COLUMNS_CENTRE_ONLY) {
-    console.log("Test send row of sheep in level " + whichLevel + " - " + levelNames[whichLevel]);
+    console.log("Test send row of sheep in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
 
     // overwriting to use flocksize array seems a bad approach
     FLOCK_SIZE[whichLevel] = TILE_COLS;
@@ -132,7 +132,7 @@ function loadLevel(whichLevel) {
   }
 
   else if(testMode == SEND_IN_COLUMN) {
-    console.log("Testing column of sheep in level " + whichLevel + " - " + levelNames[whichLevel]);
+    console.log("Testing column of sheep in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
     FLOCK_SIZE[whichLevel] = 3 //TILE_W;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
@@ -167,7 +167,7 @@ function loadLevel(whichLevel) {
   // cannot be done like this, need Xoffset increment by 1 at End-Level
   // and a flag to keep doing test until Xoffset reaches 40 (TILE_W)
   else if(testMode == SEND_ALL_X_ALL_COLUMNS) {
-    console.log("Testing send from each X in level " + whichLevel + " - " + levelNames[whichLevel]);
+    console.log("Testing send from each X in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
     FLOCK_SIZE[whichLevel] = TILE_COLS;
     // loop every X pixel position within a tile width
     for(var Xoffset=0; Xoffset < 2; Xoffset++) {  // limit really TILE_W
@@ -236,35 +236,7 @@ function drawAll() {
   }
 
   if(gameState == STATE_PLAY) {
-    drawArea();
-    drawLowRoad();
-    decals.draw();
-    UI_level_number();
-
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-      sheepList[i].draw();
-      if(editMode) {
-        sheepList[i].idLabel();
-      }
-    }
-    player.draw();
-    if(currentLevel>=3) { // only on some levels
-      dog.draw();
-    }
-
-    if(editMode) {
-      if(showAgentGridValues) {
-        drawAgentGrid();
-      } else if(showAreaGridValues) {
-        let fontSize = 14;
-        showGridValues(areaGrid, fontSize, "white");
-      }
-    }
-
-    drawPlayButtons();
-    // makeBarButtons(playButtonList)
-
-    drawTutorial();
+    drawPlayState();
   }
 
   else if (gameState == STATE_LEVEL_OVER) {

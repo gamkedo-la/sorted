@@ -20,12 +20,6 @@ function drawMenuFlock() {
 }
 
 function drawMenu() {
-  // BAR.innerHTML = '';
-  // if (!editMode) {
-  //   makeBarButtons(menuButtonList);
-  // } else {
-  //   makeBarButtons(editmodeButtonList);
-  // }
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(menuBGPic,0,0);
   decals.draw();
@@ -212,7 +206,7 @@ function drawScoreboard() {
   colorText("Scoreboard", 100, 80, "white");
   canvasContext.font = "16px Arial";
   for(var i=1; i<7; i++) {
-    colorText("Level " + i +  ' "' + levelNames[i] + '": ' + levelScores[i], 100, 80 + i*50, "white");
+    colorText("Level " + i +  ' "' + LEVEL_NAMES[i] + '": ' + levelScores[i], 100, 80 + i*50, "white");
   }
   canvasContext.font = "16px Arial";
   colorText("Press M or Esc for menu", 100, 500, "white");
