@@ -52,7 +52,7 @@ function update_debug_report() {
 function UI_level_number() {
   canvasContext.font = "18px Verdana";
   canvasContext.fillStyle = "white";
-  canvasContext.fillText("Level " + currentLevel  + ': "'  + levelNames[currentLevel] + '"', 10, canvas.height-TILE_H+10);
+  canvasContext.fillText("Level " + currentLevel  + ': "'  + levelNames[currentLevel] + '"', 10, canvas.height-11);
   canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
 
@@ -240,6 +240,49 @@ function downloader(filename, text) {
 
   element.click();
   document.body.removeChild(element);
+}
+
+function gotoMenu(from) {
+  gameState = STATE_MENU;
+  BAR.innerHTML = ''; // clear buttons
+  makeBarButtons(menuButtonList);
+  debugAndConsole('return via ' + from, 1 )
+}
+
+function gotoPlay(from) {
+  gameState = STATE_PLAY;
+  BAR.innerHTML = '';
+  makeBarButtons(playButtonList);
+  debugAndConsole('Play via ' + from, 1 )
+}
+function gotoScore(from) {
+  gameState = STATE_SCOREBOARD;
+  BAR.innerHTML = '';
+  makeBarButtons(offMenuButtonList);
+  debugAndConsole('Score via ' + from, 1 )
+}
+function gotoHelp(from) {
+  gameState = STATE_HELP;
+  BAR.innerHTML = '';
+  makeBarButtons(offMenuButtonList);
+  debugAndConsole('Help via' + from, 1 )
+}
+function gotoScore(from) {
+  gameState = STATE_CREDITS;
+  BAR.innerHTML = '';
+  makeBarButtons(offMenuButtonList);
+  debugAndConsole('Credits via ' + from, 1 )
+}
+
+function gotoDesign(from) {
+  gameState = STATE_DESIGN_LEVEL;
+  BAR.innerHTML = '';
+  makeBarButtons(designButtonList);
+  debugAndConsole('Design via ' + from, 1 )
+}
+
+function togglePause() {
+  paused = !paused;
 }
 
 // downloader() supersedes functions below

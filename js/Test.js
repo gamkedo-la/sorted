@@ -83,16 +83,16 @@ function scalingTest() {
   // }
 }
 
-function screenTest() {
-  deviceWidth = window.screen.width;
-  deviceHeight = window.screen.height;
+function displayTest() {
+  deviceWidth = window.innerWidth;
+  deviceHeight = window.innerHeight;
   debugAndConsole("Screen width " + deviceWidth + " height " + deviceHeight + ". ", 0);
 }
 
 // runs in Main.js onload
 function deviceTests() {
   touchTest();
-  screenTest();  
+  displayTest();
   scalingTest();
 }
 

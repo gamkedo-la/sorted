@@ -25,7 +25,7 @@ function drawLevelDesigner(whichLevel) {
       var tileTypeHere = designGrid[arrayIndex];
 
       if(tileTypeHasTransparency(tileTypeHere)) {
-        canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);  
+        canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
       }
 
       var useImg = tilePics[tileTypeHere];
@@ -60,9 +60,18 @@ function outlineSelectedTile(index) {
   let topLeftY = row * TILE_H;
   // console.log("index,col,row", index, col, row, topLeftX, topLeftY);
   canvasContext.lineWidth = 2;
-  canvasContext.setLineDash([]); 
+  canvasContext.setLineDash([]);
   canvasContext.strokeStyle = "yellow";
   canvasContext.strokeRect(topLeftX,topLeftY, TILE_W,TILE_H);
+}
+
+function outlineRow(row) {
+  let topLeftX = 0;
+  let topLeftY = row * TILE_H;
+  canvasContext.lineWidth = 2;
+  canvasContext.setLineDash([]);
+  canvasContext.strokeStyle = "yellow";
+  canvasContext.strokeRect(topLeftX, topLeftY, TILE_W * TILE_COLS, TILE_H);
 }
 
 function clearDesign() {
@@ -70,7 +79,7 @@ function clearDesign() {
 }
 
 function formatDesign() {
-  var output = 'const level_' + designLevel + ' = [\n'; 
+  var output = 'const level_' + designLevel + ' = [\n';
   var arrayIndex = 0;
   var space = '';
 

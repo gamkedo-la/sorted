@@ -10,10 +10,10 @@ function colorRect(topLeftX,topLeftY, boxWidth,boxHeight, fillColor) {
 	canvasContext.fillStyle = fillColor;
 	canvasContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
 }
-function colorRectBorder(topLeftX,topLeftY, boxWidth,boxHeight, fillColor, strokeColor) {
+function colorRectBorder(topLeftX,topLeftY, boxWidth,boxHeight, fillColor, strokeColor, lineWidth) {
 	canvasContext.fillStyle = fillColor;
 	canvasContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
-  canvasContext.lineWidth = 3;
+  canvasContext.lineWidth = lineWidth;
   canvasContext.setLineDash([]); // colorLine set this
   canvasContext.strokeStyle = strokeColor;
   canvasContext.strokeRect(topLeftX,topLeftY, boxWidth,boxHeight);
