@@ -128,17 +128,29 @@ function makePenRow(cols, penSize) {
   rowStr = rowStr.slice(0, -1); // remove final space
   return rowStr;
 }
-function writeGoalRow(cols, penSize, offSet) {
-  var middle = cols - penSize*2;
+
+function writeGoalRow(cols, penSize, offset) {
   var rowStr = '  '; // grid.js indent if pasting
-  var fieldStr = TILE_CENTRE + ', ';
+  var ditchStr = TILE_ROAD + ', ';
+  var centreStr = TILE_CENTRE + ', ';
   var bluePenStr = TILE_PEN_BLUE + ', ';
   var redPenStr = TILE_PEN_RED + ', ';
+  var sideLength = (cols-1)/2 - offset -1;
+  var centreLength = cols - 2*sideLength -2;
+  rowStr += ditchStr.repeat(sideLength);
   rowStr += bluePenStr.repeat(penSize);
-  rowStr += fieldStr.repeat(middle);
+  rowStr += centreStr.repeat(centreLength);
   rowStr += redPenStr.repeat(penSize);
+  rowStr += ditchStr.repeat(sideLength);
   rowStr = rowStr.slice(0, -1); // remove final space
   return rowStr;
+}
+function levelsGoalRows() {
+  var txt = '';
+  for (var i=0; i < 8; i++) {
+    txt += writeGoalRow(TILE_COLS, 1, i) + '\n';
+  }
+  console.log(txt);
 }
 
 function makeFieldRow(cols) {

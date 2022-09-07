@@ -105,6 +105,7 @@ function sheepClass() {
     var nextX = this.x; // previous location
     var nextY = this.y;
     var prevMode = this.state;
+    this.previousMode = this.state;
     var tileOccupied;
     var pos; // temporary position
 
@@ -469,7 +470,7 @@ function sheepClass() {
 
   this.changeMode = function(newMode) {
     // change state, also set direction & speed
-    this.previousMode = this.state;
+    // this.previousMode = this.state; // set earlier at start of .move()
 
   // console.log(this.id, this.state, newMode)
 
@@ -487,7 +488,8 @@ function sheepClass() {
     else if(newMode == CONVEYOR) {
       this.state= CONVEYOR;
       this.orient = 0; // normal upright
-      this.speed = ROAM_SPEED[currentLevel];
+      let tempConvSpeed = ROAM_SPEED[currentLevel]; // add conveyor speed to parameters
+      this.speed = tempConvSpeed;
       // console.log('Conveyor speed', this.speed);
     }
 

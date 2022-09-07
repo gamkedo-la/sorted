@@ -59,7 +59,7 @@ function drawPlayState() {
   drawArea();
   drawLowRoad();
   decals.draw();
-  UI_level_number();
+  // UI_level_number();
 
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     sheepList[i].draw();
