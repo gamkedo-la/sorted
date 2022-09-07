@@ -95,12 +95,12 @@ function sheepClass() {
     this.y = randomRangeInt(TOP_MARGIN+10, depth);
     // console.log(this.id, this.x, this.y)
   }
-  
+
   // 1st, mode governs speed
   // 2nd, check screenwrap X and bounce Y
   // 3rd, test if tile occupied
   // 4th, tile handling
-  
+
   this.move = function() {
     var nextX = this.x; // previous location
     var nextY = this.y;
@@ -128,7 +128,7 @@ function sheepClass() {
         this.speed = 0;
         player.sheepIDheld = this.id;
         update_debug_report(); // to display Hold
-        
+
         // if already Sorted, don't change
         if(this.team == 0) {
           var teamSort = this.potentialTeam;
@@ -141,11 +141,11 @@ function sheepClass() {
             this.color = "#f38282"; // pale red
             // this.img = redSheepPic;
           }
-        } 
-      } 
+        }
+      }
     }
 
-    else if(this.state == SENT) { 
+    else if(this.state == SENT) {
       // isMovedBySpeed() handles angle effect
       // if waggle while Sent, that goes here
     }
@@ -188,7 +188,7 @@ function sheepClass() {
     // common to ROAM, CALLED, SENT
     if(this.isMovedBySpeed(this.state)) {
       nextX += this.speed * Math.cos(this.ang);
-      nextY += this.speed * Math.sin(this.ang); 
+      nextY += this.speed * Math.sin(this.ang);
     }
 
     // screenwrap horizontal
@@ -208,7 +208,7 @@ function sheepClass() {
         nextY = this.y; // stops oscillation
       }
     }
-    // bounce up from bottom row if not Sent 
+    // bounce up from bottom row if not Sent
     if(nextY > 540) {
       if(this.isAllowedBottomRow() == false) {
         this.ang = 2*Math.PI - this.ang;
@@ -240,7 +240,7 @@ function sheepClass() {
     if(pos != undefined) {
       this.x = pos.x;
       this.y = pos.y;
-    } else {  
+    } else {
       // console.log("ID " + this.id + " didnt do occupancy test or tilehandling")
       this.x = nextX;
       this.y = nextY;
@@ -314,7 +314,7 @@ function sheepClass() {
       this.levelDone = true;
       this.endCol = col;
       this.endTime = step[currentLevel];
-      
+
       agentGrid[agentIndex - TILE_COLS] = 1;
       // console.log("agentHandling sheep " + this.id + " row " + row)
     }
@@ -342,7 +342,7 @@ function sheepClass() {
           agentGrid[tileIndexUnder] = 1;
           this.state = IN_BLUE_PEN;
           this.orient = Math.PI * 1/2;
-          nextY = TILE_H * (14 + TILE_Y_ADJUST); // bring rear inside tile
+          nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST); // bring rear inside tile
           random_baa_sound(BAA_VOLUME);
 
         } else if(tileType == TILE_PEN_RED) {
@@ -350,19 +350,19 @@ function sheepClass() {
           agentGrid[tileIndexUnder] = 1;
           this.state = IN_RED_PEN;
           this.orient = Math.PI * 3/2;
-          nextY = TILE_H * (14 + TILE_Y_ADJUST);
+          nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST);
           random_baa_sound(BAA_VOLUME);
 
         } else if(tileType == TILE_CENTRE) {
           console.log("Sheep ID", this.id, "is between pens.");
           this.state = ON_ROAD;
-          nextY = TILE_H * (13 + TILE_Y_ADJUST);
+          nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST);
           agentGrid[tileIndexUnder - TILE_COLS] = 1;
-          
+
           // fixme: perhaps we need some "unhappy" BAA sounds?
-          // random_baa_sound(BAA_VOLUME); 
-          
-        }  
+          // random_baa_sound(BAA_VOLUME);
+
+        }
         this.speed = 0;
         nextX = nearestColumnCentre(nextX);
         // replaced // nextX = TILE_W * 11.5; // nextX = TILE_W * 9.5;
@@ -392,7 +392,7 @@ function sheepClass() {
           } else {
             this.ang -= 0.01;
           }
-          
+
         // should only apply on entering
         } else if(tileType == TILE_HALT) {
           if(this.state != GRAZE) {
@@ -403,7 +403,7 @@ function sheepClass() {
               nextY = nearestRowEdge(nextY) -10;
               console.log("Avoid walking into water");
             }
-            var turn = randomRangeInt(1,2) == 1 ? 1 : (-1); 
+            var turn = randomRangeInt(1,2) == 1 ? 1 : (-1);
             this.ang += turn * Math.PI/2;
           }
 
@@ -422,7 +422,7 @@ function sheepClass() {
             // definitely need endRow, and Stuck is not a scoring result
             this.endCol = tileCol;
             this.endTime = step[currentLevel];
-            sheepInPlay--; 
+            sheepInPlay--;
           }
 
         } else if(tileType == TILE_ROAD) {
@@ -432,8 +432,8 @@ function sheepClass() {
             this.endTime = step[currentLevel];
             sheepInPlay--;
             nextX = nearestColumnCentre(nextX);
-            nextY = TILE_H * (13 + TILE_Y_ADJUST);
-            agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
+            nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST);
+            agentGrid[tileIndexUnder] = OCCUPIED;
           }
 
         } else if( this.isTileConveyor(tileType) ) {
@@ -456,7 +456,7 @@ function sheepClass() {
           // rebound from obstacle
           // this.speed *= -1;
           this.speed = 0;
-    
+
         } // end of terrain handling
       }
     } // end of valid col and row
@@ -466,7 +466,7 @@ function sheepClass() {
       y: nextY
     };
   }
- 
+
   this.changeMode = function(newMode) {
     // change state, also set direction & speed
     this.previousMode = this.state;
@@ -494,13 +494,13 @@ function sheepClass() {
     else if(newMode == SENT) {
       this.state = SENT;
       // set once when sent, may change on way
-      this.speed = SEND_SPEED[currentLevel]; 
+      this.speed = SEND_SPEED[currentLevel];
       this.ang = Math.PI/2 // straight down
       if(this.team == BLUE) {
         this.orient = Math.PI * 1/4;
       } else {
         this.orient = Math.PI * 7/4;
-      }  
+      }
     }
 
     else if(newMode == FENCED) {
@@ -515,7 +515,7 @@ function sheepClass() {
       this.speed = 0;
       this.levelDone = true;
       // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
-      testIfLevelEnd();  
+      testIfLevelEnd();
     }
 
     else {
@@ -532,13 +532,13 @@ function sheepClass() {
     //   x: nextX,
     //   y: nextY
     // };
-  } 
+  }
 
-  // restart timer to expire mode 
+  // restart timer to expire mode
   this.setExpiry = function() {
     if(this.state == ROAM) {
       this.timer = randomRangeInt(ROAM_TIME_MIN[currentLevel], ROAM_TIME_MAX[currentLevel]);
-    } 
+    }
     else if(this.state == GRAZE) {
       this.timer = randomRangeInt(GRAZE_TIME_MIN[currentLevel], GRAZE_TIME_MAX[currentLevel]);
     }
@@ -568,7 +568,7 @@ function sheepClass() {
   }
 
   this.isAllowedBottomRow = function() {
-    return this.state == SENT || this.state == FENCED || this.state == IN_BLUE_PEN || this.state == IN_RED_PEN || this.state == ON_ROAD || this.state == STACKED 
+    return this.state == SENT || this.state == FENCED || this.state == IN_BLUE_PEN || this.state == IN_RED_PEN || this.state == ON_ROAD || this.state == STACKED
   }
 
   this.isModeTimed = function() {
@@ -603,7 +603,7 @@ function sheepClass() {
     } else if(this.team == RED) {
       drawBitmapCenteredWithRotation(sheepTailRedPic, this.x,this.y, this.ang);
       // drawBitmapCenteredWithRotation(sheepRuffRedPic, this.x,this.y, this.orient);
-    }  
+    }
 
     drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
 
@@ -611,7 +611,7 @@ function sheepClass() {
     //   drawBitmapCenteredWithRotation(sheepKnotBluePic, this.x,this.y, this.orient);
     // } else if(this.team == RED) {
     //   drawBitmapCenteredWithRotation(sheepKnotRedPic, this.x,this.y, this.orient);
-    // }  
+    // }
     // if(this.team == PLAIN) {
     //   drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
     // } else {

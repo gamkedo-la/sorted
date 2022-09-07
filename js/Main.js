@@ -256,7 +256,8 @@ function drawAll() {
       if(showAgentGridValues) {
         drawAgentGrid();
       } else if(showAreaGridValues) {
-        showGridValues(areaGrid, 14, "white");
+        let fontSize = 14;
+        showGridValues(areaGrid, fontSize, "white");
       }
     }
 

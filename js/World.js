@@ -3,8 +3,8 @@ const LAST_LEVEL = 6;
 
 const TILE_W = 50;
 const TILE_H = 50;
-const TILE_COLS = 14;
-const TILE_ROWS = 14;
+const TILE_COLS = 17;
+const TILE_ROWS = 12;
 
 function getTileTypeAtColRow(col, row) {
 	if(col >= 0 && col < TILE_COLS &&
