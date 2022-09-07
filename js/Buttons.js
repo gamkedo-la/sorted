@@ -1,7 +1,8 @@
 const BAR = document.getElementById("bar");
+var barButtonInactive = null;
 
 const menuButtonList = ["Play", "Score", "Help", "Credits", "Quit"];
-const playButtonList = ["Left", "Right", "Call", "Send", "Pause", "Menu"];
+const playButtonList = [null, "Left", "Right", "Call", "Send", "Pause", "Menu"];
 const levelEndButtonList = ["Replay", "Advance", "Menu"];
 const gameOverButtonList = ["Restart", "Menu", "Quit"];
 const offMenuButtonList = ["Menu"];
@@ -11,19 +12,21 @@ var functionName = null;
 
 function makeBarButtons(btnList) {
   for (var i=0; i<btnList.length; i++) {
-    var btn = document.createElement("button");
-    btn.classList.add("button");
-    btn.innerHTML = btnList[i];
-    functionName = "touchstart" + btnList[i] + 'Handler';
-    btn.addEventListener('touchstart', window[functionName]);
-    btn.addEventListener('mousedown', window[functionName]);
-    if ( needsTouchEnd( btnList[i] ) ) {
-      functionName = "touchend" + btnList[i] + 'Handler';
-      btn.addEventListener('touchend', window[functionName]);
-      btn.addEventListener('mouseup', window[functionName]);
-      console.log(functionName)
+    if ( btnList[i] != null ) {
+      var btn = document.createElement("button");
+      btn.classList.add("button");
+      btn.innerHTML = btnList[i];
+      functionName = "touchstart" + btnList[i] + 'Handler';
+      btn.addEventListener('touchstart', window[functionName]);
+      btn.addEventListener('mousedown', window[functionName]);
+      if ( needsTouchEnd( btnList[i] ) ) {
+        functionName = "touchend" + btnList[i] + 'Handler';
+        btn.addEventListener('touchend', window[functionName]);
+        btn.addEventListener('mouseup', window[functionName]);
+        console.log(functionName)
+      }
+      BAR.appendChild(btn);
     }
-    BAR.appendChild(btn);
   }
 }
 

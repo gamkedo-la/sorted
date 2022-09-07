@@ -324,6 +324,7 @@ function drawAll() {
     drawMenu();
     drawMenuButtons();
   }
+
   else if(gameState == STATE_CREDITS) {
     drawCredits();
   }

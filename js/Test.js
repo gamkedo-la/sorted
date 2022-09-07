@@ -1,6 +1,6 @@
 // no ITCH branch, now merged into main
 // var editMode = (ITCH) ? false : true;
-var editMode = false;
+var editMode = true;
 
 const PLAIN = 0; // sheep normal colour
 const BLUE = 1;

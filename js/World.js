@@ -51,12 +51,18 @@ function drawArea() {
 
       var tileTypeHere = areaGrid[arrayIndex];
 
-      if(tileTypeHasTransparency(tileTypeHere)) {
+      if ( tileTypeHasTransparency(tileTypeHere) ) {
         canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
       }
 
-      var useImg = tilePics[tileTypeHere];
-      canvasContext.drawImage(useImg, drawTileX, drawTileY);
+      if ( isGoal(tileTypeHere) ) {
+        let team = tileTypeHere == TILE_PEN_BLUE ? 1 : 2;
+        xyDrawGoalFence(drawTileX, drawTileY, team);
+      } else {
+        var useImg = tilePics[tileTypeHere];
+        canvasContext.drawImage(useImg, drawTileX, drawTileY);
+      }
+
       drawTileX += TILE_W;
       arrayIndex++;
 		} // end of for each col
@@ -86,6 +92,8 @@ function checkGridMatchColsRows() {
 
 function tileTypeHasTransparency(tileType) {
   return(tileType == TILE_UNSORT ||
+        tileType == TILE_PEN_BLUE ||
+        tileType == TILE_PEN_RED ||
         tileType == TILE_LOST ||
         tileType == TILE_STUCK ||
         tileType == TILE_HALT ||
@@ -109,6 +117,18 @@ function drawLowRoad() {
 
 // initially 21 cols, 9 levels
 function makePenRow(cols, penSize) {
+  var middle = cols - penSize*2;
+  var rowStr = '  '; // grid.js indent if pasting
+  var fieldStr = TILE_CENTRE + ', ';
+  var bluePenStr = TILE_PEN_BLUE + ', ';
+  var redPenStr = TILE_PEN_RED + ', ';
+  rowStr += bluePenStr.repeat(penSize);
+  rowStr += fieldStr.repeat(middle);
+  rowStr += redPenStr.repeat(penSize);
+  rowStr = rowStr.slice(0, -1); // remove final space
+  return rowStr;
+}
+function writeGoalRow(cols, penSize, offSet) {
   var middle = cols - penSize*2;
   var rowStr = '  '; // grid.js indent if pasting
   var fieldStr = TILE_CENTRE + ', ';
@@ -166,4 +186,71 @@ function showGridValues(grid, fontSize, fontColor) {
     drawTileX = 0;
     drawTileY += TILE_H;
 	} // end of for each row
+}
+
+function colRowToXY(col, row) {
+  // top left corner of tile
+  var x = col * TILE_W;
+  var y = row * TILE_H;
+  return {
+    x: x,
+    y: y,
+  }
+}
+
+const TEAM_POST_COLOURS = [ "white", "blue", "#ca1504", "purple"];
+const POST_SIZE = 4;
+const POST_GAP = 8;
+
+function colDrawGoalFence(col, team) {
+  let row = TILE_ROWS - 1; // bottom row always
+  let topLeft = colRowToXY(col, row);
+  // left fence
+  var x1 = topLeft.x;
+  for(var i=0; i<4; i++) {
+    var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
+    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+  }
+  // right fence
+  var x1 = topLeft.x + TILE_W - POST_SIZE;
+  for(var i=0; i<4; i++) {
+    var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
+    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+  }
+  // bottom fence
+  var y1 = topLeft.y + TILE_H - POST_SIZE;
+  for(var i=0; i<4; i++) {
+    var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
+    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+  }
+}
+function xyDrawGoalFence(x,y, team) {
+  var topLeft = { x: x, y: y };
+  // left fence
+  var x1 = topLeft.x;
+  for(var i=0; i<4; i++) {
+    var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
+    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+  }
+  // right fence
+  var x1 = topLeft.x + TILE_W - POST_SIZE;
+  for(var i=0; i<4; i++) {
+    var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
+    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+  }
+  // bottom fence
+  var y1 = topLeft.y + TILE_H - POST_SIZE;
+  for(var i=0; i<4; i++) {
+    var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
+    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+  }
+}
+
+// multi-tile goal
+// - POST_SIZE/2; // half on adjacent tile
+    // var x2 = x1 + POST_SIZE;
+    // var y2 = y1 + POST_SIZE;
+
+function isGoal(tile) {
+  return tile == TILE_PEN_BLUE || tile == TILE_PEN_RED
 }
