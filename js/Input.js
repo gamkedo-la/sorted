@@ -2,9 +2,9 @@ var mouseX = 0;
 var mouseY = 0;
 
 function setupInput() {
-  canvas.addEventListener('mousemove', mousemoveHandler);
-  canvas.addEventListener('mousedown', mousedownHandler);
-  canvas.addEventListener('mouseup', mouseupHandler);
+  gameCanvas.addEventListener('mousedown', mousedownHandler);
+  gameCanvas.addEventListener('mousemove', mousemoveHandler);
+  gameCanvas.addEventListener('mouseup', mouseupHandler);
 
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);

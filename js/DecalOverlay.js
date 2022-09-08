@@ -16,7 +16,7 @@ var decalOverlay = function() {
 
     var decalCount = 0;
     var decalCanvas = document.createElement("canvas");
-    var decalContext = decalCanvas.getContext("2d"); 
+    var decalContext = decalCanvas.getContext("2d");
 
     this.add = function(x,y,rot=0,alpha=0.025,spritePic) {
         if (!spritePic) return;
@@ -33,8 +33,8 @@ var decalOverlay = function() {
 	};
 
 	this.resize = function() {
-        decalCanvas.width = canvas.width;
-        decalCanvas.height = canvas.height;
+        decalCanvas.width = gameCanvas.width;
+        decalCanvas.height = gameCanvas.height;
         //console.log("decalCanvas size: "+decalCanvas.width+"x"+decalCanvas.height);
 	};
 
@@ -64,5 +64,14 @@ function randomInteger(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-  
+}
+
+function setupDecals() {
+  decals = new decalOverlay(); // grass, flowers, footprints, pebbles, etc
+  decals.scatterDecorations(150,flower1Pic,ROAD_HEIGHT);
+  decals.scatterDecorations(150,flower2Pic,ROAD_HEIGHT);
+  decals.scatterDecorations(150,flower3Pic,ROAD_HEIGHT);
+  decals.scatterDecorations(150,grass1Pic,ROAD_HEIGHT);
+  decals.scatterDecorations(150,grass2Pic,ROAD_HEIGHT);
+  decals.scatterDecorations(150,grass3Pic,ROAD_HEIGHT);
+}

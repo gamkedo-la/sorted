@@ -156,3 +156,6 @@ function touchArrowDebug() {
   }
 }
 
+function debugText() {
+  colorText(uiContext, 20,300, "debug text", "white");
+}

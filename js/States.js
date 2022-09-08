@@ -12,7 +12,7 @@ function gotoMenu(from) {
   gameState = STATE_MENU;
   BAR.innerHTML = ''; // clear bar
   addLevelTitle( LEVEL_NAMES[currentLevel] );
-  makeBarButtons(menuButtonList);
+  // makeBarButtons(menuButtonList);
   debugAndConsole('return via ' + from, 1 )
 }
 

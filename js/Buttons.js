@@ -12,21 +12,21 @@ var functionName = null;
 
 function makeBarButtons(btnList) {
   for (var i=0; i<btnList.length; i++) {
-    if ( btnList[i] != null ) {
-      var btn = document.createElement("button");
-      btn.classList.add("button");
-      btn.innerHTML = btnList[i];
-      functionName = "touchstart" + btnList[i] + 'Handler';
-      btn.addEventListener('touchstart', window[functionName]);
-      btn.addEventListener('mousedown', window[functionName]);
-      if ( needsTouchEnd( btnList[i] ) ) {
-        functionName = "touchend" + btnList[i] + 'Handler';
-        btn.addEventListener('touchend', window[functionName]);
-        btn.addEventListener('mouseup', window[functionName]);
-        console.log(functionName)
-      }
-      BAR.appendChild(btn);
-    }
+    // if ( btnList[i] != null ) {
+    //   var btn = document.createElement("button");
+    //   btn.classList.add("button");
+    //   btn.innerHTML = btnList[i];
+    //   functionName = "touchstart" + btnList[i] + 'Handler';
+    //   btn.addEventListener('touchstart', window[functionName]);
+    //   btn.addEventListener('mousedown', window[functionName]);
+    //   if ( needsTouchEnd( btnList[i] ) ) {
+    //     functionName = "touchend" + btnList[i] + 'Handler';
+    //     btn.addEventListener('touchend', window[functionName]);
+    //     btn.addEventListener('mouseup', window[functionName]);
+    //     console.log(functionName)
+    //   }
+    //   BAR.appendChild(btn);
+    // }
   }
 }
 
@@ -103,28 +103,28 @@ function touchstartPauseHandler() {
 function drawMenuButtons() {
   canvasContext.lineWidth = 1;
   for(var i=0; i<MENU_BUTTONS_NUM-1; i++) {
-    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
+    colorRectBorder(canvasContext, buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
     canvasContext.textAlign = "left";
     canvasContext.font = "14px Arial";
-    colorText(menuButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
+    colorText(canvasContext, menuButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
   }
 }
 
 function drawPlayButtons() {
   canvasContext.lineWidth = 1;
   for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
-    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
+    colorRectBorder(canvasContext, buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
     canvasContext.font = "14px Arial";
     canvasContext.textAlign = "left";
-    colorText(playButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
+    colorText(canvasContext, playButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
   }
 }
 
 function drawLevelOverButtons() {
   for(var i=4; i<5; i++) {
-    colorRectBorder(buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
+    colorRectBorder(canvasContext, buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
     canvasContext.font = "14px Arial";
     canvasContext.textAlign = "left";
-    colorText(playButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
+    colorText(canvasContext, playButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
   }
 }

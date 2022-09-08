@@ -15,12 +15,12 @@ function drawMenuFlock() {
         x = Math.sin(performance.now()*0.00005+i*321) * 900;
         y = 600 + Math.cos(performance.now()*0.00513+i*234) * 10;
         r = Math.cos(performance.now()*0.005+i*456) * 0.5;
-        drawBitmapCenteredWithRotation(sheepNormalPic,x,y,r);
+        drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic,x,y,r);
     }
 }
 
 function drawMenu() {
-  colorRect(0,0, canvas.width,canvas.height, "black");
+  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
   canvasContext.drawImage(menuBGPic,0,0);
   decals.draw();
   drawMenuFlock();
@@ -146,28 +146,28 @@ function drawCredits() {
 
 function headLine(txt) {
   canvasContext.font = HEADER_FONT + "px Verdana";
-  colorText(txt, textIndent, 100 + MENU_TOP_MARGIN, "white");
+  colorText(canvasContext, txt, textIndent, 100 + MENU_TOP_MARGIN, "white");
 }
 
 function bodyLine(txt, lineNum) {
   canvasContext.font = BODY_FONT + "px Verdana";
-  colorText(txt, textIndent, 110 + MENU_TOP_MARGIN + lineNum * LINE_SPACING, "white");
+  colorText(canvasContext, txt, textIndent, 110 + MENU_TOP_MARGIN + lineNum * LINE_SPACING, "white");
 }
 
 function paragraphLine(txt, lineNum, paragraph) {
   canvasContext.font = BODY_FONT + "px Verdana";
   let y = CREDITS_TOP_MARGIN + (paragraph * PARAGRAPH_GAP) + (lineNum * PARAGRAPH_LINE_SPACING);
-  colorText(txt, textIndent, y, "white");
+  colorText(canvasContext, txt, textIndent, y, "white");
 }
 
 function smallHeadLine(txt, yTop) {
   canvasContext.font = 32 + "px Verdana";
-  colorText(txt, textIndent, yTop + MENU_TOP_MARGIN, "white");
+  colorText(canvasContext, txt, textIndent, yTop + MENU_TOP_MARGIN, "white");
 }
 
 function smallBodyLine(txt, lineNum,startY) {
   canvasContext.font = 24 + "px Verdana";
-  colorText(txt, textIndent, startY + lineNum * 30 + MENU_TOP_MARGIN, "white");
+  colorText(canvasContext, txt, textIndent, startY + lineNum * 30 + MENU_TOP_MARGIN, "white");
 }
 
 const POPUP_W = 400;
@@ -181,24 +181,24 @@ function drawLevelOver() {
   var advanceFontSize = 12 + Math.sqrt( levelScores[currentLevel] / FLOCK_SIZE[currentLevel] +1 );
   var y = 50;
   canvasContext.textAlign = "center";
-  colorRect(canvas.width/2 -POPUP_W/2, y, POPUP_W, 270, "black")
+  colorRect(canvasContext, canvas.width/2 -POPUP_W/2, y, POPUP_W, 270, "black")
   canvasContext.font = "24px Arial";
-  colorText("Level "+ currentLevel + " completed", canvas.width/2, y += 50, "white");
+  colorText(canvasContext, "Level "+ currentLevel + " completed", canvas.width/2, y += 50, "white");
   canvasContext.font = "36px Arial";
-  colorText("Score = " + levelScores[currentLevel], canvas.width/2, y += 50, "white");
+  colorText(canvasContext, "Score = " + levelScores[currentLevel], canvas.width/2, y += 50, "white");
   canvasContext.font = "16px Arial";
-  colorText("Max Possible Score = " + levelMaxScores[currentLevel], canvas.width/2, y += 40, "white");
-  colorText("Press key M for menu", canvas.width/2, y += 35, "white");
-  colorText("key R to replay level " + currentLevel, canvas.width/2, y += 18, "white");
+  colorText(canvasContext, "Max Possible Score = " + levelMaxScores[currentLevel], canvas.width/2, y += 40, "white");
+  colorText(canvasContext, "Press key M for menu", canvas.width/2, y += 35, "white");
+  colorText(canvasContext, "key R to replay level " + currentLevel, canvas.width/2, y += 18, "white");
   canvasContext.font = advanceFontSize + "px Arial";
-  colorText("key L to advance to level " + nextLevel, canvas.width/2, y += 18 + advanceFontSize, "white");
+  colorText(canvasContext, "key L to advance to level " + nextLevel, canvas.width/2, y += 18 + advanceFontSize, "white");
   // colorText("H to hide/show this box", canvas.width/2, y+210, "white");
   canvasContext.textAlign = "left";
 }
 
 function drawScoreboard() {
-  BAR.innerHTML = '';
-  makeBarButtons(offMenuButtonList);
+  // BAR.innerHTML = '';
+  // makeBarButtons(offMenuButtonList);
 
   colorRect(0,0, canvas.width,canvas.height, "black");
   // canvasContext.textAlign = "center";
@@ -214,8 +214,8 @@ function drawScoreboard() {
 }
 
 function drawGameOver() {
-  BAR.innerHTML = '';
-  makeBarButtons(gameOverButtonList);
+  // BAR.innerHTML = '';
+  // makeBarButtons(gameOverButtonList);
 
   colorRect(0,0, canvas.width,canvas.height, "black");
   canvasContext.drawImage(creditsBGPic,0,0);

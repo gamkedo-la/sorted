@@ -1,4 +1,9 @@
-var canvas, canvasContext;
+var drawScaleX, drawScaleY;
+var drawingCanvas, drawingContext;
+var gameBoard;
+var gameCanvas, canvasContext;
+var uiCanvas, uiContext;
+gameWidth = 850 / 970; // % board for play field
 
 const STATE_CREDITS = 3;
 const STATE_HELP = 6;
@@ -49,35 +54,218 @@ var rogueSound = new SoundOverlapsClass("sound/woof01");
 var menuSound = new SoundOverlapsClass("sound/menu1");
 
 window.onload = function() {
-	canvas = document.getElementById('gameCanvas');
-	canvasContext = canvas.getContext('2d');
-  colorRect(0,0, canvas.width,canvas.height, "red");
-  colorText("Loading Images", 0,0, "white");
+  drawingCanvas = document.getElementById('drawingCanvas');
+	drawingContext = drawingCanvas.getContext('2d');
+	window.addEventListener("resize", resizeWindow);
+  gameBoard = document.getElementById('gameBoard');
+	gameCanvas = document.getElementById('gameCanvas');
+	canvasContext = gameCanvas.getContext('2d');
+	uiCanvas = document.getElementById('uiCanvas');
+	uiContext = uiCanvas.getContext('2d');
+
+  canvasContext.font = "28px Arial";
+  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "red");
+  colorText(canvasContext, "Loading Images", 0,0, "white");
+  uiContext.font = "20px Arial";
+
+  // Is this needed?
+  uiCanvas.width = gameCanvas.width * gameWidth;
+	uiCanvas.height = gameCanvas.height;
+
   resetDebugText();
   deviceTests();
+  resizeWindow();
 	loadImages();
-}
-
-function setupDecals() {
-    decals = new decalOverlay(); // grass, flowers, footprints, pebbles, etc
-    decals.scatterDecorations(150,flower1Pic,ROAD_HEIGHT);
-    decals.scatterDecorations(150,flower2Pic,ROAD_HEIGHT);
-    decals.scatterDecorations(150,flower3Pic,ROAD_HEIGHT);
-    decals.scatterDecorations(150,grass1Pic,ROAD_HEIGHT);
-    decals.scatterDecorations(150,grass2Pic,ROAD_HEIGHT);
-    decals.scatterDecorations(150,grass3Pic,ROAD_HEIGHT);
 }
 
 function imageLoadingDoneSoStartGame() {
   setupDecals();
-	var framesPerSecond = 30;
+	var framesPerSecond = 1; // 30;
 	setInterval(updateAll, 1000/framesPerSecond);
 
-  canvasContext.font = "15px Arial";
 	setupInput();
+  // makeBarButtons(menuButtonList);
+}
 
-  BAR.innerHTML = '';
-  makeBarButtons(menuButtonList);
+function resizeWindow(){
+	gameBoard.height = window.innerHeight;
+	gameBoard.width = window.innerWidth;
+
+  var width = 850 + 120;
+  var height = 600;
+
+	if(window.innerHeight / height > window.innerWidth / width){
+		drawingCanvas.width = window.innerWidth;
+		drawingCanvas.height = window.innerWidth * height / width;
+	}else{
+		drawingCanvas.height = window.innerHeight;
+		drawingCanvas.width = window.innerHeight * width / height;
+	}
+
+	drawingCanvas.style.top = (window.innerHeight/2 - drawingCanvas.height/2) + "px";
+	drawingCanvas.style.left = (window.innerWidth/2 - drawingCanvas.width/2) + "px";
+	colorRect(drawingContext, 0,0, drawingCanvas.width,drawingCanvas.height, "white");
+
+	drawScaleX = drawingCanvas.width/gameCanvas.width;
+	drawScaleY = drawingCanvas.height/gameCanvas.height;
+}
+
+function updateAll() {
+	moveAll();
+	drawAll();
+  step[currentLevel]++; // level timesteps
+  player.callGapTimer--; // prevents immediate call again
+  dog.barkTimer--;
+  resetDebugText();
+
+  drawingContext.save();
+	drawingContext.scale(drawScaleX * gameWidth, drawScaleY);
+	drawingContext.drawImage(gameCanvas, 0, 0);
+	drawingContext.restore();
+
+	drawingContext.save();
+	drawingContext.translate(gameCanvas.width * drawScaleX * gameWidth, 0);
+	drawingContext.scale(drawScaleX, drawScaleY);
+	drawingContext.drawImage(uiCanvas, 0, 0);
+	drawingContext.restore();
+}
+
+function moveAll() {
+  if(gameState == STATE_MENU || gameState == STATE_CREDITS || paused) {
+    return;
+  }
+
+  else if(gameState == STATE_DESIGN_LEVEL) {
+    if(designTileReady) {
+      console.log('main (move) design', gridIndex, tileType);
+      areaGrid[gridIndex] = tileType;
+      designGrid[gridIndex] = tileType;
+      drawLevelDesigner(designLevel);
+      designTileReady = false;
+    }
+  }
+
+  else if(gameState == STATE_PLAY) {
+    player.move();
+
+    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+      sheepList[i].move();
+    }
+
+    flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
+
+    if(currentLevel>=3) { // dog present on later levels only
+      dog.move();
+    }
+  }
+}
+
+function drawAll() {
+  colorRect(drawingContext, 0,0, drawingCanvas.width,drawingCanvas.height, "white");
+
+  if(paused) {
+    return;
+  }
+
+  else if(gameState == STATE_PLAY) {
+    drawPlayState();
+  }
+
+  else if (gameState == STATE_LEVEL_OVER) {
+    drawArea();
+    drawLowRoad();
+    player.draw();
+    decals.draw();
+
+    // UI_level_number();
+
+    // draw label with score on sheep
+    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+      sheepList[i].draw();
+      if(endLevelShowID) {
+        sheepList[i].idLabel();
+      } else {
+        sheepList[i].scoreLabel();
+      }
+    }
+
+    if(editMode) {
+      if(showAgentGridValues) {
+        drawAgentGrid();
+      } else if(showAreaGridValues) {
+        showGridValues(areaGrid, 14, "white");
+      }
+
+      // do once per level-ending
+      if(levelTestDataReady) {
+        levelTestDataReady = false;
+        var filename = "level_" + currentLevel + "_";
+        // sheep outcome data file downloads automatically
+        if(testMode == NORMAL_PLAY) {
+          levelData = playResult();
+          filename +=  "play.tsv";
+          downloader(filename, levelData);
+          console.log("Results of play downloaded to " + filename);
+        } else {
+          levelData = testResult();
+          filename +=  "test.tsv";
+          downloader(filename, levelData);
+          console.log("Results of test downloaded to " + filename);
+        }
+      }
+    } // end of (editMode)
+
+    drawLevelOver();
+    drawLevelOverButtons();
+  } // end of Level_Over
+
+  else if(gameState == STATE_DESIGN_LEVEL) {
+    drawLevelDesigner(designLevel);
+    levelDesignerTitle();
+    outlineSelectedTile(gridIndex);
+  }
+
+  else if(gameState == STATE_MENU) {
+    drawMenu();
+    drawMenuButtons();
+  }
+
+  else if(gameState == STATE_CREDITS) {
+    drawCredits();
+  }
+  else if(gameState == STATE_SCOREBOARD) {
+    drawScoreboard();
+  }
+  else if(gameState == STATE_GAME_OVER) {
+    drawGameOver();
+  }
+  else if(gameState == STATE_HELP) {
+    drawHelp();
+  }
+  else {
+    console.log("Game in unknown state.");
+  }
+
+  if( requireButtonGotoMenu() ) {
+    drawLevelOverButtons();
+  }
+
+  colorRect(uiContext, 0,0, uiCanvas.width,uiCanvas.height, "green");
+  debugText();
+} // end drawAll()
+
+var tutorial_start_time = 0;
+var tutorial_timespan = 5000; // ms
+function drawTutorial() {
+    // display the controls reference gui tutorial popup
+    // for a few seconds, then fade it out
+    let now = performance.now();
+    if (!tutorial_start_time) tutorial_start_time = now;
+    if (now < tutorial_start_time + tutorial_timespan) {
+        canvasContext.globalAlpha = 1-((now-tutorial_start_time)/tutorial_timespan);
+        canvasContext.drawImage(controlsPic,320,75);
+        canvasContext.globalAlpha = 1;
+    }
 }
 
 function loadLevel(whichLevel) {
@@ -188,147 +376,4 @@ function loadLevel(whichLevel) {
   sheepInPlay = FLOCK_SIZE[whichLevel];
   update_debug_report();
   levelLoaded = whichLevel;
-}
-
-function updateAll() {
-	moveAll();
-	drawAll();
-  step[currentLevel]++; // level timesteps
-  player.callGapTimer--; // prevents immediate call again
-  dog.barkTimer--;
-  resetDebugText();
-}
-
-function moveAll() {
-  if(gameState == STATE_MENU || gameState == STATE_CREDITS || paused) {
-    return;
-  }
-
-  else if(gameState == STATE_DESIGN_LEVEL) {
-    if(designTileReady) {
-      console.log('main (move) design', gridIndex, tileType);
-      areaGrid[gridIndex] = tileType;
-      designGrid[gridIndex] = tileType;
-      drawLevelDesigner(designLevel);
-      designTileReady = false;
-    }
-  }
-
-  else if(gameState == STATE_PLAY) {
-    player.move();
-
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-      sheepList[i].move();
-    }
-
-    flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
-
-    if(currentLevel>=3) { // dog present on later levels only
-      dog.move();
-    }
-  }
-}
-
-function drawAll() {
-
-  if(paused) {
-    return;
-  }
-
-  if(gameState == STATE_PLAY) {
-    drawPlayState();
-  }
-
-  else if (gameState == STATE_LEVEL_OVER) {
-    drawArea();
-    drawLowRoad();
-    player.draw();
-    decals.draw();
-
-    // UI_level_number();
-
-    // draw label with score on sheep
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-      sheepList[i].draw();
-      if(endLevelShowID) {
-        sheepList[i].idLabel();
-      } else {
-        sheepList[i].scoreLabel();
-      }
-    }
-
-    if(editMode) {
-      if(showAgentGridValues) {
-        drawAgentGrid();
-      } else if(showAreaGridValues) {
-        showGridValues(areaGrid, 14, "white");
-      }
-
-      // do once per level-ending
-      if(levelTestDataReady) {
-        levelTestDataReady = false;
-        var filename = "level_" + currentLevel + "_";
-        // sheep outcome data file downloads automatically
-        if(testMode == NORMAL_PLAY) {
-          levelData = playResult();
-          filename +=  "play.tsv";
-          downloader(filename, levelData);
-          console.log("Results of play downloaded to " + filename);
-        } else {
-          levelData = testResult();
-          filename +=  "test.tsv";
-          downloader(filename, levelData);
-          console.log("Results of test downloaded to " + filename);
-        }
-      }
-    } // end of (editMode)
-
-    drawLevelOver();
-    drawLevelOverButtons();
-  } // end of Level_Over
-
-  else if(gameState == STATE_DESIGN_LEVEL) {
-    drawLevelDesigner(designLevel);
-    levelDesignerTitle();
-    outlineSelectedTile(gridIndex);
-  }
-
-  else if(gameState == STATE_MENU) {
-    drawMenu();
-    drawMenuButtons();
-  }
-
-  else if(gameState == STATE_CREDITS) {
-    drawCredits();
-  }
-  else if(gameState == STATE_SCOREBOARD) {
-    drawScoreboard();
-  }
-  else if(gameState == STATE_GAME_OVER) {
-    drawGameOver();
-  }
-  else if(gameState == STATE_HELP) {
-    drawHelp();
-  }
-  else {
-    console.log("Game in unknown state.");
-  }
-
-  if( requireButtonGotoMenu() ) {
-    drawLevelOverButtons();
-  }
-}
-
-var tutorial_start_time = 0;
-var tutorial_timespan = 5000; // ms
-function drawTutorial() {
-    // display the controls reference gui tutorial popup
-    // for a few seconds, then fade it out
-    let now = performance.now();
-    if (!tutorial_start_time) tutorial_start_time = now;
-    if (now < tutorial_start_time + tutorial_timespan) {
-        canvasContext.globalAlpha = 1-((now-tutorial_start_time)/tutorial_timespan);
-        canvasContext.drawImage(controlsPic,320,75);
-        canvasContext.globalAlpha = 1;
-    }
 }
