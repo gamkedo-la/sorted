@@ -145,6 +145,7 @@ function writeGoalRow(cols, penSize, offset) {
   rowStr = rowStr.slice(0, -1); // remove final space
   return rowStr;
 }
+
 function levelsGoalRows() {
   var txt = '';
   for (var i=0; i < 8; i++) {
@@ -242,21 +243,41 @@ function xyDrawGoalFence(x, y, team) {
   var x1 = topLeft.x;
   for(var i=0; i<4; i++) {
     var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
-    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
   }
   // right fence
   var x1 = topLeft.x + TILE_W - POST_SIZE;
   for(var i=0; i<4; i++) {
     var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
-    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
   }
   // bottom fence
   var y1 = topLeft.y + TILE_H - POST_SIZE;
   for(var i=0; i<4; i++) {
     var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
-    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
   }
 }
+
+function colDrawGoalGate(col, team) {
+  let row = TILE_ROWS - 1; // bottom row always
+  let topLeft = colRowToXY(col, row);
+  // top fence
+  var y1 = topLeft.y;
+  for(var i=0; i<4; i++) {
+    var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
+    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
+  }
+}
+// function xyDrawGoalGate(x, y, team) {
+//   var topLeft = { x: x, y: y };
+//   // top fence
+//   var y1 = topLeft.y + TILE_H - POST_SIZE;
+//   for(var i=0; i<4; i++) {
+//     var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
+//     colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+//   }
+// }
 
 // multi-tile goal
 // - POST_SIZE/2; // half on adjacent tile

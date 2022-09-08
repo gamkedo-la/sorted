@@ -85,4 +85,22 @@ function drawPlayState() {
   //makeBarButtons(playButtonList);
 
   drawTutorial();
+
+  // if a goal is occupied draw a gate
+  for(var i=0; i<TILE_COLS; i++) {
+    var index = i + ( TILE_COLS * (TILE_ROWS-1) );
+    if ( isTileGoal(index) ) {
+      if ( agentGrid[index] > 0 ) {
+        if ( areaGrid[index] == TILE_PEN_BLUE ) {
+          colDrawGoalGate(i, BLUE);
+        } else {
+          colDrawGoalGate(i, RED);
+        }
+      }
+    } // if goal tile
+  } // loop bottom row
+}
+
+function isTileGoal(index) {
+  return areaGrid[index] == TILE_PEN_BLUE || areaGrid[index] == TILE_PEN_RED;
 }

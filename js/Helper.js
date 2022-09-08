@@ -160,8 +160,8 @@ function drawAgentGrid() {
       var agent = agentGrid[arrayIndex];
       // var x = colRowToCentreX(col, row);
       //canvasContext.font
-      fontColor = (agent == 1) ? "black" : "white";
-      fontSize = (agent == 1) ? 24 : 12;
+      fontColor = (agent > 0) ? "black" : "white";
+      fontSize = (agent > 0) ? 24 : 12;
       canvasContext.font = fontSize + "px Arial";
       canvasContext.textAlign = "center";
       colorText(agent, drawTileX + TILE_W/2, drawTileY + TILE_H/2, fontColor);

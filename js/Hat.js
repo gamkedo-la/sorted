@@ -5,7 +5,7 @@ const HAT_MARGIN = 18;
 // values kept here in case level-tuning assignment fails
 
 // hat moves like car
-var GROUNDSPEED_DECAY_MULT = 0.94; 
+var GROUNDSPEED_DECAY_MULT = 0.94;
 var drivePower = 1.0;
 var reversePower = 1.0;
 // Call
@@ -27,7 +27,7 @@ function playerClass(id) {
 
   // store ASCII number of key assigned
   this.setupInput = function(upKey, downKey, leftKey, rightKey) {
-    this.controlKeyUp = upKey; 
+    this.controlKeyUp = upKey;
     this.controlKeyDown = downKey;
     this.controlKeyLeft = leftKey;
     this.controlKeyRight = rightKey;
@@ -39,12 +39,14 @@ function playerClass(id) {
     this.ang = 0;
     this.sheepIDheld = null;  // ID of sheep carried
     this.callGapTimer = 0;
+    // this.x = TILE_COLS / 2 * TILE_W; // halfway horizontal
+    // this.y = TILE_H / 2;
     this.gotoX = null;
     this.callWhenInPlace = false;
     this.sendWhenInPlace = false;
 
+    // may not be using agentGrid[] to place Hat
     var hatFound = false;
-
     for(var eachRow=0;eachRow<TILE_ROWS;eachRow++) {
       for(var eachCol=0;eachCol<TILE_COLS;eachCol++) {
         var arrayIndex = colRowToIndex(eachCol, eachRow);
@@ -54,8 +56,9 @@ function playerClass(id) {
           this.x = eachCol * TILE_W + TILE_W/2;
           this.y = eachRow * TILE_H + TILE_H/2;
           hatFound = true;
+          agentGrid[arrayIndex] = NOT_OCCUPIED;
           return;
-        }    
+        }
       }
     } // loop rows until Start found
     if(!hatFound) {
@@ -65,7 +68,7 @@ function playerClass(id) {
 
   this.move = function() {
     var nextX = this.x;
-    var nextY = this.y;  
+    var nextY = this.y;
 
     if(this.keyHeld_send) {
       if(this.sheepIDheld != null) {
@@ -90,15 +93,15 @@ function playerClass(id) {
         console.log('CALL a sheep');
         callSound.play();
         this.callGapTimer = 30;
-  
+
         // check all sheep to see if any below Hat
         // or select a sheep using mouse like in RTS
         if(this.sheepIDheld != null) {
           console.log('Cannot call a sheep while one already held');
-        } 
+        }
         else if( isAnySheepCalledAlready() ) {
           console.log('Cannot call a sheep while another being called');
-        } 
+        }
         else {
           var aligned;
           var nearestXdist = 999;
@@ -108,7 +111,7 @@ function playerClass(id) {
               aligned = i;
             }
           }
-  
+
           if(aligned != undefined) {
             var location = sheepList[aligned].state;
             if(isSheepCallBlocked(location)) {
@@ -140,7 +143,7 @@ function playerClass(id) {
       if(this.keyHeld_right) {
         this.speed += drivePower;
       }
-  
+
       if(this.keyHeld_left) {
         this.speed -= reversePower;
         if(TOUCH_TEST) {
@@ -187,7 +190,7 @@ function playerClass(id) {
           }
         }
       }
-    } // end of Hat demo automated movement 
+    } // end of Hat demo automated movement
 
     if (SHOULD_WRAP) {
       if(nextX < 0 - HAT_MARGIN) {
@@ -207,7 +210,7 @@ function playerClass(id) {
 
     this.x = nextX;
     this.y = nextY;
-    
+
     // if(this.x != this.previousX) {
     //   this.x = this.columnCentred(this.x);
     // }

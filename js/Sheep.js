@@ -104,8 +104,7 @@ function sheepClass() {
   this.move = function() {
     var nextX = this.x; // previous location
     var nextY = this.y;
-    var prevMode = this.state;
-    this.previousMode = this.state;
+    // this.previousMode = this.state;
     var tileOccupied;
     var pos; // temporary position
 
@@ -122,9 +121,9 @@ function sheepClass() {
     else if (this.state == CALLED) {
       nextY -= tractorSpeed;
 
-      if(nextY < player.y +20) { // arriving at Hat
+      if(nextY < player.y + 20) { // arriving at Hat
         nextX = player.x;
-        nextY = player.y +24;
+        nextY = player.y + 24;
         this.state = HELD;
         this.speed = 0;
         player.sheepIDheld = this.id;
@@ -285,7 +284,8 @@ function sheepClass() {
     var row = Math.floor(nextY / TILE_H);
     var agentIndex = colRowToIndex(col, row);
     // tile entered is occupied by another sheep
-    if(agentGrid[agentIndex] == "1") {
+    // if(agentGrid[agentIndex] == "1") {
+    if(agentGrid[agentIndex] > 0) {
       // console.log("Collision by sheep ID=" + this.id + " row=" + row + " arrival Y=" + nextY + " index=" + agentIndex);
       return true;
     } else {
@@ -299,7 +299,7 @@ function sheepClass() {
     var agentIndex = colRowToIndex(col, row);
 
     // tile entered is occupied by another sheep
-    if(agentGrid[agentIndex] == 1) {
+    if ( agentGrid[agentIndex] > 0 ) {
       nextX = nearestColumnCentre(nextX);
       nextY = ((row-1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
       console.log("Agenthandling: retreat to Y=", nextY);
@@ -316,7 +316,7 @@ function sheepClass() {
       this.endCol = col;
       this.endTime = step[currentLevel];
 
-      agentGrid[agentIndex - TILE_COLS] = 1;
+      agentGrid[agentIndex - TILE_COLS] = this.team;
       // console.log("agentHandling sheep " + this.id + " row " + row)
     }
     return {
@@ -340,7 +340,7 @@ function sheepClass() {
 
         if(tileType == TILE_PEN_BLUE) {
           console.log("Sheep ID", this.id, "reached the blue pen.");
-          agentGrid[tileIndexUnder] = 1;
+          agentGrid[tileIndexUnder] = this.team;
           this.state = IN_BLUE_PEN;
           this.orient = Math.PI * 1/2;
           nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST); // bring rear inside tile
@@ -348,7 +348,7 @@ function sheepClass() {
 
         } else if(tileType == TILE_PEN_RED) {
           console.log("Sheep ID", this.id, "reached the red pen.");
-          agentGrid[tileIndexUnder] = 1;
+          agentGrid[tileIndexUnder] = this.team;
           this.state = IN_RED_PEN;
           this.orient = Math.PI * 3/2;
           nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST);
@@ -358,7 +358,7 @@ function sheepClass() {
           console.log("Sheep ID", this.id, "is between pens.");
           this.state = ON_ROAD;
           nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST);
-          agentGrid[tileIndexUnder - TILE_COLS] = 1;
+          agentGrid[tileIndexUnder - TILE_COLS] = this.team;
 
           // fixme: perhaps we need some "unhappy" BAA sounds?
           // random_baa_sound(BAA_VOLUME);
@@ -434,7 +434,7 @@ function sheepClass() {
             sheepInPlay--;
             nextX = nearestColumnCentre(nextX);
             nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST);
-            agentGrid[tileIndexUnder] = OCCUPIED;
+            agentGrid[tileIndexUnder] = this.team;
           }
 
         } else if( this.isTileConveyor(tileType) ) {
@@ -470,7 +470,7 @@ function sheepClass() {
 
   this.changeMode = function(newMode) {
     // change state, also set direction & speed
-    // this.previousMode = this.state; // set earlier at start of .move()
+    this.previousMode = this.state; // shouldnt set earlier at start of .move()
 
   // console.log(this.id, this.state, newMode)
 

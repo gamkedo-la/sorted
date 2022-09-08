@@ -440,7 +440,7 @@ function getFunctionKeys(key) {
       showAgentGridValues = true;
       showAreaGridValues = false;
       console.log("showAgentGridValues is now", showAgentGridValues);
-      console.log('Tiles occupied by out-of-play sheep are labelled "1"')
+      console.log('Tiles occupied by out-of-play sheep are non-zero labelled: 1=team blue, 2=team red')
     }
     else if(showAgentGridValues) {
       showAgentGridValues = false;
