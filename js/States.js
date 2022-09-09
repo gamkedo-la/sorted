@@ -1,11 +1,11 @@
 // when gameState change
 
 function addLevelTitle(txt) {
-  var title = document.createElement("p");
-  title.classList.add("bar_title");
-  txt += " Please don't use these buttons yet!";
-  title.innerHTML = txt;
-  BAR.appendChild(title);
+  // var title = document.createElement("p");
+  // title.classList.add("bar_title");
+  // txt += " Please don't use these buttons yet!";
+  // title.innerHTML = txt;
+  // BAR.appendChild(title);
 }
 
 function gotoMenu(from) {
@@ -18,7 +18,7 @@ function gotoMenu(from) {
 
 function gotoPlay(from) {
   gameState = STATE_PLAY;
-  BAR.innerHTML = '';
+  // BAR.innerHTML = '';
   let title = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel];
   addLevelTitle(title);
   makeBarButtons(playButtonList);
@@ -27,13 +27,13 @@ function gotoPlay(from) {
 
 function gotoScore(from) {
   gameState = STATE_SCOREBOARD;
-  BAR.innerHTML = '';
+  // BAR.innerHTML = '';
   makeBarButtons(offMenuButtonList);
   debugAndConsole('Score via ' + from, 1 )
 }
 function gotoHelp(from) {
   gameState = STATE_HELP;
-  BAR.innerHTML = '';
+  // BAR.innerHTML = '';
   makeBarButtons(offMenuButtonList);
   debugAndConsole('Help via' + from, 1 )
 }

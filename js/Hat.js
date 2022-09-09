@@ -194,17 +194,17 @@ function playerClass(id) {
 
     if (SHOULD_WRAP) {
       if(nextX < 0 - HAT_MARGIN) {
-        nextX = canvas.width;
+        nextX = gameCanvas.width;
       }
-      if(nextX > canvas.width + HAT_MARGIN) {
+      if(nextX > gameCanvas.width + HAT_MARGIN) {
         nextX = -HAT_MARGIN;
       }
     } else {
       if(nextX < 0 + HAT_MARGIN) {
         nextX = HAT_MARGIN;
       }
-      if(nextX > canvas.width - HAT_MARGIN) {
-        nextX = canvas.width - HAT_MARGIN;
+      if(nextX > gameCanvas.width - HAT_MARGIN) {
+        nextX = gameCanvas.width - HAT_MARGIN;
       }
     }
 
@@ -218,7 +218,7 @@ function playerClass(id) {
   } // end of move()
 
   this.draw = function() {
-    drawBitmapCenteredWithRotation(this.pic, this.x,this.y, this.ang);
+    drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x,this.y, this.ang);
     // document.getElementById("debug_4").innerHTML = "Hat posX=" + Math.floor(this.x);
     //// document.getElementById("debug_4").innerHTML = "Hat posX=" + this.x;
   }

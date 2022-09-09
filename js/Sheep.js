@@ -91,7 +91,7 @@ function sheepClass() {
   }
 
   this.placeRandom = function(depth) {
-    this.x = randomRangeInt(0 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -2);
+    this.x = randomRangeInt(0 + SIDE_MARGIN, gameCanvas.width - SIDE_MARGIN -2);
     this.y = randomRangeInt(TOP_MARGIN+10, depth);
     // console.log(this.id, this.x, this.y)
   }
@@ -195,8 +195,8 @@ function sheepClass() {
     if(nextX < 0) {
       nextX += canvas.width;
       // this.ang += Math.PI;
-    } else if(nextX >= canvas.width) {
-      nextX -= canvas.width;
+    } else if(nextX >= gameCanvas.width) {
+      nextX -= gameCanvas.width;
       // this.ang += Math.PI;
     }
 
@@ -598,16 +598,16 @@ function sheepClass() {
   this.draw = function() {
     // tail shows facing by being in opposite direction
     if(this.team == PLAIN) {
-      drawBitmapCenteredWithRotation(sheepTailPic, this.x,this.y, this.ang);
+      drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x,this.y, this.ang);
     } else if(this.team == BLUE) {
-      drawBitmapCenteredWithRotation(sheepTailBluePic, this.x,this.y, this.ang);
+      drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x,this.y, this.ang);
       // drawBitmapCenteredWithRotation(sheepRuffBluePic, this.x,this.y, this.orient);
     } else if(this.team == RED) {
-      drawBitmapCenteredWithRotation(sheepTailRedPic, this.x,this.y, this.ang);
+      drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x,this.y, this.ang);
       // drawBitmapCenteredWithRotation(sheepRuffRedPic, this.x,this.y, this.orient);
     }
 
-    drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
+    drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x,this.y, this.orient);
 
     // if(this.team == BLUE) {
     //   drawBitmapCenteredWithRotation(sheepKnotBluePic, this.x,this.y, this.orient);
@@ -621,12 +621,12 @@ function sheepClass() {
     // }
     if(this.state == CALLED) {
       // draw line between sheep and hat
-      colorLine(player.x,player.y, this.x,this.y, "yellow")
+      colorLine(gameCanvas, player.x,player.y, this.x,this.y, "yellow")
     }
     if(editMode) {
       var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
       var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
-      colorCircle(facingX, facingY, FACING_RADIUS, "red");
+      colorCircle(canvasContext, facingX, facingY, FACING_RADIUS, "red");
 
       canvasContext.textAlign = "center";
       if(idLabel) {
@@ -648,7 +648,7 @@ function sheepClass() {
     var adjust; // ID label obscured when lower left
 
     if(this.team == null) {
-      colorText(this.id, this.x-8, this.y+6, "black");
+      colorText(canvasContext, this.id, this.x-8, this.y+6, "black");
     } else {
       // draw ID on sheep's back
       var ang = normaliseRadian(this.ang);
@@ -667,7 +667,7 @@ function sheepClass() {
       var backX = this.x - Math.cos(this.ang) * (SHEEP_RADIUS + adjust);
       var backY = this.y - Math.sin(this.ang) * (SHEEP_RADIUS + adjust);
       // colorText(this.id, this.x, this.y - SHEEP_RADIUS - fontSize/4, "white");
-      colorText(this.id, backX, backY, "white");
+      colorText(canvasContext, this.id, backX, backY, "white");
     }
   }
 
@@ -677,7 +677,7 @@ function sheepClass() {
     var fontSize = 8;
     canvasContext.font = fontSize + "px Verdana";
     // colorText(this.timer, this.x, this.y + SHEEP_RADIUS + fontSize, "yellow");
-    colorText(this.timer, facingXoffset, facingYoffset, "yellow");
+    colorText(canvasContext, this.timer, facingXoffset, facingYoffset, "yellow");
   }
 
   this.modeLabel = function() {
@@ -686,7 +686,7 @@ function sheepClass() {
     var fontSize = 10;
     canvasContext.font = fontSize + "px Verdana";
     // colorText(this.state, this.x -26, this.y + SHEEP_RADIUS/2, "orange");
-    colorText(this.state, facingXoffset, facingYoffset, "white");
+    colorText(canvasContext, this.state, facingXoffset, facingYoffset, "white");
   }
 
   this.scoreLabel = function() {
@@ -695,7 +695,7 @@ function sheepClass() {
       canvasContext.textAlign = "center";
       canvasContext.font = fontSize + "px Verdana";
       // draw score below sheep
-      colorText(this.score, this.x, this.y + TILE_H -6, "white");
+      colorText(canvasContext, this.score, this.x, this.y + TILE_H -6, "white");
       // for upper sheep in stack of 2
       // colorText(this.score, this.x, this.y - TILE_H/2 - 5, "white");
       // colorText(this.score, this.x -10, this.y +6, "black");

@@ -73,10 +73,10 @@ function drawArea() {
 
 function checkGridMatchColsRows() {
   var numberTilesNeeded = TILE_COLS * TILE_ROWS;
-  if(TILE_COLS * TILE_W > canvas.width) {
+  if(TILE_COLS * TILE_W > gameCanvas.width) {
     console.log("Grid columns overflow canvas width");
   }
-  if(TILE_ROWS * TILE_H > canvas.height) {
+  if(TILE_ROWS * TILE_H > gameCanvas.height) {
     console.log("Grid rows overflow canvas height");
   }
   if(areaGrid.length == numberTilesNeeded) {
@@ -237,25 +237,26 @@ function colDrawGoalFence(col, team) {
     colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
   }
 }
+
 function xyDrawGoalFence(x, y, team) {
   var topLeft = { x: x, y: y };
   // left fence
   var x1 = topLeft.x;
   for(var i=0; i<4; i++) {
     var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
-    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
+    colorRect(canvasContext, x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
   }
   // right fence
   var x1 = topLeft.x + TILE_W - POST_SIZE;
   for(var i=0; i<4; i++) {
     var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
-    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
+    colorRect(canvasContext, x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
   }
   // bottom fence
   var y1 = topLeft.y + TILE_H - POST_SIZE;
   for(var i=0; i<4; i++) {
     var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
-    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
+    colorRect(canvasContext, x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
   }
 }
 
