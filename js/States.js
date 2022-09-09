@@ -1,65 +1,53 @@
-// when gameState change
-
-function addLevelTitle(txt) {
-  // var title = document.createElement("p");
-  // title.classList.add("bar_title");
-  // txt += " Please don't use these buttons yet!";
-  // title.innerHTML = txt;
-  // BAR.appendChild(title);
-}
+// called when gameState changed, from Input.js
 
 function gotoMenu(from) {
   gameState = STATE_MENU;
-  BAR.innerHTML = ''; // clear bar
-  addLevelTitle( LEVEL_NAMES[currentLevel] );
-  // makeBarButtons(menuButtonList);
-  debugAndConsole('return via ' + from, 1 )
+  debugBarConsole('return via ' + from, 1)
 }
 
 function gotoPlay(from) {
   gameState = STATE_PLAY;
-  // BAR.innerHTML = '';
   let title = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel];
-  addLevelTitle(title);
-  makeBarButtons(playButtonList);
-  debugAndConsole('Play via ' + from, 1 )
+  debugBarConsole('Play via ' + from, 1)
 }
 
 function gotoScore(from) {
   gameState = STATE_SCOREBOARD;
-  // BAR.innerHTML = '';
-  makeBarButtons(offMenuButtonList);
-  debugAndConsole('Score via ' + from, 1 )
+  drawBarButtons(offMenuButtonList);
+  debugBarConsole('Score via ' + from, 1)
 }
+
 function gotoHelp(from) {
   gameState = STATE_HELP;
   // BAR.innerHTML = '';
-  makeBarButtons(offMenuButtonList);
-  debugAndConsole('Help via' + from, 1 )
+  drawBarButtons(offMenuButtonList);
+  debugBarConsole('Help via' + from, 1)
 }
 function gotoScore(from) {
   gameState = STATE_CREDITS;
   BAR.innerHTML = '';
-  makeBarButtons(offMenuButtonList);
-  debugAndConsole('Credits via ' + from, 1 )
+  drawBarButtons(offMenuButtonList);
+  debugBarConsole('Credits via ' + from, 1)
 }
 
 function gotoDesign(from) {
   gameState = STATE_DESIGN_LEVEL;
   BAR.innerHTML = '';
-  makeBarButtons(designButtonList);
-  debugAndConsole('Design via ' + from, 1 )
+  drawBarButtons(designButtonList);
+  debugBarConsole('Design via ' + from, 1)
 }
 
 function togglePause() {
   paused = !paused;
 }
 
+// called every interval, from Main.js
 function drawPlayState() {
   drawArea();
   drawLowRoad();
   decals.draw();
-  // UI_level_number();
+  drawBarTitle("Level " + currentLevel, 20);
+  drawBarButtons(playButtonLabel);
 
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     sheepList[i].draw();
@@ -81,8 +69,7 @@ function drawPlayState() {
     }
   }
 
-  drawPlayButtons();
-  //makeBarButtons(playButtonList);
+  drawBarButtons(playButtonLabel);
 
   drawTutorial();
 
@@ -101,6 +88,9 @@ function drawPlayState() {
   } // loop bottom row
 }
 
+// function drawMenuState() {
+//   drawBarTitle(LEVEL_NAMES[currentLevel]);
+// }
 function isTileGoal(index) {
   return areaGrid[index] == TILE_PEN_BLUE || areaGrid[index] == TILE_PEN_RED;
 }

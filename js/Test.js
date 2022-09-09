@@ -1,6 +1,6 @@
 // no ITCH branch, now merged into main
-// var editMode = (ITCH) ? false : true;
 var editMode = true;
+var debugBelowCanvas = true;
 
 const PLAIN = 0; // sheep normal colour
 const BLUE = 1;
@@ -20,6 +20,8 @@ const TEST_SEND_SPEED = 10;
 
 const DEBUGS = 5;
 var debugTextLine = Array(DEBUGS);
+const DEBUG_TOP = 480;
+const DEBUG_LINE_SP = 25;
 
 var testMode = NORMAL_PLAY;
 var testColumnSet = false; // flag to get column number from keypress
@@ -55,8 +57,19 @@ var endLevelShowID = false; // otherwise show score per ball
 
 const SEPARATOR = "\t"; // ", "
 
+const debugDiv = document.getElementById("debug");
+function makeParagraphsBelowCanvas() {
+  for (var i = 0; i < DEBUGS; i++) {
+      var p = document.createElement("p");
+      p.classList.add("debug" + i);
+      p.innerHTML = "debug " + i;
+      p.style.color = "white";
+      debugDiv.appendChild(p);
+    }
+}
+
 function resetDebugText() {
-  debugTextLine.fill('');
+  debugTextLine.fill('debugText');
 }
 
 function isTouchDevice() {
@@ -68,25 +81,25 @@ function isTouchDevice() {
 function touchTest() {
   touchDevice = isTouchDevice() ? true : false;
   if (touchDevice) {
-    debugAndConsole("Touch device detected. ", 0);
+    debugBarConsole("Touch device detected. ", 0);
   } else {
-    debugAndConsole("This is not a Touch device. ", 0);
+    debugBarConsole("This is not a Touch device. ", 0);
   }
   TOUCH_TEST = touchDevice ? true : false;
 }
 
 function scalingTest() {
   deviceScale = window.devicePixelRatio;
-  debugAndConsole("devicePixelRatio = " + deviceScale, 0);
+  debugBarConsole("devicePixelRatio = " + deviceScale, 0);
   // if (touchDevice && deviceScale >= 2) {
-  //   debugAndConsole("Device is using double-scale pixels", 3);
+  //   debugBarConsole("Device is using double-scale pixels", 3);
   // }
 }
 
 function displayTest() {
   deviceWidth = window.innerWidth;
   deviceHeight = window.innerHeight;
-  debugAndConsole("Screen width " + deviceWidth + " height " + deviceHeight + ". ", 0);
+  debugBarConsole("Screen width " + deviceWidth + " height " + deviceHeight + ". ", 0);
 }
 
 // runs in Main.js onload
@@ -152,11 +165,22 @@ function touchArrowHandling(direction) {
 function touchArrowDebug() {
   if(TOUCH_TEST) {
     let msg = "in Input::MouseDown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-    debugAndConsole(msg, 3);
+    debugBarConsole(msg, 3);
   }
 }
 
 function debugText() {
-  colorText(uiContext, "debugText", 0,100, "white");
-  console.log('debug test')
+  for(var i=0; i<DEBUGS; i++) {
+    let debugY = DEBUG_TOP + i * DEBUG_LINE_SP;
+    colorText(uiContext, debugTextLine[i], 10, debugY, "white");
+  }
+}
+
+function debugBarConsole(msg, debugN) {
+  console.log(msg);
+  debugOnly(msg, debugN);
+}
+function debugOnly(msg, debugN) {
+  uiContext.font = "14px Arial";
+  debugTextLine[debugN] = msg;
 }

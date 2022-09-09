@@ -6,9 +6,6 @@
 canvas {
   border: gray 0px solid;
 }
-p {
-  margin-left: 5px;
-}
 
 .flexbox {
   display: flex;

@@ -46,7 +46,7 @@ function update_debug_report() {
   if(player.sheepIDheld != undefined) {
     txt += ". Sheep id " + player.sheepIDheld + " is under hat.";
   }
-  document.getElementById("debug_2").innerText = txt;
+  debugTextLine[2] = txt;
 }
 
 function UI_level_number() {
@@ -215,19 +215,6 @@ function nearestRowEdge(y) {
 // check if a point is inside a rectangle
 function xyIsInRect(pos, rect) {
   return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
-}
-
-function debugAndConsole(msg, debugN) {
-  console.log(msg);
-  debugParagName = "debug_" + debugN;
-  debugTextLine[debugN] += ' ' + msg;
-  // console.log(debugParagName);
-  document.getElementById(debugParagName).innerHTML = debugTextLine[debugN];
-}
-
-function debugOnly(msg, debugN) {
-  debugParagName = "debug_" + debugN;
-  document.getElementById(debugParagName).innerHTML = msg;
 }
 
 function downloader(filename, text) {

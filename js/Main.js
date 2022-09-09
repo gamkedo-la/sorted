@@ -3,7 +3,9 @@ var drawingCanvas, drawingContext;
 var gameBoard;
 var gameCanvas, canvasContext;
 var uiCanvas, uiContext;
-gameWidth = 850 / 970; // % board for play field
+
+const UI_COLOR = "#222222";
+gameWidth = 850 / (850 + 200); // % board for play field
 
 const STATE_CREDITS = 3;
 const STATE_HELP = 6;
@@ -66,11 +68,15 @@ window.onload = function() {
   canvasContext.font = "28px Arial";
   colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "red");
   colorText(canvasContext, "Loading Images", 0,0, "white");
-  uiContext.font = "20px Arial";
+  uiContext.font = "40px Arial";
 
   // Is this needed?
   uiCanvas.width = gameCanvas.width * gameWidth;
 	uiCanvas.height = gameCanvas.height;
+
+  if(debugBelowCanvas) {
+    makeParagraphsBelowCanvas();
+  }
 
   resetDebugText();
   deviceTests();
@@ -84,7 +90,7 @@ function imageLoadingDoneSoStartGame() {
 	setInterval(updateAll, 1000/framesPerSecond);
 
 	setupInput();
-  // makeBarButtons(menuButtonList);
+  // drawBarButtons(menuButtonList);
 }
 
 function resizeWindow(){
@@ -161,7 +167,9 @@ function moveAll() {
 }
 
 function drawAll() {
+  // background for canvas
   colorRect(drawingContext, 0,0, drawingCanvas.width,drawingCanvas.height, "white");
+  colorRect(uiContext, 0,0, uiCanvas.width,uiCanvas.height, UI_COLOR);
 
   if(paused) {
     return;
@@ -227,7 +235,8 @@ function drawAll() {
 
   else if(gameState == STATE_MENU) {
     drawMenu();
-    drawMenuButtons();
+    drawBarTitle("Menu", 20); // fontsize
+    drawBarButtons(menuButtonLabel);
   }
 
   else if(gameState == STATE_CREDITS) {
@@ -250,7 +259,6 @@ function drawAll() {
     drawLevelOverButtons();
   }
 
-  colorRect(uiContext, 0,0, uiCanvas.width,uiCanvas.height, "green");
   debugText();
 } // end drawAll()
 

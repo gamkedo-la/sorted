@@ -2,42 +2,13 @@ var mouseX = 0;
 var mouseY = 0;
 
 function setupInput() {
-  gameCanvas.addEventListener('mousedown', mousedownHandler);
-  gameCanvas.addEventListener('mousemove', mousemoveHandler);
-  gameCanvas.addEventListener('mouseup', mouseupHandler);
+  gameCanvas.addEventListener('mousedown', UmousedownHandler);
+  uiCanvas.addEventListener('mousemove', mousemoveHandler);
+  uiCanvas.addEventListener('mouseup', mouseupHandler);
 
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
   player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
-}
-
-const buttonRects = []; // Array[PLAY_BUTTONS_NUM];
-const buttonWidth = 50;
-const buttonHeight = 30;
-
-const MENU_BUTTONS_NUM = 5; // arrowKeys, Menu, Pause
-const PLAY_BUTTONS_NUM = 6; // arrowKeys, Menu, Pause
-
-const menuButtonNames = ["Play", "Score", "Help", "Credits", "Editor"];
-const playButtonNames = ["Left", "Right", "Call", "Send", "Menu", "Pause"];
-
-var buttonTop;
-var buttonsLeft;
-if(DISPLAY_CUTOFF_TEST) {
-  buttonTop = 5;
-  buttonsLeft = 120;
-} else {
-  buttonTop = 601;
-  buttonsLeft = 540; // 840-538=302 6btns@50px
-}
-
-for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
-  buttonRects[i] = {
-    x: buttonsLeft + i * buttonWidth,
-    y: buttonTop,
-    width: buttonWidth,
-    height: buttonHeight
-  };
 }
 
 const notConsole = 0;
@@ -46,16 +17,17 @@ function mousemoveHandler(evt) {
   debugOnly("Cursor: " + mousePos.x + "," + mousePos.y, 3, notConsole);
 }
 
-function mousedownHandler(evt) {
+function UmousedownHandler(evt) {
   var mousePos = getMousePos(evt);
-
+  console.log(mousePos)
   if (gameState == STATE_MENU) {
 
-    for(var i=0; i<MENU_BUTTONS_NUM-1; i++) {
+    for (var i = 0; i < menuButtonLabel.length - 1; i++) {
+      console.log(mousePos, buttonRects[i])
       if ( xyIsInRect(mousePos, buttonRects[i]) ) {
-        debugAndConsole( 'Button down ' + i + ' ' + menuButtonNames[i], 2 )
+        debugBarConsole('Button down ' + i + ' ' + menuButtonLabel[i], 2)
 
-        switch(menuButtonNames[i]) {
+        switch (menuButtonLabel[i]) {
           case "Play":
             if(!levelRunning) { // otherwise return to level mid-play
               levelRunning = true;
@@ -88,11 +60,11 @@ function mousedownHandler(evt) {
   }
 
   else if (gameState == STATE_PLAY) {
-    for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
+    for (var i = 0; i < playButtonLabel.length; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
 
         if(TOUCH_TEST) {
-          debugAndConsole("Clicked inside rect " + playButtonNames[i], 2);
+          debugBarConsole("Clicked inside rect " + playButtonNames[i], 2);
         }
 
         switch(playButtonNames[i]) {
@@ -129,10 +101,10 @@ function mousedownHandler(evt) {
   // currently only button is return to Menu, but will need
   // extra buttons for Replay and Adavance to next level.
   else if (gameState == STATE_LEVEL_OVER) {
-    for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
+    for (var i = 0; i < playButtonLabel.length; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
         if(TOUCH_TEST) {
-          debugAndConsole("Clicked inside rect", playButtonNames[i], 1);
+          debugBarConsole("Clicked inside rect", playButtonNames[i], 1);
         }
         switch(playButtonNames[i]) {
           case "Menu":
@@ -149,7 +121,7 @@ function mousedownHandler(evt) {
     console.log("Designer", mousePos.x, mousePos.y, gridIndex);
 
     if (xyIsInRect(mousePos, buttonRects[4])) {
-      debugAndConsole( 'Button return to menu', 1 )
+      debugBarConsole('Button return to menu', 1)
       gameState = STATE_MENU;
     }
   } // End of Design-Level mousedown handling
@@ -160,12 +132,12 @@ function mousedownHandler(evt) {
       gotoMenu("DesignLevel's CanvasButton Menu");
     }
   }
-} // end of mousedownHandler
+} // end of UmousedownHandler
 
 function mouseupHandler(evt) {
   var mousePos = getMousePos(evt);
   if(gameState ==  STATE_PLAY) {
-    for(var i=0; i<PLAY_BUTTONS_NUM; i++) {
+    for (var i = 0; i < playButtonLabel.length; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
 
         switch(playButtonNames[i]) {
@@ -188,10 +160,10 @@ function mouseupHandler(evt) {
           case "Send":
             // code inefficient without setting false, but works
             if(TOUCH_TEST) {
-              debugAndConsole("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately", 1);
+              debugBarConsole("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately", 1);
             } else {
               player.keyHeld_send = false;
-              // debugAndConsole("keyHeld_send = false because not Touch device", 1 );
+              // debugBarConsole("keyHeld_send = false because not Touch device", 1 );
             }
             break;
         }

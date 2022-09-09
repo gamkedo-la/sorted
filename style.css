@@ -19,20 +19,26 @@ body {
 #gameBoard {
     position: absolute;
     margin: 0;
-    text-align:center;
+    text-align: center;
     background-color: #000000;
 }
 
 #gameCanvas {
-    position:absolute;
-    display:inline;
+    position: absolute;
+    display: inline;
 }
 
 #uiCanvas {
-    position:absolute;
-    display:inline;
+    position: absolute;
+    display: inline;
 }
 
 #drawingCanvas {
-    position:absolute;
+    position: absolute;
+}
+
+p {
+  margin: 3px;
+  margin-left: 7px;
+  position: relative;
 }

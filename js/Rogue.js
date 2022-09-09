@@ -66,7 +66,7 @@ function rogueClass() {
 
   this.draw = function() {
     // colorCircle(this.x, this.y, 30, "yellow");
-    drawBitmapCenteredWithRotation(this.pic, this.x,this.y, this.ang);
+    drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x,this.y, this.ang);
   }
 
   this.findNearestSheep = function(x,y) {

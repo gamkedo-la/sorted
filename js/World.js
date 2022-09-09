@@ -222,19 +222,19 @@ function colDrawGoalFence(col, team) {
   var x1 = topLeft.x;
   for(var i=0; i<4; i++) {
     var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
-    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+    colorRect(canvasContext, x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
   }
   // right fence
   var x1 = topLeft.x + TILE_W - POST_SIZE;
   for(var i=0; i<4; i++) {
     var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
-    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+    colorRect(canvasContext, x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
   }
   // bottom fence
   var y1 = topLeft.y + TILE_H - POST_SIZE;
   for(var i=0; i<4; i++) {
     var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
-    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+    colorRect(canvasContext, x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
   }
 }
 
@@ -267,7 +267,7 @@ function colDrawGoalGate(col, team) {
   var y1 = topLeft.y;
   for(var i=0; i<4; i++) {
     var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
-    colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
+    colorRect(canvasContext, x1,y1, POST_SIZE,POST_SIZE, TEAM_COLOURS[team])
   }
 }
 // function xyDrawGoalGate(x, y, team) {

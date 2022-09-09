@@ -53,9 +53,9 @@ function drawMenu() {
 
 function drawHelp() {
   // BAR.innerHTML = '';
-  // makeBarButtons(offMenuButtonList);
+  // drawBarButtons(offMenuButtonList);
 
-  colorRect(0,0, gameCanvas.width,gameCanvas.height, "black");
+  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
   canvasContext.drawImage(helpBGPic,0,0);
   drawMenuFlock();
 
@@ -92,7 +92,7 @@ function drawHelp() {
 
 function drawCredits() {
   // BAR.innerHTML = '';  not wiped every interval, draw one when selected
-  // makeBarButtons(offMenuButtonList);
+  // drawBarButtons(offMenuButtonList);
 
   colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
   canvasContext.drawImage(creditsBGPic,0,0);
@@ -174,7 +174,7 @@ const POPUP_W = 400;
 
 function drawLevelOver() {
   // BAR.innerHTML = '';
-  // makeBarButtons(levelEndButtonList);
+  // drawBarButtons(levelEndButtonList);
 
   var nextLevel = currentLevel + 1;
   // var advanceFontSize = (6 * Math.sqrt(levelScores[currentLevel]) ) / FLOCK_SIZE[currentLevel] + 14;
@@ -198,15 +198,15 @@ function drawLevelOver() {
 
 function drawScoreboard() {
   // BAR.innerHTML = '';
-  // makeBarButtons(offMenuButtonList);
+  // drawBarButtons(offMenuButtonList);
 
-  colorRect(0,0, gameCanvas.width,gameCanvas.height, "black");
+  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
   // canvasContext.textAlign = "center";
   canvasContext.font = "24px Arial";
   colorText("Scoreboard", 100, 80, "white");
   canvasContext.font = "16px Arial";
   for(var i=1; i<7; i++) {
-    colorText("Level " + i +  ' "' + LEVEL_NAMES[i] + '": ' + levelScores[i], 100, 80 + i*50, "white");
+    colorText(canvasContext, "Level " + i +  ' "' + LEVEL_NAMES[i] + '": ' + levelScores[i], 100, 80 + i*50, "white");
   }
   canvasContext.font = "16px Arial";
   colorText("Press M or Esc for menu", 100, 500, "white");
@@ -215,9 +215,9 @@ function drawScoreboard() {
 
 function drawGameOver() {
   // BAR.innerHTML = '';
-  // makeBarButtons(gameOverButtonList);
+  // drawBarButtons(gameOverButtonList);
 
-  colorRect(0,0, gameCanvas.width,gameCanvas.height, "black");
+  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
   canvasContext.drawImage(creditsBGPic,0,0);
   drawMenuFlock();
 
