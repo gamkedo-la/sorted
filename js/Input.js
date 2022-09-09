@@ -1,10 +1,14 @@
 var mouseX = 0;
 var mouseY = 0;
 
+function clickHandler(evt) {
+  console.log("click")
+}
+
 function setupInput() {
-  gameCanvas.addEventListener('mousedown', UmousedownHandler);
-  uiCanvas.addEventListener('mousemove', mousemoveHandler);
-  uiCanvas.addEventListener('mouseup', mouseupHandler);
+  drawingCanvas.addEventListener('mousedown', mousedownHandler);
+  drawingCanvas.addEventListener('mousemove', mousemoveHandler);
+  drawingCanvas.addEventListener('mouseup', mouseupHandler);
 
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
@@ -14,18 +18,19 @@ function setupInput() {
 const notConsole = 0;
 function mousemoveHandler(evt) {
   var mousePos = getMousePos(evt);
-  debugOnly("Cursor: " + mousePos.x + "," + mousePos.y, 3, notConsole);
+  setDebug("Cursor: " + mousePos.x + "," + mousePos.y, 3);
 }
 
-function UmousedownHandler(evt) {
+function mousedownHandler(evt) {
   var mousePos = getMousePos(evt);
-  console.log(mousePos)
+  debugOnly("Cursor: " + mousePos.x + "," + mousePos.y, 3)
+
   if (gameState == STATE_MENU) {
 
     for (var i = 0; i < menuButtonLabel.length - 1; i++) {
       console.log(mousePos, buttonRects[i])
       if ( xyIsInRect(mousePos, buttonRects[i]) ) {
-        debugBarConsole('Button down ' + i + ' ' + menuButtonLabel[i], 2)
+        setDebug('Button down ' + i + ' ' + menuButtonLabel[i], 2)
 
         switch (menuButtonLabel[i]) {
           case "Play":
@@ -64,7 +69,7 @@ function UmousedownHandler(evt) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
 
         if(TOUCH_TEST) {
-          debugBarConsole("Clicked inside rect " + playButtonNames[i], 2);
+          setDebug("Clicked inside rect " + playButtonNames[i], 2);
         }
 
         switch(playButtonNames[i]) {
@@ -104,7 +109,7 @@ function UmousedownHandler(evt) {
     for (var i = 0; i < playButtonLabel.length; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
         if(TOUCH_TEST) {
-          debugBarConsole("Clicked inside rect", playButtonNames[i], 1);
+          setDebug("Clicked inside rect", playButtonNames[i], 1);
         }
         switch(playButtonNames[i]) {
           case "Menu":
@@ -121,7 +126,7 @@ function UmousedownHandler(evt) {
     console.log("Designer", mousePos.x, mousePos.y, gridIndex);
 
     if (xyIsInRect(mousePos, buttonRects[4])) {
-      debugBarConsole('Button return to menu', 1)
+      setDebug('Button return to menu', 1)
       gameState = STATE_MENU;
     }
   } // End of Design-Level mousedown handling
@@ -160,10 +165,10 @@ function mouseupHandler(evt) {
           case "Send":
             // code inefficient without setting false, but works
             if(TOUCH_TEST) {
-              debugBarConsole("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately", 1);
+              setDebug("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately", 1);
             } else {
               player.keyHeld_send = false;
-              // debugBarConsole("keyHeld_send = false because not Touch device", 1 );
+              // setDebug("keyHeld_send = false because not Touch device", 1 );
             }
             break;
         }

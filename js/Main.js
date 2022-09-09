@@ -19,7 +19,7 @@ const STATE_SCOREBOARD = 5;
 
 const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over']
 
-const ROAD_HEIGHT = 80; // a margin where no flowers or grass grows - see scatterDecals()
+const ROAD_HEIGHT = 55; // a margin where no flowers or grass grows - see scatterDecals()
 
 var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; //
 var paused = false;
@@ -78,7 +78,7 @@ window.onload = function() {
     makeParagraphsBelowCanvas();
   }
 
-  resetDebugText();
+  resetDebug();
   deviceTests();
   resizeWindow();
 	loadImages();
@@ -89,15 +89,14 @@ function imageLoadingDoneSoStartGame() {
 	var framesPerSecond = 30;
 	setInterval(updateAll, 1000/framesPerSecond);
 
-	setupInput();
-  // drawBarButtons(menuButtonList);
+  setupInput();
 }
 
 function resizeWindow(){
 	gameBoard.height = window.innerHeight;
 	gameBoard.width = window.innerWidth;
 
-  var width = 850 + 120;
+  var width = 850 + 200;
   var height = 600;
 
 	if(window.innerHeight / height > window.innerWidth / width){
@@ -122,7 +121,6 @@ function updateAll() {
   step[currentLevel]++; // level timesteps
   player.callGapTimer--; // prevents immediate call again
   dog.barkTimer--;
-  resetDebugText();
 
   drawingContext.save();
 	drawingContext.scale(drawScaleX * gameWidth, drawScaleY);
@@ -170,6 +168,7 @@ function drawAll() {
   // background for canvas
   colorRect(drawingContext, 0,0, drawingCanvas.width,drawingCanvas.height, "white");
   colorRect(uiContext, 0,0, uiCanvas.width,uiCanvas.height, UI_COLOR);
+  showDebugText();
 
   if(paused) {
     return;
@@ -181,11 +180,8 @@ function drawAll() {
 
   else if (gameState == STATE_LEVEL_OVER) {
     drawArea();
-    drawLowRoad();
     player.draw();
     decals.draw();
-
-    // UI_level_number();
 
     // draw label with score on sheep
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
@@ -258,8 +254,6 @@ function drawAll() {
   if( requireButtonGotoMenu() ) {
     drawLevelOverButtons();
   }
-
-  debugText();
 } // end drawAll()
 
 var tutorial_start_time = 0;

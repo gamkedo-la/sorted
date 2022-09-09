@@ -2,39 +2,39 @@
 
 function gotoMenu(from) {
   gameState = STATE_MENU;
-  debugBarConsole('return via ' + from, 1)
+  setDebug('return via ' + from, 1)
 }
 
 function gotoPlay(from) {
   gameState = STATE_PLAY;
   let title = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel];
-  debugBarConsole('Play via ' + from, 1)
+  setDebug('Play via ' + from, 1)
 }
 
 function gotoScore(from) {
   gameState = STATE_SCOREBOARD;
   drawBarButtons(offMenuButtonList);
-  debugBarConsole('Score via ' + from, 1)
+  setDebug('Score via ' + from, 1)
 }
 
 function gotoHelp(from) {
   gameState = STATE_HELP;
   // BAR.innerHTML = '';
   drawBarButtons(offMenuButtonList);
-  debugBarConsole('Help via' + from, 1)
+  setDebug('Help via' + from, 1)
 }
 function gotoScore(from) {
   gameState = STATE_CREDITS;
   BAR.innerHTML = '';
   drawBarButtons(offMenuButtonList);
-  debugBarConsole('Credits via ' + from, 1)
+  setDebug('Credits via ' + from, 1)
 }
 
 function gotoDesign(from) {
   gameState = STATE_DESIGN_LEVEL;
   BAR.innerHTML = '';
   drawBarButtons(designButtonList);
-  debugBarConsole('Design via ' + from, 1)
+  setDebug('Design via ' + from, 1)
 }
 
 function togglePause() {

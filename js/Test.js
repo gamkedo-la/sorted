@@ -57,21 +57,6 @@ var endLevelShowID = false; // otherwise show score per ball
 
 const SEPARATOR = "\t"; // ", "
 
-const debugDiv = document.getElementById("debug");
-function makeParagraphsBelowCanvas() {
-  for (var i = 0; i < DEBUGS; i++) {
-      var p = document.createElement("p");
-      p.classList.add("debug" + i);
-      p.innerHTML = "debug " + i;
-      p.style.color = "white";
-      debugDiv.appendChild(p);
-    }
-}
-
-function resetDebugText() {
-  debugTextLine.fill('debugText');
-}
-
 function isTouchDevice() {
   return ( 'ontouchstart' in window ) ||
          ( navigator.maxTouchPoints > 0 ) ||
@@ -81,25 +66,25 @@ function isTouchDevice() {
 function touchTest() {
   touchDevice = isTouchDevice() ? true : false;
   if (touchDevice) {
-    debugBarConsole("Touch device detected. ", 0);
+    setDebug("Touch device detected. ", 0);
   } else {
-    debugBarConsole("This is not a Touch device. ", 0);
+    setDebug("This is not a Touch device. ", 0);
   }
   TOUCH_TEST = touchDevice ? true : false;
 }
 
 function scalingTest() {
   deviceScale = window.devicePixelRatio;
-  debugBarConsole("devicePixelRatio = " + deviceScale, 0);
+  setDebug("devicePixelRatio = " + deviceScale, 0);
   // if (touchDevice && deviceScale >= 2) {
-  //   debugBarConsole("Device is using double-scale pixels", 3);
+  //   setDebug("Device is using double-scale pixels", 3);
   // }
 }
 
 function displayTest() {
   deviceWidth = window.innerWidth;
   deviceHeight = window.innerHeight;
-  debugBarConsole("Screen width " + deviceWidth + " height " + deviceHeight + ". ", 0);
+  setDebug("Screen width " + deviceWidth + " height " + deviceHeight + ". ", 0);
 }
 
 // runs in Main.js onload
@@ -165,22 +150,56 @@ function touchArrowHandling(direction) {
 function touchArrowDebug() {
   if(TOUCH_TEST) {
     let msg = "in Input::MouseDown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-    debugBarConsole(msg, 3);
+    setDebug(msg, 3);
   }
 }
 
-function debugText() {
-  for(var i=0; i<DEBUGS; i++) {
+const debugDiv = document.getElementById("debug");
+function makeParagraphsBelowCanvas() {
+  for (var i = 0; i < DEBUGS; i++) {
+    var p = document.createElement("p");
+    p.setAttribute("id", "debug_" + i);
+    p.classList.add("debug_" + i);
+    p.innerHTML = "debug " + i;
+    p.style.color = "white";
+    debugDiv.appendChild(p);
+  }
+}
+
+function resetDebug() {
+  debugTextLine.fill('debugText');
+}
+
+// call from drawAll()
+function showDebugText() {
+  uiContext.font = "14px Arial";
+  drawDebugOnBar();
+  if (debugBelowCanvas) {
+    writeDebugP();
+  }
+}
+
+function drawDebugOnBar() {
+  for (var i = 0; i < DEBUGS; i++) {
+    let msg = debugTextLine[i];
     let debugY = DEBUG_TOP + i * DEBUG_LINE_SP;
     colorText(uiContext, debugTextLine[i], 10, debugY, "white");
   }
 }
 
-function debugBarConsole(msg, debugN) {
-  console.log(msg);
-  debugOnly(msg, debugN);
+function writeDebugP() {
+  for (var i = 0; i < DEBUGS; i++) {
+    let id = "debug_" + i;
+    let msg = debugTextLine[i];
+    document.getElementById(id).innerHTML = msg;
+  }
 }
-function debugOnly(msg, debugN) {
-  uiContext.font = "14px Arial";
+
+function report(msg, debugN) {
+  console.log(msg);
+  setDebug(msg, debugN);
+}
+
+function setDebug(msg, debugN) {
   debugTextLine[debugN] = msg;
 }
