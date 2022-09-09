@@ -1,13 +1,54 @@
 var mouseX = 0;
 var mouseY = 0;
 
-function clickHandler(evt) {
-  console.log("click")
+// from Classic Games book
+function getMousePos(evt) {
+	var rect = gameCanvas.getBoundingClientRect();
+	var root = document.documentElement;
+  // account for margins, canvas position on page, scroll amount, etc.
+	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+	var mouseY = evt.clientY - rect.top - root.scrollTop;
+  return {
+    x: mouseX,
+    y: mouseY
+  };
 }
 
+// from APC5 game - lacks root.scroll...?
+function updateMousePos(evt) {
+	var rect = drawingCanvas.getBoundingClientRect();
+	mouse.x = Math.round((evt.clientX - rect.left)/drawScaleX);
+	mouse.y = Math.round((evt.clientY - rect.top)/drawScaleY);
+  setDebug("cursor: " + mouse.x + "," + mouse.y, 0);
+}
+
+// from APC5
+//mouse object stores mouse information
+var mouse = (function () {
+	//Position
+	var x = 0;
+	var y = 0;
+
+	//Button states
+	var left = 0;
+	var right = 0;
+	var middle = 0;
+
+	//Return only public variables/methods
+	return {
+		x: x,
+		y: y,
+		left: left,
+		middle: middle,
+		right: right
+	};
+})();
+
 function setupInput() {
+  // drawingCanvas.addEventListener('mousemove', mousemoveHandler);
+  drawingCanvas.addEventListener('mousemove', updateMousePos);
+
   drawingCanvas.addEventListener('mousedown', mousedownHandler);
-  drawingCanvas.addEventListener('mousemove', mousemoveHandler);
   drawingCanvas.addEventListener('mouseup', mouseupHandler);
 
 	document.addEventListener('keydown', keyPressed);
@@ -15,7 +56,6 @@ function setupInput() {
   player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
 }
 
-const notConsole = 0;
 function mousemoveHandler(evt) {
   var mousePos = getMousePos(evt);
   setDebug("cursor: " + mousePos.x + "," + mousePos.y, 0);

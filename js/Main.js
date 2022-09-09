@@ -87,10 +87,10 @@ function resizeWindow(){
   var width = 850 + 200;
   var height = 600;
 
-	if(window.innerHeight / height > window.innerWidth / width){
+	if (window.innerHeight / height > window.innerWidth / width) {
 		drawingCanvas.width = window.innerWidth;
 		drawingCanvas.height = window.innerWidth * height / width;
-	}else{
+	} else {
 		drawingCanvas.height = window.innerHeight;
 		drawingCanvas.width = window.innerHeight * width / height;
 	}
@@ -101,6 +101,10 @@ function resizeWindow(){
 
 	drawScaleX = drawingCanvas.width/gameCanvas.width;
 	drawScaleY = drawingCanvas.height/gameCanvas.height;
+
+  let xSc = drawScaleX.toFixed(2);
+  let ySc = drawScaleY.toFixed(2);
+  setDebug("drawScale x,y " + xSc + ", " + ySc, 2);
 }
 
 function updateAll() {

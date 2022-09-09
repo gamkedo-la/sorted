@@ -174,18 +174,6 @@ function drawAgentGrid() {
 	} // end of for each row
 } // end of drawArea func
 
-function getMousePos(evt) {
-	var rect = gameCanvas.getBoundingClientRect();
-	var root = document.documentElement;
-  // account for margins, canvas position on page, scroll amount, etc.
-	var mouseX = evt.clientX - rect.left - root.scrollLeft;
-	var mouseY = evt.clientY - rect.top - root.scrollTop;
-  return {
-    x: mouseX,
-    y: mouseY
-  };
-}
-
 function normaliseRadian(ang) {
   while(ang < 0) {
     ang += 2 * Math.PI;

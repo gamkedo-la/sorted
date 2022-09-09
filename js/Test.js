@@ -1,6 +1,6 @@
+var debugBelowCanvas = false;
 // no ITCH branch, now merged into main
 var editMode = true;
-var debugBelowCanvas = true;
 
 const PLAIN = 0; // sheep normal colour
 const BLUE = 1;
@@ -167,7 +167,7 @@ function makeParagraphsBelowCanvas() {
 }
 
 function rereport() {
-  debugTextLine.fill('debugText');
+  debugTextLine.fill('--');
 }
 
 // call from drawAll()
