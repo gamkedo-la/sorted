@@ -1,40 +1,52 @@
+const STATE_CREDITS = 3;
+const STATE_HELP = 6;
+const STATE_EDIT = 0;
+const STATE_MENU = 2;
+const STATE_PLAY = 1;
+const STATE_LEVEL_OVER = 4;
+const STATE_DESIGN_LEVEL = 8;
+const STATE_GAME_OVER = 7;
+const STATE_SCOREBOARD = 5;
+
+const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over'];
+
 // called when gameState changed, from Input.js
 
 function gotoMenu(from) {
   gameState = STATE_MENU;
-  setDebug('return via ' + from, 1)
+  report('return via ' + from, 1)
 }
 
 function gotoPlay(from) {
   gameState = STATE_PLAY;
   let title = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel];
-  setDebug('Play via ' + from, 1)
+  report('Play via ' + from, 1)
 }
 
 function gotoScore(from) {
   gameState = STATE_SCOREBOARD;
   drawBarButtons(offMenuButtonList);
-  setDebug('Score via ' + from, 1)
+  report('Score via ' + from, 1)
 }
 
 function gotoHelp(from) {
   gameState = STATE_HELP;
   // BAR.innerHTML = '';
   drawBarButtons(offMenuButtonList);
-  setDebug('Help via' + from, 1)
+  report('Help via' + from, 1)
 }
 function gotoScore(from) {
   gameState = STATE_CREDITS;
   BAR.innerHTML = '';
   drawBarButtons(offMenuButtonList);
-  setDebug('Credits via ' + from, 1)
+  report('Credits via ' + from, 1)
 }
 
 function gotoDesign(from) {
   gameState = STATE_DESIGN_LEVEL;
   BAR.innerHTML = '';
   drawBarButtons(designButtonList);
-  setDebug('Design via ' + from, 1)
+  report('Design via ' + from, 1)
 }
 
 function togglePause() {

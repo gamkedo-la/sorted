@@ -66,25 +66,25 @@ function isTouchDevice() {
 function touchTest() {
   touchDevice = isTouchDevice() ? true : false;
   if (touchDevice) {
-    setDebug("Touch device detected. ", 0);
+    report("Touch-device detected", 2);
   } else {
-    setDebug("This is not a Touch device. ", 0);
+    report("Not a touch-device", 2);
   }
   TOUCH_TEST = touchDevice ? true : false;
 }
 
 function scalingTest() {
   deviceScale = window.devicePixelRatio;
-  setDebug("devicePixelRatio = " + deviceScale, 0);
+  report("devicePixelRatio = " + deviceScale, 3);
   // if (touchDevice && deviceScale >= 2) {
-  //   setDebug("Device is using double-scale pixels", 3);
+  //   report("Device is using double-scale pixels", 3);
   // }
 }
 
 function displayTest() {
   deviceWidth = window.innerWidth;
   deviceHeight = window.innerHeight;
-  setDebug("Screen width " + deviceWidth + " height " + deviceHeight + ". ", 0);
+  report("width " + deviceWidth + " height " + deviceHeight, 4);
 }
 
 // runs in Main.js onload
@@ -150,7 +150,7 @@ function touchArrowHandling(direction) {
 function touchArrowDebug() {
   if(TOUCH_TEST) {
     let msg = "in Input::MouseDown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
-    setDebug(msg, 3);
+    report(msg, 3);
   }
 }
 
@@ -166,7 +166,7 @@ function makeParagraphsBelowCanvas() {
   }
 }
 
-function resetDebug() {
+function rereport() {
   debugTextLine.fill('debugText');
 }
 
@@ -199,7 +199,6 @@ function report(msg, debugN) {
   console.log(msg);
   setDebug(msg, debugN);
 }
-
 function setDebug(msg, debugN) {
   debugTextLine[debugN] = msg;
 }

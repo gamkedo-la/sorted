@@ -148,7 +148,7 @@ function playerClass(id) {
         this.speed -= reversePower;
         if(TOUCH_TEST) {
           let msg = "keyHeld_left changing speed " + this.speed;
-          setDebug(msg, 4);
+          report(msg, 4);
         }
       }
 

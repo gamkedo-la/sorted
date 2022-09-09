@@ -7,18 +7,6 @@ var uiCanvas, uiContext;
 const UI_COLOR = "#222222";
 gameWidth = 850 / (850 + 200); // % board for play field
 
-const STATE_CREDITS = 3;
-const STATE_HELP = 6;
-const STATE_EDIT = 0;
-const STATE_MENU = 2;
-const STATE_PLAY = 1;
-const STATE_LEVEL_OVER = 4;
-const STATE_DESIGN_LEVEL = 8;
-const STATE_GAME_OVER = 7;
-const STATE_SCOREBOARD = 5;
-
-const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over']
-
 const ROAD_HEIGHT = 55; // a margin where no flowers or grass grows - see scatterDecals()
 
 var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; //
@@ -77,8 +65,8 @@ window.onload = function() {
   if(debugBelowCanvas) {
     makeParagraphsBelowCanvas();
   }
+  rereport();
 
-  resetDebug();
   deviceTests();
   resizeWindow();
 	loadImages();

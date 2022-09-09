@@ -18,19 +18,19 @@ function setupInput() {
 const notConsole = 0;
 function mousemoveHandler(evt) {
   var mousePos = getMousePos(evt);
-  setDebug("Cursor: " + mousePos.x + "," + mousePos.y, 3);
+  setDebug("cursor: " + mousePos.x + "," + mousePos.y, 0);
 }
 
 function mousedownHandler(evt) {
   var mousePos = getMousePos(evt);
-  debugOnly("Cursor: " + mousePos.x + "," + mousePos.y, 3)
+  report("mousedown: " + mousePos.x + "," + mousePos.y, 1)
 
   if (gameState == STATE_MENU) {
 
     for (var i = 0; i < menuButtonLabel.length - 1; i++) {
-      console.log(mousePos, buttonRects[i])
+      // report( buttonRects[i] );
       if ( xyIsInRect(mousePos, buttonRects[i]) ) {
-        setDebug('Button down ' + i + ' ' + menuButtonLabel[i], 2)
+        report('Button down ' + i + ' ' + menuButtonLabel[i], 2)
 
         switch (menuButtonLabel[i]) {
           case "Play":
@@ -69,7 +69,7 @@ function mousedownHandler(evt) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
 
         if(TOUCH_TEST) {
-          setDebug("Clicked inside rect " + playButtonNames[i], 2);
+          report("Clicked inside rect " + playButtonNames[i], 2);
         }
 
         switch(playButtonNames[i]) {
@@ -109,7 +109,7 @@ function mousedownHandler(evt) {
     for (var i = 0; i < playButtonLabel.length; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
         if(TOUCH_TEST) {
-          setDebug("Clicked inside rect", playButtonNames[i], 1);
+          report("Clicked inside rect", playButtonNames[i], 1);
         }
         switch(playButtonNames[i]) {
           case "Menu":
@@ -126,7 +126,7 @@ function mousedownHandler(evt) {
     console.log("Designer", mousePos.x, mousePos.y, gridIndex);
 
     if (xyIsInRect(mousePos, buttonRects[4])) {
-      setDebug('Button return to menu', 1)
+      report('Button return to menu', 1)
       gameState = STATE_MENU;
     }
   } // End of Design-Level mousedown handling
@@ -165,10 +165,10 @@ function mouseupHandler(evt) {
           case "Send":
             // code inefficient without setting false, but works
             if(TOUCH_TEST) {
-              setDebug("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately", 1);
+              report("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately", 1);
             } else {
               player.keyHeld_send = false;
-              // setDebug("keyHeld_send = false because not Touch device", 1 );
+              // report("keyHeld_send = false because not Touch device", 1 );
             }
             break;
         }
