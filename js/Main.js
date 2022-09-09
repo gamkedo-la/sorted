@@ -80,7 +80,7 @@ window.onload = function() {
 
 function imageLoadingDoneSoStartGame() {
   setupDecals();
-	var framesPerSecond = 1; // 30;
+	var framesPerSecond = 30;
 	setInterval(updateAll, 1000/framesPerSecond);
 
 	setupInput();

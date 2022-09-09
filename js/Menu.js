@@ -55,7 +55,7 @@ function drawHelp() {
   // BAR.innerHTML = '';
   // makeBarButtons(offMenuButtonList);
 
-  colorRect(0,0, canvas.width,canvas.height, "black");
+  colorRect(0,0, gameCanvas.width,gameCanvas.height, "black");
   canvasContext.drawImage(helpBGPic,0,0);
   drawMenuFlock();
 
@@ -94,14 +94,14 @@ function drawCredits() {
   // BAR.innerHTML = '';  not wiped every interval, draw one when selected
   // makeBarButtons(offMenuButtonList);
 
-  colorRect(0,0, canvas.width,canvas.height, "black");
+  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
   canvasContext.drawImage(creditsBGPic,0,0);
   // drawMenuFlock();
 
   textIndent = 50;
   //headLine("Credits");
   canvasContext.font = HEADER_FONT + "px Verdana";
-  colorText("Credits", textIndent, CREDITS_TOP_MARGIN, "white");
+  colorText(canvasContext, "Credits", textIndent, CREDITS_TOP_MARGIN, "white");
 
   canvasContext.font = CREDITS_FONT + "px Verdana";
   var line = 0;
@@ -181,17 +181,17 @@ function drawLevelOver() {
   var advanceFontSize = 12 + Math.sqrt( levelScores[currentLevel] / FLOCK_SIZE[currentLevel] +1 );
   var y = 50;
   canvasContext.textAlign = "center";
-  colorRect(canvasContext, canvas.width/2 -POPUP_W/2, y, POPUP_W, 270, "black")
+  colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2, y, POPUP_W, 270, "black")
   canvasContext.font = "24px Arial";
-  colorText(canvasContext, "Level "+ currentLevel + " completed", canvas.width/2, y += 50, "white");
+  colorText(canvasContext, "Level "+ currentLevel + " completed", gameCanvas.width/2, y += 50, "white");
   canvasContext.font = "36px Arial";
-  colorText(canvasContext, "Score = " + levelScores[currentLevel], canvas.width/2, y += 50, "white");
+  colorText(canvasContext, "Score = " + levelScores[currentLevel], gameCanvas.width/2, y += 50, "white");
   canvasContext.font = "16px Arial";
-  colorText(canvasContext, "Max Possible Score = " + levelMaxScores[currentLevel], canvas.width/2, y += 40, "white");
-  colorText(canvasContext, "Press key M for menu", canvas.width/2, y += 35, "white");
-  colorText(canvasContext, "key R to replay level " + currentLevel, canvas.width/2, y += 18, "white");
+  colorText(canvasContext, "Max Possible Score = " + levelMaxScores[currentLevel], gameCanvas.width/2, y += 40, "white");
+  colorText(canvasContext, "Press key M for menu", gameCanvas.width/2, y += 35, "white");
+  colorText(canvasContext, "key R to replay level " + currentLevel, gameCanvas.width/2, y += 18, "white");
   canvasContext.font = advanceFontSize + "px Arial";
-  colorText(canvasContext, "key L to advance to level " + nextLevel, canvas.width/2, y += 18 + advanceFontSize, "white");
+  colorText(canvasContext, "key L to advance to level " + nextLevel, gameCanvas.width/2, y += 18 + advanceFontSize, "white");
   // colorText("H to hide/show this box", canvas.width/2, y+210, "white");
   canvasContext.textAlign = "left";
 }
@@ -200,7 +200,7 @@ function drawScoreboard() {
   // BAR.innerHTML = '';
   // makeBarButtons(offMenuButtonList);
 
-  colorRect(0,0, canvas.width,canvas.height, "black");
+  colorRect(0,0, gameCanvas.width,gameCanvas.height, "black");
   // canvasContext.textAlign = "center";
   canvasContext.font = "24px Arial";
   colorText("Scoreboard", 100, 80, "white");
@@ -217,7 +217,7 @@ function drawGameOver() {
   // BAR.innerHTML = '';
   // makeBarButtons(gameOverButtonList);
 
-  colorRect(0,0, canvas.width,canvas.height, "black");
+  colorRect(0,0, gameCanvas.width,gameCanvas.height, "black");
   canvasContext.drawImage(creditsBGPic,0,0);
   drawMenuFlock();
 

@@ -193,7 +193,7 @@ function sheepClass() {
 
     // screenwrap horizontal
     if(nextX < 0) {
-      nextX += canvas.width;
+      nextX += gameCanvas.width;
       // this.ang += Math.PI;
     } else if(nextX >= gameCanvas.width) {
       nextX -= gameCanvas.width;
@@ -621,7 +621,7 @@ function sheepClass() {
     // }
     if(this.state == CALLED) {
       // draw line between sheep and hat
-      colorLine(gameCanvas, player.x,player.y, this.x,this.y, "yellow")
+      colorLine(canvasContext, player.x,player.y, this.x,this.y, "yellow")
     }
     if(editMode) {
       var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;

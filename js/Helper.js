@@ -52,7 +52,7 @@ function update_debug_report() {
 function UI_level_number() {
   canvasContext.font = "18px Verdana";
   canvasContext.fillStyle = "white";
-  canvasContext.fillText("Level " + currentLevel  + ': "'  + LEVEL_NAMES[currentLevel] + '"', 10, canvas.height-11);
+  canvasContext.fillText("Level " + currentLevel  + ': "'  + LEVEL_NAMES[currentLevel] + '"', 10, gameCanvas.height-11);
   canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
 
@@ -96,15 +96,15 @@ function calculateLevelScore() {
     x = sheepList[i].x;
 
     // central tile scores for both teams (adjust by TILE_W/2)
-    if(team == BLUE && x >= canvas.width/2 + TILE_W/2) {
+    if(team == BLUE && x >= gameCanvas.width/2 + TILE_W/2) {
       offSide = true;
     }
-    else if(team == RED && x < canvas.width/2 - TILE_W/2) {
+    else if(team == RED && x < gameCanvas.width/2 - TILE_W/2) {
       offSide = true;
     }
 
     if(done && team != PLAIN) {
-      score = 80 - Math.round(Math.abs(x - canvas.width/2) / 5);
+      score = 80 - Math.round(Math.abs(x - gameCanvas.width/2) / 5);
       if(offSide) {
         sheepList[i].score = 0;
       } else {
@@ -175,7 +175,7 @@ function drawAgentGrid() {
 } // end of drawArea func
 
 function getMousePos(evt) {
-	var rect = canvas.getBoundingClientRect();
+	var rect = gameCanvas.getBoundingClientRect();
 	var root = document.documentElement;
   // account for margins, canvas position on page, scroll amount, etc.
 	var mouseX = evt.clientX - rect.left - root.scrollLeft;

@@ -10,7 +10,7 @@ function rogueClass() {
   }
 
   this.reset = function() {
-    this.x = randomRangeInt(20 + SIDE_MARGIN, canvas.width - SIDE_MARGIN -18);
+    this.x = randomRangeInt(20 + SIDE_MARGIN, gameCanvas.width - SIDE_MARGIN -18);
     this.y = 425;
     this.ang = 0;
     this.speedX = ROGUE_SPEED[currentLevel];
@@ -46,20 +46,20 @@ function rogueClass() {
 
     // screenwrap horizontal
     if(nextX < 0) {
-      nextX += canvas.width;
+      nextX += gameCanvas.width;
       // this.ang += Math.PI;
-    } else if(nextX >= canvas.width) {
-      nextX -= canvas.width;
+    } else if(nextX >= gameCanvas.width) {
+      nextX -= gameCanvas.width;
       // this.ang += Math.PI;
     }
 
     nextX += this.speedX;
     nextY += this.speedY;
-    
-    // collision handling 
-    
+
+    // collision handling
+
     // tileHandling
-    
+
     this.x = nextX;
     this.y = nextY;
   }
