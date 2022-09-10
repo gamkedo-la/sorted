@@ -35,6 +35,7 @@ body {
 
 #drawingCanvas {
     position: absolute;
+    border: gray 0px solid;
 }
 
 p {

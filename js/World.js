@@ -3,7 +3,7 @@ const LAST_LEVEL = 6;
 
 const TILE_W = 50;
 const TILE_H = 50;
-const TILE_COLS = 17;
+const TILE_COLS = 16;
 const TILE_ROWS = 12;
 
 function getTileTypeAtColRow(col, row) {

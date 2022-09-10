@@ -172,7 +172,7 @@ function rereport() {
 
 // call from drawAll()
 function showDebugText() {
-  uiContext.font = "14px Arial";
+  uiContext.font = "12px Arial";
   drawDebugOnBar();
   if (debugBelowCanvas) {
     writeDebugP();

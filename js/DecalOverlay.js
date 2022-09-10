@@ -28,8 +28,8 @@ var decalOverlay = function() {
         decalContext.drawImage(spritePic,x,y);
 	};
 
-    this.draw = function() {
-        canvasContext.drawImage(decalCanvas, 0, 0);
+  this.draw = function() {
+    canvasContext.drawImage(decalCanvas, 0, 0);
 	};
 
 	this.resize = function() {
@@ -54,9 +54,7 @@ var decalOverlay = function() {
             this.add(x,y,0,1,spritePic);
         }
     }
-
     this.resize(); // ensure we start the same size as game canvas
-
 };
 
 // handy function - can include min and max
@@ -68,10 +66,10 @@ function randomInteger(min, max) {
 
 function setupDecals() {
   decals = new decalOverlay(); // grass, flowers, footprints, pebbles, etc
-  decals.scatterDecorations(150,flower1Pic,ROAD_HEIGHT);
-  decals.scatterDecorations(150,flower2Pic,ROAD_HEIGHT);
-  decals.scatterDecorations(150,flower3Pic,ROAD_HEIGHT);
-  decals.scatterDecorations(150,grass1Pic,ROAD_HEIGHT);
-  decals.scatterDecorations(150,grass2Pic,ROAD_HEIGHT);
-  decals.scatterDecorations(150,grass3Pic,ROAD_HEIGHT);
+  decals.scatterDecorations(150, flower1Pic, bottomRowHeight);
+  decals.scatterDecorations(150, flower2Pic, bottomRowHeight);
+  decals.scatterDecorations(150, flower3Pic, bottomRowHeight);
+  decals.scatterDecorations(150, grass1Pic, bottomRowHeight);
+  decals.scatterDecorations(150, grass2Pic, bottomRowHeight);
+  decals.scatterDecorations(150, grass3Pic, bottomRowHeight);
 }

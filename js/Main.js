@@ -4,10 +4,13 @@ var gameBoard;
 var gameCanvas, canvasContext;
 var uiCanvas, uiContext;
 
-const UI_COLOR = "#222222";
-gameWidth = 850 / (850 + 200); // % board for play field
+const fieldX = 800;
+const uiBarX = 200;
+const playFieldFractionOfScreen = fieldX / (fieldX + uiBarX); // % board for play field
+const fieldY = 600;
 
-const ROAD_HEIGHT = 55; // a margin where no flowers or grass grows - see scatterDecals()
+const UI_COLOR = "#222222";
+var bottomRowHeight = 55; // a margin where no flowers or grass grows - see scatterDecals()
 
 var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; //
 var paused = false;
@@ -55,17 +58,15 @@ window.onload = function() {
 
   canvasContext.font = "28px Arial";
   colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "red");
-  colorText(canvasContext, "Loading Images", 0,0, "white");
-  uiContext.font = "40px Arial";
+  colorText(canvasContext, "Loading Images", 50,50, "white");
 
   // Is this needed?
-  uiCanvas.width = gameCanvas.width * gameWidth;
-	uiCanvas.height = gameCanvas.height;
+  // uiCanvas.width = gameCanvas.width * playFieldFractionOfScreen;
+	// uiCanvas.height = gameCanvas.height;
 
   if(debugBelowCanvas) {
     makeParagraphsBelowCanvas();
   }
-  rereport();
 
   deviceTests();
   resizeWindow();
@@ -84,8 +85,8 @@ function resizeWindow(){
 	gameBoard.height = window.innerHeight;
 	gameBoard.width = window.innerWidth;
 
-  var width = 850 + 200;
-  var height = 600;
+  var width = fieldX + uiBarX;
+  var height = fieldY;
 
 	if (window.innerHeight / height > window.innerWidth / width) {
 		drawingCanvas.width = window.innerWidth;
@@ -115,12 +116,12 @@ function updateAll() {
   dog.barkTimer--;
 
   drawingContext.save();
-	drawingContext.scale(drawScaleX * gameWidth, drawScaleY);
+  drawingContext.scale(drawScaleX * playFieldFractionOfScreen, drawScaleY);
 	drawingContext.drawImage(gameCanvas, 0, 0);
 	drawingContext.restore();
 
 	drawingContext.save();
-	drawingContext.translate(gameCanvas.width * drawScaleX * gameWidth, 0);
+  drawingContext.translate(gameCanvas.width * drawScaleX * playFieldFractionOfScreen, 0);
 	drawingContext.scale(drawScaleX, drawScaleY);
 	drawingContext.drawImage(uiCanvas, 0, 0);
 	drawingContext.restore();
