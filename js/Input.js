@@ -48,8 +48,9 @@ function setupInput() {
   // drawingCanvas.addEventListener('mousemove', mousemoveHandler);
   drawingCanvas.addEventListener('mousemove', updateMousePos);
 
-  drawingCanvas.addEventListener('mousedown', mousedownHandler);
-  drawingCanvas.addEventListener('mouseup', mouseupHandler);
+  // restore when mousePos scaling fixed
+  // drawingCanvas.addEventListener('mousedown', mousedownHandler);
+  // drawingCanvas.addEventListener('mouseup', mouseupHandler);
 
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);

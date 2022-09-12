@@ -10,7 +10,9 @@ var drivePower = 1.0;
 var reversePower = 1.0;
 // Call
 var tractorSpeed = 3; // speed of sheep moving up
-var ALIGN_LIMIT = 20; // hat not exactly above sheep
+const CALL_X_ALIGN = 20; // hat not exactly above sheep
+var callAlignLimitX = null; // more X leeway when longer Y distance
+const CALL_X_WEIGHT = 7;
 
 var player = new playerClass(1);
 
@@ -85,55 +87,75 @@ function playerClass(id) {
     }
 
     if(this.keyHeld_call) {
-      if(this.callGapTimer > 0) {
-        console.log("Cannot call again so soon");
+      this.keyHeld_call = false; // is this needed?
 
-      } else {
-        this.keyHeld_call = false;
-        console.log('CALL a sheep');
+      if (this.callGapTimer > 0) {
+        console.log("Cannot call again so soon");
+      }
+      else if (this.sheepIDheld != null) {
+        console.log('Cannot call a sheep while one already held');
+      }
+      else if (isAnySheepCalledAlready()) {
+        console.log('Cannot call a sheep while another being called');
+      }
+      else {
+        console.log('Call a sheep, try from X=' + nextX);
         callSound.play();
-        this.callGapTimer = 30;
 
         // check all sheep to see if any below Hat
         // or select a sheep using mouse like in RTS
-        if(this.sheepIDheld != null) {
-          console.log('Cannot call a sheep while one already held');
-        }
-        else if( isAnySheepCalledAlready() ) {
-          console.log('Cannot call a sheep while another being called');
-        }
-        else {
-          var aligned;
-          var nearestXdist = 999;
-          for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-            var xDist = xDistance(nextX, sheepList[i].x);
-            if(xDist < nearestXdist && xDist < ALIGN_LIMIT) {
-              aligned = i;
-            }
-          }
 
-          if(aligned != undefined) {
-            var location = sheepList[aligned].state;
-            if(isSheepCallBlocked(location)) {
-              console.log('Sheep on goal or fence or stacked at end of field cannot be called')
-            } else {
-              console.log("Called sheep id =", sheepList[aligned].id);
-              sheepList[aligned].state = CALLED;
-              sheepList[aligned].timer = 0;
-              sheepList[aligned].speed = CALL_SPEED[currentLevel];
-              // change facing to upward
-              sheepList[aligned].ang = Math.PI * 3 / 2;
-              if(sheepList[aligned].potentialTeam == BLUE) {
-                sheepList[aligned].orient = Math.PI * 1/4;
-              } else {
-                sheepList[aligned].orient = Math.PI * 7/4;
-              }
+        this.callGapTimer = 30;
+        var aligned = null;
+        var nearestWeightDist = 999;
+
+        // originally only considered X distance
+        // weights X dist strongly but also considers Y dist
+        // to avoid unexpected calling of a sheep far away but X-aligned
+
+        for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
+
+          var mode = sheepList[i].state;
+          if (isSheepCallable(mode)) {
+
+            var xDist = Math.abs(nextX - sheepList[i].x);
+            var yDist = Math.abs(nextY - sheepList[i].y);
+            var weightedCallDist = (yDist / CALL_X_WEIGHT) + xDist;
+            console.log('id:' + i + ' x:' + xDist.toFixed(0) + ' y:' + yDist.toFixed(0) + ' weighted:' + weightedCallDist.toFixed(0) );
+
+            if (weightedCallDist < nearestWeightDist) {
+              aligned = i;
+              nearestWeightDist = weightedCallDist;
+              calledXdist = xDist; // save the nearest's xDist
+              callAlignLimitX = CALL_X_ALIGN * yDist / 100;
+
+              console.log('id:' + i + ' callAlignLimitX:' + callAlignLimitX.toFixed(0) )
             }
           } else {
-            console.log("No sheep is X-aligned to calling farmer-clamp")
+            console.log('Sheep ' + i + ' cannot be called because mode ' + sheepModeNames[mode]);
           }
         }
-      }
+
+        if (aligned == undefined) {
+          console.log("No sheep available to be called");
+        }
+        else if (calledXdist > callAlignLimitX) {
+          console.log("Most likely target sheep is id " + aligned + " but Hat is not positioned above." + " callAlignLimitX=" + callAlignLimitX.toFixed(0));
+        }
+        else {
+          console.log("Called sheep id =", sheepList[aligned].id);
+          sheepList[aligned].state = CALLED;
+          sheepList[aligned].timer = 0;
+          sheepList[aligned].speed = CALL_SPEED[currentLevel];
+          // change facing to upward
+          sheepList[aligned].ang = Math.PI * 3 / 2;
+          if (sheepList[aligned].potentialTeam == BLUE) {
+            sheepList[aligned].orient = Math.PI * 1 / 4;
+          } else {
+            sheepList[aligned].orient = Math.PI * 7 / 4;
+          }
+        } // end check if any sheep is callable
+      } // end of else (Hat can call)
     } // end of CALL
 
     if(this.gotoX == null) {
@@ -222,17 +244,10 @@ function playerClass(id) {
     // document.getElementById("debug_4").innerHTML = "Hat posX=" + Math.floor(this.x);
     //// document.getElementById("debug_4").innerHTML = "Hat posX=" + this.x;
   }
-
-  // not used
-  this.findSheepBelow = function() {
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-      var dist = distance(this.x,this.y, sheepList[i].x,sheepList[i].y);
-    }
-  }
 }
 
-function isSheepCallBlocked(location) {
-  callable = (location == IN_BLUE_PEN || location == IN_RED_PEN || location == ON_ROAD || location == FENCED || location == STACKED || location == STUCK);
+function isSheepCallable(location) {
+  callable = (location != IN_BLUE_PEN && location != IN_RED_PEN && location != ON_ROAD && location != IN_DITCH && location != STACKED && location != STUCK);
   return callable;
 }
 

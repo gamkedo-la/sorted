@@ -17,9 +17,9 @@ function distance(x1,y1, x2,y2) {
   return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
 }
 
-function xDistance(x1, x2) {
-  return Math.abs(x1 - x2);
-}
+// function distance(v1, v2) {
+//   return Math.abs(v1 - v2);
+// }
 
 function countPennedSheep() {
   var count = 0;
@@ -57,7 +57,7 @@ function UI_level_number() {
 }
 
 function testIfLevelEnd() {
-  // if all sheep in states FENCED or PEN or ON_ROAD
+  // if all sheep in states IN_DITCH or PEN or ON_ROAD
   // outOfPlay = 0;
   // for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
   //   if(sheepList[i].levelDone) {

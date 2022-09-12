@@ -15,17 +15,19 @@ const ROAM = 1;
 const CALLED = 2;
 const HELD = 3;
 const SENT = 4;
+const CONVEYOR = 5;
+const STUCK = 6;
 // below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
 // on-road and fenced were orig created for end-of-level calculation
-const IN_BLUE_PEN = 5;
-const IN_RED_PEN = 6;
-const FENCED = 7;
-const ON_ROAD = 8;
-const IN_BLUE_LORRY = 9;
-const IN_RED_LORRY = 10;
+const IN_DITCH = 7;
+const IN_BLUE_PEN = 8;
+const IN_RED_PEN = 9;
+const ON_ROAD = 10;
 const STACKED = 11;
-const CONVEYOR = 12;
-const STUCK = 13;
+const IN_BLUE_LORRY = 12;
+const IN_RED_LORRY = 13;
+
+const sheepModeNames = ['Graze', 'Roam', 'Called', 'Held', 'Sent', 'Conveyor', 'Stuck', 'In_Ditch', 'In_Blue_Pen', 'In_Red_Pen', 'On_Road', 'In_Blue_Lorry', 'In_Red_Lorry'];
 
 function sheepClass() {
   this.x = 0;
@@ -108,7 +110,7 @@ function sheepClass() {
     var tileOccupied;
     var pos; // temporary position
 
-    // covers any GOAL or FENCED
+    // covers any GOAL or IN_DITCH
     if(this.levelDone) {
     }
 
@@ -427,8 +429,8 @@ function sheepClass() {
           }
 
         } else if(tileType == TILE_ROAD) {
-          if(this.state != FENCED) {
-            this.changeMode(FENCED);
+          if (this.state != IN_DITCH) {
+            this.changeMode(IN_DITCH);
             this.endCol = tileCol;
             this.endTime = step[currentLevel];
             sheepInPlay--;
@@ -505,8 +507,8 @@ function sheepClass() {
       }
     }
 
-    else if(newMode == FENCED) {
-      this.state = FENCED;
+    else if (newMode == IN_DITCH) {
+      this.state = IN_DITCH;
       // reference Y of row above fence, instead of canvas.height
       this.ang = Math.PI * 1/2;
       if(this.team == BLUE) {
@@ -570,7 +572,7 @@ function sheepClass() {
   }
 
   this.isAllowedBottomRow = function() {
-    return this.state == SENT || this.state == FENCED || this.state == IN_BLUE_PEN || this.state == IN_RED_PEN || this.state == ON_ROAD || this.state == STACKED
+    return this.state == SENT || this.state == IN_DITCH || this.state == IN_BLUE_PEN || this.state == IN_RED_PEN || this.state == ON_ROAD || this.state == STACKED
   }
 
   this.isModeTimed = function() {
