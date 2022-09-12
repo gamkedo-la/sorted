@@ -53,7 +53,7 @@ function drawMenu() {
 
 function drawHelp() {
   // BAR.innerHTML = '';
-  // drawBarButtons(offMenuButtonList);
+  // drawBarButtons(offMenuButtonLabel);
 
   colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
   canvasContext.drawImage(helpBGPic,0,0);
@@ -92,7 +92,7 @@ function drawHelp() {
 
 function drawCredits() {
   // BAR.innerHTML = '';  not wiped every interval, draw one when selected
-  // drawBarButtons(offMenuButtonList);
+  // drawBarButtons(offMenuButtonLabel);
 
   colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
   canvasContext.drawImage(creditsBGPic,0,0);
@@ -198,7 +198,7 @@ function drawLevelOver() {
 
 function drawScoreboard() {
   // BAR.innerHTML = '';
-  // drawBarButtons(offMenuButtonList);
+  // drawBarButtons(offMenuButtonLabel);
 
   colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
   // canvasContext.textAlign = "center";

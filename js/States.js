@@ -25,26 +25,25 @@ function gotoPlay(from) {
 
 function gotoScore(from) {
   gameState = STATE_SCOREBOARD;
-  drawBarButtons(offMenuButtonList);
+  drawBarButtons(offMenuButtonLabel);
   report('Score via ' + from, 1)
 }
 
 function gotoHelp(from) {
   gameState = STATE_HELP;
   // BAR.innerHTML = '';
-  drawBarButtons(offMenuButtonList);
+  drawBarButtons(offMenuButtonLabel);
   report('Help via' + from, 1)
 }
-function gotoScore(from) {
+
+function gotoCredits(from) {
   gameState = STATE_CREDITS;
-  BAR.innerHTML = '';
-  drawBarButtons(offMenuButtonList);
+  drawBarButtons(offMenuButtonLabel);
   report('Credits via ' + from, 1)
 }
 
 function gotoDesign(from) {
   gameState = STATE_DESIGN_LEVEL;
-  BAR.innerHTML = '';
   drawBarButtons(designButtonList);
   report('Design via ' + from, 1)
 }

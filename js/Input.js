@@ -1,7 +1,8 @@
+/////////////////////////////////////////
+// from Classic Games book
 var mouseX = 0;
 var mouseY = 0;
 
-// from Classic Games book
 function getMousePos(evt) {
 	var rect = gameCanvas.getBoundingClientRect();
 	var root = document.documentElement;
@@ -13,44 +14,87 @@ function getMousePos(evt) {
     y: mouseY
   };
 }
-
-// from APC5 game - lacks root.scroll...?
-function updateMousePos(evt) {
-	var rect = drawingCanvas.getBoundingClientRect();
-  var fixedXScale = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
-	mouse.x = Math.round( fixedXScale * (evt.clientX - rect.left)/drawScaleX);
-	mouse.y = Math.round((evt.clientY - rect.top)/drawScaleY);
-  setDebug("cursor: " + mouse.x + "," + mouse.y, 0);
-}
+////////////////////////////////////////
 
 // from APC5
-//mouse object stores mouse information
+// mouse object stores mouse information
 var mouse = (function () {
 	//Position
 	var x = 0;
 	var y = 0;
 
-	//Button states
+	// Button states
 	var left = 0;
 	var right = 0;
 	var middle = 0;
 
-	//Return only public variables/methods
+	// Return only public variables/methods
 	return {
 		x: x,
 		y: y,
-		left: left,
-		middle: middle,
-		right: right
+    button: -1 // no mouse-button clicked yet
+    // left: left,      // 0
+    // middle: middle,  // 1
+    // right: right     // 2
 	};
 })();
 
-function setupInput() {
-  // drawingCanvas.addEventListener('mousemove', mousemoveHandler);
-  drawingCanvas.addEventListener('mousemove', updateMousePos);
+var uiPos = {
+  x: null,
+  y: null
+}
 
-  // restore when mousePos scaling fixed
-  // drawingCanvas.addEventListener('mousedown', mousedownHandler);
+// from APC5 Htgd - lacks root.scroll...?
+function updateMousePos(evt) {
+  var rect = drawingCanvas.getBoundingClientRect();
+  var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
+  mouse.x = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX );
+  mouse.y = Math.round( (evt.clientY - rect.top) / drawScaleY);
+  setDebug("cursor: " + mouse.x + "," + mouse.y, 0);
+}
+
+// from Irenic Htgd
+function clickOrTouch(event) {
+  event.preventDefault();
+  var x, y;
+  console.log('event button: ' + event.button);
+
+  if (event.targetTouches && event.targetTouches[0]) {
+    x = event.targetTouches[0].pageX;
+    y = event.targetTouches[0].pageY;
+  }
+  else {
+    x = event.clientX;
+    y = event.clientY;
+  }
+
+  // setMousePos(x, y); // use APC5 version instead
+  updateMousePos(event);
+
+  if ((event.type == 'touchstart')) {
+    // left click emulate
+    mouse.button = 0;
+    report("tap at x:" + mouse.x + " y:" + mouse.y, 1);
+  }
+  else {
+    mouse.button = event.button;
+    report("mousedown at x:" + mouse.x + " y:" + mouse.y, 1);
+  }
+
+  if (mouse.x > gameCanvas.width) {
+    uiPos.x = mouse.x - gameCanvas.width;
+    uiPos.y = mouse.y;
+    ui_mousedownHandler();
+  } else {
+    field_mousedownHandler();
+  }
+
+} // end clickOrTouch
+
+function setupInput() {
+  drawingCanvas.addEventListener('mousemove', updateMousePos);
+  drawingCanvas.addEventListener('touchstart', clickOrTouch);
+  drawingCanvas.addEventListener('mousedown', clickOrTouch);
   // drawingCanvas.addEventListener('mouseup', mouseupHandler);
 
 	document.addEventListener('keydown', keyPressed);
@@ -58,20 +102,21 @@ function setupInput() {
   player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
 }
 
-function mousemoveHandler(evt) {
-  var mousePos = getMousePos(evt);
-  setDebug("cursor: " + mousePos.x + "," + mousePos.y, 0);
-}
+// function mousemoveHandler(evt) {
+//   var mousePos = getMousePos(evt);
+//   setDebug("cursor: " + mousePos.x + "," + mousePos.y, 0);
+// }
 
-function mousedownHandler(evt) {
-  var mousePos = getMousePos(evt);
-  report("mousedown: " + mousePos.x + "," + mousePos.y, 1)
+// when click/tap UI bar
+function ui_mousedownHandler() {
+  // var mousePos = getMousePos(evt);
+  // report("mousedown: " + mousePos.x + "," + mousePos.y, 1)
 
   if (gameState == STATE_MENU) {
 
     for (var i = 0; i < menuButtonLabel.length - 1; i++) {
       // report( buttonRects[i] );
-      if ( xyIsInRect(mousePos, buttonRects[i]) ) {
+      if (xyIsInRect(uiPos, buttonRects[i])) {
         report('Button down ' + i + ' ' + menuButtonLabel[i], 2)
 
         switch (menuButtonLabel[i]) {
@@ -98,6 +143,12 @@ function mousedownHandler(evt) {
             gotoCredits("canvasButton");
             break;
 
+          // not working yet
+          case "Quit":
+            console.log('Sorry not working yet');
+            window.close();
+            break;
+
           // case "Editor":
           //   editMode = true;
           //   break;
@@ -108,13 +159,13 @@ function mousedownHandler(evt) {
 
   else if (gameState == STATE_PLAY) {
     for (var i = 0; i < playButtonLabel.length; i++) {
-      if (xyIsInRect(mousePos,buttonRects[i])) {
+      if (xyIsInRect(uiPos, buttonRects[i])) {
 
         if(TOUCH_TEST) {
-          report("Clicked inside rect " + playButtonNames[i], 2);
+          report("Clicked inside rect " + playButtonLabel[i], 2);
         }
 
-        switch(playButtonNames[i]) {
+        switch (playButtonLabel[i]) {
           case "Left":
             player.keyHeld_left = true;
             touchArrowHandling(LEFT);
@@ -149,11 +200,11 @@ function mousedownHandler(evt) {
   // extra buttons for Replay and Adavance to next level.
   else if (gameState == STATE_LEVEL_OVER) {
     for (var i = 0; i < playButtonLabel.length; i++) {
-      if (xyIsInRect(mousePos,buttonRects[i])) {
+      if (xyIsInRect(uiPos, buttonRects[i])) {
         if(TOUCH_TEST) {
-          report("Clicked inside rect", playButtonNames[i], 1);
+          report("Clicked inside rect", playButtonLabel[i], 1);
         }
-        switch(playButtonNames[i]) {
+        switch (playButtonLabel[i]) {
           case "Menu":
             gotoMenu("LevelOver's CanvasButton Menu");
             break;
@@ -162,7 +213,18 @@ function mousedownHandler(evt) {
     }
   }
 
-  else if (gameState == STATE_DESIGN_LEVEL) {
+  else if (requireButtonGotoMenu()) {
+    // could set Menu button at slot [4] or elsewhere
+    if (xyIsInRect(uiPos, buttonRects[0])) {
+      gameState = STATE_MENU;
+      gotoMenu("DesignLevel's CanvasButton Menu");
+    }
+  }
+} // end of mousedownHandler
+
+// click or tap in field
+function field_mousedownHandler() {
+  if (gameState == STATE_DESIGN_LEVEL) {
     // select grid cell to outline
     gridIndex = getTileIndexAtPixelCoord(mousePos.x, mousePos.y);
     console.log("Designer", mousePos.x, mousePos.y, gridIndex);
@@ -172,22 +234,16 @@ function mousedownHandler(evt) {
       gameState = STATE_MENU;
     }
   } // End of Design-Level mousedown handling
+}
 
-  else if ( requireButtonGotoMenu() ) {
-    if (xyIsInRect(mousePos, buttonRects[4])) {
-      gameState = STATE_MENU;
-      gotoMenu("DesignLevel's CanvasButton Menu");
-    }
-  }
-} // end of UmousedownHandler
-
+// not currently called
 function mouseupHandler(evt) {
   var mousePos = getMousePos(evt);
   if(gameState ==  STATE_PLAY) {
     for (var i = 0; i < playButtonLabel.length; i++) {
       if (xyIsInRect(mousePos,buttonRects[i])) {
 
-        switch(playButtonNames[i]) {
+        switch (playButtonLabel[i]) {
 
           case "Left":
             player.keyHeld_left = false;

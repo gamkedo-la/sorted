@@ -204,6 +204,10 @@ function nearestRowEdge(y) {
 function xyIsInRect(pos, rect) {
   return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
 }
+function UIxyIsInRect(pos, rect) {
+  let x = pos.x - gameCanvas.width;
+  return x > rect.x && x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
+}
 
 function downloader(filename, text) {
   var element = document.createElement('a');
