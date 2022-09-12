@@ -44,25 +44,6 @@ function drawBarButtons(btnList) {
   }
 }
 
-function drawPlayButtons() {
-  canvasContext.lineWidth = 1;
-  for (var i = 0; i < playButtonLabel.length; i++) {
-    colorRectBorder(canvasContext, buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
-    canvasContext.font = "14px Arial";
-    canvasContext.textAlign = "left";
-    colorText(canvasContext, playButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
-  }
-}
-
-function drawLevelOverButtons() {
-  for(var i=4; i<5; i++) {
-    colorRectBorder(canvasContext, buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", 1);
-    canvasContext.font = "14px Arial";
-    canvasContext.textAlign = "left";
-    colorText(canvasContext, playButtonNames[i], 5+buttonRects[i].x, 20+buttonRects[i].y, "black");
-  }
-}
-
 function needsTouchEnd(btn) {
   return btn == "Left" || btn == "Right" || btn == "Call" || btn == "Send"
 }

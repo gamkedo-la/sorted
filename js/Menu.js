@@ -114,7 +114,7 @@ function drawCredits() {
   // paragraph++;
 
   var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grass; hoofprints behind sheep; many soundfx for sheep, and dog; ambient sheep sounds; baa when sheep enters goal.'
-  var txtLines = getLines(canvasContext, txt, 800);
+  var txtLines = getLines(canvasContext, txt, 750);
   // console.log(txtLines.length + txtLines[2])
   for(var i=0; i<txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
@@ -122,7 +122,7 @@ function drawCredits() {
   paragraph++;
 
   var txt = "Chris DeLeon - sheep-head multi-part image; foundation of classic games code and tile art.";
-  var txtLines = getLines(canvasContext, txt, 800);
+  var txtLines = getLines(canvasContext, txt, 730);
   for(var i=0; i<txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
   }
@@ -203,13 +203,13 @@ function drawScoreboard() {
   colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
   // canvasContext.textAlign = "center";
   canvasContext.font = "24px Arial";
-  colorText("Scoreboard", 100, 80, "white");
+  colorText(canvasContext, "Scoreboard", 100, 80, "white");
   canvasContext.font = "16px Arial";
   for(var i=1; i<7; i++) {
     colorText(canvasContext, "Level " + i +  ' "' + LEVEL_NAMES[i] + '": ' + levelScores[i], 100, 80 + i*50, "white");
   }
   canvasContext.font = "16px Arial";
-  colorText("Press M or Esc for menu", 100, 500, "white");
+  colorText(canvasContext, "Press M or Esc for menu", 100, 500, "white");
   canvasContext.textAlign = "left";
 }
 

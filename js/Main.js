@@ -213,7 +213,7 @@ function drawAll() {
     } // end of (editMode)
 
     drawLevelOver();
-    drawLevelOverButtons();
+    drawBarButtons(levelEndButtonLabel);
   } // end of Level_Over
 
   else if(gameState == STATE_DESIGN_LEVEL) {
@@ -245,7 +245,7 @@ function drawAll() {
   }
 
   if( requireButtonGotoMenu() ) {
-    drawLevelOverButtons();
+    drawBarButtons(offMenuButtonLabel);
   }
 } // end drawAll()
 
