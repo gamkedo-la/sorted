@@ -7,7 +7,7 @@ var teamSizeSoFar = [0,0,0];
 var sheepInPlay = 0;
 
 const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
-const  TILE_Y_ADJUST = 0.6; // position outOfPlay sheep in tile
+const  TILE_Y_ADJUST = 0.650; // position outOfPlay sheep in tile
 
 // sheep modes
 const GRAZE = 0;

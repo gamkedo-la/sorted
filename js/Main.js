@@ -85,8 +85,8 @@ function resizeWindow(){
 	gameBoard.height = window.innerHeight;
 	gameBoard.width = window.innerWidth;
 
-  var width = fieldX + uiBarX;
-  var height = fieldY;
+  var width = gameCanvas.width + uiCanvas.width;
+  var height = gameCanvas.height;
 
 	if (window.innerHeight / height > window.innerWidth / width) {
 		drawingCanvas.width = window.innerWidth;
@@ -100,7 +100,7 @@ function resizeWindow(){
 	drawingCanvas.style.left = (window.innerWidth/2 - drawingCanvas.width/2) + "px";
 	colorRect(drawingContext, 0,0, drawingCanvas.width,drawingCanvas.height, "white");
 
-	drawScaleX = drawingCanvas.width/gameCanvas.width;
+	drawScaleX = drawingCanvas.width/ gameCanvas.width;
 	drawScaleY = drawingCanvas.height/gameCanvas.height;
 
   let xSc = drawScaleX.toFixed(2);
@@ -112,7 +112,7 @@ function updateAll() {
 	moveAll();
 	drawAll();
   step[currentLevel]++; // level timesteps
-  player.callGapTimer--; // prevents immediate call again
+  player.callGapTimer--; // prevent call again too soon
   dog.barkTimer--;
 
   drawingContext.save();

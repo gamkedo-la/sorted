@@ -17,7 +17,8 @@ function getMousePos(evt) {
 // from APC5 game - lacks root.scroll...?
 function updateMousePos(evt) {
 	var rect = drawingCanvas.getBoundingClientRect();
-	mouse.x = Math.round((evt.clientX - rect.left)/drawScaleX);
+  var fixedXScale = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
+	mouse.x = Math.round( fixedXScale * (evt.clientX - rect.left)/drawScaleX);
 	mouse.y = Math.round((evt.clientY - rect.top)/drawScaleY);
   setDebug("cursor: " + mouse.x + "," + mouse.y, 0);
 }
