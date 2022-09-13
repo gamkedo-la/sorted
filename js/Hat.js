@@ -163,11 +163,11 @@ function playerClass(id) {
       this.speed *= GROUNDSPEED_DECAY_MULT;
 
       if(this.keyHeld_right) {
-        this.speed += drivePower;
+        // this.speed += drivePower;
       }
 
       if(this.keyHeld_left) {
-        this.speed -= reversePower;
+        // this.speed -= reversePower;
         if(TOUCH_TEST) {
           let msg = "keyHeld_left changing speed " + this.speed;
           report(msg, 4);
@@ -183,10 +183,28 @@ function playerClass(id) {
       var deltaX = this.gotoX - this.x;
       var moveX = HAT_MAX_SPEED[currentLevel];
 
+      // handle wrap, if x high and gotoX low go right
+      if (deltaX > 0) {
+        if (player.x < TILE_W) {
+          gotoDirection = "left";
+        } else {
+          gotoDirection = "left";
+        }
+      }
+      if (deltaX <= 0) {
+        if (player.x < TILE_W) {
+          gotoDirection = "left";
+        } else {
+          gotoDirection = "left";
+        }
+      }
+
       if(deltaX > 0) {  // goto is right of current position
+
         if(deltaX > moveX) {
           nextX += moveX;
-        } else { // reaching required position
+        }
+        else { // nearly reached required position
           nextX = this.gotoX;
           if(this.callWhenInPlace) {
             this.keyHeld_call = true;

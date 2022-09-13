@@ -55,13 +55,23 @@ function ui_mousedownHandler() {
 
         switch (playButtonLabel[i]) {
           case "Left":
-            player.keyHeld_left = true;
-            touchArrowHandling(LEFT);
+            var nextX = nextColumnCentre(player.x, -1);
+            if (nextX > gameCanvas.width) {
+              nextX = TILE_W / 2;
+            } else if (nextX < 0) {
+              nextX = gameCanvas.width - TILE_W / 2;
+            }
+            player.gotoX = nextX;
+            console.log("gotoX " + player.gotoX + " from " + player.x)
+            // player.keyHeld_left = true;
+            // touchArrowHandling(LEFT);
             break;
 
           case "Right":
-            player.keyHeld_right = true;
-            touchArrowHandling(RIGHT);
+            player.gotoX = nextColumnCentre(player.x, +1);
+            console.log("gotoX " + player.gotoX + " from " + player.x)
+            // player.keyHeld_right = true;
+            // touchArrowHandling(RIGHT);
             break;
 
           case "Call":
@@ -116,18 +126,16 @@ function ui_mouseupHandler(evt) {
   // var mousePos = getMousePos(evt);
   if(gameState ==  STATE_PLAY) {
     for (var i = 0; i < playButtonLabel.length; i++) {
-      if (xyIsInRect(mousePos,buttonRects[i])) {
+      if (xyIsInRect(mouse, buttonRects[i])) {
 
         switch (playButtonLabel[i]) {
 
           case "Left":
-            player.keyHeld_left = false;
-            touchArrowDebug();
+            // player.keyHeld_left = false;
+            // touchArrowDebug();
             break;
 
           case "Right":
-            player.keyHeld_right = false;
-            touchArrowDebug();
             break;
 
           case "Call":

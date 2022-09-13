@@ -184,21 +184,44 @@ function normaliseRadian(ang) {
   return ang;
 }
 
-function roundToNearest( number, multiple ){
+function roundToNearest(number, multiple) {
   var half = multiple/2;
   return number+half - (number+half) % multiple;
 }
-
-//   console.log("centre Hat in column")
-function nearestColumnCentre(x) {
-  // colCentre = roundToNearest(x, TILE_W) + TILE_W/2;
-  return TILE_W/2 + (Math.round((x - TILE_W/2) / TILE_W) * TILE_W);
-}
-
 function nearestRowEdge(y) {
   rowEdge = roundToNearest(y, TILE_H);
   return rowEdge;
 }
+function isAtColumnCentre(x) {
+  return ( x % TILE_W == TILE_W / 2 );
+}
+function nearestColumnCentre(x) {
+  return TILE_W/2 + (Math.round((x - TILE_W/2) / TILE_W) * TILE_W);
+}
+
+function nextColumnCentre(x, direction) {
+  // already at centre
+  if ( isAtColumnCentre(x) ) {
+    return x + (TILE_W * direction);
+  }
+  else { // not central
+    var centre = Math.floor(x/TILE_W) * TILE_W + (TILE_W/2);
+    if (direction > -1) {
+      centre += TILE_W;
+    }
+    return centre;
+  }
+
+}
+function nextColumnEdge(x, direction) {
+  var edge = Math.floor(x / TILE_W) * TILE_W;
+  if (direction == 1) {
+    edge += TILE_W;
+  }
+  return edge;
+}
+
+
 
 // check if a point is inside a rectangle
 function xyIsInRect(pos, rect) {
@@ -233,40 +256,6 @@ function findNearestSheep(x,y) {
   return nearestSheep;
 }
 
-var z1 = {
-	x: 20,
-	y: 20
-};
-
-var z2 = {
-	x: 40,
-	y: 40
-};
-
 function angleRadiansBetweenPoints(p1, p2) {
   return Math.atan2(p2.y - p1.y, p2.x - p1.x);
 }
-
-// downloader() supersedes functions below
-
-// function writeToFile(data) {
-//   let fso = CreateObject("Scripting.FileSystemObject");
-//   let s   = fso.CreateTextFile("filename.txt", True);
-//   s.writeline(data);
-//   s.Close();
-// }
-
-// var textFile = null,
-//   makeTextFile = function(text) {
-//     var data = new Blob([text], {type: 'text/plain'});
-
-//     // If replacing a previously generated file we must
-//     // manually revoke object URL to avoid memory leaks.
-//     if (textFile !== null) {
-//       window.URL.revokeObjectURL(textFile);
-//     }
-//     textFile = window.URL.createObjectURL(data);
-
-//     return textFile;
-//   };
-
