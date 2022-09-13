@@ -221,6 +221,18 @@ function downloader(filename, text) {
   document.body.removeChild(element);
 }
 
+function findNearestSheep(x,y) {
+  var nearestSheepDist = 999;
+  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+    let distTo = sheepList[i].distFrom(x,y);
+    if(distTo < nearestSheepDist) {
+      nearestSheepDist = distTo;
+      nearestSheep = sheepList[i];
+    }
+  }
+  return nearestSheep;
+}
+
 // downloader() supersedes functions below
 
 // function writeToFile(data) {

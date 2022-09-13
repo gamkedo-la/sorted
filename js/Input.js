@@ -4,30 +4,13 @@ function setupInput() {
 
   drawingCanvas.addEventListener('touchstart', clickOrTouch);
   drawingCanvas.addEventListener('mousedown', clickOrTouch);
-  // drawingCanvas.addEventListener('mouseup', mouseupHandler);
+
+  drawingCanvas.addEventListener('mouseup', clickOrTouch);
 
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
   player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
 }
-
-/////////////////////////////////////////
-// from Classic Games book
-var mouseX = 0;
-var mouseY = 0;
-
-function getMousePos(evt) {
-	var rect = gameCanvas.getBoundingClientRect();
-	var root = document.documentElement;
-  // account for margins, canvas position on page, scroll amount, etc.
-	var mouseX = evt.clientX - rect.left - root.scrollLeft;
-	var mouseY = evt.clientY - rect.top - root.scrollTop;
-  return {
-    x: mouseX,
-    y: mouseY
-  };
-}
-////////////////////////////////////////
 
 // from APC5
 // mouse object stores mouse information
@@ -57,27 +40,6 @@ var uiPos = {
   y: null
 }
 
-// from APC5 Htgd - lacks root.scroll...?
-// not used
-function setMousePosFromEvent(evt) {
-  var rect = drawingCanvas.getBoundingClientRect();
-  var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
-  mouse.x = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX );
-  mouse.y = Math.round( (evt.clientY - rect.top) / drawScaleY);
-  // mousex = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX );
-  // mousey = Math.round( (evt.clientY - rect.top) / drawScaleY);
-  // report("setMouseByEvt: " + mousex + "," + mousey, 4);
-}
-
-function updateMousePos(evt) {
-  var rect = drawingCanvas.getBoundingClientRect();
-  var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
-  mouse.x = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX );
-  mouse.y = Math.round( (evt.clientY - rect.top) / drawScaleY);
-  setDebug("Cursor: " + mouse.x + "," + mouse.y, 0);
-}
-
-/////////////////////////////////////
 // from Irenic Htgd
 function setMousePosFromXY(x,y) {
 	var rect = drawingCanvas.getBoundingClientRect();
@@ -125,12 +87,23 @@ function clickOrTouch(event) {
   if (mouse.x > gameCanvas.width) {
     uiPos.x = mouse.x - gameCanvas.width;
     uiPos.y = mouse.y;
-    ui_mousedownHandler();
-  } else {
-    field_mousedownHandler();
+    if (event.type == 'mousedown' || event.type == 'touchstart') {
+      ui_mousedownHandler();
+    }
+    else if (event.type == 'mouseup' || event.type == 'touchend') {
+      ui_mouseupHandler();
+    }
+  } // end UI, below is game-field mosue/tap
+  else {
+    if (event.type == 'mousedown' || event.type == 'touchstart') {
+      field_mousedownHandler();
+    }
+    else if (event.type == 'mouseup' || event.type == 'touchend') {
+      field_mouseupHandler();
+    }
   }
 } // end clickOrTouch
-////////////////////////////// Irenic
+////////////////////////////// end Irenic
 
 
 // function mousemoveHandler(evt) {
@@ -138,12 +111,15 @@ function clickOrTouch(event) {
 //   setDebug("cursor: " + mousePos.x + "," + mousePos.y, 0);
 // }
 
-
-
-
 // click or tap in field
 function field_mousedownHandler() {
-  if (gameState == STATE_DESIGN_LEVEL) {
+  if (gameState == STATE_PLAY) {
+    // select a sheep to move manually
+    let nearest = findNearestSheep(mouse.x, mouse.y);
+    nearest.state = SELECTED;
+
+  }
+  else if (gameState == STATE_DESIGN_LEVEL) {
     // select grid cell to outline
     gridIndex = getTileIndexAtPixelCoord(mousePos.x, mousePos.y);
     console.log("Designer", mousePos.x, mousePos.y, gridIndex);
@@ -155,8 +131,18 @@ function field_mousedownHandler() {
   } // End of Design-Level mousedown handling
 }
 
+function field_mouseupHandler() {
+  if (gameState == STATE_PLAY) {
+    // release a sheep from manual control
+    let nearest = findNearestSheep(mouse.x, mouse.y);
+    if (nearest.state == SELECTED) {
+      nearest.state = GRAZE;
+    }
+  }
+}
+
 // not currently called
-function mouseupHandler(evt) {
+function ui_mouseupHandler(evt) {
   var mousePos = getMousePos(evt);
   if(gameState ==  STATE_PLAY) {
     for (var i = 0; i < playButtonLabel.length; i++) {
@@ -473,6 +459,13 @@ function keyReleased(evt) {
   arrowKeySet(evt, player, false);
 }
 
+function updateMousePos(evt) {
+  var rect = drawingCanvas.getBoundingClientRect();
+  var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
+  mouse.x = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX );
+  mouse.y = Math.round( (evt.clientY - rect.top) / drawScaleY);
+  setDebug("Cursor: " + mouse.x + "," + mouse.y, 0);
+}
 // for file output, not needed if downloader() is OK
 // create.addEventListener('click', function () {
 //   var link = document.getElementById('downloadlink');

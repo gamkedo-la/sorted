@@ -22,10 +22,11 @@ const STUCK = 6;
 const IN_DITCH = 7;
 const IN_BLUE_PEN = 8;
 const IN_RED_PEN = 9;
-const ON_ROAD = 10;
-const STACKED = 11;
-const IN_BLUE_LORRY = 12;
-const IN_RED_LORRY = 13;
+const SELECTED = 10;
+const IN_BLUE_LORRY = 11;
+const IN_RED_LORRY = 12;
+const STACKED = 13;
+const ON_ROAD = 14;
 
 const sheepModeNames = ['Graze', 'Roam', 'Called', 'Held', 'Sent', 'Conveyor', 'Stuck', 'In_Ditch', 'In_Blue_Pen', 'In_Red_Pen', 'On_Road', 'In_Blue_Lorry', 'In_Red_Lorry'];
 
@@ -112,6 +113,12 @@ function sheepClass() {
 
     // covers any GOAL or IN_DITCH
     if(this.levelDone) {
+    }
+
+    // selected for manual movement
+    else if(this.state == SELECTED) {
+      nextX = mouse.x;
+      nextY = mouse.y;
     }
 
     // attached to player

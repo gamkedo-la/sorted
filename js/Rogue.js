@@ -32,7 +32,6 @@ function rogueClass() {
         rogueSound.play();
         this.barkTimer = 40;
       }
-
     }
 
     // is close enough to unsort
