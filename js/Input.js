@@ -1,3 +1,16 @@
+function setupInput() {
+  drawingCanvas.addEventListener('mousemove', updateMousePos);
+  // drawingCanvas.addEventListener('touchmove', updateTouchPos);
+
+  drawingCanvas.addEventListener('touchstart', clickOrTouch);
+  drawingCanvas.addEventListener('mousedown', clickOrTouch);
+  // drawingCanvas.addEventListener('mouseup', mouseupHandler);
+
+	document.addEventListener('keydown', keyPressed);
+	document.addEventListener('keyup', keyReleased);
+  player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
+}
+
 /////////////////////////////////////////
 // from Classic Games book
 var mouseX = 0;
@@ -45,41 +58,69 @@ var uiPos = {
 }
 
 // from APC5 Htgd - lacks root.scroll...?
+// not used
+function setMousePosFromEvent(evt) {
+  var rect = drawingCanvas.getBoundingClientRect();
+  var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
+  mouse.x = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX );
+  mouse.y = Math.round( (evt.clientY - rect.top) / drawScaleY);
+  // mousex = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX );
+  // mousey = Math.round( (evt.clientY - rect.top) / drawScaleY);
+  // report("setMouseByEvt: " + mousex + "," + mousey, 4);
+}
+
 function updateMousePos(evt) {
   var rect = drawingCanvas.getBoundingClientRect();
   var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
   mouse.x = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX );
   mouse.y = Math.round( (evt.clientY - rect.top) / drawScaleY);
-  setDebug("cursor: " + mouse.x + "," + mouse.y, 0);
+  setDebug("Cursor: " + mouse.x + "," + mouse.y, 0);
 }
 
+/////////////////////////////////////
 // from Irenic Htgd
+function setMousePosFromXY(x,y) {
+	var rect = drawingCanvas.getBoundingClientRect();
+	var root = document.documentElement;
+  // account for margins, canvas position on page, scroll amount, etc.
+	let gameX = (x - rect.left - root.scrollLeft) / drawScaleX;
+	let gameY = (y - rect.top - root.scrollTop) / drawScaleY;
+  // scale X here due to bug in Main.js
+  var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
+  mouse.x = Math.round(fixScaleX * gameX);
+  mouse.y = Math.round(gameY);
+  report("setMouseByXY:" + mouse.x + ", " + mouse.y, 3);
+}
+
 function clickOrTouch(event) {
   event.preventDefault();
   var x, y;
-  console.log('event button: ' + event.button);
 
   if (event.targetTouches && event.targetTouches[0]) {
-    x = event.targetTouches[0].pageX;
-    y = event.targetTouches[0].pageY;
+    let tapX = event.targetTouches[0].pageX;
+    let tapY = event.targetTouches[0].pageY;
+    x = tapX.toFixed(0);
+    y = tapY.toFixed(0);
   }
   else {
     x = event.clientX;
     y = event.clientY;
   }
 
-  // setMousePos(x, y); // use APC5 version instead
-  updateMousePos(event);
+  // report("Tap client: " +  event.clientX + "," + event.clientY, 1);
+  // report("M/T x,y: " +  x + "," + y, 2);
 
   if ((event.type == 'touchstart')) {
     // left click emulate
     mouse.button = 0;
-    report("tap at x:" + mouse.x + " y:" + mouse.y, 1);
   }
   else {
+    // setMousePosFromEvent(event); // APC5 version
     mouse.button = event.button;
-    report("mousedown at x:" + mouse.x + " y:" + mouse.y, 1);
   }
+
+  setMousePosFromXY(x, y); // adapted from Irenic
+  // report("scaled: " +  mouse.x + "," + mouse.y, 3);
 
   if (mouse.x > gameCanvas.width) {
     uiPos.x = mouse.x - gameCanvas.width;
@@ -88,19 +129,9 @@ function clickOrTouch(event) {
   } else {
     field_mousedownHandler();
   }
-
 } // end clickOrTouch
+////////////////////////////// Irenic
 
-function setupInput() {
-  drawingCanvas.addEventListener('mousemove', updateMousePos);
-  drawingCanvas.addEventListener('touchstart', clickOrTouch);
-  drawingCanvas.addEventListener('mousedown', clickOrTouch);
-  // drawingCanvas.addEventListener('mouseup', mouseupHandler);
-
-	document.addEventListener('keydown', keyPressed);
-	document.addEventListener('keyup', keyReleased);
-  player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
-}
 
 // function mousemoveHandler(evt) {
 //   var mousePos = getMousePos(evt);

@@ -166,7 +166,7 @@ function makeParagraphsBelowCanvas() {
   }
 }
 
-function rereport() {
+function resetDebugText() {
   debugTextLine.fill('--');
 }
 
@@ -199,6 +199,7 @@ function report(msg, debugN) {
   console.log(msg);
   setDebug(msg, debugN);
 }
+
 function setDebug(msg, debugN) {
   debugTextLine[debugN] = msg;
 }

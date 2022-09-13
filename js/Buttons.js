@@ -11,7 +11,7 @@ const editmodeButtonLabel = ["Test", "Team", "Player"];
 var buttonsTop = 100;
 var buttonsLeft = 10;
 const buttonWidth = 60;
-const buttonHeight = 50;
+const buttonHeight = 60;
 const buttonGap = 10;
 const buttonRects = [];
 
