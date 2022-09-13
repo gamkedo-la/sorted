@@ -1,13 +1,4 @@
-const SHOULD_WRAP = true;
-const HAT_MARGIN = 18;
-
-// if can be tuned by level, changed from const to var
 // values kept here in case level-tuning assignment fails
-
-// hat moves like car
-var GROUNDSPEED_DECAY_MULT = 0.94;
-var drivePower = 1.0;
-var reversePower = 1.0;
 // Call
 var tractorSpeed = 3; // speed of sheep moving up
 const CALL_X_ALIGN = 20; // hat not exactly above sheep
@@ -18,10 +9,12 @@ var player = new playerClass(1);
 
 function playerClass(id) {
   this.id = id;
-  this.x = this.y = -100; // off screen
+  this.x = gameCanvas.width/2;
+  this.y = TILE_H/2;
   this.ang = Math.PI;
   this.speed = 0;
   this.pic; // which image to use
+  this.callGapTimer = 0;
   this.keyHeld_left = false;
   this.keyHeld_right = false;
   this.keyHeld_call = false;
@@ -41,31 +34,12 @@ function playerClass(id) {
     this.ang = 0;
     this.sheepIDheld = null;  // ID of sheep carried
     this.callGapTimer = 0;
-    // this.x = TILE_COLS / 2 * TILE_W; // halfway horizontal
-    // this.y = TILE_H / 2;
-    this.gotoX = null;
+    this.x = TILE_COLS / 2 * TILE_W; // halfway horizontal
+    this.y = TILE_H / 2;
+    this.gotoX = this.x;
     this.callWhenInPlace = false;
     this.sendWhenInPlace = false;
-
-    // may not be using agentGrid[] to place Hat
-    var hatFound = false;
-    for(var eachRow=0;eachRow<TILE_ROWS;eachRow++) {
-      for(var eachCol=0;eachCol<TILE_COLS;eachCol++) {
-        var arrayIndex = colRowToIndex(eachCol, eachRow);
-
-        // seek starting position tile
-        if(agentGrid[arrayIndex] == HAT_START) {
-          this.x = eachCol * TILE_W + TILE_W/2;
-          this.y = eachRow * TILE_H + TILE_H/2;
-          hatFound = true;
-          agentGrid[arrayIndex] = NOT_OCCUPIED;
-          return;
-        }
-      }
-    } // loop rows until Start found
-    if(!hatFound) {
-      console.log("Start location not found for player", this.id);
-    }
+    // not using grid to initially place Hat
   }
 
   this.move = function() {
@@ -158,109 +132,67 @@ function playerClass(id) {
       } // end of else (Hat can call)
     } // end of CALL
 
-    if(this.gotoX == null) {
+    // move slide the Hat
+    var deltaX = this.gotoX - this.x;
+    var moveX = HAT_MAX_SPEED[currentLevel];
+    var gotoDirection = null;
 
-      this.speed *= GROUNDSPEED_DECAY_MULT;
-
-      if(this.keyHeld_right) {
-        // this.speed += drivePower;
-      }
-
-      if(this.keyHeld_left) {
-        // this.speed -= reversePower;
-        if(TOUCH_TEST) {
-          let msg = "keyHeld_left changing speed " + this.speed;
-          report(msg, 4);
-        }
-      }
-
-      nextX += Math.cos(this.ang) * this.speed;
-      this.y += Math.sin(this.ang) * this.speed;
-    }
-
-    else { // gotoX has been set, Touch or Demo/Test
-
-      var deltaX = this.gotoX - this.x;
-      var moveX = HAT_MAX_SPEED[currentLevel];
-
-      // handle wrap, if x high and gotoX low go right
-      if (deltaX > 0) {
-        if (player.x < TILE_W) {
-          gotoDirection = "left";
-        } else {
-          gotoDirection = "left";
-        }
-      }
-      if (deltaX <= 0) {
-        if (player.x < TILE_W) {
-          gotoDirection = "left";
-        } else {
-          gotoDirection = "left";
-        }
-      }
-
-      if(deltaX > 0) {  // goto is right of current position
-
-        if(deltaX > moveX) {
-          nextX += moveX;
-        }
-        else { // nearly reached required position
-          nextX = this.gotoX;
-          if(this.callWhenInPlace) {
-            this.keyHeld_call = true;
-            this.callWhenInPlace = false;
-          }
-          if(this.sendWhenInPlace) {
-            this.keyHeld_send = true;
-            this.sendWhenInPlace = false;
-          }
-        }
-      } else {       // goto is left of current position
-        if(Math.abs(deltaX) > moveX) {
-          nextX -= moveX;
-        } else {
-          nextX = this.gotoX;
-          if(this.callWhenInPlace) {
-            this.keyHeld_call = true;
-            this.callWhenInPlace = false;
-          }
-          if(this.sendWhenInPlace) {
-            this.keyHeld_send = true;
-            this.sendWhenInPlace = false;
-          }
-        }
-      }
-    } // end of Hat demo automated movement
-
-    if (SHOULD_WRAP) {
-      if(nextX < 0 - HAT_MARGIN) {
-        nextX = gameCanvas.width;
-      }
-      if(nextX > gameCanvas.width + HAT_MARGIN) {
-        nextX = -HAT_MARGIN;
-      }
+    if (deltaX == 0) {
+      // don't move
     } else {
-      if(nextX < 0 + HAT_MARGIN) {
-        nextX = HAT_MARGIN;
+      if ( Math.abs(deltaX) < moveX) {
+
+        // nearly reached gotoX position
+        nextX = this.gotoX;
+        if(this.callWhenInPlace) {
+          this.keyHeld_call = true;
+          this.callWhenInPlace = false;
+        }
+        if(this.sendWhenInPlace) {
+          this.keyHeld_send = true;
+          this.sendWhenInPlace = false;
+        }
       }
-      if(nextX > gameCanvas.width - HAT_MARGIN) {
-        nextX = gameCanvas.width - HAT_MARGIN;
+      else {
+        // foresee wrap - if x high and gotoX low then go right
+        if (deltaX > 0) {
+          if (player.x < TILE_W) {
+            gotoDirection = -1; // left
+          } else {
+            gotoDirection = +1; // right
+          }
+        }
+        if (deltaX < 0) {
+          if (player.x > gameCanvas.width - TILE_W) {
+            gotoDirection = +1;
+          } else {
+            gotoDirection = -1;
+          }
+        }
       }
+
+      if(gotoDirection > 0) {  // move right
+        nextX += moveX;
+      }
+      else {
+        nextX -= moveX;
+      }
+
+      // screenwrap
+      if(nextX < 0) {
+        nextX = gameCanvas.width - TILE_W/2;
+      }
+      if(nextX > gameCanvas.width) {
+        nextX = TILE_W/2;
+      }
+
+      this.x = nextX;
+      this.y = nextY;
     }
-
-    this.x = nextX;
-    this.y = nextY;
-
-    // if(this.x != this.previousX) {
-    //   this.x = this.columnCentred(this.x);
-    // }
-    // tileHandling(this);
-  } // end of move()
+  } // end of .move()
 
   this.draw = function() {
     drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x,this.y, this.ang);
-    // document.getElementById("debug_4").innerHTML = "Hat posX=" + Math.floor(this.x);
-    //// document.getElementById("debug_4").innerHTML = "Hat posX=" + this.x;
   }
 }
 

@@ -112,7 +112,7 @@ function updateAll() {
 	moveAll();
 	drawAll();
   step[currentLevel]++; // level timesteps
-  player.callGapTimer--; // prevent call again too soon
+  // player.callGapTimer--; // prevent call again too soon
   dog.barkTimer--;
 
   drawingContext.save();
