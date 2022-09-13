@@ -45,6 +45,9 @@ var idLabel = false;
 var timerLabel = true;
 var modeLabel = true;
 
+var sheepSelected = null; // is a sheep selected for manual movement?
+const SELECT_RANGE = 40;
+
 const TEST_NAMES = ["not automating, normal play", "from each column's centre a sheep will be Sent", "every X in one column - select column 0 to 9 by using number key", "sheep Sent to stack from one column centre - select column 0 to 9 using number key", "testing Send from every X location in all columns"];
 
 var testTeam = MIXED; // both teams, as in normal play

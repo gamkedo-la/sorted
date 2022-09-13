@@ -1,18 +1,21 @@
 function setupInput() {
+
   drawingCanvas.addEventListener('mousemove', updateMousePos);
-  // drawingCanvas.addEventListener('touchmove', updateTouchPos);
+  //drawingCanvas.addEventListener('touchmove', updateTouchPos);
 
   drawingCanvas.addEventListener('touchstart', clickOrTouch);
   drawingCanvas.addEventListener('mousedown', clickOrTouch);
 
   drawingCanvas.addEventListener('mouseup', clickOrTouch);
 
+  drawingCanvas.addEventListener('contextmenu', e => e.preventDefault());
+
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
   player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
 }
 
-// from APC5
+//////// from APC5 ///////////////////
 // mouse object stores mouse information
 var mouse = (function () {
 	//Position
@@ -40,7 +43,7 @@ var uiPos = {
   y: null
 }
 
-// from Irenic Htgd
+//// from Irenic Htgd ////////////////
 function setMousePosFromXY(x,y) {
 	var rect = drawingCanvas.getBoundingClientRect();
 	var root = document.documentElement;
@@ -51,7 +54,6 @@ function setMousePosFromXY(x,y) {
   var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
   mouse.x = Math.round(fixScaleX * gameX);
   mouse.y = Math.round(gameY);
-  report("setMouseByXY:" + mouse.x + ", " + mouse.y, 3);
 }
 
 function clickOrTouch(event) {
@@ -89,6 +91,9 @@ function clickOrTouch(event) {
     uiPos.y = mouse.y;
     if (event.type == 'mousedown' || event.type == 'touchstart') {
       ui_mousedownHandler();
+      let msg = "ui mousedown: " + mouse.x + ", " + mouse.y;
+      console.log(msg);
+      setDebug(msg, 3);
     }
     else if (event.type == 'mouseup' || event.type == 'touchend') {
       ui_mouseupHandler();
@@ -97,6 +102,9 @@ function clickOrTouch(event) {
   else {
     if (event.type == 'mousedown' || event.type == 'touchstart') {
       field_mousedownHandler();
+      let msg = "mousedown: " + mouse.x + ", " + mouse.y;
+      console.log(msg);
+      setDebug(msg, 3);
     }
     else if (event.type == 'mouseup' || event.type == 'touchend') {
       field_mouseupHandler();
@@ -104,7 +112,6 @@ function clickOrTouch(event) {
   }
 } // end clickOrTouch
 ////////////////////////////// end Irenic
-
 
 // function mousemoveHandler(evt) {
 //   var mousePos = getMousePos(evt);
@@ -114,11 +121,34 @@ function clickOrTouch(event) {
 // click or tap in field
 function field_mousedownHandler() {
   if (gameState == STATE_PLAY) {
-    // select a sheep to move manually
-    let nearest = findNearestSheep(mouse.x, mouse.y);
-    nearest.state = SELECTED;
 
-  }
+    if (mouse.button == 0) {0
+      // select a sheep to move manually
+      let nearest = findNearestSheep(mouse.x, mouse.y);
+      let distance = nearest.distFrom(mouse.x, mouse.y);
+      if (distance < SELECT_RANGE) {
+        nearest.state = SELECTED;
+        sheepSelected = nearest.id;
+        console.log("Selected sheep id " + sheepSelected);
+      } else {
+        console.log("No sheep within selection range");
+      }
+
+    }
+
+    // context-menu has been prevented
+    else if (mouse.button == 2) {
+      // change facing angle of a sheep, using mouse xy
+      // first identify nearest sheep as none will be SELECTED
+      let nearest = findNearestSheep(mouse.x, mouse.y);
+      report("Rightclick nearest " + nearest.id + ' ' + nearest.x, 1);
+      let sheepXY = { x: nearest.x, y: nearest.y };
+      let angle = angleRadiansBetweenPoints(sheepXY, mouse);
+      nearest.ang = angle;
+      report("new angle: " + angle.toFixed(2) + " for id " + nearest.id, 2);
+    }
+  } // end STATE_PLAY
+
   else if (gameState == STATE_DESIGN_LEVEL) {
     // select grid cell to outline
     gridIndex = getTileIndexAtPixelCoord(mousePos.x, mousePos.y);
@@ -133,50 +163,22 @@ function field_mousedownHandler() {
 
 function field_mouseupHandler() {
   if (gameState == STATE_PLAY) {
-    // release a sheep from manual control
-    let nearest = findNearestSheep(mouse.x, mouse.y);
-    if (nearest.state == SELECTED) {
-      nearest.state = GRAZE;
-    }
-  }
-}
 
-// not currently called
-function ui_mouseupHandler(evt) {
-  var mousePos = getMousePos(evt);
-  if(gameState ==  STATE_PLAY) {
-    for (var i = 0; i < playButtonLabel.length; i++) {
-      if (xyIsInRect(mousePos,buttonRects[i])) {
+    // if (mouse.button == 0) {
 
-        switch (playButtonLabel[i]) {
-
-          case "Left":
-            player.keyHeld_left = false;
-            touchArrowDebug();
-            break;
-
-          case "Right":
-            player.keyHeld_right = false;
-            touchArrowDebug();
-            break;
-
-          case "Call":
-            // player.keyHeld_call = false;
-            // not needed since there is a timer before next Call allowed
-            break;
-
-          case "Send":
-            // code inefficient without setting false, but works
-            if(TOUCH_TEST) {
-              report("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately", 1);
-            } else {
-              player.keyHeld_send = false;
-              // report("keyHeld_send = false because not Touch device", 1 );
-            }
-            break;
-        }
+      // release a sheep from manual control
+      let nearest = findNearestSheep(mouse.x, mouse.y);
+      if (nearest.state == SELECTED) {
+        nearest.state = GRAZE;
+        nearest.timer = 120; // ensure a decent delay
+        sheepSelected = null;
       }
+    // }
+
+    else if (mouse.button == 2) {
+
     }
+
   }
 }
 
@@ -459,6 +461,7 @@ function keyReleased(evt) {
   arrowKeySet(evt, player, false);
 }
 
+// used by mousemove, though not by other mouse/touch
 function updateMousePos(evt) {
   var rect = drawingCanvas.getBoundingClientRect();
   var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
@@ -466,9 +469,3 @@ function updateMousePos(evt) {
   mouse.y = Math.round( (evt.clientY - rect.top) / drawScaleY);
   setDebug("Cursor: " + mouse.x + "," + mouse.y, 0);
 }
-// for file output, not needed if downloader() is OK
-// create.addEventListener('click', function () {
-//   var link = document.getElementById('downloadlink');
-//   link.href = makeTextFile(levelData);
-//   link.style.display = 'block';
-// }, false);

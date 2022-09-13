@@ -28,6 +28,13 @@ function setMousePosFromEvent(evt) {
   // report("setMouseByEvt: " + mousex + "," + mousey, 4);
 }
 
+// for file output, not needed if downloader() is OK
+// create.addEventListener('click', function () {
+//   var link = document.getElementById('downloadlink');
+//   link.href = makeTextFile(levelData);
+//   link.style.display = 'block';
+// }, false);
+
 // Levels bottom rows for polarization metaphor
 // 1
 //  10, 10, 10, 10, 10, 10, 10, 11, 12, 10, 10, 10, 10, 10, 10, 10,

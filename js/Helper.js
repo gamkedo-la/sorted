@@ -233,6 +233,20 @@ function findNearestSheep(x,y) {
   return nearestSheep;
 }
 
+var z1 = {
+	x: 20,
+	y: 20
+};
+
+var z2 = {
+	x: 40,
+	y: 40
+};
+
+function angleRadiansBetweenPoints(p1, p2) {
+  return Math.atan2(p2.y - p1.y, p2.x - p1.x);
+}
+
 // downloader() supersedes functions below
 
 // function writeToFile(data) {
