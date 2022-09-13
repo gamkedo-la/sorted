@@ -6,6 +6,12 @@ const TILE_H = 50;
 const TILE_COLS = 16;
 const TILE_ROWS = 12;
 
+const POST_SIZE = 5;
+const POST_THICK = 4;
+const POST_GAP = 10;
+// not in use
+const TEAM_POST_COLOURS = [ "white", "blue", "#ca1504", "purple"];
+
 function getTileTypeAtColRow(col, row) {
 	if(col >= 0 && col < TILE_COLS &&
 		row >= 0 && row < TILE_ROWS) {
@@ -210,11 +216,6 @@ function colRowToXY(col, row) {
     y: y,
   }
 }
-
-const TEAM_POST_COLOURS = [ "white", "blue", "#ca1504", "purple"];
-const POST_SIZE = 5;
-const POST_THICK = 3;
-const POST_GAP = 10;
 
 function colDrawGoalFence(col, team) {
   let row = TILE_ROWS - 1; // bottom row always
