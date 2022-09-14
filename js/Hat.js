@@ -1,5 +1,6 @@
 var player = new playerClass(1);
 var screenWrapHat = false;
+var moveLikeCar = false;
 
 // Hat moved like a car
 var GROUNDSPEED_DECAY_MULT = 0.94;
@@ -44,6 +45,8 @@ function playerClass(id) {
     this.x = TILE_COLS / 2 * TILE_W; // halfway horizontal
     this.y = TILE_H / 2;
     this.gotoX = this.x;
+    player.button_left = false;
+    player.button_right = false;
     this.callWhenInPlace = false;
     this.sendWhenInPlace = false;
     // not using grid to initially place Hat
@@ -140,7 +143,10 @@ function playerClass(id) {
     } // end of CALL
 
     // arrow keys move the Hat
-    if (this.direction == 0) {
+    // if (this.direction == 0) { // buttons not clicked/tapped
+    // if ( !this.button_left && !this.button_right ) {
+
+    if (moveLikeCar) {
 
       this.speed *= GROUNDSPEED_DECAY_MULT;
 
@@ -167,19 +173,25 @@ function playerClass(id) {
       // console.log('nextX', nextX)
     }
 
-    // else if (this.direction == 0) {
-    //   // don't move
-    //   console.log("Hat not commanded to move");
-    // }
-
-    // button slide-move Hat
+    // buttons controlling slide-move Hat ////////////////////////
     else {
-      player.gotoX = nextColumnCentre(player.x, this.direction);
-      console.log("gotoX " + player.gotoX + " from " + player.x)
+
+      // button sets gotoX to next column-centre
+      if (this.button_left || this.button_right) {
+        if (this.button_left) {
+          player.gotoX = nextColumnCentre(player.x, -1);
+          this.button_left = false;
+        } else {
+          player.gotoX = nextColumnCentre(player.x, +1);
+          this.button_right = false;
+        }
+        console.log("gotoX " + player.gotoX + " from " + player.x);
+      }
 
       var deltaX = this.gotoX - this.x;
       var moveX = HAT_MAX_SPEED[currentLevel];
       var gotoDirection = null;
+      this.direction = 0;
 
       if (deltaX == 0) {
         // don't move
@@ -202,6 +214,7 @@ function playerClass(id) {
           }
         }
         else { // some way to travel yet
+
           if (deltaX > 0) {
             if (player.x < TILE_W && screenWrapHat) {
               // use wrap - if x near left edge and gotoX far right, go left
@@ -209,15 +222,18 @@ function playerClass(id) {
               // gotoDirection = -1;
             } else {
             //   gotoDirection = +1; // right
+              this.direction = 1;
             }
           }
+
           if (deltaX < 0) {
             if (player.x > gameCanvas.width - TILE_W && screenWrapHat) {
               // use wrap - if x near right edge and gotoX far left, go right
-              this.direction = +1; // right
+              this.direction = 1; // right
               // gotoDirection = +1;
             } else {
               // gotoDirection = -1;
+              this.direction = -1;
             }
           }
         } // end of nearly there OR some way to travel
@@ -229,7 +245,7 @@ function playerClass(id) {
         else {
           nextX -= moveX; // move left
         }
-        console.log("gotoDirection before wrap test: nextX " + nextX)
+        // console.log("gotoDirection before wrap test: nextX " + nextX)
 
         // screenwrap
         if (screenWrapHat) {
@@ -242,11 +258,11 @@ function playerClass(id) {
         } else {
           if(nextX < 0) {
             nextX += moveX; // abandon move
-            console.log("No wrap so Hat will not move off screen");
+            // console.log("No wrap so Hat will not move off screen");
           }
           if(nextX > gameCanvas.width) {
             nextX -= moveX;  // abandon move
-            console.log("No wrap so Hat will not move off screen");
+            // console.log("No wrap so Hat will not move off screen");
           }
         }
         this.x = nextX;

@@ -187,9 +187,11 @@ function arrowKeySet(evt, whichPlayer, setTo) {
   // this helps press & release functions are identical except for true/false
   if(evt.keyCode == whichPlayer.controlKeyLeft) {
 		whichPlayer.keyHeld_left = setTo;
+    whichPlayer.button_left = setTo; // keys for slidemove
 	}
 	if(evt.keyCode == whichPlayer.controlKeyRight) {
 		whichPlayer.keyHeld_right = setTo;
+    whichPlayer.button_right = setTo; // keys for slidemove
 	}
 	if(evt.keyCode == whichPlayer.controlKeyUp) {
 		whichPlayer.keyHeld_call = setTo;
