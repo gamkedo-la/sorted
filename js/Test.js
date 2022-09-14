@@ -207,7 +207,8 @@ function setDebug(msg, debugN) {
   debugTextLine[debugN] = msg;
 }
 
-const debugLevelTransition = true;
+const debugLevelTransition = false;
 function drawLevelDebug() {
-  // debugTextLine or setDebug ??
+  debugTextLine[1] = "currentLevel=" + currentLevel;
+  debugTextLine[2] = "levelRunning=" + levelRunning;
 }

@@ -46,45 +46,58 @@ function ui_mousedownHandler() {
   }
 
   else if (gameState == STATE_PLAY) {
-    for (var i = 0; i < playButtonLabel.length; i++) {
-      if (xyIsInRect(uiPos, buttonRects[i])) {
 
-        if(TOUCH_TEST) {
-          report("Clicked inside rect " + playButtonLabel[i], 2);
+    if (paused) {
+      for (var i = 0; i < pauseButtonLabel.length; i++) {
+        if (xyIsInRect(uiPos, buttonRects[i])) {
+          switch (pauseButtonLabel[i]) {
+            case "Resume":
+              togglePause();
+          }
         }
+      }
 
-        switch (playButtonLabel[i]) {
-          case "Left":
-            player.button_left = true;
-            console.log('button left')
-            // player.direction = -1; // left
-            // player.keyHeld_left = true;
-            // touchArrowHandling(LEFT);
-            break;
+    } else { // not Paused
+      for (var i = 0; i < playButtonLabel.length; i++) {
+        if (xyIsInRect(uiPos, buttonRects[i])) {
 
-          case "Right":
-            player.button_right = true;
-            console.log('button right')
-            // player.direction = +1; // right
-            // player.keyHeld_right = true;
-            // touchArrowHandling(RIGHT);
-            break;
+          if(TOUCH_TEST) {
+            report("Clicked inside rect " + playButtonLabel[i], 2);
+          }
 
-          case "Call":
-            player.keyHeld_call = true;
-            break;
+          switch (playButtonLabel[i]) {
+            case "Left":
+              player.button_left = true;
+              console.log('button left')
+              // player.direction = -1; // left
+              // player.keyHeld_left = true;
+              // touchArrowHandling(LEFT);
+              break;
 
-          case "Send":
-            player.keyHeld_send = true;
-            break;
+            case "Right":
+              player.button_right = true;
+              console.log('button right')
+              // player.direction = +1; // right
+              // player.keyHeld_right = true;
+              // touchArrowHandling(RIGHT);
+              break;
 
-          case "Menu":
-            gotoMenu("Play's CanvasButton Menu");
-            break;
+            case "Call":
+              player.keyHeld_call = true;
+              break;
 
-          case "Pause":
-            togglePause();
-            break;
+            case "Send":
+              player.keyHeld_send = true;
+              break;
+
+            case "Menu":
+              gotoMenu("Play's CanvasButton Menu");
+              break;
+
+            case "Pause":
+              togglePause();
+              break;
+          }
         }
       }
     }
@@ -99,7 +112,7 @@ function ui_mousedownHandler() {
           report("Clicked inside rect", levelEndButtonLabel[i], 1);
         }
         switch (levelEndButtonLabel[i]) {
-          
+
           case "Menu":
             gotoMenu("LevelEnd's canvasButton Menu");
             break;

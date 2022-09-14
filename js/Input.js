@@ -212,7 +212,6 @@ function menuKeyChoice(key) {
       }
       else if (key == KEY_SPACE) {
         togglePause();
-
       }
       break;
 
@@ -227,11 +226,11 @@ function menuKeyChoice(key) {
       }
 
       if(key == KEY_R) {
-        gotoReplay('key LevelEnd');
+        gotoReplay('keyR at LevelEnd');
       }
 
       if(key == KEY_L) {
-        gotoAdvance("key LevelEnd")
+        gotoAdvance("keyL at LevelEnd")
       }
       break;
 

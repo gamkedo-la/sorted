@@ -164,6 +164,7 @@ function drawAll() {
   showDebugText();
 
   if(paused) {
+    drawBarButtons(pauseButtonLabel);
     return;
   }
 
