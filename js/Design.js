@@ -45,7 +45,7 @@ function drawLevelDesigner(whichLevel) {
 function levelDesignerTitle() {
   canvasContext.font = "24px Arial";
   let y = TILE_H * 15;
-  colorText("Design Level " + designLevel, 20, y, "white");
+  colorText(canvasContext, "Design Level " + designLevel, 20, y, "white");
   canvasContext.font = "16px Arial";
   // colorText("key M returns to Menu", 600,30, "white");
   let msg = "Click to choose location; Number key to choose tiletype; M returns to Menu";

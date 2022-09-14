@@ -197,7 +197,7 @@ function showGridValues(grid, fontSize, fontColor) {
       var cell = grid[arrayIndex];
       canvasContext.font = fontSize + "px Arial";
       canvasContext.textAlign = "center";
-      colorText(cell, drawTileX + TILE_W/2, drawTileY + TILE_H/2, fontColor);
+      colorText(canvasContext, cell, drawTileX + TILE_W/2, drawTileY + TILE_H/2, fontColor);
 
       drawTileX += TILE_W;
       arrayIndex++;

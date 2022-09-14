@@ -675,7 +675,7 @@ function sheepClass() {
       }
       var backX = this.x - Math.cos(this.ang) * (SHEEP_RADIUS + adjust);
       var backY = this.y - Math.sin(this.ang) * (SHEEP_RADIUS + adjust);
-      // colorText(this.id, this.x, this.y - SHEEP_RADIUS - fontSize/4, "white");
+      // colorText(canvasContext, this.id, this.x, this.y - SHEEP_RADIUS - fontSize/4, "white");
       colorText(canvasContext, this.id, backX, backY, "white");
     }
   }

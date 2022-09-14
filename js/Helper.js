@@ -164,7 +164,7 @@ function drawAgentGrid() {
       fontSize = (agent > 0) ? 24 : 12;
       canvasContext.font = fontSize + "px Arial";
       canvasContext.textAlign = "center";
-      colorText(agent, drawTileX + TILE_W/2, drawTileY + TILE_H/2, fontColor);
+      colorText(canvasContext, agent, drawTileX + TILE_W/2, drawTileY + TILE_H/2, fontColor);
 
       drawTileX += TILE_W;
       arrayIndex++;
