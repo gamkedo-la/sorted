@@ -206,3 +206,8 @@ function report(msg, debugN) {
 function setDebug(msg, debugN) {
   debugTextLine[debugN] = msg;
 }
+
+const debugLevelTransition = true;
+function drawLevelDebug() {
+  // debugTextLine or setDebug ??
+}

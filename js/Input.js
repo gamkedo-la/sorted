@@ -216,7 +216,7 @@ function menuKeyChoice(key) {
       }
       break;
 
-    case STATE_LEVEL_OVER:
+    case STATE_LEVEL_END:
       if(key == KEY_ESC || key == KEY_M) {
         if(playLevel == LAST_LEVEL) {
           gameState = STATE_GAME_OVER;
@@ -227,27 +227,11 @@ function menuKeyChoice(key) {
       }
 
       if(key == KEY_R) {
-        gameState = STATE_PLAY;
-        if(!levelRunning) {
-          levelRunning = true;
-          loadLevel(playLevel);
-          checkGridMatchColsRows();
-        }
+        gotoReplay('key LevelEnd');
       }
 
       if(key == KEY_L) {
-        gameState = STATE_PLAY;
-        if(!levelRunning) {
-          if(playLevel == LAST_LEVEL) {
-            console.log("No more Levels!");
-          } else {
-            playLevel++;
-            currentLevel = playLevel;
-            levelRunning = true;
-            loadLevel(playLevel);
-            checkGridMatchColsRows();
-          }
-        }
+        gotoAdvance("key LevelEnd")
       }
       break;
 
@@ -260,7 +244,7 @@ function menuKeyChoice(key) {
 
       if(key == KEY_P) {
         if(!levelRunning) { // otherwise return mid-level
-          // this condition should be caught by levelOver handling
+          // this condition should be caught by levelEnd handling
           if(playLevel == LAST_LEVEL) {
             console.log("No more Levels!");
           } else {

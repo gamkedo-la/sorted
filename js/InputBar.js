@@ -92,15 +92,24 @@ function ui_mousedownHandler() {
 
   // currently only button is return to Menu, but will need
   // extra buttons for Replay and Adavance to next level.
-  else if (gameState == STATE_LEVEL_OVER) {
-    for (var i = 0; i < playButtonLabel.length; i++) {
+  else if (gameState == STATE_LEVEL_END) {
+    for (var i = 0; i < levelEndButtonLabel.length; i++) {
       if (xyIsInRect(uiPos, buttonRects[i])) {
         if(TOUCH_TEST) {
-          report("Clicked inside rect", playButtonLabel[i], 1);
+          report("Clicked inside rect", levelEndButtonLabel[i], 1);
         }
-        switch (playButtonLabel[i]) {
+        switch (levelEndButtonLabel[i]) {
+          
           case "Menu":
-            gotoMenu("LevelOver's CanvasButton Menu");
+            gotoMenu("LevelEnd's canvasButton Menu");
+            break;
+
+          case "Replay":
+            gotoReplay("LevelEnd's canvasButton Menu");
+            break;
+
+          case "Advance":
+            gotoAdvance("LevelEnd's canvasButton Menu");
             break;
         }
       }

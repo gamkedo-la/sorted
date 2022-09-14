@@ -68,7 +68,7 @@ function testIfLevelEnd() {
   // if(outOfPlay >= FLOCK_SIZE[currentLevel]) {
   if(sheepInPlay < 1) {
     console.log("Level over", outOfPlay);
-    gameState = STATE_LEVEL_OVER;
+    gameState = STATE_LEVEL_END;
     calculateLevelScore();
     levelRunning = false;
   }
@@ -127,7 +127,7 @@ function calculateLevelScore() {
 }
 
 function test_EndLevel() {
-  gameState = STATE_LEVEL_OVER;
+  gameState = STATE_LEVEL_END;
   calculateLevelScore();
 }
 

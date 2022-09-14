@@ -171,7 +171,7 @@ function drawAll() {
     drawPlayState();
   }
 
-  else if (gameState == STATE_LEVEL_OVER) {
+  else if (gameState == STATE_LEVEL_END) {
     drawArea();
     player.draw();
     decals.draw();
@@ -212,7 +212,7 @@ function drawAll() {
       }
     } // end of (editMode)
 
-    drawLevelOver();
+    drawLevelEnd();
     drawBarButtons(levelEndButtonLabel);
   } // end of Level_Over
 
@@ -244,9 +244,14 @@ function drawAll() {
     console.log("Game in unknown state.");
   }
 
-  if( requireButtonGotoMenu() ) {
+  if ( requireButtonGotoMenu() ) {
     drawBarButtons(offMenuButtonLabel);
   }
+
+  if (debugLevelTransition) {
+    drawLevelDebug();
+  }
+
 } // end drawAll()
 
 var tutorial_start_time = 0;

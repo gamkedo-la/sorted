@@ -172,7 +172,7 @@ function smallBodyLine(txt, lineNum,startY) {
 
 const POPUP_W = 400;
 
-function drawLevelOver() {
+function drawLevelEnd() {
   // BAR.innerHTML = '';
   // drawBarButtons(levelEndButtonList);
 

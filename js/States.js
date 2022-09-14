@@ -3,7 +3,7 @@ const STATE_HELP = 6;
 const STATE_EDIT = 0;
 const STATE_MENU = 2;
 const STATE_PLAY = 1;
-const STATE_LEVEL_OVER = 4;
+const STATE_LEVEL_END = 4;
 const STATE_DESIGN_LEVEL = 8;
 const STATE_GAME_OVER = 7;
 const STATE_SCOREBOARD = 5;
@@ -21,6 +21,30 @@ function gotoPlay(from) {
   gameState = STATE_PLAY;
   let title = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel];
   report('Play via ' + from, 1)
+}
+
+function gotoReplay(from) {
+  gameState = STATE_PLAY;
+  if(!levelRunning) {
+    levelRunning = true;
+    loadLevel(playLevel);
+    checkGridMatchColsRows();
+  }
+}
+
+function gotoAdvance(from) {
+  gameState = STATE_PLAY;
+  if(!levelRunning) {
+    if(playLevel == LAST_LEVEL) {
+      console.log("No more Levels!");
+    } else {
+      playLevel++;
+      currentLevel = playLevel;
+      levelRunning = true;
+      loadLevel(playLevel);
+      checkGridMatchColsRows();
+    }
+  }
 }
 
 function gotoScore(from) {
