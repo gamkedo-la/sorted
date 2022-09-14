@@ -197,6 +197,7 @@ function arrowKeySet(evt, whichPlayer, setTo) {
 	if(evt.keyCode == whichPlayer.controlKeyDown) {
 		whichPlayer.keyHeld_send = setTo;
 	}
+  console.log("key", player.keyHeld_left, player.keyHeld_right)
 }
 
 // handles in-menu keyboard input, depending on gameState

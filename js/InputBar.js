@@ -55,21 +55,13 @@ function ui_mousedownHandler() {
 
         switch (playButtonLabel[i]) {
           case "Left":
-            var nextX = nextColumnCentre(player.x, -1);
-            if (nextX > gameCanvas.width) {
-              nextX = TILE_W / 2;
-            } else if (nextX < 0) {
-              nextX = gameCanvas.width - TILE_W / 2;
-            }
-            player.gotoX = nextX;
-            console.log("gotoX " + player.gotoX + " from " + player.x)
+            player.direction = -1; // left
             // player.keyHeld_left = true;
             // touchArrowHandling(LEFT);
             break;
 
           case "Right":
-            player.gotoX = nextColumnCentre(player.x, +1);
-            console.log("gotoX " + player.gotoX + " from " + player.x)
+            player.direction = +1; // right
             // player.keyHeld_right = true;
             // touchArrowHandling(RIGHT);
             break;
