@@ -12,14 +12,33 @@ const POST_GAP = 10;
 // not in use
 const TEAM_POST_COLOURS = [ "white", "blue", "#ca1504", "purple"];
 
+function getTileIndexAtXY(x, y) {
+  if (x < 0 || x > gameCanvas.width || y < 0 || y > gameCanvas.height) {
+    console.log("co-ordinate not within field");
+    return null;
+  }
+  var tileCol = x / TILE_W;
+  var tileRow = y / TILE_H;
+  tileCol = Math.floor(tileCol);
+  tileRow = Math.floor(tileRow);
+  return (colRowToIndex(tileCol, tileRow));
+}
+
 function getTileTypeAtColRow(col, row) {
 	if(col >= 0 && col < TILE_COLS &&
 		row >= 0 && row < TILE_ROWS) {
 		 var tileIndexUnderColRow = colRowToIndex(col, row);
 		 return (areaGrid[tileIndexUnderColRow]);
 	} else {
+    console.log("column/row not within field");
 		return TILE_HALT;
 	}
+}
+
+function getTileTypeAtXY(x, y) {
+  let index = getTileIndexAtXY(x,y);
+  console.log(areaGrid[index]);
+  return areaGrid[index];
 }
 
 function colRowToIndex(col, row) {
@@ -33,13 +52,6 @@ function indexToRow(index) {
   return Math.floor(index / TILE_COLS);
 }
 
-function getTileIndexAtPixelCoord(pixelX, pixelY) {
-  var tileCol = pixelX / TILE_W;
-  var tileRow = pixelY / TILE_H;
-  tileCol = Math.floor( tileCol );
-  tileRow = Math.floor( tileRow );
-  return(colRowToIndex(tileCol, tileRow));
-}
 function getColFromX(x) {
   return Math.floor( x / TILE_W );
 }

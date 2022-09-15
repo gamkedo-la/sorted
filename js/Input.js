@@ -151,7 +151,7 @@ function field_mousedownHandler() {
 
   else if (gameState == STATE_DESIGN_LEVEL) {
     // select grid cell to outline
-    gridIndex = getTileIndexAtPixelCoord(mousePos.x, mousePos.y);
+    gridIndex = getTileIndexAtXY(mousePos.x, mousePos.y);
     console.log("Designer", mousePos.x, mousePos.y, gridIndex);
 
     if (xyIsInRect(mousePos, buttonRects[4])) {

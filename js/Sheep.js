@@ -5,6 +5,7 @@ const FACING_RADIUS = 2;
 
 var teamSizeSoFar = [0,0,0];
 var sheepInPlay = 0;
+const plainSheepCanFinish = true;
 
 const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
 const  TILE_Y_ADJUST = 0.650; // position outOfPlay sheep in tile
@@ -234,6 +235,7 @@ function sheepClass() {
       // console.log(this.id + " entering tile occupied=" + tileOccupied);
 
       // prevent unteamed sheep from stacking
+      // automated tests: stacking is switched off
       if(tileOccupied && this.team != PLAIN && testMode == NORMAL_PLAY) {
         this.occupancyTested == true;
         pos = this.agentHandling(nextX, nextY);
@@ -305,28 +307,38 @@ function sheepClass() {
   this.agentHandling = function(nextX, nextY) {
     var col = Math.floor(nextX / TILE_W);
     var row = Math.floor(nextY / TILE_H);
-    var agentIndex = colRowToIndex(col, row);
+    var index = colRowToIndex(col, row);
 
     // tile entered is occupied by another sheep
-    if ( agentGrid[agentIndex] > 0 ) {
-      nextX = nearestColumnCentre(nextX);
-      nextY = ((row-1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
-      console.log("Agenthandling: retreat to Y=", nextY);
-      this.speed = 0;
-      this.ang = Math.PI * 1/2;
-      if(this.team == BLUE) {
-        this.orient = Math.PI * 1/2;
+    // don't stack above ditch but does have to notice occupancy and stop moving then graze & roam instead of stacking
+    if (agentGrid[index] > 0) {
+      if ( !isGoal(areaGrid[index]) ) {
+        this.changeMode(ROAM);
+        nextX = this.x;
+        nextY = this.y;
+        let flip = randomRangeInt(1,2);
+        let angleAdjust = (flip == 1) ? 9/8 : 15/8;
+        this.ang = angleAdjust * Math.PI;
       } else {
-        this.orient = Math.PI * 3/2;
-      }
-      this.state = STACKED;
-      sheepInPlay--;
-      this.levelDone = true;
-      this.endCol = col;
-      this.endTime = step[currentLevel];
+        nextX = nearestColumnCentre(nextX);
+        nextY = ((row-1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
+        console.log("Agenthandling: retreat to Y=", nextY);
+        this.speed = 0;
+        this.ang = Math.PI * 1/2;
+        if(this.team == BLUE) {
+          this.orient = Math.PI * 1/2;
+        } else {
+          this.orient = Math.PI * 3/2;
+        }
+        this.state = STACKED;
+        sheepInPlay--;
+        this.levelDone = true;
+        this.endCol = col;
+        this.endTime = step[currentLevel];
 
-      agentGrid[agentIndex - TILE_COLS] = this.team;
-      // console.log("agentHandling sheep " + this.id + " row " + row)
+        agentGrid[index - TILE_COLS] = this.team;
+        // console.log("agentHandling sheep " + this.id + " row " + row)
+      }
     }
     return {
       x: nextX,
@@ -579,7 +591,12 @@ function sheepClass() {
   }
 
   this.isAllowedBottomRow = function() {
-    return this.state == SENT || this.state == IN_DITCH || this.state == IN_BLUE_PEN || this.state == IN_RED_PEN || this.state == ON_ROAD || this.state == STACKED
+    if ( plainSheepCanFinish ) {
+      return true;
+    }
+    else if ( this.team != PLAIN ) {
+      return ( this.state == SENT || this.state == IN_DITCH || this.state == IN_BLUE_PEN || this.state == IN_RED_PEN || this.state == ON_ROAD || this.state == STACKED );
+    }
   }
 
   this.isModeTimed = function() {
