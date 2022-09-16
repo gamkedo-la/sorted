@@ -7,7 +7,7 @@ const pauseButtonLabel = ["Resume"];
 const levelEndButtonLabel = ["Replay", "Advance", "Menu"];
 const gameOverButtonLabel = ["Restart", "Menu", "Quit"];
 const offMenuButtonLabel = ["Menu"];
-const designButtonLabel = ["Menu"];
+const designButtonLabel = [];
 const editmodeButtonLabel = ["Test", "Team", "Player"];
 
 var buttonsTop = 100;

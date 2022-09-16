@@ -42,12 +42,10 @@ function drawLevelDesigner(whichLevel) {
 
 function levelDesignerTitle() {
   canvasContext.font = "24px Arial";
-  let y = TILE_H * 15;
-  colorText(canvasContext, "Design Level " + designLevel, 20, y, "white");
+  let x = 30;
+  let y = TILE_H - 16;
+  colorText(canvasContext, "Design Level " + designLevel + " - click tile, numkey tiletype; S save; M menu", x, y, "white");
   canvasContext.font = "16px Arial";
-  // colorText("key M returns to Menu", 600,30, "white");
-  let msg = "Click to choose location; Number key to choose tiletype; M returns to Menu";
-  // report(msg, 4);
 }
 
 function outlineSelectedTile(index) {

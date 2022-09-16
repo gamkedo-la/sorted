@@ -215,24 +215,26 @@ function drawAll() {
     drawLevelDesigner(designLevel);
     levelDesignerTitle();
     outlineSelectedTile(gridIndex);
+    drawBarText();
     drawBarButtons(designButtonLabel);
   }
 
   else if(gameState == STATE_MENU) {
-    drawMenu();
-    drawBarTitle("Menu", 20); // fontsize
-    drawBarButtons(menuButtonLabel);
+    drawMenuState();
   }
 
   else if(gameState == STATE_CREDITS) {
-    drawCredits();
+    drawCreditState();
   }
+
   else if(gameState == STATE_SCOREBOARD) {
     drawScoreboard();
   }
+
   else if(gameState == STATE_GAME_OVER) {
     drawGameOver();
   }
+
   else if(gameState == STATE_HELP) {
     drawHelp();
   }

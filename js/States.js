@@ -19,7 +19,7 @@ function gotoMenu(from) {
 
 function gotoPlay(from) {
   gameState = STATE_PLAY;
-  let title = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel];
+  let barTitle = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel];
   report('Play via ' + from, 1)
 }
 
@@ -62,14 +62,16 @@ function gotoHelp(from) {
 
 function gotoCredits(from) {
   gameState = STATE_CREDITS;
-  drawBarButtons(offMenuButtonLabel);
   report('Credits via ' + from, 1)
 }
 
 function gotoDesign(from) {
   gameState = STATE_DESIGN_LEVEL;
-  drawBarButtons(designButtonList);
-  report('Design via ' + from, 1)
+  designGrid = levelList[designLevel].slice();
+  designGridSet = true;
+  report('Design via ' + from, 1);
+  let msg = "Click to choose a location; Number key to choose tiletype; S saves design to file; M returns to Menu";
+  console.log(msg);
 }
 
 function togglePause() {
@@ -122,6 +124,18 @@ function drawPlayState() {
     } // if goal tile
   } // loop bottom row
 }
+
+function drawMenuState() {
+  drawMenu();
+  drawBarTitle("Menu", 20); // fontsize
+  drawBarButtons(menuButtonLabel);
+}
+
+function drawCreditState() {
+  drawCredits();
+  drawBarButtons(offMenuButtonLabel);
+}
+
 
 // function drawMenuState() {
 //   drawBarTitle(LEVEL_NAMES[currentLevel]);

@@ -151,8 +151,16 @@ function field_mousedownHandler() {
 
   else if (gameState == STATE_DESIGN_LEVEL) {
     // select grid cell to outline
-    gridIndex = getTileIndexAtXY(mouse.x, mouse.y);
-    console.log("Designer", mouse.x, mouse.y, gridIndex);
+    if (mouse.y < TILE_H) {
+      console.log("Top row reserved for Hat movement " + mouse.y);
+    }
+    else if (mouse.y > gameCanvas.height - TILE_H) {
+      console.log("Bottom row reserved for goal and ditch tiles " + mouse.y);
+    }
+    else {
+      gridIndex = getTileIndexAtXY(mouse.x, mouse.y);
+      console.log("Designer", mouse.x, mouse.y, gridIndex);
+    }
 
     if (xyIsInRect(mouse, buttonRects[4])) {
       report('Button return to menu', 1)
@@ -303,10 +311,7 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
         }
 
         if(key == KEY_D) {
-          gameState = STATE_DESIGN_LEVEL;
-          designGrid = levelList[designLevel].slice();
-          designGridSet = true;
-          console.log("Design Level");
+          gotoDesign("menu key D")
         }
       } // editMode
       break;

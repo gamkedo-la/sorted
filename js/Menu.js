@@ -10,6 +10,8 @@ const LINE_SPACING = 40;
 const PARAGRAPH_LINE_SPACING = 30;
 const PARAGRAPH_GAP = 20;
 
+var barTitle = "barTitle undefined";
+
 function drawMenuFlock() {
     for (let x,y,i = 0; i<64; i++) {
         x = Math.sin(performance.now()*0.00005+i*321) * 900;
@@ -220,4 +222,23 @@ function drawGameOver() {
 
   textIndent = 200;
   headLine("Game Over!");
+}
+
+var barIndent = 10;
+function barLine(txt, lineNum) {
+  uiContext.font = "18px Verdana";
+  colorText(uiContext, txt, barIndent, 60 + lineNum * LINE_SPACING, "white");
+}
+
+function drawBarText() {
+  var line = 0;
+  barLine("Tile: key", ++line);
+  barLine("Field: 0", ++line);
+  barLine("Lost: 1", ++line);
+  barLine("Stuck: 2", ++line);
+  barLine("Halt: 3", ++line);
+  barLine("Bend Left: 4", ++line);
+  barLine("Bend Right: 5", ++line);
+  barLine("Conveyor L: 6", ++line);
+  barLine("Conveyor R: 7", ++line);
 }
