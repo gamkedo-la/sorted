@@ -151,10 +151,10 @@ function field_mousedownHandler() {
 
   else if (gameState == STATE_DESIGN_LEVEL) {
     // select grid cell to outline
-    gridIndex = getTileIndexAtXY(mousePos.x, mousePos.y);
-    console.log("Designer", mousePos.x, mousePos.y, gridIndex);
+    gridIndex = getTileIndexAtXY(mouse.x, mouse.y);
+    console.log("Designer", mouse.x, mouse.y, gridIndex);
 
-    if (xyIsInRect(mousePos, buttonRects[4])) {
+    if (xyIsInRect(mouse, buttonRects[4])) {
       report('Button return to menu', 1)
       gameState = STATE_MENU;
     }
@@ -302,10 +302,10 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
           console.log("Paint for automated test is", TEAM_NAMES[testTeam]);
         }
 
-        if(key == KEY_D) { // disbale because bug errors
-          // gameState = STATE_DESIGN_LEVEL;
-          // areaGrid = levelList[designLevel].slice();
-          // designGridSet = true;
+        if(key == KEY_D) {
+          gameState = STATE_DESIGN_LEVEL;
+          designGrid = levelList[designLevel].slice();
+          designGridSet = true;
           console.log("Design Level");
         }
       } // editMode
@@ -400,7 +400,7 @@ function getFunctionKeys(key) {
 
   // cycle through options because can only show one grid
   if(key == KEY_F6) {
-    if (noGridValuesDisplay() ) {
+    if ( noGridValuesDisplay() ) {
       showAreaGridValues = true;
       console.log("showAreaGridValues is now", showAreaGridValues);
     }
@@ -412,7 +412,12 @@ function getFunctionKeys(key) {
     }
     else if(showAgentGridValues) {
       showAgentGridValues = false;
-
+      showGridIndex = true;
+      console.log("showGridIndex is now", showGridIndex);
+    }
+    else if(showGridIndex) {
+      showGridIndex = false;
+      console.log("No grid overlay");
     }
   }
 
@@ -426,7 +431,7 @@ function getFunctionKeys(key) {
   }
 
   function noGridValuesDisplay() {
-    return (!showAreaGridValues && !showAgentGridValues)
+    return ( !showAreaGridValues && !showAgentGridValues && !showGridIndex )
   }
 }
 

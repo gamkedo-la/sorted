@@ -199,7 +199,7 @@ function strRowSameTile(cols, tile) {
   return rowStr;
 }
 
-function showGridValues(grid, fontSize, fontColor) {
+function drawGridValues(grid, fontSize, fontColor) {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
@@ -217,6 +217,25 @@ function showGridValues(grid, fontSize, fontColor) {
     drawTileX = 0;
     drawTileY += TILE_H;
 	} // end of for each row
+}
+
+// refactor showOnGrid() combining drawGridValues(), showGridIndex(), and showAgentGrid() with extra parameter which text to write.
+function drawGridIndex(grid, fontSize, fontColor) {
+  var arrayIndex = 0;
+  var drawTileX = 0;
+  var drawTileY = 0;
+  for (var eachRow = 0; eachRow < TILE_ROWS; eachRow++) {
+    for (var eachCol = 0; eachCol < TILE_COLS; eachCol++) {
+      canvasContext.font = fontSize + "px Arial";
+      canvasContext.textAlign = "center";
+      colorText(canvasContext, arrayIndex, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, fontColor);
+
+      drawTileX += TILE_W;
+      arrayIndex++;
+    } // end of for each col
+    drawTileX = 0;
+    drawTileY += TILE_H;
+  } // end of for each row
 }
 
 function colRowToXY(col, row) {

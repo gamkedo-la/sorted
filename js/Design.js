@@ -1,6 +1,6 @@
 var designLevel = 0; // blank start
 var tileType = null;
-var gridIndex = 283;
+var gridIndex = 92;
 var designGrid = [];
 
 var designTileReady = false;
@@ -14,14 +14,12 @@ function drawLevelDesigner(whichLevel) {
   var drawTileY = 0;
 
   if(!designGridSet) {
-    areaGrid = levelList[designLevel].slice();
     designGrid = levelList[designLevel].slice();
   }
 
   for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
     for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
 
-      var tileTypeHere = areaGrid[arrayIndex];
       var tileTypeHere = designGrid[arrayIndex];
 
       if(tileTypeHasTransparency(tileTypeHere)) {
@@ -29,7 +27,7 @@ function drawLevelDesigner(whichLevel) {
       }
 
       var useImg = tilePics[tileTypeHere];
-      console.log('useImg', useImg)
+      // console.log('tileTypeHere, arrayIndex', tileTypeHere, arrayIndex)
       canvasContext.drawImage(useImg, drawTileX, drawTileY);
 
       drawTileX += TILE_W;
@@ -49,7 +47,7 @@ function levelDesignerTitle() {
   canvasContext.font = "16px Arial";
   // colorText("key M returns to Menu", 600,30, "white");
   let msg = "Click to choose location; Number key to choose tiletype; M returns to Menu";
-  document.getElementById("debug_1").innerHTML = msg;
+  // report(msg, 4);
 }
 
 function outlineSelectedTile(index) {

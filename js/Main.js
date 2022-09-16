@@ -135,7 +135,6 @@ function moveAll() {
   else if(gameState == STATE_DESIGN_LEVEL) {
     if(designTileReady) {
       console.log('main (move) design', gridIndex, tileType);
-      areaGrid[gridIndex] = tileType;
       designGrid[gridIndex] = tileType;
       drawLevelDesigner(designLevel);
       designTileReady = false;
@@ -188,11 +187,6 @@ function drawAll() {
     }
 
     if(editMode) {
-      if(showAgentGridValues) {
-        drawAgentGrid();
-      } else if(showAreaGridValues) {
-        showGridValues(areaGrid, 14, "white");
-      }
 
       // do once per level-ending
       if(levelTestDataReady) {
@@ -221,6 +215,7 @@ function drawAll() {
     drawLevelDesigner(designLevel);
     levelDesignerTitle();
     outlineSelectedTile(gridIndex);
+    drawBarButtons(designButtonLabel);
   }
 
   else if(gameState == STATE_MENU) {
@@ -251,6 +246,17 @@ function drawAll() {
 
   if (debugLevelTransition) {
     drawLevelDebug();
+  }
+
+  // state design must be handled differently from states play & levelEnd
+  if (editMode) {
+    if (showAgentGridValues) {
+      drawAgentGridValues();
+    } else if (showAreaGridValues) {
+      drawGridValues(areaGrid, 14, "white");
+    } else if (showGridIndex) {
+      drawGridIndex(designGrid, 14, "white");
+    }
   }
 
 } // end drawAll()

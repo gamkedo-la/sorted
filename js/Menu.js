@@ -39,12 +39,9 @@ function drawMenu() {
     textIndent = 190;
     headLine("Edit-mode menu");
     bodyLine("Level select - key 0-9", ++line);
-    // bodyLine("Design level - key D", ++line);
+    bodyLine("Design level - key D", ++line);
     bodyLine("Automate test - key A", ++line);
     bodyLine("Team paint test - key T", ++line);
-
-    bodyLine("Scoreboard - key S", ++line);
-    bodyLine("Help/Title - key H", ++line);
     bodyLine("toggle Edit mode - key F1", ++line);
   }
 

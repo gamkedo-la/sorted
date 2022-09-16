@@ -97,10 +97,10 @@ function drawPlayState() {
 
   if(editMode) {
     if(showAgentGridValues) {
-      drawAgentGrid();
+      drawAgentGridValues();
     } else if(showAreaGridValues) {
       let fontSize = 14;
-      showGridValues(areaGrid, fontSize, "white");
+      drawGridValues(areaGrid, fontSize, "white");
     }
   }
 

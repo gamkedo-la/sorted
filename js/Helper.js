@@ -150,7 +150,7 @@ function getLines(ctx, text, maxWidth) {
   return lines;
 }
 
-function drawAgentGrid() {
+function drawAgentGridValues() {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
