@@ -226,7 +226,7 @@ function drawGameOver() {
 
 var barIndent = 10;
 function barLine(txt, lineNum) {
-  uiContext.font = "18px Verdana";
+  uiContext.font = "16px Arial";
   colorText(uiContext, txt, barIndent, 60 + lineNum * LINE_SPACING, "white");
 }
 

@@ -70,7 +70,7 @@ function gotoDesign(from) {
   designGrid = levelList[designLevel].slice();
   designGridSet = true;
   report('Design via ' + from, 1);
-  let msg = "Click to choose a location; Number key to choose tiletype; S saves design to file; M returns to Menu";
+  let msg = "Press F7 to advance Level number; Mouse click to choose a grid location; Number key to choose a tile-type; key S to save design to console and file; key M returns to Menu";
   console.log(msg);
 }
 

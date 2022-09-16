@@ -92,7 +92,7 @@ function clickOrTouch(event) {
     if (event.type == 'mousedown' || event.type == 'touchstart') {
       ui_mousedownHandler();
       let msg = "ui mousedown: " + mouse.x + ", " + mouse.y;
-      console.log(msg);
+      // console.log(msg);
       setDebug(msg, 3);
     }
     else if (event.type == 'mouseup' || event.type == 'touchend') {
@@ -103,7 +103,7 @@ function clickOrTouch(event) {
     if (event.type == 'mousedown' || event.type == 'touchstart') {
       field_mousedownHandler();
       let msg = "mousedown: " + mouse.x + ", " + mouse.y;
-      console.log(msg);
+      // console.log(msg);
       setDebug(msg, 3);
     }
     else if (event.type == 'mouseup' || event.type == 'touchend') {
@@ -341,10 +341,12 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
     case STATE_DESIGN_LEVEL:
 
       if(key == KEY_M || key == KEY_ESC) {
+        formatDesign();
         gameState = STATE_MENU;
       }
-      // if(key == KEY_S) {
-      // }
+      if(key == KEY_S) {
+        formatDesign();
+      }
       // if(key == KEY_L) {
       //   tileType = TILE_CONVEYOR_LEFT;
       // }

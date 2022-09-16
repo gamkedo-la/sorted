@@ -78,9 +78,22 @@ function isInPen(mode) {
   return mode == IN_BLUE_PEN || mode == IN_RED_PEN
 }
 
+var goalQuantity = 6;
+function countGoals() {
+}
+
 function calculateLevelScore() {
   levelScore = 0;
-  levelMaxScores[currentLevel] = 180 * FLOCK_SIZE[currentLevel];
+
+  let goalScoreMult = Math.min(FLOCK_SIZE[currentLevel], goalQuantity);
+  let maxScore = 100 * goalScoreMult;
+
+  let spareSheep = 0;
+  if (FLOCK_SIZE[currentLevel] > goalQuantity) {
+    spareSheep = FLOCK_SIZE[currentLevel] - goalQuantity;
+  }
+  levelMaxScores[currentLevel] = maxScore + (40 * spareSheep);
+
   var offSide;
   var mode, team, x, score;
   console.log("Calculating end-of-level score for each sheep");
@@ -104,7 +117,8 @@ function calculateLevelScore() {
     }
 
     if(done && team != PLAIN) {
-      score = 80 - Math.round(Math.abs(x - gameCanvas.width/2) / 5);
+      // score = 80 - Math.round(Math.abs(x - gameCanvas.width/2) / 5);
+      score = 40;
       if(offSide) {
         sheepList[i].score = 0;
       } else {
@@ -113,10 +127,10 @@ function calculateLevelScore() {
       // how about if in goal column but queued up?
       // bonus for being in goal column
       if(mode == IN_BLUE_PEN && team == BLUE) {
-        sheepList[i].score += 100;
+        sheepList[i].score += 60;
       }
       else if(mode == IN_RED_PEN && team == RED) {
-        sheepList[i].score += 100;
+        sheepList[i].score += 60;
       }
       levelScore += sheepList[i].score;
 

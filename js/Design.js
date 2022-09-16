@@ -41,10 +41,10 @@ function drawLevelDesigner(whichLevel) {
 }
 
 function levelDesignerTitle() {
-  canvasContext.font = "24px Arial";
+  canvasContext.font = "20px Arial";
   let x = 30;
   let y = TILE_H - 16;
-  colorText(canvasContext, "Design Level " + designLevel + " - click tile, numkey tiletype; S save; M menu", x, y, "white");
+  colorText(canvasContext, "Design Level " + designLevel + " -- F7 change level; click square; numkey tiletype; S save; M menu", x, y, "white");
   canvasContext.font = "16px Arial";
 }
 
@@ -82,10 +82,10 @@ function formatDesign() {
   for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
     var line = ' ';
     for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
-      let tile = areaGrid[arrayIndex];
+      let tile = designGrid[arrayIndex];
       getLength(tile) > 1 ? space = ' ' : space = '  ';
 
-      line += space + areaGrid[arrayIndex] + ',';
+      line += space + designGrid[arrayIndex] + ',';
       arrayIndex++;
     }
     output += line + '\n';
@@ -93,6 +93,7 @@ function formatDesign() {
   output += '];\n';
 
   saveDesign(output);
+  console.log(output);
   return output;
 }
 
