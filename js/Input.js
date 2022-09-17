@@ -347,6 +347,10 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
       if(key == KEY_S) {
         formatDesign();
       }
+      if(key == KEY_C) {
+        formatDesign();
+        clearDesign();
+      }
       // if(key == KEY_L) {
       //   tileType = TILE_CONVEYOR_LEFT;
       // }
@@ -364,7 +368,7 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
         // When tiles are selected visually, use numkeys to select Level.
         // designLevel = key - KEY_NUM_0; // key '1' is code 49
         // console.log("Number key from Designer = ", designLevel)
-        // drawLevelDesigner(designLevel);
+        // drawDesignerFromLevelNum(designLevel);
         // loadDesignLevel(designLevel);
       }
       break;
@@ -434,7 +438,7 @@ function getFunctionKeys(key) {
       designLevel = 0;
     }
     designGridSet = false;
-    drawLevelDesigner();
+    drawDesignerFromLevelNum(designLevel);
   }
 
   function noGridValuesDisplay() {

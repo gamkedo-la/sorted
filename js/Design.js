@@ -6,16 +6,14 @@ var designGrid = [];
 var designTileReady = false;
 var designGridSet = false;
 
-// draw base with grass and road
-// "level_" + designLevel;
-function drawLevelDesigner(whichLevel) {
+// to increment filename of design saves
+var designCount = Array(NUM_LEVELS);
+designCount.fill(0);
+
+function drawDesignerFromGrid(designGrid) {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
-
-  if(!designGridSet) {
-    designGrid = levelList[designLevel].slice();
-  }
 
   for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
     for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
@@ -36,8 +34,13 @@ function drawLevelDesigner(whichLevel) {
     drawTileX = 0;
     drawTileY += TILE_H;
   } // end of for each row
+}
 
-  drawLowRoad();
+function drawDesignerFromLevelNum(whichLevel) {
+  if(!designGridSet) {
+    designGrid = levelList[whichLevel].slice();
+  }
+  drawDesignerFromGrid(designGrid);
 }
 
 function levelDesignerTitle() {
@@ -70,8 +73,11 @@ function outlineRow(row) {
   canvasContext.strokeRect(topLeftX, topLeftY, TILE_W * TILE_COLS, TILE_H);
 }
 
+// cannot directly clear Grid.js level data
+// only clear current display, and even that would only work if drawDesignerFromLevelNum() could be passed a grid rather than a level number to lookup levelList data.
 function clearDesign() {
-  areaGrid = levelList[0].slice();
+  designGrid = levelList[0].slice();
+  drawDesignerFromLevelNum(0);
 }
 
 function formatDesign() {
@@ -98,7 +104,8 @@ function formatDesign() {
 }
 
 function saveDesign(output) {
-  let filename = 'design_level_' + designLevel + '.txt';
+  // + designCount[designLevel]
+  let filename = 'level_' + designLevel + '_design_' + '.txt';
   downloader(filename, output);
 }
 

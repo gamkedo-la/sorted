@@ -51,6 +51,10 @@ const SELECT_RANGE = 40;
 
 const TEST_NAMES = ["not automating, normal play", "from each column's centre a sheep will be Sent", "every X in one column - select column 0 to 9 by using number key", "sheep Sent to stack from one column centre - select column 0 to 9 using number key", "testing Send from every X location in all columns"];
 
+// for increment of test output filename
+// var testCount = Array(NUM_LEVELS);
+// testCount.fill(0);
+
 var testTeam = MIXED; // both teams, as in normal play
 var whichColumn = 10; // for automated test
 

@@ -136,7 +136,7 @@ function moveAll() {
     if(designTileReady) {
       console.log('main (move) design', gridIndex, tileType);
       designGrid[gridIndex] = tileType;
-      drawLevelDesigner(designLevel);
+      drawDesignerFromLevelNum(designLevel);
       designTileReady = false;
     }
   }
@@ -212,7 +212,7 @@ function drawAll() {
   } // end of Level_Over
 
   else if(gameState == STATE_DESIGN_LEVEL) {
-    drawLevelDesigner(designLevel);
+    drawDesignerFromLevelNum(designLevel);
     levelDesignerTitle();
     outlineSelectedTile(gridIndex);
     drawBarText();
@@ -246,9 +246,9 @@ function drawAll() {
     drawBarButtons(offMenuButtonLabel);
   }
 
-  if (debugLevelTransition) {
-    drawLevelDebug();
-  }
+  // if (debugLevelTransition) {
+  //   drawLevelDebug();
+  // }
 
   // state design must be handled differently from states play & levelEnd
   if (editMode) {
