@@ -161,10 +161,9 @@ function field_mousedownHandler() {
       gridIndex = getTileIndexAtXY(mouse.x, mouse.y);
       console.log("Designer", mouse.x, mouse.y, gridIndex);
     }
-
+    // designer/editor doesn't need buttons, also currently no space for Menu button, so not in use
     if (xyIsInRect(mouse, buttonRects[4])) {
-      report('Button return to menu', 1)
-      gameState = STATE_MENU;
+      gotoMenu('Design, button');
     }
   } // End of Design-Level mousedown handling
 }
@@ -216,7 +215,7 @@ function menuKeyChoice(key) {
 
     case STATE_PLAY:
       if (key == KEY_ESC || key == KEY_M) {
-        gameState = STATE_MENU;
+        gotoMenu("Play, key M or Esc");
       }
       else if (key == KEY_SPACE) {
         togglePause();
@@ -229,7 +228,7 @@ function menuKeyChoice(key) {
           gameState = STATE_GAME_OVER;
           console.log("Game Over!");
         } else {
-          gameState = STATE_MENU;
+          gotoMenu("LevelEnd, key M or Esc");
         }
       }
 
@@ -318,13 +317,14 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
 
     case STATE_SCOREBOARD:
       if(key == KEY_ESC || key == KEY_M) {
-        gameState = STATE_MENU;
+        gotoMenu("Scoreboard, key M or Esc");
       }
       break;
 
     case STATE_CREDITS:
-      if(key == KEY_M) {
-        gameState = STATE_MENU;
+      if(key == KEY_ESC || key == KEY_M) {
+        gotoMenu("Credits, key M or Esc");
+
       }
       if(key == KEY_P) {
         gameState = STATE_PLAY;
@@ -332,9 +332,9 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
       break;
 
     case STATE_HELP:
-      if(key == KEY_M) {
-        gameState = STATE_MENU;
-        boopSound.play();
+
+      if(key == KEY_ESC || key == KEY_M) {
+        gotoMenu("Help, key M or Esc");
       }
       break;
 
@@ -342,21 +342,22 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
 
       if(key == KEY_M || key == KEY_ESC) {
         formatDesign();
-        gameState = STATE_MENU;
+        gotoMenu("Design, key M or Esc");
       }
-      if(key == KEY_S) {
+      else if(key == KEY_S) {
         formatDesign();
       }
-      if(key == KEY_C) {
+      else if(key == KEY_C) {
         formatDesign();
         clearDesign();
+        console.log("Field visual cleared but grid unchanged.");
       }
       // if(key == KEY_L) {
       //   tileType = TILE_CONVEYOR_LEFT;
       // }
 
       // temporarily using number keys to select tiletype
-      if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
+      else if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
         tileType = key - KEY_NUM_0;
         if(tileType == 8 || tileType == 9) {
           console.log("Tile types 8 and 9 are not defined");

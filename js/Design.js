@@ -1,6 +1,6 @@
 var designLevel = 0; // blank start
 var tileType = null;
-var gridIndex = 92; // changed by Input.js
+var gridIndex = 88; // changed by Input.js
 var designGrid = [];
 
 var designTileReady = false;

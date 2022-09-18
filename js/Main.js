@@ -40,11 +40,10 @@ for(var i=0; i<TEAM_SIZE.length; i++) {
 }
 var sheepList = [];
 
-var boopSound = new SoundOverlapsClass("sound/test_sound");
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
 var stuckSound = new SoundOverlapsClass("sound/baa08");
 var rogueSound = new SoundOverlapsClass("sound/woof01");
-var menuSound = new SoundOverlapsClass("sound/menu1");
+var menuSound = new SoundOverlapsClass("sound/menu_choice");
 var menuBackSound = new SoundOverlapsClass("sound/menuback");
 
 window.onload = function() {

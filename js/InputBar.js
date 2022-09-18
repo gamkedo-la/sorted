@@ -132,8 +132,7 @@ function ui_mousedownHandler() {
   else if (requireButtonGotoMenu()) {
     // could set Menu button at slot [4] or elsewhere
     if (xyIsInRect(uiPos, buttonRects[0])) {
-      gameState = STATE_MENU;
-      gotoMenu("DesignLevel's CanvasButton Menu");
+      gotoMenu("button");
     }
   }
 } // end of ui_mousedownHandler
