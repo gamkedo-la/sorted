@@ -137,7 +137,7 @@ function drawLowRoad() {
 function makePenRow(cols, penSize) {
   var middle = cols - penSize*2;
   var rowStr = '  '; // grid.js indent if pasting
-  var fieldStr = TILE_CENTRE + ', ';
+  var fieldStr = TILE_DITCH + ', ';
   var bluePenStr = TILE_PEN_BLUE + ', ';
   var redPenStr = TILE_PEN_RED + ', ';
   rowStr += bluePenStr.repeat(penSize);
@@ -150,7 +150,7 @@ function makePenRow(cols, penSize) {
 function writeGoalRow(cols, penSize, offset) {
   var rowStr = '  '; // grid.js indent if pasting
   var ditchStr = TILE_DITCH + ', ';
-  var centreStr = TILE_CENTRE + ', ';
+  // var centreStr = TILE_CENTRE + ', ';
   var bluePenStr = TILE_PEN_BLUE + ', ';
   var redPenStr = TILE_PEN_RED + ', ';
   var sideLength = (cols-1)/2 - offset -1;

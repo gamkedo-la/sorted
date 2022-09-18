@@ -69,7 +69,7 @@ function loadImages() {
     {varName: dogPic, theFile: "dog_normal.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass_50.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},
-    {tileType: TILE_CENTRE, theFile: "tile_ditch.png"},
+    // {tileType: TILE_CENTRE, theFile: "tile_ditch.png"},
     {tileType: TILE_DITCH, theFile: "tile_ditch.png"},
     // {tileType: TILE_DITCH, theFile: "tile_ditch_watery.png"},
     {tileType: TILE_PEN_BLUE, theFile: "tile_pen_blue.png"},

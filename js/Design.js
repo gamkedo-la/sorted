@@ -1,5 +1,5 @@
 var designLevel = 0; // blank start
-var tileType = null;
+var tileType = 0;
 var gridIndex = 88; // changed by Input.js
 var designGrid = [];
 
@@ -26,7 +26,7 @@ function drawDesignerFromGrid(designGrid) {
 
       var useImg = tilePics[tileTypeHere];
       canvasContext.drawImage(useImg, drawTileX, drawTileY);
-      // console.log('tileTypeHere, arrayIndex', tileTypeHere, arrayIndex)
+      console.log('tileTypeHere, arrayIndex', tileTypeHere, arrayIndex)
 
       drawTileX += TILE_W;
       arrayIndex++;
