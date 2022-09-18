@@ -213,7 +213,8 @@ function drawAll() {
   } // end of Level_Over
 
   else if(gameState == STATE_DESIGN_LEVEL) {
-    drawDesignerFromLevelNum(designLevel);
+    // drawDesignerFromLevelNum(designLevel);
+    drawDesignerFromGrid(designGrid);
     levelDesignerTitle();
     outlineSelectedTile(gridIndex);
     drawBarText();

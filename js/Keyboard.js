@@ -44,3 +44,11 @@ const KEY_F6 = 117; // overlay grid tileType OR occupied
 const KEY_F7 = 118; // level number cycle through, in Level Designer
 const KEY_F8 = 119;
 const KEY_F9 = 120;
+
+function isArrowKey(keyCode) {
+  return ( keyCode == KEY_LEFT_ARROW ||keyCode == KEY_RIGHT_ARROW || keyCode == KEY_UP_ARROW || keyCode == KEY_DOWN_ARROW )
+}
+
+function isFunctionKey(keyCode) {
+  return ( keyCode == KEY_F1 || keyCode == KEY_F2 || keyCode == KEY_F3 || keyCode == KEY_F4 || keyCode == KEY_F5 || keyCode == KEY_F6 || keyCode == KEY_F7 || keyCode == KEY_F8 || keyCode == KEY_F9 )
+}

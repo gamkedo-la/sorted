@@ -447,14 +447,24 @@ function getFunctionKeys(key) {
 }
 
 function keyPressed(evt) {
-  // arrowKeys
-  arrowKeySet(evt, player, true);
 
-  // toggle Edit mode, design/test tools
-  getFunctionKeys(evt.keyCode);
+  if ( isArrowKey(evt.keyCode) ) {
+    if (gameState == STATE_PLAY) {
+      arrowKeySet(evt, player, true);
+    }
+    else if (gameState == STATE_DESIGN_LEVEL) {
+      arrowKeyDesign(evt);
+    }
+  }
 
-  // Menu
-  menuKeyChoice(evt.keyCode); // play, menu, or credits
+  else if ( isFunctionKey(evt.keyCode) ) {
+    // toggle Edit mode, design/test tools
+    getFunctionKeys(evt.keyCode);
+  }
+
+  else {
+    menuKeyChoice(evt.keyCode); // play, menu, or credits
+  }
 	evt.preventDefault();
 }
 

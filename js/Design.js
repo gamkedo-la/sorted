@@ -1,6 +1,6 @@
 var designLevel = 0; // blank start
 var tileType = null;
-var gridIndex = 92;
+var gridIndex = 92; // changed by Input.js
 var designGrid = [];
 
 var designTileReady = false;
@@ -25,8 +25,8 @@ function drawDesignerFromGrid(designGrid) {
       }
 
       var useImg = tilePics[tileTypeHere];
-      // console.log('tileTypeHere, arrayIndex', tileTypeHere, arrayIndex)
       canvasContext.drawImage(useImg, drawTileX, drawTileY);
+      // console.log('tileTypeHere, arrayIndex', tileTypeHere, arrayIndex)
 
       drawTileX += TILE_W;
       arrayIndex++;
@@ -74,10 +74,13 @@ function outlineRow(row) {
 }
 
 // cannot directly clear Grid.js level data
-// only clear current display, and even that would only work if drawDesignerFromLevelNum() could be passed a grid rather than a level number to lookup levelList data.
+// may only clear current display, and even that would only work if drawDesignerFromLevelNum() could be passed a grid rather than a level number which looks up stored levelList grid values
 function clearDesign() {
   designGrid = levelList[0].slice();
-  drawDesignerFromLevelNum(0);
+  designGridSet = true;
+  tileType = TILE_FIELD;
+  designTileReady = true;
+  console.log("Clear: gridIndex", gridIndex);
 }
 
 function formatDesign() {
@@ -111,4 +114,22 @@ function saveDesign(output) {
 
 function getLength(number) {
   return number.toString().length;
+}
+
+function arrowKeyDesign(evt) {
+  if (evt.keyCode == KEY_LEFT_ARROW) {
+    gridIndex -= 1;
+  }
+  if (evt.keyCode == KEY_RIGHT_ARROW) {
+    gridIndex += 1;
+  }
+  if (evt.keyCode == KEY_UP_ARROW) {
+    gridIndex -= TILE_COLS;
+  }
+  if (evt.keyCode == KEY_DOWN_ARROW) {
+    gridIndex += TILE_COLS;
+  }
+  designTileReady = true; // will draw
+  console.log("gridIndex changed to " + gridIndex);
+  console.log("Tile type previously selected is", tileType, TILE_NAMES[tileType]);
 }
