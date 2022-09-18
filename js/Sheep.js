@@ -309,16 +309,24 @@ function sheepClass() {
     var row = Math.floor(nextY / TILE_H);
     var index = colRowToIndex(col, row);
 
-    // tile entered is occupied by another sheep
-    // don't stack above ditch but does have to notice occupancy and stop moving then graze & roam instead of stacking
+    if (isGoal(areaGrid[index])) {
+      // still do stacking above goal, likely temporary
+      stacking = true;
+      console.log('stacking true')
+    }
+
     if (agentGrid[index] > 0) {
-      if ( !isGoal(areaGrid[index]) ) {
+      // entering bottom row tile occupied by another sheep
+      if (!stacking) {
+        // don't stack above ditch, instead graze & roam
         this.changeMode(ROAM);
         nextX = this.x;
         nextY = this.y;
         let flip = randomRangeInt(1,2);
         let angleAdjust = (flip == 1) ? 9/8 : 15/8;
         this.ang = angleAdjust * Math.PI;
+        console.log("Ditch occupied, turn", this.id);
+
       } else {
         nextX = nearestColumnCentre(nextX);
         nextY = ((row-1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
@@ -337,6 +345,7 @@ function sheepClass() {
         this.endTime = step[currentLevel];
 
         agentGrid[index - TILE_COLS] = this.team;
+        stacking = false; // return to default behaviour
         // console.log("agentHandling sheep " + this.id + " row " + row)
       }
     }
@@ -447,7 +456,7 @@ function sheepClass() {
             sheepInPlay--;
           }
 
-        } else if(tileType == TILE_ROAD) {
+        } else if (tileType == TILE_DITCH) {
           if (this.state != IN_DITCH) {
             this.changeMode(IN_DITCH);
             this.endCol = tileCol;

@@ -8,7 +8,7 @@ const TILE_CONVEYOR_LEFT = 6;
 const TILE_CONVEYOR_RIGHT = 7;
 const TILE_UNSORT = 9;
 
-const TILE_ROAD = 10;
+const TILE_DITCH = 10;
 const TILE_PEN_BLUE = 11;
 const TILE_PEN_RED = 12;
 const TILE_CENTRE = 13; // use tile_road image

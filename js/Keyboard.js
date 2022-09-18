@@ -1,3 +1,4 @@
+// keyboard
 var keyHeld_left = false; // car-style accelerator
 var keyHeld_right = false;
 

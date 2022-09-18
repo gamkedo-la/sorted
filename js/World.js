@@ -149,7 +149,7 @@ function makePenRow(cols, penSize) {
 
 function writeGoalRow(cols, penSize, offset) {
   var rowStr = '  '; // grid.js indent if pasting
-  var ditchStr = TILE_ROAD + ', ';
+  var ditchStr = TILE_DITCH + ', ';
   var centreStr = TILE_CENTRE + ', ';
   var bluePenStr = TILE_PEN_BLUE + ', ';
   var redPenStr = TILE_PEN_RED + ', ';
