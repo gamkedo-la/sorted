@@ -193,6 +193,7 @@ function drawAll() {
         levelTestDataReady = false;
         var filename = "level_" + currentLevel + "_";
         // sheep outcome data file downloads automatically
+
         if(testMode == NORMAL_PLAY) {
           levelData = playResult();
           filename +=  "play.tsv";
@@ -295,7 +296,7 @@ function loadLevel(whichLevel) {
 
   sheepList = [];  // fresh set of sheep
 
-  if(testMode == NORMAL_PLAY) {
+  if (testMode == NORMAL_PLAY) {
     var team = PLAIN;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
@@ -309,7 +310,7 @@ function loadLevel(whichLevel) {
     console.log("Level loaded: " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
   }
 
-  else if(testMode == SEND_COLUMNS_CENTRE_ONLY) {
+  else if (testMode == SEND_COLUMNS) {
     console.log("Test send row of sheep in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
 
     // overwriting to use flocksize array seems a bad approach
@@ -329,55 +330,19 @@ function loadLevel(whichLevel) {
     test_EndLevel();
   }
 
-  else if(testMode == SEND_IN_COLUMN) {
-    console.log("Testing column of sheep in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
-    FLOCK_SIZE[whichLevel] = 3 //TILE_W;
+  else if (testMode == ROAM_FROM_R1) {
+    console.log("Test sheep roaming in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
+
+    FLOCK_SIZE[whichLevel] = TILE_COLS;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
-      if(testTeam == MIXED) {
-        var team = i % 2 == 0  ? BLUE : RED;
-        spawnSheep.reset(i, team, team, SENT);
-      } else {
-        spawnSheep.reset(i, testTeam, PLAIN, SENT);
-      }
-      spawnSheep.testColumnInit();
-      spawnSheep.placeColumn(whichColumn);
+      spawnSheep.reset(i, testTeam, PLAIN, ROAM);
+      spawnSheep.testRowInit();
+      spawnSheep.placeTop();
+      spawnSheep.speed= 30;
       sheepList.push(spawnSheep);
     }
     test_EndLevel();
-  }
-
-  else if(testMode == SEND_ALL_X_ONE_COLUMN) {
-    console.log("Testing send from each X in column " + whichColumn + " of level " + whichLevel);
-    FLOCK_SIZE[whichLevel] = TILE_W; // 40
-    // loop every X pixel position within a tile width
-    for(var Xoffset=0; Xoffset < TILE_W; Xoffset++) {  // limit really TILE_W
-        var spawnSheep = new sheepClass();
-        spawnSheep.reset(col, testTeam, PLAIN, SENT);
-        spawnSheep.testColumnXInit();
-        spawnSheep.placeColumnX(whichColumn, Xoffset);
-        sheepList.push(spawnSheep);
-    }
-    whichColumn = null;
-    testColumnSet = false;
-  }
-
-  // cannot be done like this, need Xoffset increment by 1 at End-Level
-  // and a flag to keep doing test until Xoffset reaches 40 (TILE_W)
-  else if(testMode == SEND_ALL_X_ALL_COLUMNS) {
-    console.log("Testing send from each X in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
-    FLOCK_SIZE[whichLevel] = TILE_COLS;
-    // loop every X pixel position within a tile width
-    for(var Xoffset=0; Xoffset < 2; Xoffset++) {  // limit really TILE_W
-      for(var col=0; col < TILE_COLS; col++) {
-        var spawnSheep = new sheepClass();
-        spawnSheep.reset(col, testTeam, PLAIN, SENT);
-        spawnSheep.testRowInit();
-        spawnSheep.placeTop();
-        sheepList.push(spawnSheep);
-      }
-      testTimer = 999;
-    }
   }
 
   // reset sorting

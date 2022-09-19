@@ -26,7 +26,7 @@ function drawDesignerFromGrid(designGrid) {
 
       var useImg = tilePics[tileTypeHere];
       canvasContext.drawImage(useImg, drawTileX, drawTileY);
-      console.log('tileTypeHere, arrayIndex', tileTypeHere, arrayIndex)
+      // console.log('tileTypeHere, arrayIndex', tileTypeHere, arrayIndex)
 
       drawTileX += TILE_W;
       arrayIndex++;
@@ -45,6 +45,7 @@ function drawDesignerFromLevelNum(whichLevel) {
 
 function levelDesignerTitle() {
   canvasContext.font = "20px Arial";
+  canvasContext.align = "left";
   let x = 30;
   let y = TILE_H - 16;
   colorText(canvasContext, "Design Level " + designLevel + " -- F7 change level; click square; numkey tiletype; S save; M menu", x, y, "white");

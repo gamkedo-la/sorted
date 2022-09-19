@@ -644,16 +644,6 @@ function sheepClass() {
 
     drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x,this.y, this.orient);
 
-    // if(this.team == BLUE) {
-    //   drawBitmapCenteredWithRotation(sheepKnotBluePic, this.x,this.y, this.orient);
-    // } else if(this.team == RED) {
-    //   drawBitmapCenteredWithRotation(sheepKnotRedPic, this.x,this.y, this.orient);
-    // }
-    // if(this.team == PLAIN) {
-    //   drawBitmapCenteredWithRotation(sheepNormalPic, this.x,this.y, this.orient);
-    // } else {
-    //   colorCircle(this.x, this.y, SHEEP_RADIUS, this.color);
-    // }
     if(this.state == CALLED) {
       // draw line between sheep and hat
       colorLine(canvasContext, player.x,player.y, this.x,this.y, "yellow")

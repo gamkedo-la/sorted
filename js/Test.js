@@ -10,8 +10,10 @@ const MIXED = 3;
 const LEFT = -1; // arrow key X direction
 const RIGHT = +1;
 
+const TEST_DESCRIPTION = ["not automating, normal play", "from each column centre send a sheep", "start in row 1 and roam"];
 const NORMAL_PLAY = 0;
-const SEND_COLUMNS_CENTRE_ONLY = 1;
+const SEND_COLUMNS = 1;
+const ROAM_FROM_R1 = 2;
 const SEND_ALL_X_ONE_COLUMN = 2;
 const SEND_IN_COLUMN = 3;
 const SEND_ALL_X_ALL_COLUMNS = 4;
@@ -24,7 +26,7 @@ const DEBUG_TOP = 480;
 const DEBUG_LINE_SP = 25;
 
 var testMode = NORMAL_PLAY;
-var testColumnSet = false; // flag to get column number from keypress
+var testColumnSet = true; // flag to get column number from keypress
 var testTimer = null;
 var testLevel = 0;
 
@@ -50,8 +52,6 @@ var sheepSelected = null; // is a sheep selected for manual movement?
 const SELECT_RANGE = 40;
 
 var stacking = false;
-
-const TEST_NAMES = ["not automating, normal play", "from each column's centre a sheep will be Sent", "every X in one column - select column 0 to 9 by using number key", "sheep Sent to stack from one column centre - select column 0 to 9 using number key", "testing Send from every X location in all columns"];
 
 // for increment of test output filename
 // var testCount = Array(NUM_LEVELS);
@@ -106,7 +106,7 @@ function deviceTests() {
 
 function testResult() {
   var output = "Level " + currentLevel + " - test send from ";
-  if(testMode == SEND_COLUMNS_CENTRE_ONLY) {
+  if (testMode == SEND_COLUMNS) {
     output += "centre of each column\n";
   }
   else if(testMode == SEND_ALL_X_ONE_COLUMN) {

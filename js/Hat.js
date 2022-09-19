@@ -1,5 +1,5 @@
 var player = new playerClass(1);
-var screenWrapHat = false;
+var screenWrapHat = true;
 var moveLikeCar = false;
 
 // Hat moved like a car

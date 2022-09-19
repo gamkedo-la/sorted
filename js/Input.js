@@ -184,8 +184,7 @@ function field_mouseupHandler() {
 
     else if (mouse.button == 2) {
 
-    }
-
+      }
   }
 }
 
@@ -275,8 +274,9 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
 
       if(editMode) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
-          if(testMode == NORMAL_PLAY || testMode == SEND_ALL_X_ALL_COLUMNS || testMode == SEND_COLUMNS_CENTRE_ONLY || testColumnSet) {
-          // if(testMode == NORMAL_PLAY || testMode == SEND_ALL_X_ALL_COLUMNS || testMode == SEND_COLUMNS_CENTRE_ONLY || testMode == SEND_ALL_X_ONE_COLUMN || testColumnSet) {
+          
+          if (testMode == NORMAL_PLAY || testMode == SEND_ALL_X_ALL_COLUMNS || testMode == SEND_COLUMNS || testColumnSet) {
+
             testLevel = key - KEY_NUM_0; // 1 on keyb is code 49
             currentLevel = testLevel;
             levelRunning = true;
@@ -298,7 +298,7 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
           if(testMode > 2) { // stack Column is 3, Every_X is 4
             testMode = 0;
           }
-          console.log(TEST_NAMES[testMode]);
+          console.log(TEST_DESCRIPTION[testMode]);
         }
 
         if(key == KEY_T) {
