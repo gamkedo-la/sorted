@@ -29,6 +29,7 @@ var testMode = NORMAL_PLAY;
 var testColumnSet = true; // flag to get column number from keypress
 var testTimer = null;
 var testLevel = 0;
+var testSpeedMultiplier = [ 1, 10 ];
 
 var touchDevice = null; // tested in Main.js onload
 var TOUCH_TEST = null; // enable to activate Touch handling code

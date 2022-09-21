@@ -140,7 +140,7 @@ function calculateLevelScore() {
   levelScores[currentLevel] = levelScore;
 }
 
-function test_EndLevel() {
+function testLevelEnded() {
   gameState = STATE_LEVEL_END;
   calculateLevelScore();
 }

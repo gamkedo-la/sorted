@@ -312,22 +312,25 @@ function loadLevel(whichLevel) {
 
   else if (testMode == SEND_COLUMNS) {
     console.log("Test send row of sheep in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
+    baaVolume = 0;
 
     // overwriting to use flocksize array seems a bad approach
     FLOCK_SIZE[whichLevel] = TILE_COLS;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
       if(testTeam == MIXED) {
-        var team = i % 2 == 0  ? BLUE : RED;
+        var team = i % 2 == 0 ? BLUE : RED;
         spawnSheep.reset(i, team, team, SENT);
       } else {
         spawnSheep.reset(i, testTeam, PLAIN, SENT);
       }
+      spawnSheep.test = "visual";
       spawnSheep.testRowInit();
       spawnSheep.placeTop();
       sheepList.push(spawnSheep);
     }
-    test_EndLevel();
+    testLevelEnded();
+    baaVolume = 1.0;
   }
 
   else if (testMode == ROAM_FROM_R1) {
@@ -342,7 +345,7 @@ function loadLevel(whichLevel) {
       spawnSheep.speed= 30;
       sheepList.push(spawnSheep);
     }
-    test_EndLevel();
+    testLevelEnded();
   }
 
   // reset sorting

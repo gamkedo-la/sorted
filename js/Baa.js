@@ -1,8 +1,8 @@
 // a way to play random sheep sounds
 
-const BAA_VOLUME = 1.0; // volume of sheep sfx when entering the pen
-const AMBIENT_BAA_VOLUME_MAX = 0.05; // quietly
-const AMBIENT_BAA_VOLUME_MIN = 0.01; // but not too quietly
+var baaVolume = 1.0; // volume of sheep sfx when entering the pen
+const AMBIENT_baaVolume_MAX = 0.05; // quietly
+const AMBIENT_baaVolume_MIN = 0.01; // but not too quietly
 const AMBIENT_BAA_CHANCE = 0.025; // rarely
 
 var flock_sounds, baa_sounds; // arrays that init on demand
@@ -10,7 +10,7 @@ var flock_sounds, baa_sounds; // arrays that init on demand
 // play when a sheep enters a gate
 function random_baa_sound(volume=0.5) {
 
-    if (!baa_sounds) baa_sounds = [ 
+  if (!baa_sounds) baa_sounds = [
         new SoundOverlapsClass("sound/baa01"),
         new SoundOverlapsClass("sound/baa02"),
         new SoundOverlapsClass("sound/baa03"),
@@ -35,7 +35,7 @@ function random_baa_sound(volume=0.5) {
 
 // run every update() but only occasionally plays a sound
 function flock_ambient_sounds() {
-    
+
     // group and individual BAA sounds used for random ambience
     if (!flock_sounds) flock_sounds = [
         new SoundOverlapsClass("sound/baa01"),
@@ -61,7 +61,7 @@ function flock_ambient_sounds() {
 
     // play one of them randomly
     if (Math.random() < AMBIENT_BAA_CHANCE) {
-        let volume = AMBIENT_BAA_VOLUME_MIN + Math.random() * (AMBIENT_BAA_VOLUME_MAX-AMBIENT_BAA_VOLUME_MIN);
+      let volume = AMBIENT_baaVolume_MIN + Math.random() * (AMBIENT_baaVolume_MAX - AMBIENT_baaVolume_MIN);
         flock_sounds[Math.floor(Math.random()*flock_sounds.length)].play(volume);
     }
 

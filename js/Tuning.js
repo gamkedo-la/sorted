@@ -56,17 +56,20 @@ ROAM_TIME_MAX.fill(defaultRoamTimeMax);
 GRAZE_TIME_MIN.fill(defaultGrazeTimeMin);
 GRAZE_TIME_MAX.fill(defaultGrazeTimeMin);
 
-// Sheep roam speed
+// sheep roam speed
 const ROAM_SPEED = Array(NUM_LEVELS);
 var defaultRoamSpeed = 1.0;
 ROAM_SPEED.fill(defaultRoamSpeed);
 
-// Sheep graze speed (if any)
+// sheep graze speed (if any)
 const GRAZE_SPEED = Array(NUM_LEVELS);
 var defaultGrazeSpeed = 0.05;
 GRAZE_SPEED.fill(defaultGrazeSpeed);
 
-// Sheep conveyor speed
+// on conveyor speed
+const CONVEYOR_SPEED = Array(NUM_LEVELS);
+var defaultConveyorSpeed = 1.0;
+CONVEYOR_SPEED.fill(defaultConveyorSpeed);
 
 // Rogue path
 const ROGUE_ROW = Array(NUM_LEVELS);
@@ -76,8 +79,3 @@ ROGUE_ROW.fill(defaultRogueRow);
 const ROGUE_SPEED = Array(NUM_LEVELS);
 var defaultRogueSpeed = 2;
 ROGUE_SPEED.fill(defaultRogueSpeed);
-
-const CONVEYOR_SPEED = Array(NUM_LEVELS);
-var defaultConveyorSpeed = 2;
-CONVEYOR_SPEED.fill(defaultConveyorSpeed);
-
