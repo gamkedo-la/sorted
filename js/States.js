@@ -82,7 +82,6 @@ function togglePause() {
 // called every interval, from Main.js
 function drawPlayState() {
   drawArea();
-  drawLowRoad();
   decals.draw();
   drawBarTitle("Level " + currentLevel, 20);
   drawBarButtons(playButtonLabel);
@@ -114,15 +113,21 @@ function drawPlayState() {
   // if a goal is occupied draw a gate
   for(var i=0; i<TILE_COLS; i++) {
     var index = i + ( TILE_COLS * (TILE_ROWS-1) );
-    if ( isTileGoal(index) ) {
-      if ( agentGrid[index] > 0 ) {
-        if ( areaGrid[index] == TILE_PEN_BLUE ) {
-          colDrawGoalGate(i, BLUE);
-        } else {
-          colDrawGoalGate(i, RED);
-        }
-      }
-    } // if goal tile
+    // if (isTilePen(index)) {
+    //   if ( agentGrid[index] > 0 ) {
+    //     if ( areaGrid[index] == TILE_PEN_BLUE ) {
+    //       colDrawPenGate(i, BLUE);
+    //     } else {
+    //       colDrawPenGate(i, RED);
+    //     }
+    //   }
+    // } // if goal tile
+    if (areaGrid[index] == FULL_BLUE) {
+      colDrawPenGate(i, BLUE);
+    }
+    else if (areaGrid[index] == FULL_RED) {
+      colDrawPenGate(i, RED);
+    }
   } // loop bottom row
 }
 
@@ -141,6 +146,6 @@ function drawCreditState() {
 // function drawMenuState() {
 //   drawBarTitle(LEVEL_NAMES[currentLevel]);
 // }
-function isTileGoal(index) {
+function isTilePen(index) {
   return areaGrid[index] == TILE_PEN_BLUE || areaGrid[index] == TILE_PEN_RED;
 }

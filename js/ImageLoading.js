@@ -69,18 +69,18 @@ function loadImages() {
     {varName: dogPic, theFile: "dog_normal.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass_50.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},
-    // {tileType: TILE_CENTRE, theFile: "tile_ditch.png"},
     {tileType: TILE_DITCH, theFile: "tile_ditch.png"},
-    // {tileType: TILE_DITCH, theFile: "tile_ditch_watery.png"},
+    {tileType: FULL_DITCH, theFile: "tile_ditch.png"},
     {tileType: TILE_PEN_BLUE, theFile: "tile_pen_blue.png"},
     {tileType: TILE_PEN_RED, theFile: "tile_pen_red.png"},
+    {tileType: FULL_BLUE, theFile: "tile_pen_blue.png"},
+    {tileType: FULL_RED, theFile: "tile_pen_red.png"},
     {tileType: TILE_LOST, theFile: "tile_tree.png"},
     {tileType: TILE_STUCK, theFile: "tile_stuck.png"},
 		{tileType: TILE_BEND_LEFT, theFile: "tile_bend_left.png"},
 		{tileType: TILE_BEND_RIGHT, theFile: "tile_bend_right.png"},
 		{tileType: TILE_CONVEYOR_LEFT, theFile: "tile_conveyor_left.png"},
 		{tileType: TILE_CONVEYOR_RIGHT, theFile: "tile_conveyor_right.png"},
-		{tileType: TILE_LOW_ROAD, theFile: "low_road_fence.png"}
 	];
 	picsToLoad = imageList.length;
 

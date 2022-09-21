@@ -73,9 +73,9 @@ function drawArea() {
         canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
       }
 
-      if ( isGoal(tileTypeHere) ) {
-        let team = tileTypeHere == TILE_PEN_BLUE ? 1 : 2;
-        xyDrawGoalFence(drawTileX, drawTileY, team);
+      if (isPen(tileTypeHere)) {
+        let team = isBluePen(tileTypeHere) ? 1 : 2;
+        xyDrawPenFence(drawTileX, drawTileY, team);
       } else {
         var useImg = tilePics[tileTypeHere];
         canvasContext.drawImage(useImg, drawTileX, drawTileY);
@@ -112,6 +112,8 @@ function tileTypeHasTransparency(tileType) {
   return(tileType == TILE_UNSORT ||
         tileType == TILE_PEN_BLUE ||
         tileType == TILE_PEN_RED ||
+        tileType == FULL_BLUE ||
+        tileType == FULL_RED ||
         tileType == TILE_LOST ||
         tileType == TILE_STUCK ||
         tileType == TILE_HALT ||
@@ -120,17 +122,6 @@ function tileTypeHasTransparency(tileType) {
         tileType == TILE_CONVEYOR_LEFT ||
         tileType == TILE_CONVEYOR_RIGHT
         );
-}
-
-function drawLowRoad() {
-  var drawTileX = 0;
-  var drawTileY = TILE_H * TILE_ROWS;
-  var tileTypeHere = TILE_LOW_ROAD;
-  for(var i=0; i<TILE_COLS; i++) {
-    var useImg = tilePics[tileTypeHere];
-    canvasContext.drawImage(useImg, drawTileX, drawTileY);
-    drawTileX += TILE_W;
-  }
 }
 
 // initially 21 cols, 9 levels
@@ -147,7 +138,7 @@ function makePenRow(cols, penSize) {
   return rowStr;
 }
 
-function writeGoalRow(cols, penSize, offset) {
+function writePenRow(cols, penSize, offset) {
   var rowStr = '  '; // grid.js indent if pasting
   var ditchStr = TILE_DITCH + ', ';
   // var centreStr = TILE_CENTRE + ', ';
@@ -164,10 +155,10 @@ function writeGoalRow(cols, penSize, offset) {
   return rowStr;
 }
 
-function levelsGoalRows() {
+function levelsPenRows() {
   var txt = '';
   for (var i=0; i < 8; i++) {
-    txt += writeGoalRow(TILE_COLS, 1, i) + '\n';
+    txt += writePenRow(TILE_COLS, 1, i) + '\n';
   }
   console.log(txt);
 }
@@ -248,7 +239,7 @@ function colRowToXY(col, row) {
   }
 }
 
-function colDrawGoalFence(col, team) {
+function colDrawPenFence(col, team) {
   let row = TILE_ROWS - 1; // bottom row always
   let topLeft = colRowToXY(col, row);
   // left fence
@@ -271,7 +262,7 @@ function colDrawGoalFence(col, team) {
   }
 }
 
-function xyDrawGoalFence(x, y, team) {
+function xyDrawPenFence(x, y, team) {
   var topLeft = { x: x, y: y };
   // left fence
   var x1 = topLeft.x;
@@ -293,7 +284,7 @@ function xyDrawGoalFence(x, y, team) {
   // }
 }
 
-function colDrawGoalGate(col, team) {
+function colDrawPenGate(col, team) {
   let row = TILE_ROWS - 1; // bottom row always
   let topLeft = colRowToXY(col, row);
   // top fence
@@ -303,7 +294,7 @@ function colDrawGoalGate(col, team) {
     colorRect(canvasContext, x1,y1, POST_SIZE, POST_THICK, TEAM_COLOURS[team])
   }
 }
-// function xyDrawGoalGate(x, y, team) {
+// function xyDrawPenGate(x, y, team) {
 //   var topLeft = { x: x, y: y };
 //   // top fence
 //   var y1 = topLeft.y + TILE_H - POST_SIZE;
@@ -318,6 +309,9 @@ function colDrawGoalGate(col, team) {
     // var x2 = x1 + POST_SIZE;
     // var y2 = y1 + POST_SIZE;
 
-function isGoal(tile) {
-  return tile == TILE_PEN_BLUE || tile == TILE_PEN_RED
+function isPen(tile) {
+  return tile == TILE_PEN_BLUE || tile == TILE_PEN_RED || tile == FULL_BLUE || tile == FULL_RED
+}
+function isBluePen(tile) {
+  return tile == TILE_PEN_BLUE || tile == FULL_BLUE
 }

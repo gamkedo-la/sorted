@@ -11,9 +11,10 @@ const TILE_UNSORT = 9;
 const TILE_DITCH = 10;
 const TILE_PEN_BLUE = 11;
 const TILE_PEN_RED = 12;
-// const TILE_CENTRE = 13; // use tile_road image
+const FULL_BLUE = 13; // when sheep on pen
+const FULL_RED = 14;
+const FULL_DITCH = 15;
 
-const TILE_LOW_ROAD = 99; // don't use on grid
 const TILE_NAMES = ['Field', 'Lost', 'Stuck', 'Halt', 'Bend left', 'Bend right', 'Conveyor left', 'Conveyor right', 'Not allocated', 'Unsort', 'Road', 'Pen blue', 'Pen red', 'Centre'];
 
 var areaGrid = [];

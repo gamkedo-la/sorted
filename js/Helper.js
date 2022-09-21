@@ -79,7 +79,7 @@ function isInPen(mode) {
 }
 
 var goalQuantity = 6;
-function countGoals() {
+function countPens() {
 }
 
 function calculateLevelScore() {

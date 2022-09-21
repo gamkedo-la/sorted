@@ -229,7 +229,10 @@ function menuKeyChoice(key) {
           gameState = STATE_GAME_OVER;
           console.log("Game Over!");
         } else {
+          // duplicate of code in case STATE_PLAY
           gotoMenu("LevelEnd, key M or Esc");
+          testMode = NORMAL_PLAY;
+          testSpeed = PLAY_SPEED;
         }
       }
 

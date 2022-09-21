@@ -25,7 +25,7 @@ step.fill(0);
 var levelData;
 // const fs = require('fs');
 
-var nearGoal = false; // if true, pens at row near top
+var nearPen = false; // if true, pens at row near top
 var decals; // grass, flowers, footprints, pebbles, etc
 
 const TEAM_NAMES = ["plain", "blue", "red", "mixed"];
