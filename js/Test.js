@@ -14,22 +14,25 @@ const TEST_DESCRIPTION = ["not automating, normal play", "from each column centr
 const NORMAL_PLAY = 0;
 const SEND_COLUMNS = 1;
 const ROAM_FROM_R1 = 2;
-const SEND_ALL_X_ONE_COLUMN = 2;
-const SEND_IN_COLUMN = 3;
-const SEND_ALL_X_ALL_COLUMNS = 4;
+const CALL_FROM_R13 = 3;
+var testMode = NORMAL_PLAY;
 
-const TEST_SEND_SPEED = 10;
+// const TEST_SEND_SPEED = 10;
+var testSpeedMultiplier = [ 1, 5, 20 ];
+const PLAY_SPEED = 0;
+const VISUAL_TEST_SPEED = 1;
+const INVISIBLE_TEST_SPEED = 2;
+var testSpeed = PLAY_SPEED;
 
 const DEBUGS = 5;
 var debugTextLine = Array(DEBUGS);
 const DEBUG_TOP = 480;
 const DEBUG_LINE_SP = 25;
 
-var testMode = NORMAL_PLAY;
 var testColumnSet = true; // flag to get column number from keypress
 var testTimer = null;
 var testLevel = 0;
-var testSpeedMultiplier = [ 1, 10 ];
+
 
 var touchDevice = null; // tested in Main.js onload
 var TOUCH_TEST = null; // enable to activate Touch handling code

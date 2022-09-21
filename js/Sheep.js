@@ -80,7 +80,7 @@ function sheepClass() {
     this.ang = Math.PI/2;
   }
   this.testColumnXInit = function() {
-    this.speed = TEST_SEND_SPEED;
+    // this.speed = TEST_SEND_SPEED;
     this.ang = Math.PI/2;
   }
 
@@ -228,29 +228,32 @@ function sheepClass() {
     // if x,y change inside tileHandling must be returned as object
     // var pos = this.tileHandling(nextX, nextY);
 
-    // if(this.levelDone == false && this.occupancyTested == false) {
-    if(this.levelDone == false) {
+    if (testSpeed == VISUAL_TEST_SPEED) {
       tileOccupied = this.isTileOccupied(nextX, nextY);
-      // console.log(this.id + " entering tile occupied=" + tileOccupied);
-
-      // prevent unteamed sheep from stacking
-      // automated tests: stacking is switched off
-      if(tileOccupied && this.team != PLAIN && testMode == NORMAL_PLAY) {
+// console.log(this.id + " entering tile occupied=" + tileOccupied);
+      if (tileOccupied) {
         this.occupancyTested == true;
         pos = this.agentHandling(nextX, nextY);
         // console.log("pos", pos)
-      } else {
+      }
+      else {
         pos = this.tileHandling(nextX, nextY);
       }
-      if(pos == undefined) {
-        console.log("Collision or TileHandling failed to set x & y values");
-      }
+    }
+
+    else { // not visual testing (play, or invisible test)
+      pos = this.tileHandling(nextX, nextY);
+    }
+
+    if(pos == undefined) {
+      console.log("Collision or TileHandling failed to set x & y values");
     }
 
     if(pos != undefined) {
       this.x = pos.x;
       this.y = pos.y;
-    } else {
+    }
+    else {
       // console.log("ID " + this.id + " didnt do occupancy test or tilehandling")
       this.x = nextX;
       this.y = nextY;
@@ -267,7 +270,9 @@ function sheepClass() {
         }
       }
     }
+
     testIfLevelEnd();
+
     if(testMode == NORMAL_PLAY) {
       this.leaveHoofprints();
     }
@@ -338,9 +343,7 @@ function sheepClass() {
           this.orient = Math.PI * 3/2;
         }
         this.state = STACKED;
-
-        this.endCol = col;
-        this.endLevel();
+        this.endLevel(col);
         // this.endTime = step[currentLevel];
 
         agentGrid[index - TILE_COLS] = this.team;
@@ -364,8 +367,7 @@ function sheepClass() {
 
       var tileType = getTileTypeAtColRow(tileCol,tileRow);
 
-      // only when first entering pen tile
-      if ( this.stateIsInGoal() == false && this.onTileGoal(tileType) ) {
+      if ( this.onTileGoal(tileType) ) {
 
         if (tileType == TILE_PEN_BLUE) {
           console.log("Sheep ID", this.id, "reached the blue pen.");
@@ -375,6 +377,7 @@ function sheepClass() {
           nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST); // bring rear inside tile
           random_baa_sound(baaVolume);
         }
+
         else if (tileType == TILE_PEN_RED) {
           console.log("Sheep ID", this.id, "reached the red pen.");
           agentGrid[tileIndexUnder] = this.team;
@@ -382,100 +385,99 @@ function sheepClass() {
           this.orient = Math.PI * 3/2;
           nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST);
           random_baa_sound(baaVolume);
-
           // fixme: perhaps we need some "unhappy" BAA sounds?
-          // random_baa_sound(baaVolume);
         }
 
-        this.speed = 0;
         nextX = nearestColumnCentre(nextX);
-        // replaced // nextX = TILE_W * 11.5; // nextX = TILE_W * 9.5;
-
         this.ang = Math.PI * 1/2;
-        this.endLevel();
-      } else {
-        // terrain handling
+        this.endLevel(tileCol);
+      } // end entering goal of either colour
 
-        // deflection size governed by how many steps inside tile
-        // applied every loop
-        if (tileType == TILE_BEND_LEFT) {
-          if (this.state == SENT) {
-            this.ang += 0.1;
-          }
-          else {
-            this.ang += 0.01;
-          }
+      // deflection size governed by how many steps inside tile
+      // applied every loop
+      if (tileType == TILE_BEND_LEFT) {
+        if (this.state == SENT) {
+          this.ang += 0.1;
+        }
+        else {
+          this.ang += 0.01;
+        }
 
-        } else if (tileType == TILE_BEND_RIGHT) {
-          if (this.state == SENT) {
-            this.ang -= 0.1;
-          }
-          else {
-            this.ang -= 0.01;
-          }
-
-        // should only apply on entering
-        } else if (tileType == TILE_HALT) {
-          if (this.state != GRAZE) {
-            this.changeMode(GRAZE);
-            // if arriving at lake from above
-            if (this.ang > 1/4*Math.PI && this.ang < 3/4*Math.PI) {
-              // nextY -= this.speed; // stay at edge of lake
-              nextY = nearestRowEdge(nextY) -10;
-              console.log("Avoid walking into water");
-            }
-            var turn = randomRangeInt(1,2) == 1 ? 1 : (-1);
-            this.ang += turn * Math.PI/2;
-          }
-
-        } else if (tileType == TILE_LOST) {
-          if(this.state != ROAM) {
-            this.changeMode(ROAM);
-            this.ang = randomRange(0, Math.PI * 2);
-          }
-
-        } else if (tileType == TILE_STUCK) {
-          if (this.state != STUCK) {
-            this.state = STUCK;
-            stuckSound.play();
-            this.endLevel();
-            // definitely need endRow, and Stuck is not a scoring result
-          }
-
-        } else if (tileType == TILE_DITCH) {
-          if (this.state != IN_DITCH) {
-            this.changeMode(IN_DITCH);
-            this.endCol = tileCol;
-            this.endLevel();
-            nextX = nearestColumnCentre(nextX);
-            nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST);
-            agentGrid[tileIndexUnder] = this.team;
-          }
-
-        } else if ( this.isTileConveyor(tileType) ) {
-          if (this.state != CONVEYOR) {
-            this.changeMode(CONVEYOR);
-            if (tileType == TILE_CONVEYOR_LEFT) {
-              this.gotoX = nextX - TILE_W;
-              this.ang = Math.PI;
-            }
-            else if(tileType == TILE_CONVEYOR_RIGHT) {
-              this.gotoX = nextX + TILE_W;
-              this.ang = 0;
-            }
-          }
-        } // end of entering Conveyor mode
-
-        else if (tileType != TILE_FIELD) {
-          // undo car move to fix "car stuck in wall" bug
-          // this.x -= Math.cos(this.ang) * this.speed;
-          // this.y -= Math.sin(this.ang) * this.speed;
-          // rebound from obstacle
-          // this.speed *= -1;
-          this.speed = 0;
-
-        } // end of terrain handling
       }
+
+      else if (tileType == TILE_BEND_RIGHT) {
+        if (this.state == SENT) {
+          this.ang -= 0.1;
+        }
+        else {
+          this.ang -= 0.01;
+        }
+      // should only apply on entering
+      }
+
+      else if (tileType == TILE_HALT) {
+        if (this.state != GRAZE) {
+          this.changeMode(GRAZE);
+          // if arriving at lake from above
+          if (this.ang > 1/4*Math.PI && this.ang < 3/4*Math.PI) {
+            // nextY -= this.speed; // stay at edge of lake
+            nextY = nearestRowEdge(nextY) -10;
+            console.log("Avoid walking into water");
+          }
+          var turn = randomRangeInt(1,2) == 1 ? 1 : (-1);
+          this.ang += turn * Math.PI/2;
+        }
+      }
+
+      else if (tileType == TILE_LOST) {
+        if(this.state != ROAM) {
+          this.changeMode(ROAM);
+          this.ang = randomRange(0, Math.PI * 2);
+        }
+      }
+
+      else if (tileType == TILE_STUCK) {
+        if (this.state != STUCK) {
+          this.state = STUCK;
+          stuckSound.play();
+          this.endLevel(tileCol);
+          // definitely need endRow, and Stuck is not a scoring result
+        }
+      }
+
+      else if (tileType == TILE_DITCH) {
+        if (this.state != IN_DITCH) {
+          this.changeMode(IN_DITCH);
+          this.endLevel(tileCol);
+          nextX = nearestColumnCentre(nextX);
+          nextY = TILE_H * (TILE_ROWS-1 + TILE_Y_ADJUST);
+          agentGrid[tileIndexUnder] = this.team;
+        }
+      }
+
+      else if ( this.isTileConveyor(tileType) ) {
+        if (this.state != CONVEYOR) {
+          this.changeMode(CONVEYOR);
+          if (tileType == TILE_CONVEYOR_LEFT) {
+            this.gotoX = nextX - TILE_W;
+            this.ang = Math.PI;
+          }
+          else if(tileType == TILE_CONVEYOR_RIGHT) {
+            this.gotoX = nextX + TILE_W;
+            this.ang = 0;
+          }
+        }
+      } // end of entering Conveyor mode
+
+      else if (tileType != TILE_FIELD) {
+        // undo car move to fix "car stuck in wall" bug
+        // this.x -= Math.cos(this.ang) * this.speed;
+        // this.y -= Math.sin(this.ang) * this.speed;
+        // rebound from obstacle
+        // this.speed *= -1;
+        this.speed = 0;
+
+      } // end of terrain handling
     } // end of valid col and row
 
     return {
@@ -546,7 +548,8 @@ function sheepClass() {
     if( this.isModeTimed() ) {
       this.setExpiry();
     }
-    
+
+    // changing FPS instead to avoid passing through tiles
     this.speed *= testSpeedMultiplier[testMode];
 
     // changeMode also called from tileHandling
@@ -719,10 +722,11 @@ function sheepClass() {
     }
   } // end of scoreLabel
 
-  this.endLevel = function(tileCol) {
+  // overlap with changeMode? stacked
+  this.endLevel = function(col) {
     this.speed = 0; // usually set by changeMode?
     this.endTime = step[currentLevel];
-    this.endCol = tileCol;
+    this.endCol = col;
     this.levelDone = true;
     sheepInPlay--;
     update_debug_report();

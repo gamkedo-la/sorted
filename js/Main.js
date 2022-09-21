@@ -75,7 +75,9 @@ window.onload = function() {
 
 function imageLoadingDoneSoStartGame() {
   setupDecals();
+	// var framesPerSecond = 30 * testSpeedMultiplier[testSpeed];
 	var framesPerSecond = 30;
+  console.log("FPS =", framesPerSecond)
 	setInterval(updateAll, 1000/framesPerSecond);
 
   setupInput();

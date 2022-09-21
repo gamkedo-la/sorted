@@ -215,6 +215,8 @@ function menuKeyChoice(key) {
     case STATE_PLAY:
       if (key == KEY_ESC || key == KEY_M) {
         gotoMenu("Play, key M or Esc");
+        testMode = NORMAL_PLAY; // remove Test settings
+        testSpeed = PLAY_SPEED;
       }
       else if (key == KEY_SPACE) {
         togglePause();
@@ -275,7 +277,7 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
       if(editMode) {
         if(key >= KEY_NUM_0 && key <= KEY_NUM_9) {
 
-          if (testMode == NORMAL_PLAY || testMode == SEND_ALL_X_ALL_COLUMNS || testMode == SEND_COLUMNS || testColumnSet) {
+          if (testColumnSet) {
 
             testLevel = key - KEY_NUM_0; // 1 on keyb is code 49
             currentLevel = testLevel;
@@ -295,8 +297,10 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
         if(key == KEY_A) {
           // testMode = !testMode; // toggle
           testMode++;
+          testSpeed = VISUAL_TEST_SPEED;
           if(testMode > 2) { // stack Column is 3, Every_X is 4
             testMode = 0;
+            testSpeed = PLAY_SPEED;
           }
           console.log(TEST_DESCRIPTION[testMode]);
         }
