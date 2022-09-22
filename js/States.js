@@ -88,6 +88,11 @@ function drawPlayState() {
 
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     sheepList[i].draw();
+
+    if (sheepList[i].levelDone) {
+      sheepList[i].drawScore();
+    }
+
     if (editMode) {
       sheepList[i].idLabel();
     }
@@ -110,7 +115,7 @@ function drawPlayState() {
 
   drawTutorial();
 
-  // if a goal is occupied draw a gate
+  // if a pen is occupied draw a gate
   for(var i=0; i<TILE_COLS; i++) {
     var index = i + (TILE_COLS * (TILE_ROWS - 1));
     if (areaGrid[index] == FULL_BLUE) {
@@ -128,15 +133,8 @@ function drawMenuState() {
   drawBarButtons(menuButtonLabel);
 }
 
+
 function drawCreditState() {
   drawCredits();
   drawBarButtons(offMenuButtonLabel);
-}
-
-
-// function drawMenuState() {
-//   drawBarTitle(LEVEL_NAMES[currentLevel]);
-// }
-function isTilePen(index) {
-  return areaGrid[index] == TILE_PEN_BLUE || areaGrid[index] == TILE_PEN_RED;
 }

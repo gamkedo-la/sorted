@@ -155,7 +155,7 @@ function field_mousedownHandler() {
       console.log("Top row reserved for Hat movement " + mouse.y);
     }
     else if (mouse.y > gameCanvas.height - TILE_H) {
-      console.log("Bottom row reserved for goal and ditch tiles " + mouse.y);
+      console.log("Bottom row reserved for pen and ditch tiles " + mouse.y);
     }
     else {
       gridIndex = getTileIndexAtXY(mouse.x, mouse.y);

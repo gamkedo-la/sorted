@@ -195,10 +195,10 @@ function playerClass(id) {
 
       if (deltaX == 0) {
         // don't move
-        console.log("Hat already at gotoX, not moving");
-
-      } else {
-        if ( Math.abs(deltaX) < moveX) {
+        // console.log("Hat already at gotoX, not moving");
+      }
+      else {
+        if (Math.abs(deltaX) < moveX) {
 
           // nearly reached gotoX position
           nextX = this.gotoX;

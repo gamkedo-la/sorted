@@ -3,12 +3,12 @@ const SIDE_MARGIN = SHEEP_RADIUS/2 + 1;
 const TOP_MARGIN = 60;
 const FACING_RADIUS = 2;
 
-var teamSizeSoFar = [0,0,0];
+var teamSizeSoFar = [0, 0, 0];
 var sheepInPlay = 0;
 const plainSheepCanFinish = true;
 
 const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
-const  TILE_Y_ADJUST = 0.650; // position outOfPlay sheep in tile
+const TILE_Y_ADJUST = 0.650; // position outOfPlay sheep in tile
 
 // sheep modes
 const GRAZE = 0;
@@ -18,15 +18,23 @@ const HELD = 3;
 const SENT = 4;
 const CONVEYOR = 5;
 const STUCK = 6;
+
 // below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
 // on-road and fenced were orig created for end-of-level calculation
 const IN_DITCH = 7;
 const IN_BLUE_PEN = 8;
 const IN_RED_PEN = 9;
-const SELECTED = 10;
+const SELECTED = 10; // only while manually edit/testing
+
+// for Tests
+const STACKED = 13;
+const STACKED_DITCH = 14;
+const STACKED_BLUE = 15;
+const STACKED_RED = 16;
+
+// not in use
 const IN_BLUE_LORRY = 11;
 const IN_RED_LORRY = 12;
-const STACKED = 13;
 const ON_ROAD = 14;
 
 const sheepModeNames = ['Graze', 'Roam', 'Called', 'Held', 'Sent', 'Conveyor', 'Stuck', 'In_Ditch', 'In_Blue_Pen', 'In_Red_Pen', 'On_Road', 'In_Blue_Lorry', 'In_Red_Lorry'];
@@ -284,13 +292,13 @@ function sheepClass() {
     if (this.enterPen(tileType)) {
 
       if (tileType == TILE_PEN_BLUE) {
-        console.log("Sheep ID", this.id, "reached the blue pen.");
+        console.log("Sheep ID", this.id, "reached a blue pen.");
         this.orient = Math.PI * 1 / 2;
         this.mode = IN_BLUE_PEN;
         areaGrid[tileIndexUnder] = FULL_BLUE;
       }
       else if (tileType == TILE_PEN_RED) {
-        console.log("Sheep ID", this.id, "reached the red pen.");
+        console.log("Sheep ID", this.id, "reached a red pen.");
         this.orient = Math.PI * 3 / 2;
         this.mode = IN_RED_PEN;
         areaGrid[tileIndexUnder] = FULL_RED;
@@ -334,9 +342,8 @@ function sheepClass() {
         this.endLevel(tileCol);
         agentGrid[index - TILE_COLS] = this.team;
         stacking = false; // return to default behaviour
-      } // end enter full goal of either colour
+      } // end enter full pen of either colour
     }
-
 
     else if (tileType == TILE_DITCH) {
       if (this.mode != IN_DITCH) {
@@ -360,8 +367,9 @@ function sheepClass() {
         this.ang = angleAdjust * Math.PI;
         this.orient = 0;
         console.log("Ditch occupied, turn away id", this.id);
+      }
 
-      } else if (testSpeed == VISUAL_TEST_SPEED) {
+      else if (testSpeed == VISUAL_TEST_SPEED) {
         nextX = nearestColumnCentre(nextX);
         nextY = ((tileRow - 1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
         console.log("stack at Y=", nextY);
@@ -637,26 +645,26 @@ function sheepClass() {
   } // end of draw
 
   this.idLabel = function() {
-    var fontSize = 12;
+    var fontSize = 10;
     canvasContext.font = fontSize + "px Verdana";
     var adjust; // ID label obscured when lower left
 
     if (this.team == null) {
       colorText(canvasContext, this.id, this.x-8, this.y+6, "black");
-    } else {
-      // draw ID on sheep's back
+    }
+    else {
       var ang = normaliseRadian(this.ang);
       if (ang >= (3 / 2 * Math.PI) && ang <= 2 * Math.PI) {
-        adjust = 25;
+        adjust = 22;
       }
       else if (ang >= (5 / 4 * Math.PI) && ang < 3 / 2 * Math.PI) {
-        adjust = 20;
+        adjust = 16;
       }
       else if (ang >= 0 && ang <= Math.PI / 2) {
-        adjust = 20;
+        adjust = 16;
       }
       else {
-        adjust = 15;
+        adjust = 12;
       }
       var backX = this.x - Math.cos(this.ang) * (SHEEP_RADIUS + adjust);
       var backY = this.y - Math.sin(this.ang) * (SHEEP_RADIUS + adjust);
@@ -668,7 +676,7 @@ function sheepClass() {
   this.timerLabel = function() {
     var facingXoffset = this.x + Math.cos(this.ang + Math.PI/4) * (SHEEP_RADIUS +8);
     var facingYoffset = this.y + Math.sin(this.ang + Math.PI/4) * (SHEEP_RADIUS +8);
-    var fontSize = 8;
+    var fontSize = 7;
     canvasContext.font = fontSize + "px Verdana";
     // colorText(this.timer, this.x, this.y + SHEEP_RADIUS + fontSize, "yellow");
     colorText(canvasContext, this.timer, facingXoffset, facingYoffset, "yellow");
@@ -677,7 +685,7 @@ function sheepClass() {
   this.modeLabel = function() {
     var facingXoffset = this.x + Math.cos(this.ang - Math.PI/4) * (SHEEP_RADIUS +7);
     var facingYoffset = this.y + Math.sin(this.ang - Math.PI/4) * (SHEEP_RADIUS +7);
-    var fontSize = 10;
+    var fontSize = 8;
     canvasContext.font = fontSize + "px Verdana";
     // colorText(this.mode, this.x -26, this.y + SHEEP_RADIUS/2, "orange");
     colorText(canvasContext, this.mode, facingXoffset, facingYoffset, "white");
@@ -697,15 +705,65 @@ function sheepClass() {
     }
   } // end of scoreLabel
 
+
+  this.drawScore = function() {
+      var fontSize = 20;
+      canvasContext.textAlign = "center";
+      canvasContext.font = fontSize + "px Verdana";
+      // draw score above sheep
+      colorText(canvasContext, this.score, this.x, this.y - TILE_H + 5, "white");
+  } // end of drawScore
+
+
   // overlap with changeMode? stacked
   this.endLevel = function(col) {
     this.speed = 0; // usually set by changeMode?
     this.endTime = step[currentLevel];
     this.endCol = col;
     this.levelDone = true;
+    this. calculateScore();
     sheepInPlay--;
     update_debug_report();
     // test if level complete
+  }
+
+  this.calculateScore = function() {
+    var score;
+    if (this.team != PLAIN) {
+
+      if (this.mode == IN_DITCH) {
+        score = DITCH_SCORE;
+      }
+      else if (this.mode == IN_BLUE_PEN) {
+        score = PEN_SCORE;
+      }
+      else if (this.mode == IN_RED_PEN) {
+        score = PEN_SCORE;
+      }
+
+      if ( this.isOffside() ) {
+        score *= 1 - (1+currentLevel)/5;
+      }
+
+      this.score = score;
+      levelScore += score;
+      this.scoreDisplayTimer = SCORE_DISPLAY_TIME;
+
+      // console.log(sheepList[i].id, x, team, mode, offSide, done)
+    }
+  }
+
+  this.isOffside = function() {
+    var offside = false;
+    // if central tile it scores for both teams (adjust by TILE_W/2)
+    var centralAdjust = isOdd(TILE_COLS) ? TILE_W/2 : 0;
+    if (this.team == BLUE && this.x >= gameCanvas.width / 2 + centralAdjust) {
+      offside = true;
+    }
+    else if (this.team == RED && this.x < gameCanvas.width / 2 - centralAdjust) {
+      offside = true;
+    }
+    return offside;
   }
 
 } // end of sheepClass

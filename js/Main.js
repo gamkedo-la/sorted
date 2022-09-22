@@ -81,6 +81,7 @@ function imageLoadingDoneSoStartGame() {
 	setInterval(updateAll, 1000/framesPerSecond);
 
   setupInput();
+  setAllMaxScores();
 }
 
 function resizeWindow(){

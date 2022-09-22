@@ -1,8 +1,3 @@
-var outOfPlay = 0;
-var levelScore;
-var levelScores = [0,0,0,0,0,0,0,0,0,0];
-var levelMaxScores = [0,0,0,0,0,0,0,0,0,0];
-
 function randomRange(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -10,6 +5,7 @@ function randomRange(min, max) {
 function randomRangeInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
 
 function distance(x1,y1, x2,y2) {
   var deltaX = x1 - x2;
@@ -20,6 +16,12 @@ function distance(x1,y1, x2,y2) {
 // function distance(v1, v2) {
 //   return Math.abs(v1 - v2);
 // }
+
+
+function isTilePen(index) {
+  return areaGrid[index] == TILE_PEN_BLUE || areaGrid[index] == TILE_PEN_RED;
+}
+
 
 function countPennedSheep() {
   var count = 0;
@@ -33,6 +35,7 @@ function countPennedSheep() {
   } // end loop all sheep
   return count;
 }
+
 
 function update_debug_report() {
   var txt = '';
@@ -49,6 +52,7 @@ function update_debug_report() {
   debugTextLine[2] = txt;
 }
 
+
 function UI_level_number() {
   canvasContext.font = "18px Verdana";
   canvasContext.fillStyle = "white";
@@ -56,94 +60,6 @@ function UI_level_number() {
   canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
 
-function testIfLevelEnd() {
-  // if all sheep in states IN_DITCH or PEN or ON_ROAD
-  // outOfPlay = 0;
-  // for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-  //   if (sheepList[i].levelDone) {
-  //     outOfPlay++;
-  //   }
-  // }
-  // // console.log("Out of play =", outOfPlay)
-  // if (outOfPlay >= FLOCK_SIZE[currentLevel]) {
-  if (sheepInPlay < 1) {
-    console.log("Level over", outOfPlay);
-    gameState = STATE_LEVEL_END;
-    calculateLevelScore();
-    levelRunning = false;
-  }
-}
-
-function isInPen(mode) {
-  return mode == IN_BLUE_PEN || mode == IN_RED_PEN
-}
-
-var goalQuantity = 6;
-function countPens() {
-}
-
-function calculateLevelScore() {
-  levelScore = 0;
-
-  let goalScoreMult = Math.min(FLOCK_SIZE[currentLevel], goalQuantity);
-  let maxScore = 100 * goalScoreMult;
-
-  let spareSheep = 0;
-  if (FLOCK_SIZE[currentLevel] > goalQuantity) {
-    spareSheep = FLOCK_SIZE[currentLevel] - goalQuantity;
-  }
-  levelMaxScores[currentLevel] = maxScore + (40 * spareSheep);
-
-  var offSide;
-  var mode, team, x, score;
-  console.log("Calculating end-of-level score for each sheep");
-  levelTestDataReady = true;
-
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    offSide = false;
-    mode = sheepList[i].mode;
-    id = sheepList[i].id;
-    team = sheepList[i].team;
-    done = sheepList[i].levelDone;
-
-    x = sheepList[i].x;
-
-    // central tile scores for both teams (adjust by TILE_W/2)
-    if (team == BLUE && x >= gameCanvas.width / 2 + TILE_W / 2) {
-      offSide = true;
-    }
-    else if (team == RED && x < gameCanvas.width / 2 - TILE_W / 2) {
-      offSide = true;
-    }
-
-    if (done && team != PLAIN) {
-      // score = 80 - Math.round(Math.abs(x - gameCanvas.width/2) / 5);
-      score = 40;
-      if (offSide) {
-        sheepList[i].score = 0;
-      } else {
-        sheepList[i].score = score;
-      }
-      // how about if in goal column but queued up?
-      // bonus for being in goal column
-      if (mode == IN_BLUE_PEN && team == BLUE) {
-        sheepList[i].score += 60;
-      }
-      else if (mode == IN_RED_PEN && team == RED) {
-        sheepList[i].score += 60;
-      }
-      levelScore += sheepList[i].score;
-
-      // console.log(sheepList[i].id, x, team, mode, offSide, done)
-    }
-  }
-  levelScores[currentLevel] = levelScore;
-}
-
-function testLevelEnded() {
-  gameState = STATE_LEVEL_END;
-  calculateLevelScore();
-}
 
 function getLines(ctx, text, maxWidth) {
   var words = text.split(" ");
@@ -163,6 +79,7 @@ function getLines(ctx, text, maxWidth) {
   lines.push(currentLine);
   return lines;
 }
+
 
 function drawAgentGridValues() {
   var arrayIndex = 0;
@@ -188,6 +105,7 @@ function drawAgentGridValues() {
 	} // end of for each row
 } // end of drawArea func
 
+
 function normaliseRadian(ang) {
   while(ang < 0) {
     ang += 2 * Math.PI;
@@ -198,23 +116,29 @@ function normaliseRadian(ang) {
   return ang;
 }
 
+
 function roundToNearest(number, multiple) {
   var half = multiple/2;
   return number+half - (number+half) % multiple;
 }
+
 function nearestRowEdge(y) {
   rowEdge = roundToNearest(y, TILE_H);
   return rowEdge;
 }
+
 function isAtColumnEdge(x) {
   return ( x % TILE_W == 0 );
 }
+
 function isAtColumnCentre(x) {
   return ( x % TILE_W == TILE_W / 2 );
 }
+
 function nearestColumnCentre(x) {
   return TILE_W/2 + (Math.round((x - TILE_W/2) / TILE_W) * TILE_W);
 }
+
 
 function nextColumnCentre(x, direction) {
   // already at centre
@@ -233,6 +157,7 @@ function nextColumnCentre(x, direction) {
   }
 }
 
+
 function nextColumnEdge(x, direction) {
   var edge = Math.floor(x / TILE_W) * TILE_W;
   if (direction == 1) {
@@ -241,14 +166,17 @@ function nextColumnEdge(x, direction) {
   return edge;
 }
 
+
 // check if a point is inside a rectangle
 function xyIsInRect(pos, rect) {
   return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
 }
+
 function UIxyIsInRect(pos, rect) {
   let x = pos.x - gameCanvas.width;
   return x > rect.x && x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
 }
+
 
 function downloader(filename, text) {
   var element = document.createElement('a');
@@ -262,6 +190,7 @@ function downloader(filename, text) {
   document.body.removeChild(element);
 }
 
+
 function findNearestSheep(x,y) {
   var nearestSheepDist = 999;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
@@ -274,6 +203,12 @@ function findNearestSheep(x,y) {
   return nearestSheep;
 }
 
+
 function angleRadiansBetweenPoints(p1, p2) {
   return Math.atan2(p2.y - p1.y, p2.x - p1.x);
+}
+
+
+function isOdd(num) {
+  return num % 2;
 }

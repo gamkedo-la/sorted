@@ -72,7 +72,7 @@ function drawHelp() {
 
   smallBodyLine("Aim: get all sheep to bottom row, sorting two groups.", ++line, yTop);
 
-  var txt = "How to play: move Hat sideways (use arrow keys), call a sheep (Up arrow key), send a sheep (Down arrow). Points are gained if a sheep arrives on correct side of the field, and closer to field's horizontal centre scores more. Bonus points for a sheep arriving on the goal (chequered tile).";
+  var txt = "How to play: move Hat sideways (use arrow keys), call a sheep (Up arrow key), send a sheep (Down arrow). Points are gained if a sheep arrives on correct side of the field, and closer to field's horizontal centre scores more. Bonus points for a sheep arriving on the pen (chequered tile).";
 
   var txtLines = getLines(canvasContext, txt, 600);
   line++; // gap between paragraphs
@@ -112,7 +112,7 @@ function drawCredits() {
   // paragraphLine("Patrick McKeown - lead, programmer.", ++line, paragraph);
   // paragraph++;
 
-  var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grass; hoofprints behind sheep; many soundfx for sheep, and dog; ambient sheep sounds; baa when sheep enters goal.'
+  var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grass; hoofprints behind sheep; many soundfx for sheep, and dog; ambient sheep sounds; baa when sheep enters pen.'
   var txtLines = getLines(canvasContext, txt, 750);
   // console.log(txtLines.length + txtLines[2])
   for(var i=0; i<txtLines.length; i++) {

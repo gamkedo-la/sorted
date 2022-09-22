@@ -304,7 +304,7 @@ function colDrawPenGate(col, team) {
 //   }
 // }
 
-// multi-tile goal
+// multi-tile pen
 // - POST_SIZE/2; // half on adjacent tile
     // var x2 = x1 + POST_SIZE;
     // var y2 = y1 + POST_SIZE;
