@@ -28,7 +28,7 @@ var picsToLoad = 0; // set automatically based on imageList in loadImages()
 function countLoadedImagesAndLaunchIfReady() {
 	picsToLoad--;
 	// console.log(picsToLoad);
-	if(picsToLoad == 0) {
+  if (picsToLoad == 0) {
 		imageLoadingDoneSoStartGame();
 	}
 }
@@ -86,7 +86,7 @@ function loadImages() {
 
 	for(var i=0; i<imageList.length; i++) {
     // if list item has varName, use it
-    if(imageList[i].varName != undefined) {
+    if (imageList[i].varName != undefined) {
       beginLoadingImage(imageList[i].varName, imageList[i].theFile);
     } else {
       loadImageForTileCode(imageList[i].tileType, imageList[i].theFile);

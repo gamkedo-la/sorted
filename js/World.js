@@ -25,7 +25,7 @@ function getTileIndexAtXY(x, y) {
 }
 
 function getTileTypeAtColRow(col, row) {
-	if(col >= 0 && col < TILE_COLS &&
+  if (col >= 0 && col < TILE_COLS &&
 		row >= 0 && row < TILE_ROWS) {
 		 var tileIndexUnderColRow = colRowToIndex(col, row);
 		 return (areaGrid[tileIndexUnderColRow]);
@@ -91,19 +91,19 @@ function drawArea() {
 
 function checkGridMatchColsRows() {
   var numberTilesNeeded = TILE_COLS * TILE_ROWS;
-  if(TILE_COLS * TILE_W > gameCanvas.width) {
+  if (TILE_COLS * TILE_W > gameCanvas.width) {
     console.log("Grid columns overflow canvas width");
   }
-  if(TILE_ROWS * TILE_H > gameCanvas.height) {
+  if (TILE_ROWS * TILE_H > gameCanvas.height) {
     console.log("Grid rows overflow canvas height");
   }
-  if(areaGrid.length == numberTilesNeeded) {
+  if (areaGrid.length == numberTilesNeeded) {
     // console.log("Grid has correct number of tiles matching columns * rows", areaGrid.length, numberTilesNeeded);
   }
-  if(areaGrid.length > numberTilesNeeded) {
+  if (areaGrid.length > numberTilesNeeded) {
     console.log("Grid has more tiles than allowed for by columns * rows", areaGrid.length, numberTilesNeeded);
   }
-  if(areaGrid.length < numberTilesNeeded) {
+  if (areaGrid.length < numberTilesNeeded) {
     console.log("Grid lacks enough tiles to fill required columns * rows", areaGrid.length, numberTilesNeeded);
   }
 }

@@ -11,11 +11,11 @@ function setFormat() {
 
 function BackgroundMusicClass() {
   var musicSound = null;
-    
+
   this.loopSong = function(filenameWithPath) {
     setFormat(); // calling to ensure audioFormat is set before needed
-    
-    if(musicSound != null) {
+
+    if (musicSound != null) {
       musicSound.pause();
       musicSound = null;
     }
@@ -23,9 +23,9 @@ function BackgroundMusicClass() {
     musicSound.loop = true;
     musicSound.play();
   }
-  
+
   this.startOrStopMusic = function() {
-    if(musicSound.paused) {
+    if (musicSound.paused) {
       musicSound.play();
     } else {
       musicSound.pause();
@@ -34,16 +34,16 @@ function BackgroundMusicClass() {
 }
 
 function SoundOverlapsClass(filenameWithPath) {
-  
+
   setFormat(); // calling this to ensure that audioFormat is set before needed
-  
+
   var mainSound = new Audio(filenameWithPath+audioFormat);
   var altSound = new Audio(filenameWithPath+audioFormat);
 
   var altSoundTurn = false;
-  
+
   this.play = function(volume=1) {
-    if(altSoundTurn) { // no "this." prefix since "var" is local/private
+    if (altSoundTurn) { // no "this." prefix since "var" is local/private
       altSound.volume=volume;
       altSound.currentTime = 0;
       altSound.play();

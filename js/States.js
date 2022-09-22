@@ -26,7 +26,7 @@ function gotoPlay(from) {
 
 function gotoReplay(from) {
   gameState = STATE_PLAY;
-  if(!levelRunning) {
+  if (!levelRunning) {
     levelRunning = true;
     loadLevel(playLevel);
     checkGridMatchColsRows();
@@ -35,8 +35,8 @@ function gotoReplay(from) {
 
 function gotoAdvance(from) {
   gameState = STATE_PLAY;
-  if(!levelRunning) {
-    if(playLevel == LAST_LEVEL) {
+  if (!levelRunning) {
+    if (playLevel == LAST_LEVEL) {
       console.log("No more Levels!");
     } else {
       playLevel++;
@@ -88,19 +88,19 @@ function drawPlayState() {
 
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     sheepList[i].draw();
-    if(editMode) {
+    if (editMode) {
       sheepList[i].idLabel();
     }
   }
   player.draw();
-  if(currentLevel>=3) { // only on some levels
+  if (currentLevel >= 3) { // only on some levels
     dog.draw();
   }
 
-  if(editMode) {
-    if(showAgentGridValues) {
+  if (editMode) {
+    if (showAgentGridValues) {
       drawAgentGridValues();
-    } else if(showAreaGridValues) {
+    } else if (showAreaGridValues) {
       let fontSize = 14;
       drawGridValues(areaGrid, fontSize, "white");
     }
@@ -112,16 +112,7 @@ function drawPlayState() {
 
   // if a goal is occupied draw a gate
   for(var i=0; i<TILE_COLS; i++) {
-    var index = i + ( TILE_COLS * (TILE_ROWS-1) );
-    // if (isTilePen(index)) {
-    //   if ( agentGrid[index] > 0 ) {
-    //     if ( areaGrid[index] == TILE_PEN_BLUE ) {
-    //       colDrawPenGate(i, BLUE);
-    //     } else {
-    //       colDrawPenGate(i, RED);
-    //     }
-    //   }
-    // } // if goal tile
+    var index = i + (TILE_COLS * (TILE_ROWS - 1));
     if (areaGrid[index] == FULL_BLUE) {
       colDrawPenGate(i, BLUE);
     }

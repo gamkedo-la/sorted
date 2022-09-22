@@ -9,7 +9,7 @@ function ui_mousedownHandler() {
 
         switch (menuButtonLabel[i]) {
           case "Play":
-            if(!levelRunning) { // otherwise return to level mid-play
+            if (!levelRunning) { // otherwise return to level mid-play
               levelRunning = true;
               playLevel++;
               currentLevel = playLevel;
@@ -61,7 +61,7 @@ function ui_mousedownHandler() {
       for (var i = 0; i < playButtonLabel.length; i++) {
         if (xyIsInRect(uiPos, buttonRects[i])) {
 
-          if(TOUCH_TEST) {
+          if (TOUCH_TEST) {
             report("Clicked inside rect " + playButtonLabel[i], 2);
           }
 
@@ -108,7 +108,7 @@ function ui_mousedownHandler() {
   else if (gameState == STATE_LEVEL_END) {
     for (var i = 0; i < levelEndButtonLabel.length; i++) {
       if (xyIsInRect(uiPos, buttonRects[i])) {
-        if(TOUCH_TEST) {
+        if (TOUCH_TEST) {
           report("Clicked inside rect", levelEndButtonLabel[i], 1);
         }
         switch (levelEndButtonLabel[i]) {
@@ -141,7 +141,7 @@ function ui_mousedownHandler() {
 ///////////////////////////////////////////
 function ui_mouseupHandler(evt) {
   // var mousePos = getMousePos(evt);
-  if(gameState ==  STATE_PLAY) {
+  if (gameState == STATE_PLAY) {
     for (var i = 0; i < playButtonLabel.length; i++) {
       if (xyIsInRect(mouse, buttonRects[i])) {
 
@@ -163,7 +163,7 @@ function ui_mouseupHandler(evt) {
 
           case "Send":
             // code inefficient without setting false, but works
-            if(TOUCH_TEST) {
+            if (TOUCH_TEST) {
               report("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately", 1);
             } else {
               player.keyHeld_send = false;

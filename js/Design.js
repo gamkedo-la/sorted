@@ -20,7 +20,7 @@ function drawDesignerFromGrid(designGrid) {
 
       var tileTypeHere = designGrid[arrayIndex];
 
-      if(tileTypeHasTransparency(tileTypeHere)) {
+      if (tileTypeHasTransparency(tileTypeHere)) {
         canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
       }
 
@@ -37,7 +37,7 @@ function drawDesignerFromGrid(designGrid) {
 }
 
 function drawDesignerFromLevelNum(whichLevel) {
-  if(!designGridSet) {
+  if (!designGridSet) {
     designGrid = levelList[whichLevel].slice();
   }
   drawDesignerFromGrid(designGrid);

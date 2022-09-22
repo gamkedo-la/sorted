@@ -24,10 +24,10 @@ function distance(x1,y1, x2,y2) {
 function countPennedSheep() {
   var count = 0;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    if(sheepList[i].state == IN_BLUE_PEN && sheepList[i].team == 1) {
+    if (sheepList[i].state == IN_BLUE_PEN && sheepList[i].team == 1) {
       count++;
     }
-    if(sheepList[i].state == IN_RED_PEN && sheepList[i].team == 2) {
+    if (sheepList[i].state == IN_RED_PEN && sheepList[i].team == 2) {
       count++;
     }
   } // end loop all sheep
@@ -43,7 +43,7 @@ function update_debug_report() {
 
   txt += " - - Sheep in play = " + sheepInPlay;
 
-  if(player.sheepIDheld != undefined) {
+  if (player.sheepIDheld != undefined) {
     txt += ". Sheep id " + player.sheepIDheld + " is under hat.";
   }
   debugTextLine[2] = txt;
@@ -60,13 +60,13 @@ function testIfLevelEnd() {
   // if all sheep in states IN_DITCH or PEN or ON_ROAD
   // outOfPlay = 0;
   // for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-  //   if(sheepList[i].levelDone) {
+  //   if (sheepList[i].levelDone) {
   //     outOfPlay++;
   //   }
   // }
   // // console.log("Out of play =", outOfPlay)
-  // if(outOfPlay >= FLOCK_SIZE[currentLevel]) {
-  if(sheepInPlay < 1) {
+  // if (outOfPlay >= FLOCK_SIZE[currentLevel]) {
+  if (sheepInPlay < 1) {
     console.log("Level over", outOfPlay);
     gameState = STATE_LEVEL_END;
     calculateLevelScore();
@@ -109,27 +109,27 @@ function calculateLevelScore() {
     x = sheepList[i].x;
 
     // central tile scores for both teams (adjust by TILE_W/2)
-    if(team == BLUE && x >= gameCanvas.width/2 + TILE_W/2) {
+    if (team == BLUE && x >= gameCanvas.width / 2 + TILE_W / 2) {
       offSide = true;
     }
-    else if(team == RED && x < gameCanvas.width/2 - TILE_W/2) {
+    else if (team == RED && x < gameCanvas.width / 2 - TILE_W / 2) {
       offSide = true;
     }
 
-    if(done && team != PLAIN) {
+    if (done && team != PLAIN) {
       // score = 80 - Math.round(Math.abs(x - gameCanvas.width/2) / 5);
       score = 40;
-      if(offSide) {
+      if (offSide) {
         sheepList[i].score = 0;
       } else {
         sheepList[i].score = score;
       }
       // how about if in goal column but queued up?
       // bonus for being in goal column
-      if(mode == IN_BLUE_PEN && team == BLUE) {
+      if (mode == IN_BLUE_PEN && team == BLUE) {
         sheepList[i].score += 60;
       }
-      else if(mode == IN_RED_PEN && team == RED) {
+      else if (mode == IN_RED_PEN && team == RED) {
         sheepList[i].score += 60;
       }
       levelScore += sheepList[i].score;
@@ -192,7 +192,7 @@ function normaliseRadian(ang) {
   while(ang < 0) {
     ang += 2 * Math.PI;
   }
-  if(ang > 2 * Math.PI) {
+  if (ang > 2 * Math.PI) {
     ang %= (2 * Math.PI);
   }
   return ang;
@@ -266,7 +266,7 @@ function findNearestSheep(x,y) {
   var nearestSheepDist = 999;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     let distTo = sheepList[i].distFrom(x,y);
-    if(distTo < nearestSheepDist) {
+    if (distTo < nearestSheepDist) {
       nearestSheepDist = distTo;
       nearestSheep = sheepList[i];
     }

@@ -133,7 +133,7 @@ function sheepClass() {
     else if (this.state == CALLED) {
       nextY -= tractorSpeed;
 
-      if(nextY < player.y + 20) { // arriving at Hat
+      if (nextY < player.y + 20) { // arriving at Hat
         nextX = player.x;
         nextY = player.y + 24;
         this.state = HELD;
@@ -142,7 +142,7 @@ function sheepClass() {
         update_debug_report(); // to display Hold
 
         // if already Sorted, don't change
-        if(this.team == 0) {
+        if (this.team == 0) {
           var teamSort = this.potentialTeam;
           teamSizeSoFar[teamSort]++;
           this.team = teamSort;
@@ -163,15 +163,15 @@ function sheepClass() {
     }
 
     else if (this.state == GRAZE) {
-      // if(randomRangeInt(1, GRAZE_FACING[currentLevel]) == 1) {
-      if(randomRangeInt(1, 120) == 1) {
+      // if (randomRangeInt(1, GRAZE_FACING[currentLevel]) == 1) {
+      if (randomRangeInt(1, 120) == 1) {
         this.ang += randomRange(-Math.PI/8, Math.PI/8)
       }
     }
 
     else if (this.state == ROAM) {
-      // if(randomRangeInt(1, ROAM_FACING[currentLevel]) == 1) {
-      if(randomRangeInt(1, 30) == 1) {
+      // if (randomRangeInt(1, ROAM_FACING[currentLevel]) == 1) {
+      if (randomRangeInt(1, 30) == 1) {
         this.ang += randomRange(-Math.PI/8, Math.PI/8)
       }
     }
@@ -180,15 +180,15 @@ function sheepClass() {
       var deltaX = this.gotoX - this.x;
       var moveX = CONVEYOR_SPEED[currentLevel];
 
-      if(deltaX > 0) {  // goto is right of current position
-        if(deltaX > moveX) {
+      if (deltaX > 0) {  // goto is right of current position
+        if (deltaX > moveX) {
           nextX += moveX;
         } else {
           nextX = this.gotoX; // arrive at end of conveyor
           this.changeMode(this.previousMode);
         }
       } else {          // goto is left of current position
-        if(Math.abs(deltaX) > moveX) {
+        if (Math.abs(deltaX) > moveX) {
           nextX -= moveX;
         } else {
           nextX = this.gotoX;
@@ -204,22 +204,22 @@ function sheepClass() {
     }
 
     // screenwrap horizontal
-    if(nextX < 0) {
+    if (nextX < 0) {
       nextX += gameCanvas.width;
-    } else if(nextX >= gameCanvas.width) {
+    } else if (nextX >= gameCanvas.width) {
       nextX -= gameCanvas.width;
     }
 
     // bounce down from top row if not Called
-    if(nextY < 50) {
-      if(this.isAllowedTopRow() == false) {
+    if (nextY < 50) {
+      if (this.isAllowedTopRow() == false) {
         this.ang = 2*Math.PI - this.ang;
         nextY = this.y; // stops oscillation
       }
     }
     // bounce up from bottom row if not allowed there
-    if(nextY > 540) {
-      if(this.isAllowedBottomRow() == false) {
+    if (nextY > 540) {
+      if (this.isAllowedBottomRow() == false) {
         this.ang = 2*Math.PI - this.ang;
         nextY = this.y; // stops oscillation
       }
@@ -228,7 +228,7 @@ function sheepClass() {
     // if x,y change inside tileHandling must be returned as object
     pos = this.tileHandling(nextX, nextY);
 
-    if(pos != undefined) {
+    if (pos != undefined) {
       this.x = pos.x;
       this.y = pos.y;
     }
@@ -252,7 +252,7 @@ function sheepClass() {
 
     testIfLevelEnd();
 
-    if(testMode == NORMAL_PLAY) {
+    if (testMode == NORMAL_PLAY) {
       this.leaveHoofprints();
     }
   }
@@ -316,9 +316,10 @@ function sheepClass() {
         let flip = randomRangeInt(1, 2);
         let angleAdjust = (flip == 1) ? 9 / 8 : 15 / 8;
         this.ang = angleAdjust * Math.PI;
+        this.orient = 0;
         console.log("Pen occupied, graze", this.id);
-
-      } else if (testSpeed == VISUAL_TEST_SPEED) {
+      }
+      else if (testSpeed == VISUAL_TEST_SPEED) {
         nextX = nearestColumnCentre(nextX);
         nextY = ((tileRow - 1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
         console.log("Agenthandling: retreat to Y=", nextY);
@@ -331,7 +332,6 @@ function sheepClass() {
         }
         this.state = STACKED;
         this.endLevel(tileCol);
-
         agentGrid[index - TILE_COLS] = this.team;
         stacking = false; // return to default behaviour
       } // end enter full goal of either colour
@@ -358,6 +358,7 @@ function sheepClass() {
         let flip = randomRangeInt(1, 2);
         let angleAdjust = (flip == 1) ? 9 / 8 : 15 / 8;
         this.ang = angleAdjust * Math.PI;
+        this.orient = 0;
         console.log("Ditch occupied, turn away id", this.id);
 
       } else if (testSpeed == VISUAL_TEST_SPEED) {
@@ -416,7 +417,7 @@ function sheepClass() {
     }
 
     else if (tileType == TILE_LOST) {
-      if(this.state != ROAM) {
+      if (this.state != ROAM) {
         this.changeMode(ROAM);
         this.ang = randomRange(0, Math.PI * 2);
       }
@@ -438,7 +439,7 @@ function sheepClass() {
           this.gotoX = nextX - TILE_W;
           this.ang = Math.PI;
         }
-        else if(tileType == TILE_CONVEYOR_RIGHT) {
+        else if (tileType == TILE_CONVEYOR_RIGHT) {
           this.gotoX = nextX + TILE_W;
           this.ang = 0;
         }
@@ -498,7 +499,7 @@ function sheepClass() {
       this.state = IN_DITCH;
       // reference Y of row above fence, instead of canvas.height
       this.ang = Math.PI * 1/2;
-      if(this.team == BLUE) {
+      if (this.team == BLUE) {
         this.orient = Math.PI * 1/2;
       } else {
         this.orient = Math.PI * 3/2;
@@ -515,7 +516,7 @@ function sheepClass() {
       this.speed = 0; // stay still so it can be checked
     }
 
-    if( this.isModeTimed() ) {
+    if (this.isModeTimed()) {
       this.setExpiry();
     }
 
@@ -547,10 +548,10 @@ function sheepClass() {
   }
 
   this.setSpeed = function() {
-    if(this.state == ROAM) {
+    if (this.state == ROAM) {
       this.speed = ROAM_SPEED[currentLevel];
     }
-    if(this.state == GRAZE) {
+    if (this.state == GRAZE) {
       this.speed = GRAZE_SPEED[currentLevel];
     }
   }
@@ -600,35 +601,35 @@ function sheepClass() {
 
   this.draw = function() {
     // tail shows facing by being in opposite direction
-    if(this.team == PLAIN) {
+    if (this.team == PLAIN) {
       drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x,this.y, this.ang);
-    } else if(this.team == BLUE) {
+    } else if (this.team == BLUE) {
       drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x,this.y, this.ang);
       // drawBitmapCenteredWithRotation(sheepRuffBluePic, this.x,this.y, this.orient);
-    } else if(this.team == RED) {
+    } else if (this.team == RED) {
       drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x,this.y, this.ang);
       // drawBitmapCenteredWithRotation(sheepRuffRedPic, this.x,this.y, this.orient);
     }
 
     drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x,this.y, this.orient);
 
-    if(this.state == CALLED) {
+    if (this.state == CALLED) {
       // draw line between sheep and hat
       colorLine(canvasContext, player.x,player.y, this.x,this.y, "yellow")
     }
-    if(editMode) {
+    if (editMode) {
       var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
       var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
       colorCircle(canvasContext, facingX, facingY, FACING_RADIUS, "red");
 
       canvasContext.textAlign = "center";
-      if(idLabel) {
+      if (idLabel) {
         this.idLabel();
       }
-      if(timerLabel) {
+      if (timerLabel) {
         this.timerLabel();
       }
-      if(modeLabel) {
+      if (modeLabel) {
         this.modeLabel();
       }
       canvasContext.textAlign = "left";
@@ -640,18 +641,18 @@ function sheepClass() {
     canvasContext.font = fontSize + "px Verdana";
     var adjust; // ID label obscured when lower left
 
-    if(this.team == null) {
+    if (this.team == null) {
       colorText(canvasContext, this.id, this.x-8, this.y+6, "black");
     } else {
       // draw ID on sheep's back
       var ang = normaliseRadian(this.ang);
-      if(ang >= (3/2 * Math.PI) && ang <= 2*Math.PI) {
+      if (ang >= (3 / 2 * Math.PI) && ang <= 2 * Math.PI) {
         adjust = 25;
       }
-      else if(ang >= (5/4 * Math.PI) && ang < 3/2 * Math.PI) {
+      else if (ang >= (5 / 4 * Math.PI) && ang < 3 / 2 * Math.PI) {
         adjust = 20;
       }
-      else if(ang >= 0 && ang <= Math.PI/2) {
+      else if (ang >= 0 && ang <= Math.PI / 2) {
         adjust = 20;
       }
       else {
@@ -683,7 +684,7 @@ function sheepClass() {
   }
 
   this.scoreLabel = function() {
-    if(this.team != PLAIN) {
+    if (this.team != PLAIN) {
       var fontSize = 12;
       canvasContext.textAlign = "center";
       canvasContext.font = fontSize + "px Verdana";

@@ -64,7 +64,7 @@ window.onload = function() {
   // uiCanvas.width = gameCanvas.width * playFieldFractionOfScreen;
 	// uiCanvas.height = gameCanvas.height;
 
-  if(debugBelowCanvas) {
+  if (debugBelowCanvas) {
     makeParagraphsBelowCanvas();
   }
 
@@ -130,12 +130,12 @@ function updateAll() {
 }
 
 function moveAll() {
-  if(gameState == STATE_MENU || gameState == STATE_CREDITS || paused) {
+  if (gameState == STATE_MENU || gameState == STATE_CREDITS || paused) {
     return;
   }
 
-  else if(gameState == STATE_DESIGN_LEVEL) {
-    if(designTileReady) {
+  else if (gameState == STATE_DESIGN_LEVEL) {
+    if (designTileReady) {
       console.log('main (move) design', gridIndex, tileType);
       designGrid[gridIndex] = tileType;
       drawDesignerFromLevelNum(designLevel);
@@ -143,16 +143,16 @@ function moveAll() {
     }
   }
 
-  else if(gameState == STATE_PLAY) {
+  else if (gameState == STATE_PLAY) {
     player.move();
 
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+    for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].move();
     }
 
     flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
 
-    if(currentLevel>=3) { // dog present on later levels only
+    if (currentLevel >= 3) { // dog present on later levels only
       dog.move();
     }
   }
@@ -164,12 +164,12 @@ function drawAll() {
   colorRect(uiContext, 0,0, uiCanvas.width,uiCanvas.height, UI_COLOR);
   showDebugText();
 
-  if(paused) {
+  if (paused) {
     drawBarButtons(pauseButtonLabel);
     return;
   }
 
-  else if(gameState == STATE_PLAY) {
+  else if (gameState == STATE_PLAY) {
     drawPlayState();
   }
 
@@ -181,27 +181,27 @@ function drawAll() {
     // draw label with score on sheep
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].draw();
-      if(endLevelShowID) {
+      if (endLevelShowID) {
         sheepList[i].idLabel();
       } else {
         sheepList[i].scoreLabel();
       }
     }
 
-    if(editMode) {
-
+    if (editMode) {
       // do once per level-ending
-      if(levelTestDataReady) {
+      if (levelTestDataReady) {
         levelTestDataReady = false;
         var filename = "level_" + currentLevel + "_";
         // sheep outcome data file downloads automatically
 
-        if(testMode == NORMAL_PLAY) {
+        if (testMode == NORMAL_PLAY) {
           levelData = playResult();
           filename +=  "play.tsv";
           downloader(filename, levelData);
           console.log("Results of play downloaded to " + filename);
-        } else {
+        }
+        else {
           levelData = testResult();
           filename +=  "test.tsv";
           downloader(filename, levelData);
@@ -214,7 +214,7 @@ function drawAll() {
     drawBarButtons(levelEndButtonLabel);
   } // end of Level_Over
 
-  else if(gameState == STATE_DESIGN_LEVEL) {
+  else if (gameState == STATE_DESIGN_LEVEL) {
     // drawDesignerFromLevelNum(designLevel);
     drawDesignerFromGrid(designGrid);
     levelDesignerTitle();
@@ -223,23 +223,23 @@ function drawAll() {
     drawBarButtons(designButtonLabel);
   }
 
-  else if(gameState == STATE_MENU) {
+  else if (gameState == STATE_MENU) {
     drawMenuState();
   }
 
-  else if(gameState == STATE_CREDITS) {
+  else if (gameState == STATE_CREDITS) {
     drawCreditState();
   }
 
-  else if(gameState == STATE_SCOREBOARD) {
+  else if (gameState == STATE_SCOREBOARD) {
     drawScoreboard();
   }
 
-  else if(gameState == STATE_GAME_OVER) {
+  else if (gameState == STATE_GAME_OVER) {
     drawGameOver();
   }
 
-  else if(gameState == STATE_HELP) {
+  else if (gameState == STATE_HELP) {
     drawHelp();
   }
   else {
@@ -292,7 +292,7 @@ function loadLevel(whichLevel) {
   reversePower = HAT_POWER[whichLevel];
   tractorSpeed = CALL_SPEED[whichLevel];
 
-  if(whichLevel>=3) { // dog present on later levels only
+  if (whichLevel >= 3) { // dog present on later levels only
     dog.init(dogPic);
   }
 
@@ -320,7 +320,7 @@ function loadLevel(whichLevel) {
     FLOCK_SIZE[whichLevel] = TILE_COLS;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
-      if(testTeam == MIXED) {
+      if (testTeam == MIXED) {
         var team = i % 2 == 0 ? BLUE : RED;
         spawnSheep.reset(i, team, team, SENT);
       } else {

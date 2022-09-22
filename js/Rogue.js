@@ -26,17 +26,17 @@ function rogueClass() {
     var nearestSheep = this.findNearestSheep(this.x, this.y, sheepList);
 
     // is close enough to smell a sheep
-    if(this.isRogueClose(nearestSheep, ROGUE_WOOF_RANGE)) {
+    if (this.isRogueClose(nearestSheep, ROGUE_WOOF_RANGE)) {
       // console.log("Rogue smells sheep id =", nearestSheep.id);
-      if(this.barkTimer < 1) {
+      if (this.barkTimer < 1) {
         rogueSound.play();
         this.barkTimer = 40;
       }
     }
 
     // is close enough to unsort
-    if(this.isRogueClose(nearestSheep, ROGUE_UNSORT_RANGE)) {
-      if(nearestSheep.team != PLAIN) {
+    if (this.isRogueClose(nearestSheep, ROGUE_UNSORT_RANGE)) {
+      if (nearestSheep.team != PLAIN) {
         console.log("Unsort sheep id =", nearestSheep.id);
         nearestSheep.team = PLAIN;
         nearestSheep.color = TEAM_COLOURS[PLAIN];
@@ -44,10 +44,10 @@ function rogueClass() {
     }
 
     // screenwrap horizontal
-    if(nextX < 0) {
+    if (nextX < 0) {
       nextX += gameCanvas.width;
       // this.ang += Math.PI;
-    } else if(nextX >= gameCanvas.width) {
+    } else if (nextX >= gameCanvas.width) {
       nextX -= gameCanvas.width;
       // this.ang += Math.PI;
     }
@@ -72,7 +72,7 @@ function rogueClass() {
     var nearestSheepDist = 999;
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       let distTo = sheepList[i].distFrom(x,y);
-      if(distTo < nearestSheepDist) {
+      if (distTo < nearestSheepDist) {
         nearestSheepDist = distTo;
         nearestSheep = sheepList[i];
       }
@@ -82,7 +82,7 @@ function rogueClass() {
   }
 
   this.isRogueClose = function(nearestSheep, range) {
-    if(nearestSheep.distFrom(this.x, this.y) < range) {
+    if (nearestSheep.distFrom(this.x, this.y) < range) {
       return true;
     } else {
       return false;

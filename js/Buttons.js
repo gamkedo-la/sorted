@@ -55,7 +55,7 @@ function requireButtonGotoMenu() {
 }
 
 function touchstartPlayHandler() {
-  if(!levelRunning) {
+  if (!levelRunning) {
     levelRunning = true;
     playLevel++;
     currentLevel = playLevel;

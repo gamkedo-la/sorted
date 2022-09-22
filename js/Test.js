@@ -113,7 +113,7 @@ function testResult() {
   if (testMode == SEND_COLUMNS) {
     output += "centre of each column\n";
   }
-  else if(testMode == SEND_ALL_X_ONE_COLUMN) {
+  else if (testMode == SEND_ALL_X_ONE_COLUMN) {
     output += "all X of one column\n";
   }
 
@@ -154,7 +154,7 @@ function playResult() {
 }
 
 function touchArrowHandling(direction) {
-  if(TOUCH_TEST) {
+  if (TOUCH_TEST) {
     // direction, left is -1, right is +1
     player.speed += drivePower * direction;
     console.log("touchArrow ", drivePower, direction)
@@ -162,7 +162,7 @@ function touchArrowHandling(direction) {
 }
 
 function touchArrowDebug() {
-  if(TOUCH_TEST) {
+  if (TOUCH_TEST) {
     let msg = "in Input::MouseDown player.keyHeld_left=" + player.keyHeld_left + " keyHeld_right=" + player.keyHeld_right;
     report(msg, 3);
   }

@@ -56,8 +56,8 @@ function playerClass(id) {
     var nextX = this.x;
     var nextY = this.y;
 
-    if(this.keyHeld_send) {
-      if(this.sheepIDheld != null) {
+    if (this.keyHeld_send) {
+      if (this.sheepIDheld != null) {
         var sheepHere = sheepList[this.sheepIDheld];
         this.sheepIDheld = null;
         sheepHere.changeMode(SENT);
@@ -70,7 +70,7 @@ function playerClass(id) {
       this.keyHeld_send = false;
     }
 
-    if(this.keyHeld_call) {
+    if (this.keyHeld_call) {
       this.keyHeld_call = false; // is this needed?
 
       if (this.callGapTimer > 0) {
@@ -159,10 +159,10 @@ function playerClass(id) {
       }
 
       nextX += this.speed;
-      if(nextX < 0) {
+      if (nextX < 0) {
         nextX = gameCanvas.width;
       }
-      if(nextX > gameCanvas.width) {
+      if (nextX > gameCanvas.width) {
         nextX = 0;
       }
       this.x = nextX;
@@ -204,11 +204,11 @@ function playerClass(id) {
           nextX = this.gotoX;
           this.direction = 0; // move command completed
 
-          if(this.callWhenInPlace) {
+          if (this.callWhenInPlace) {
             this.keyHeld_call = true;
             this.callWhenInPlace = false;
           }
-          if(this.sendWhenInPlace) {
+          if (this.sendWhenInPlace) {
             this.keyHeld_send = true;
             this.sendWhenInPlace = false;
           }
@@ -238,8 +238,8 @@ function playerClass(id) {
           }
         } // end of nearly there OR some way to travel
 
-        if(this.direction > 0) {
-        // if(gotoDirection > 0) {
+        if (this.direction > 0) {
+        // if (gotoDirection > 0) {
           nextX += moveX; // move right
         }
         else {
@@ -249,18 +249,18 @@ function playerClass(id) {
 
         // screenwrap
         if (screenWrapHat) {
-          if(nextX < 0) {
+          if (nextX < 0) {
             nextX = gameCanvas.width;
           }
-          if(nextX > gameCanvas.width) {
+          if (nextX > gameCanvas.width) {
             nextX = 0;
           }
         } else {
-          if(nextX < 0) {
+          if (nextX < 0) {
             nextX += moveX; // abandon move
             // console.log("No wrap so Hat will not move off screen");
           }
-          if(nextX > gameCanvas.width) {
+          if (nextX > gameCanvas.width) {
             nextX -= moveX;  // abandon move
             // console.log("No wrap so Hat will not move off screen");
           }
@@ -284,7 +284,7 @@ function isSheepCallable(location) {
 function isAnySheepCalledAlready() {
   var calledAlready = false;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    if( sheepList[i].state == CALLED) {
+    if (sheepList[i].state == CALLED) {
       calledAlready = true;
     }
   }

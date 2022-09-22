@@ -29,7 +29,7 @@ function drawMenu() {
 
   canvasContext.textAlign = "left";
   var line = 0;
-  if(!editMode) {
+  if (!editMode) {
     textIndent = 225;
     headLine("Menu");
     bodyLine("Play - key P", ++line);
@@ -66,7 +66,7 @@ function drawHelp() {
 
   var yTop = (editMode) ? 55 : 80;
 
-  // if(!editMode) {
+  // if (!editMode) {
   //   smallHeadLine("Sorted! a game with sheep", yTop);
   // }
 
@@ -83,7 +83,7 @@ function drawHelp() {
 
   line++; // gap between paragraphs
   smallBodyLine("Menu: press key M or Esc", ++line, yTop);
-  if(editMode) {
+  if (editMode) {
     line++; // gap between paragraphs
     smallBodyLine("EditMode: Level 0 is integration test level.", ++line, yTop);
   }
