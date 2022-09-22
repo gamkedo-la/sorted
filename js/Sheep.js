@@ -76,11 +76,19 @@ function sheepClass() {
     this.speed = 15;
     this.ang = Math.PI/2;
   }
+  this.testRoamInit = function() {
+    this.speed = defaultRoamSpeed;
+    this.ang = Math.PI/2;
+  }
 
   this.placeTop = function() {
     this.x = TILE_W/2 + this.id * TILE_W;
     this.y = TILE_H * 3/2 -15;
     this.sentX = this.x; // won't go through player.send()
+  }
+  this.placeRoamR1 = function() {
+    this.x = TILE_W/2 + this.id * TILE_W;
+    this.y = TILE_H * 3/2;
   }
 
   this.testColumnInit = function() {
@@ -258,7 +266,7 @@ function sheepClass() {
       }
     }
 
-    if (testMode == NORMAL_PLAY) {
+    if (runMode == NORMAL_PLAY) {
       this.leaveHoofprints();
     }
   }
@@ -307,7 +315,6 @@ function sheepClass() {
       nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
       this.ang = Math.PI * 1 / 2;
       this.endLevel(tileCol);
-
       levelOver = isLevelOver();
 
       // fixme: perhaps we need some "unhappy" BAA sounds?
@@ -327,20 +334,25 @@ function sheepClass() {
         this.orient = 0;
         console.log("Pen occupied, graze", this.id);
       }
+
       else if (haste == VISUAL_TEST) {
         nextX = nearestColumnCentre(nextX);
         nextY = ((tileRow - 1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
         console.log("Agenthandling: retreat to Y=", nextY);
         this.speed = 0;
         this.ang = Math.PI * 1 / 2;
+
         if (this.team == BLUE) {
           this.orient = Math.PI * 1 / 2;
         } else {
           this.orient = Math.PI * 3 / 2;
         }
+
         this.mode = STACKED;
         this.endLevel(tileCol);
-        agentGrid[index - TILE_COLS] = this.team;
+        levelOver = isLevelOver();
+
+        agentGrid[tileIndexUnder - TILE_COLS] = this.team;
         stacking = false; // return to default behaviour
       } // end enter full pen of either colour
     }
@@ -358,6 +370,7 @@ function sheepClass() {
     }
 
     else if (tileType == FULL_DITCH) {
+
       if (haste != VISUAL_TEST) {
         // don't stack above ditch, instead roam away
         this.changeMode(ROAM);
@@ -383,10 +396,11 @@ function sheepClass() {
         }
         this.mode = STACKED;
         this.endLevel(tileCol);
+        levelOver = isLevelOver();
         agentGrid[tileIndexUnder - TILE_COLS] = this.team;
         stacking = false; // return to default behaviour
       }
-    }
+    } // end full_ditch
 
 
     // deflection size governed by how many steps inside tile
@@ -532,7 +546,7 @@ function sheepClass() {
 
     // change FPS instead to avoid sheep jumping through tiles
     if (!hastenTestViaFPS) {
-      this.speed *= testHasteMultiplier[testMode];
+      this.speed *= testHasteMultiplier[runMode];
     }
 
     // changeMode is not changing X or Y this/next/goto y
@@ -611,14 +625,18 @@ function sheepClass() {
     return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
   }
 
+
   this.draw = function() {
+
     // tail shows facing by being in opposite direction
     if (this.team == PLAIN) {
       drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x,this.y, this.ang);
-    } else if (this.team == BLUE) {
+    }
+    else if (this.team == BLUE) {
       drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x,this.y, this.ang);
       // drawBitmapCenteredWithRotation(sheepRuffBluePic, this.x,this.y, this.orient);
-    } else if (this.team == RED) {
+    }
+    else if (this.team == RED) {
       drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x,this.y, this.ang);
       // drawBitmapCenteredWithRotation(sheepRuffRedPic, this.x,this.y, this.orient);
     }

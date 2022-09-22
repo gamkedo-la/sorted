@@ -74,7 +74,7 @@ function imageLoadingDoneSoStartGame() {
   setupDecals();
 
   if (hastenTestViaFPS) {
-    framesPerSecond = baseFPS * testHasteMultiplier[haste];
+    framesPerSecond = baseFPS * haste;
   } else {
     framesPerSecond = baseFPS;
   }
@@ -167,7 +167,7 @@ function moveAll() {
 
     flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
 
-    if (currentLevel >= 3) { // dog present on later levels only
+    if (currentLevel >= 3 && runMode == NORMAL_PLAY) { // dog present on later levels only
       dog.move();
     }
 
@@ -194,6 +194,7 @@ function drawAll() {
 
   else if (gameState == STATE_LEVEL_END) {
     drawArea();
+    drawBarButtons(levelEndButtonLabel);
     player.draw();
     decals.draw();
 
@@ -207,30 +208,32 @@ function drawAll() {
       }
     }
 
-    if (editMode) {
-      // do once per level-ending
-      if (levelTestDataReady) {
-        levelTestDataReady = false;
-        var filename = "level_" + currentLevel + "_";
-        // sheep outcome data file downloads automatically
+    if (runMode == NORMAL_PLAY) {
+      drawLevelEnd();
+    }
 
-        if (testMode == NORMAL_PLAY) {
-          levelData = playResult();
-          filename +=  "play.tsv";
-          downloader(filename, levelData);
-          console.log("Results of play downloaded to " + filename);
-        }
-        else {
-          levelData = testResult();
-          filename +=  "test.tsv";
-          downloader(filename, levelData);
-          console.log("Results of test downloaded to " + filename);
-        }
+    // do once per level-ending
+    if (levelTestDataReady) {
+      levelTestDataReady = false;
+      var filename = "level_" + currentLevel + "_";
+    // sheep outcome data file downloads automatically
+
+      if (runMode == NORMAL_PLAY) {
+        levelData = playResult();
+        filename += "play.tsv";
+        downloader(filename, levelData);
+
+        console.log("Results of play downloaded to " + filename);
       }
-    } // end of (editMode)
+      else {
+        levelData = testResult();
+        filename += "test.tsv";
+        downloader(filename, levelData);
+        console.log("Results of test downloaded to " + filename);
+        console.log("Level " + currentLevel + " completed. Score " + levelScore);
+      }
+    }// end levelTestDataReady, run once when level completed
 
-    drawLevelEnd();
-    drawBarButtons(levelEndButtonLabel);
   } // end of Level_Over
 
   else if (gameState == STATE_DESIGN_LEVEL) {
@@ -312,12 +315,13 @@ function loadLevel(whichLevel) {
   reversePower = HAT_POWER[whichLevel];
   tractorSpeed = CALL_SPEED[whichLevel];
 
+  sheepList = [];  // fresh set of sheep
+
   if (whichLevel >= 3) { // dog present on later levels only
     dog.init(dogPic);
   }
-  sheepList = [];  // fresh set of sheep
 
-  if (testMode == NORMAL_PLAY) {
+  if (runMode == NORMAL_PLAY) {
     var team = PLAIN;
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
@@ -329,9 +333,11 @@ function loadLevel(whichLevel) {
       sheepList.push(spawnSheep);
     }
     console.log("Level loaded: " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
+
   }
 
-  else if (testMode == SEND_COLUMNS) {
+
+  else if (runMode == SEND_COLUMNS) {
     console.log("Test send row of sheep in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
     baaVolume = 0;
 
@@ -351,19 +357,21 @@ function loadLevel(whichLevel) {
       sheepList.push(spawnSheep);
     }
     isLevelOver();
-    baaVolume = 1.0;
   }
 
-  else if (testMode == ROAM_FROM_R1) {
+
+  else if (runMode == ROAM_FROM_R1) {
     console.log("Test sheep roaming in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
+    baaVolume = 0;
 
     FLOCK_SIZE[whichLevel] = TILE_COLS;
+    testTeam = PLAIN;
+
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
       spawnSheep.reset(i, testTeam, PLAIN, ROAM);
-      spawnSheep.testRowInit();
-      spawnSheep.placeTop();
-      spawnSheep.speed= 30;
+      spawnSheep.testRoamInit();
+      spawnSheep.placeRoamR1();
       sheepList.push(spawnSheep);
     }
     isLevelOver();
@@ -376,4 +384,5 @@ function loadLevel(whichLevel) {
   levelScore = 0;
   update_debug_report();
   levelLoaded = whichLevel;
+  baaVolume = 1.0;
 }

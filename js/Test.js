@@ -1,20 +1,9 @@
-// no ITCH branch, now merged into main
-var editMode = true;
-
-const PLAIN = 0; // sheep normal colour
-const BLUE = 1;
-const RED = 2;
-const MIXED = 3;
-
-const LEFT = -1; // arrow key X direction
-const RIGHT = +1;
-
-const TEST_DESCRIPTION = ["not automating, normal play", "from each column centre send a sheep", "start in row 1 and roam"];
 const NORMAL_PLAY = 0;
 const SEND_COLUMNS = 1;
 const ROAM_FROM_R1 = 2;
 const CALL_FROM_R13 = 3;
-var testMode = NORMAL_PLAY;
+// var runMode = NORMAL_PLAY;
+var runMode = ROAM_FROM_R1;
 
 // test hasten either via speed in sheep.changeMode() or via FPS
 // problem with latter is that FPS can only change by relaunch game
@@ -26,20 +15,33 @@ const VISUAL_TEST = 1;
 const UNDRAWN_TEST = 2;
 
 if (hastenTestViaFPS) {
-  haste = testHasteMultiplier[VISUAL_TEST];
+  // haste = testHasteMultiplier[VISUAL_TEST];
+  haste = testHasteMultiplier[UNDRAWN_TEST];
 } else {
   haste = testHasteMultiplier[PLAY_SPEED];
 }
+
+const TEST_DESCRIPTION = ["not automating, normal play", "from each column centre send a sheep", "start in row 1 and roam"];
+
+var testColumnSet = true; // flag to get column number from keypress
+var testTimer = null;
+var testLevel = 0;
+
+var editMode = true;
+
+const PLAIN = 0; // sheep normal colour
+const BLUE = 1;
+const RED = 2;
+const MIXED = 3;
+
+const LEFT = -1; // arrow key X direction
+const RIGHT = +1;
 
 var debugBelowCanvas = false;
 const DEBUGS = 5;
 var debugTextLine = Array(DEBUGS);
 const DEBUG_TOP = 480;
 const DEBUG_LINE_SP = 25;
-
-var testColumnSet = true; // flag to get column number from keypress
-var testTimer = null;
-var testLevel = 0;
 
 var touchDevice = null; // tested in Main.js onload
 var TOUCH_TEST = null; // enable to activate Touch handling code
@@ -115,12 +117,15 @@ function deviceTests() {
   scalingTest();
 }
 
+
 function testResult() {
   var output = "Level " + currentLevel + " - test send from ";
-  if (testMode == SEND_COLUMNS) {
+
+  if (runMode == SEND_COLUMNS) {
     output += "centre of each column\n";
   }
-  else if (testMode == SEND_ALL_X_ONE_COLUMN) {
+
+  else if (runMode == ROAM_FROM_R1) {
     output += "all X of one column\n";
   }
 

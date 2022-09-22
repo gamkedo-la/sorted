@@ -81,6 +81,7 @@ function togglePause() {
 
 // called every interval, from Main.js
 function drawPlayState() {
+
   drawArea();
   decals.draw();
   drawBarTitle("Level " + currentLevel, 20);
@@ -98,7 +99,7 @@ function drawPlayState() {
     }
   }
   player.draw();
-  if (currentLevel >= 3) { // only on some levels
+  if (currentLevel >= 3 && runMode == NORMAL_PLAY) { // only on some levels
     dog.draw();
   }
 
