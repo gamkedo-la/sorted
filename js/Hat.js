@@ -186,6 +186,7 @@ function playerClass(id) {
           this.button_right = false;
         }
         console.log("gotoX " + player.gotoX + " from " + player.x);
+        HatNotMovedYet = false;
       }
 
       var deltaX = this.gotoX - this.x;

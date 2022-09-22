@@ -84,6 +84,10 @@ function drawPlayState() {
 
   drawArea();
   decals.draw();
+  if (HatNotMovedYet) {
+    drawLevelName();
+  }
+
   drawBarTitle("Level " + currentLevel, 20);
   drawBarButtons(playButtonLabel);
 
@@ -127,6 +131,7 @@ function drawPlayState() {
     }
   } // loop bottom row
 }
+
 
 function drawMenuState() {
   drawMenu();

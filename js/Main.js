@@ -309,6 +309,7 @@ function loadLevel(whichLevel) {
   agentGrid = agentLevelList[whichLevel].slice();
 
   player.reset(playerHatPic, "Shepherding Hat");
+  HatNotMovedYet = true;
 
   GROUNDSPEED_DECAY_MULT = HAT_FRICTION[whichLevel]; // hat moves like car
   drivePower = HAT_POWER[whichLevel];
@@ -333,7 +334,6 @@ function loadLevel(whichLevel) {
       sheepList.push(spawnSheep);
     }
     console.log("Level loaded: " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
-
   }
 
 

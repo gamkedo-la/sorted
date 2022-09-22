@@ -60,6 +60,12 @@ function UI_level_number() {
   canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
 
+function drawLevelName() {
+  canvasContext.font = "18px Verdana";
+  canvasContext.fillStyle = "white";
+  canvasContext.fillText("Level " + currentLevel  + ': "'  + LEVEL_NAMES[currentLevel] + '"', 10, TILE_H/2);
+  canvasContext.textAlign = "left"; // avoid messing up the Menu
+}
 
 function getLines(ctx, text, maxWidth) {
   var words = text.split(" ");
