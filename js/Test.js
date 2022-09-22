@@ -2,13 +2,13 @@ const NORMAL_PLAY = 0;
 const SEND_COLUMNS = 1;
 const ROAM_FROM_R1 = 2;
 const CALL_FROM_R13 = 3;
-// var runMode = NORMAL_PLAY;
-var runMode = ROAM_FROM_R1;
+var runMode = NORMAL_PLAY;
+// var runMode = ROAM_FROM_R1;
 
 // test hasten either via speed in sheep.changeMode() or via FPS
 // problem with latter is that FPS can only change by relaunch game
 const baseFPS = 20;
-var hastenTestViaFPS = true;
+var hastenTestViaFPS = false;
 var testHasteMultiplier = [1, 5, 20];
 const PLAY_SPEED = 0;
 const VISUAL_TEST = 1;
