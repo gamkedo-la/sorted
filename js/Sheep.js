@@ -258,8 +258,6 @@ function sheepClass() {
       }
     }
 
-    testIfLevelEnd();
-
     if (testMode == NORMAL_PLAY) {
       this.leaveHoofprints();
     }
@@ -310,6 +308,8 @@ function sheepClass() {
       this.ang = Math.PI * 1 / 2;
       this.endLevel(tileCol);
 
+      levelOver = isLevelOver();
+
       // fixme: perhaps we need some "unhappy" BAA sounds?
       random_baa_sound(baaVolume);
     } // end enter empty pen of either colour
@@ -353,6 +353,7 @@ function sheepClass() {
         nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
         agentGrid[tileIndexUnder] = this.team;
         areaGrid[tileIndexUnder] = FULL_DITCH;
+        levelOver = isLevelOver();
       }
     }
 
@@ -436,6 +437,7 @@ function sheepClass() {
         this.mode = STUCK;
         stuckSound.play();
         this.endLevel(tileCol);
+        levelOver = isLevelOver();
         // definitely need endRow, and Stuck is not a scoring result
       }
     }
@@ -515,7 +517,7 @@ function sheepClass() {
       this.speed = 0;
       this.levelDone = true;
       // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
-      testIfLevelEnd();
+      levelEnding = isLevelOver();
     }
 
     else {
@@ -721,14 +723,14 @@ function sheepClass() {
     this.endTime = step[currentLevel];
     this.endCol = col;
     this.levelDone = true;
-    this. calculateScore();
+    this.calculateScore();
     sheepInPlay--;
     update_debug_report();
     // test if level complete
   }
 
   this.calculateScore = function() {
-    var score;
+    var score = 0;
     if (this.team != PLAIN) {
 
       if (this.mode == IN_DITCH) {
@@ -743,12 +745,13 @@ function sheepClass() {
 
       if ( this.isOffside() ) {
         score *= 1 - (1+currentLevel)/5;
+        score = Math.round(score);
       }
 
       this.score = score;
       levelScore += score;
       this.scoreDisplayTimer = SCORE_DISPLAY_TIME;
-
+      return score;
       // console.log(sheepList[i].id, x, team, mode, offSide, done)
     }
   }

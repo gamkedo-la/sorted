@@ -44,22 +44,18 @@ function setAllMaxScores() {
 }
 
 
-function testIfLevelEnd() {
-  // if all sheep in states IN_DITCH or PEN or ON_ROAD
-  // outOfPlay = 0;
-  // for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-  //   if (sheepList[i].levelDone) {
-  //     outOfPlay++;
-  //   }
-  // }
-  // // console.log("Out of play =", outOfPlay)
-  // if (outOfPlay >= FLOCK_SIZE[currentLevel]) {
-  if (sheepInPlay < 1) {
-    console.log("Level over", outOfPlay);
-    gameState = STATE_LEVEL_END;
-    calculateLevelScore();
-    levelRunning = false;
-  }
+function isLevelOver() {
+  // if all sheep out-of-play
+  return sheepInPlay < 1
+}
+
+function levelEnding() {
+  gameState = STATE_LEVEL_END;
+  // calculateLevelScore(); // done by sheep individually
+  levelTestDataReady = true;
+  levelScores[currentLevel] = levelScore;
+  levelRunning = false;
+  console.log("Level over");
 }
 
 
@@ -68,6 +64,7 @@ function isInPen(mode) {
 }
 
 
+// not in use, calculated immediately
 function calcLevelScore() {
   var levelScore = 0;
   var offSide;
@@ -114,10 +111,4 @@ function calcLevelScore() {
     }
   }
   levelScores[currentLevel] = levelScore;
-}
-
-
-function testLevelEnded() {
-  gameState = STATE_LEVEL_END;
-  calculateLevelScore();
 }

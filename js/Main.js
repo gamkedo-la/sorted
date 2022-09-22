@@ -19,6 +19,7 @@ var levelLoaded = null;
 var playLevel = 0; // not changed by editMode or state levelEditor
 var levelRunning = false;
 var levelTestDataReady = false;
+var levelOver = false;
 
 var step = Array(NUM_LEVELS);
 step.fill(0);
@@ -155,6 +156,10 @@ function moveAll() {
 
     if (currentLevel >= 3) { // dog present on later levels only
       dog.move();
+    }
+
+    if (levelOver) {
+      levelEnding();
     }
   }
 }
@@ -332,7 +337,7 @@ function loadLevel(whichLevel) {
       spawnSheep.placeTop();
       sheepList.push(spawnSheep);
     }
-    testLevelEnded();
+    isLevelOver();
     baaVolume = 1.0;
   }
 
@@ -348,7 +353,7 @@ function loadLevel(whichLevel) {
       spawnSheep.speed= 30;
       sheepList.push(spawnSheep);
     }
-    testLevelEnded();
+    isLevelOver();
   }
 
   // reset sorting

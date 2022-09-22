@@ -404,8 +404,7 @@ function getFunctionKeys(key) {
   }
 
   if (key == KEY_F4) {
-    testLevelEnded();
-    levelRunning = false;
+    levelEnding();
   }
 
   if (key == KEY_F5) {
