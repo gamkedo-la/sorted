@@ -24,10 +24,10 @@ function distance(x1,y1, x2,y2) {
 function countPennedSheep() {
   var count = 0;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    if (sheepList[i].state == IN_BLUE_PEN && sheepList[i].team == 1) {
+    if (sheepList[i].mode == IN_BLUE_PEN && sheepList[i].team == 1) {
       count++;
     }
-    if (sheepList[i].state == IN_RED_PEN && sheepList[i].team == 2) {
+    if (sheepList[i].mode == IN_RED_PEN && sheepList[i].team == 2) {
       count++;
     }
   } // end loop all sheep
@@ -101,7 +101,7 @@ function calculateLevelScore() {
 
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     offSide = false;
-    mode = sheepList[i].state;
+    mode = sheepList[i].mode;
     id = sheepList[i].id;
     team = sheepList[i].team;
     done = sheepList[i].levelDone;

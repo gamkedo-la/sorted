@@ -51,7 +51,7 @@ function sheepClass() {
     this.team = team;
     this.color = TEAM_COLOURS[team];
     this.potentialTeam = potential;
-    this.state = mode;
+    this.mode = mode;
     this.previousMode = mode;
     this.ang = randomRange(0, Math.PI * 2);
     this.orient = 0;
@@ -109,7 +109,7 @@ function sheepClass() {
   this.move = function() {
     var nextX = this.x; // previous location
     var nextY = this.y;
-    // this.previousMode = this.state;
+    // this.previousMode = this.mode;
     var tileOccupied;
     var pos; // temporary position
 
@@ -119,24 +119,24 @@ function sheepClass() {
     }
 
     // selected for manual movement
-    else if (this.state == SELECTED) {
+    else if (this.mode == SELECTED) {
       nextX = mouse.x;
       nextY = mouse.y;
     }
 
     // attached to player
-    else if (this.state == HELD) {
+    else if (this.mode == HELD) {
       nextX = player.x;
       nextY = player.y + 24;
     }
 
-    else if (this.state == CALLED) {
+    else if (this.mode == CALLED) {
       nextY -= tractorSpeed;
 
       if (nextY < player.y + 20) { // arriving at Hat
         nextX = player.x;
         nextY = player.y + 24;
-        this.state = HELD;
+        this.mode = HELD;
         this.speed = 0;
         player.sheepIDheld = this.id;
         update_debug_report(); // to display Hold
@@ -157,26 +157,26 @@ function sheepClass() {
       }
     }
 
-    else if (this.state == SENT) {
+    else if (this.mode == SENT) {
       // isMovedBySpeed() handles angle effect
       // if waggle while Sent, that goes here
     }
 
-    else if (this.state == GRAZE) {
+    else if (this.mode == GRAZE) {
       // if (randomRangeInt(1, GRAZE_FACING[currentLevel]) == 1) {
       if (randomRangeInt(1, 120) == 1) {
         this.ang += randomRange(-Math.PI/8, Math.PI/8)
       }
     }
 
-    else if (this.state == ROAM) {
+    else if (this.mode == ROAM) {
       // if (randomRangeInt(1, ROAM_FACING[currentLevel]) == 1) {
       if (randomRangeInt(1, 30) == 1) {
         this.ang += randomRange(-Math.PI/8, Math.PI/8)
       }
     }
 
-    else if (this.state == CONVEYOR) {
+    else if (this.mode == CONVEYOR) {
       var deltaX = this.gotoX - this.x;
       var moveX = CONVEYOR_SPEED[currentLevel];
 
@@ -198,7 +198,7 @@ function sheepClass() {
     }
 
     // common to ROAM, CALLED, SENT
-    if (this.isMovedBySpeed(this.state)) {
+    if (this.isMovedBySpeed(this.mode)) {
       nextX += this.speed * Math.cos(this.ang);
       nextY += this.speed * Math.sin(this.ang);
     }
@@ -241,10 +241,10 @@ function sheepClass() {
     if ( this.isModeTimed() ) {
       this.timer--;
       if (this.timer < 1) {
-        if (this.state == ROAM || this.state == SENT) {
+        if (this.mode == ROAM || this.mode == SENT) {
           this.changeMode(GRAZE);
         }
-        else if (this.state == GRAZE) {
+        else if (this.mode == GRAZE) {
           this.changeMode(ROAM);
         }
       }
@@ -286,13 +286,13 @@ function sheepClass() {
       if (tileType == TILE_PEN_BLUE) {
         console.log("Sheep ID", this.id, "reached the blue pen.");
         this.orient = Math.PI * 1 / 2;
-        this.state = IN_BLUE_PEN;
+        this.mode = IN_BLUE_PEN;
         areaGrid[tileIndexUnder] = FULL_BLUE;
       }
       else if (tileType == TILE_PEN_RED) {
         console.log("Sheep ID", this.id, "reached the red pen.");
         this.orient = Math.PI * 3 / 2;
-        this.state = IN_RED_PEN;
+        this.mode = IN_RED_PEN;
         areaGrid[tileIndexUnder] = FULL_RED;
       }
 
@@ -330,7 +330,7 @@ function sheepClass() {
         } else {
           this.orient = Math.PI * 3 / 2;
         }
-        this.state = STACKED;
+        this.mode = STACKED;
         this.endLevel(tileCol);
         agentGrid[index - TILE_COLS] = this.team;
         stacking = false; // return to default behaviour
@@ -339,7 +339,7 @@ function sheepClass() {
 
 
     else if (tileType == TILE_DITCH) {
-      if (this.state != IN_DITCH) {
+      if (this.mode != IN_DITCH) {
         this.changeMode(IN_DITCH);
         this.endLevel(tileCol);
         nextX = nearestColumnCentre(nextX);
@@ -372,7 +372,7 @@ function sheepClass() {
         } else {
           this.orient = Math.PI * 3 / 2;
         }
-        this.state = STACKED;
+        this.mode = STACKED;
         this.endLevel(tileCol);
         agentGrid[tileIndexUnder - TILE_COLS] = this.team;
         stacking = false; // return to default behaviour
@@ -383,7 +383,7 @@ function sheepClass() {
     // deflection size governed by how many steps inside tile
     // applied every loop
     else if (tileType == TILE_BEND_LEFT) {
-      if (this.state == SENT) {
+      if (this.mode == SENT) {
         this.ang += 0.1;
       }
       else {
@@ -392,7 +392,7 @@ function sheepClass() {
     }
 
     else if (tileType == TILE_BEND_RIGHT) {
-      if (this.state == SENT) {
+      if (this.mode == SENT) {
         this.ang -= 0.1;
       }
       else {
@@ -403,7 +403,7 @@ function sheepClass() {
 
 
     else if (tileType == TILE_HALT) {
-      if (this.state != GRAZE) {
+      if (this.mode != GRAZE) {
         this.changeMode(GRAZE);
         // if arriving at lake from above
         if (this.ang > 1/4*Math.PI && this.ang < 3/4*Math.PI) {
@@ -417,15 +417,15 @@ function sheepClass() {
     }
 
     else if (tileType == TILE_LOST) {
-      if (this.state != ROAM) {
+      if (this.mode != ROAM) {
         this.changeMode(ROAM);
         this.ang = randomRange(0, Math.PI * 2);
       }
     }
 
     else if (tileType == TILE_STUCK) {
-      if (this.state != STUCK) {
-        this.state = STUCK;
+      if (this.mode != STUCK) {
+        this.mode = STUCK;
         stuckSound.play();
         this.endLevel(tileCol);
         // definitely need endRow, and Stuck is not a scoring result
@@ -433,7 +433,7 @@ function sheepClass() {
     }
 
     else if ( this.isTileConveyor(tileType) ) {
-      if (this.state != CONVEYOR) {
+      if (this.mode != CONVEYOR) {
         this.changeMode(CONVEYOR);
         if (tileType == TILE_CONVEYOR_LEFT) {
           this.gotoX = nextX - TILE_W;
@@ -460,29 +460,29 @@ function sheepClass() {
   this.changeMode = function(newMode) {
     // change state, also set direction & speed
     // should not set at start of .move()
-    this.previousMode = this.state;
+    this.previousMode = this.mode;
 
-    // console.log(this.id, this.state, newMode)
+    // console.log(this.id, this.mode, newMode)
 
     // if these two swapping might cause trouble when a third mode (e.g. Conveyor) ends and wants to change to Graze or Roam; fixed now
     if (newMode == ROAM) {
-      this.state = ROAM;
+      this.mode = ROAM;
       this.speed = ROAM_SPEED[currentLevel];
     }
 
     else if (newMode == GRAZE) {
-      this.state= GRAZE;
+      this.mode = GRAZE;
       this.speed = GRAZE_SPEED[currentLevel];
     }
 
     else if (newMode == CONVEYOR) {
-      this.state= CONVEYOR;
+      this.mode = CONVEYOR;
       this.orient = 0; // normal upright
       this.speed = CONVEYOR_SPEED[currentLevel];
     }
 
     else if (newMode == SENT) {
-      this.state = SENT;
+      this.mode = SENT;
       // set once when sent, may change on way
       this.speed = SEND_SPEED[currentLevel];
       this.ang = Math.PI/2 // straight down
@@ -496,7 +496,7 @@ function sheepClass() {
     }
 
     else if (newMode == IN_DITCH) {
-      this.state = IN_DITCH;
+      this.mode = IN_DITCH;
       // reference Y of row above fence, instead of canvas.height
       this.ang = Math.PI * 1/2;
       if (this.team == BLUE) {
@@ -512,7 +512,7 @@ function sheepClass() {
 
     else {
       console.log("Unprocessed changeMode for ID", this.id)
-      this.state = newMode;
+      this.mode = newMode;
       this.speed = 0; // stay still so it can be checked
     }
 
@@ -533,25 +533,25 @@ function sheepClass() {
 
   // restart timer to expire mode
   this.setExpiry = function() {
-    if (this.state == ROAM) {
+    if (this.mode == ROAM) {
       this.timer = randomRangeInt(ROAM_TIME_MIN[currentLevel], ROAM_TIME_MAX[currentLevel]);
     }
-    else if (this.state == GRAZE) {
+    else if (this.mode == GRAZE) {
       this.timer = randomRangeInt(GRAZE_TIME_MIN[currentLevel], GRAZE_TIME_MAX[currentLevel]);
     }
-    else if (this.state == SENT) {
+    else if (this.mode == SENT) {
       this.timer = 200;
     }
-    else if (this.state == CALLED) {
+    else if (this.mode == CALLED) {
       this.timer = 200;
     }
   }
 
   this.setSpeed = function() {
-    if (this.state == ROAM) {
+    if (this.mode == ROAM) {
       this.speed = ROAM_SPEED[currentLevel];
     }
-    if (this.state == GRAZE) {
+    if (this.mode == GRAZE) {
       this.speed = GRAZE_SPEED[currentLevel];
     }
   }
@@ -561,7 +561,7 @@ function sheepClass() {
   }
 
   this.isAllowedTopRow = function() {
-    return this.state == CALLED || this.state == HELD || this.state == SENT // at release from clamp sheep is in top row
+    return this.mode == CALLED || this.mode == HELD || this.mode == SENT // at release from clamp sheep is in top row
   }
 
   this.isAllowedBottomRow = function() {
@@ -569,16 +569,16 @@ function sheepClass() {
       return true;
     }
     else if ( this.team != PLAIN ) {
-      return ( this.state == SENT || this.state == IN_DITCH || this.state == IN_BLUE_PEN || this.state == IN_RED_PEN || this.state == ON_ROAD || this.state == STACKED );
+      return (this.mode == SENT || this.mode == IN_DITCH || this.mode == IN_BLUE_PEN || this.mode == IN_RED_PEN || this.mode == ON_ROAD || this.mode == STACKED);
     }
   }
 
   this.isModeTimed = function() {
-    return this.state == ROAM || this.state == GRAZE || this.state == CALLED || this.state == SENT;
+    return this.mode == ROAM || this.mode == GRAZE || this.mode == CALLED || this.mode == SENT;
   }
 
-  this.stateIsInPen = function () {
-    return this.state == IN_BLUE_PEN || this.state == IN_RED_PEN;
+  this.modeIsInPen = function () {
+    return this.mode == IN_BLUE_PEN || this.mode == IN_RED_PEN;
   }
 
   this.enterPen = function (tileType) {
@@ -613,7 +613,7 @@ function sheepClass() {
 
     drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x,this.y, this.orient);
 
-    if (this.state == CALLED) {
+    if (this.mode == CALLED) {
       // draw line between sheep and hat
       colorLine(canvasContext, player.x,player.y, this.x,this.y, "yellow")
     }
@@ -679,8 +679,8 @@ function sheepClass() {
     var facingYoffset = this.y + Math.sin(this.ang - Math.PI/4) * (SHEEP_RADIUS +7);
     var fontSize = 10;
     canvasContext.font = fontSize + "px Verdana";
-    // colorText(this.state, this.x -26, this.y + SHEEP_RADIUS/2, "orange");
-    colorText(canvasContext, this.state, facingXoffset, facingYoffset, "white");
+    // colorText(this.mode, this.x -26, this.y + SHEEP_RADIUS/2, "orange");
+    colorText(canvasContext, this.mode, facingXoffset, facingYoffset, "white");
   }
 
   this.scoreLabel = function() {

@@ -99,7 +99,7 @@ function playerClass(id) {
 
         for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
 
-          var mode = sheepList[i].state;
+          var mode = sheepList[i].mode;
           if (isSheepCallable(mode)) {
 
             var xDist = Math.abs(nextX - sheepList[i].x);
@@ -128,7 +128,7 @@ function playerClass(id) {
         }
         else {
           console.log("Called sheep id =", sheepList[aligned].id);
-          sheepList[aligned].state = CALLED;
+          sheepList[aligned].mode = CALLED;
           sheepList[aligned].timer = 0;
           sheepList[aligned].speed = CALL_SPEED[currentLevel];
           // change facing to upward
@@ -284,7 +284,7 @@ function isSheepCallable(location) {
 function isAnySheepCalledAlready() {
   var calledAlready = false;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    if (sheepList[i].state == CALLED) {
+    if (sheepList[i].mode == CALLED) {
       calledAlready = true;
     }
   }

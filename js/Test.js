@@ -125,7 +125,7 @@ function testResult() {
     txtLine = "";
     txtLine += sheepList[i].sentX + SEPARATOR;
     txtLine += sheepList[i].endCol + SEPARATOR;
-    txtLine += sheepList[i].state + SEPARATOR;
+    txtLine += sheepList[i].mode + SEPARATOR;
     txtLine += sheepList[i].endTime;
     output += txtLine + "\n";
   }
@@ -144,7 +144,7 @@ function playResult() {
     txtLine += sheepList[i].team + SEPARATOR;
     txtLine += sheepList[i].sentX + SEPARATOR;
     txtLine += sheepList[i].endCol + SEPARATOR;
-    txtLine += sheepList[i].state + SEPARATOR;
+    txtLine += sheepList[i].mode + SEPARATOR;
     txtLine += sheepList[i].score + SEPARATOR;
     txtLine += sheepList[i].beginTime + SEPARATOR;
     txtLine += sheepList[i].endTime;

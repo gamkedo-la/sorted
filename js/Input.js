@@ -127,7 +127,7 @@ function field_mousedownHandler() {
       let nearest = findNearestSheep(mouse.x, mouse.y);
       let distance = nearest.distFrom(mouse.x, mouse.y);
       if (distance < SELECT_RANGE) {
-        nearest.state = SELECTED;
+        nearest.mode = SELECTED;
         sheepSelected = nearest.id;
         console.log("Selected sheep id " + sheepSelected);
       } else {
@@ -175,8 +175,8 @@ function field_mouseupHandler() {
 
       // release a sheep from manual control
       let nearest = findNearestSheep(mouse.x, mouse.y);
-      if (nearest.state == SELECTED) {
-        nearest.state = GRAZE;
+    if (nearest.mode == SELECTED) {
+      nearest.mode = GRAZE;
         nearest.timer = 120; // ensure a decent delay
         sheepSelected = null;
       }
