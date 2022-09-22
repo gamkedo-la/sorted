@@ -18,12 +18,12 @@ var barIndent = 10;
 
 
 function drawMenuFlock() {
-    for (let x,y,i = 0; i<64; i++) {
-        x = Math.sin(performance.now()*0.00005+i*321) * 900;
-        y = 570 + Math.cos(performance.now()*0.00513+i*234) * 10;
-        r = Math.cos(performance.now()*0.005+i*456) * 0.5;
-        drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic,x,y,r);
-    }
+  for (let x,y,i = 0; i<64; i++) {
+    x = Math.sin(performance.now()*0.00005+i*321) * 900;
+    y = 570 + Math.cos(performance.now()*0.00513+i*234) * 10;
+    r = Math.cos(performance.now()*0.005+i*456) * 0.5;
+    drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic,x,y,r);
+  }
 }
 
 

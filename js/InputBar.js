@@ -68,7 +68,7 @@ function ui_mousedownHandler() {
           switch (playButtonLabel[i]) {
             case "Left":
               player.button_left = true;
-              console.log('button left')
+              // console.log('button left')
               // player.direction = -1; // left
               // player.keyHeld_left = true;
               // touchArrowHandling(LEFT);
@@ -76,7 +76,7 @@ function ui_mousedownHandler() {
 
             case "Right":
               player.button_right = true;
-              console.log('button right')
+              // console.log('button right')
               // player.direction = +1; // right
               // player.keyHeld_right = true;
               // touchArrowHandling(RIGHT);

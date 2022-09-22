@@ -1,12 +1,10 @@
 var player = new playerClass(1);
-var screenWrapHat = true;
 
-// values kept here in case level-tuning assignment fails
-// Call
+// values here in case level-tuning assignment fails
 var tractorSpeed = 3; // speed of sheep moving up
 const CALL_X_ALIGN = 20; // hat not exactly above sheep
-var callAlignLimitX = null; // more X leeway when longer Y distance
-const CALL_X_WEIGHT = 7;
+var callAlignLimitX = null; // more X leeway if longer Y distance
+const CALL_X_WEIGHT = 7; // X dist weighted 7x more than Y
 
 
 function playerClass(id) {
@@ -47,6 +45,7 @@ function playerClass(id) {
     var nextY = this.y;
 
     if (this.keyHeld_send) {
+
       if (this.sheepIDheld != null) {
         var sheepHere = sheepList[this.sheepIDheld];
         this.sheepIDheld = null;
@@ -58,7 +57,7 @@ function playerClass(id) {
         console.log('No sheep sent because clamp empty');
       }
       this.keyHeld_send = false;
-    }
+    } // end SEND
 
 
     if (this.keyHeld_call) {
@@ -134,56 +133,59 @@ function playerClass(id) {
     } // end of CALL
 
 
-    // MOVE left or right
-    // button sets gotoX to next column-centre
+    // MOVE left or right using key or button
+    // gotoX set to next column-centre
     if (this.button_left || this.button_right) {
+
       if (this.button_left) {
         this.gotoX = nextColumnCentre(this.x, -1);
         this.button_left = false;
-      } else {
+      }
+      else if (this.button_right) {
         this.gotoX = nextColumnCentre(this.x, 1);
         this.button_right = false;
       }
-      console.log("gotoX " + this.gotoX + " from " + this.x);
-      HatNotMovedYet = false;
+      console.log("From " + this.x + " gotoX " + this.gotoX);
+
+      HatNotMovedYet = false; // temporary flag to hide name of level which was drawn on top row
     }
 
     var deltaX = this.gotoX - this.x;
     var moveX = HAT_MAX_SPEED[currentLevel];
-    var gotoDirection = null;
     this.direction = 0;
 
     if (Math.abs(deltaX) <= moveX) {
-
       // nearly reached gotoX position
+
       nextX = this.gotoX;
       this.direction = 0; // move command completed
 
       if (nextX > gameCanvas.width) {
-        nextX -= gameCanvas.width; // offset to ghost self
+        nextX -= gameCanvas.width; // offset to mirror image
       }
       if (nextX < 0) {
-        nextX += gameCanvas.width; // offset to ghost self
+        nextX += gameCanvas.width; // offset to mirror image
       }
 
       if (this.callWhenInPlace) {
         this.keyHeld_call = true;
         this.callWhenInPlace = false;
       }
+
       if (this.sendWhenInPlace) {
         this.keyHeld_send = true;
         this.sendWhenInPlace = false;
       }
-    }
+    } // end nearly_reached_gotoX
 
-    else { // some way to travel yet
+    else { // some_way_to_go_yet
       if (deltaX > 0) {
         this.direction = 1;
       }
       if (deltaX < 0) {
         this.direction = -1;
       }
-    } // end of nearly there OR some way to travel
+    } // end some_way_to_go_yet
 
     if (this.direction > 0) {
       nextX += moveX; // move right
@@ -195,7 +197,9 @@ function playerClass(id) {
     this.x = nextX;
     this.y = nextY;
 
-  } // end of move()
+    // this.button_left = false;
+    // this.button_right = false;
+  } // end move()
 
 
   this.draw = function() {
@@ -207,15 +211,16 @@ function playerClass(id) {
     if (this.x < this.pic.width/2) {
       drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width, this.y, this.ang);
     }
-  } // end of draw()
+  } // end draw()
 
-} // end of playerClass
+} // end playerClass
 
 
 function isSheepCallable(location) {
   callable = (location != IN_BLUE_PEN && location != IN_RED_PEN && location != ON_ROAD && location != IN_DITCH && location != STACKED && location != STUCK);
   return callable;
 }
+
 
 function isAnySheepCalledAlready() {
   var calledAlready = false;
@@ -227,9 +232,11 @@ function isAnySheepCalledAlready() {
   return calledAlready;
 }
 
-// purpose of Hat Demo functions is to enable me to talk on video instead of focusing on moving Hat to particular place to demo
 
-// for Call to be usable need to identify nearest sheep first
+// original purpose of Hat Demo functions to enable me to talk on video instead of focusing on moving Hat to particular place
+// also usable by advanced Testing that needs AI for Hat
+
+// for Call to be usable, identify nearest sheep first
 function hatDemoX(x) {
   player.gotoX = x;
   player.callWhenInPlace = true;
