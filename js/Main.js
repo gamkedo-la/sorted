@@ -20,13 +20,11 @@ var playLevel = 0; // not changed by editMode or state levelEditor
 var levelRunning = false;
 var levelTestDataReady = false;
 var levelOver = false;
-
-var step = Array(NUM_LEVELS);
-step.fill(0);
 var levelData;
-// const fs = require('fs');
 
-var nearPen = false; // if true, pens at row near top
+var step = Array(NUM_LEVELS); // time counter
+step.fill(0);
+
 var decals; // grass, flowers, footprints, pebbles, etc
 
 const TEAM_NAMES = ["plain", "blue", "red", "mixed"];
@@ -36,9 +34,6 @@ const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple"];
 // 9 levels initial values, should Level Editor be able to change these?
 const TEAM_SIZE = [5, 3, 3, 3, 3, 3, 3, 3, 3, 3];
 const FLOCK_SIZE = [];
-for(var i=0; i<TEAM_SIZE.length; i++) {
-  FLOCK_SIZE[i] = TEAM_SIZE[i] * 2;
-}
 var sheepList = [];
 
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
@@ -46,6 +41,7 @@ var stuckSound = new SoundOverlapsClass("sound/baa08");
 var rogueSound = new SoundOverlapsClass("sound/woof01");
 var menuSound = new SoundOverlapsClass("sound/menu_choice");
 var menuBackSound = new SoundOverlapsClass("sound/menuback");
+
 
 window.onload = function() {
   drawingCanvas = document.getElementById('drawingCanvas');
@@ -68,22 +64,37 @@ window.onload = function() {
   if (debugBelowCanvas) {
     makeParagraphsBelowCanvas();
   }
-
   deviceTests();
   resizeWindow();
 	loadImages();
 }
 
+
 function imageLoadingDoneSoStartGame() {
   setupDecals();
-	// var framesPerSecond = 30 * testSpeedMultiplier[testSpeed];
-	var framesPerSecond = 30;
-  console.log("FPS =", framesPerSecond)
+
+  if (hastenTestViaFPS) {
+    framesPerSecond = baseFPS * testHasteMultiplier[haste];
+  } else {
+    framesPerSecond = baseFPS;
+  }
+  console.log("FPS =", framesPerSecond);
+
 	setInterval(updateAll, 1000/framesPerSecond);
 
   setupInput();
+
+  setupGame();
+}
+
+
+function setupGame() {
+  for (var i = 0; i < TEAM_SIZE.length; i++) {
+    FLOCK_SIZE[i] = TEAM_SIZE[i] * 2;
+  }
   setAllMaxScores();
 }
+
 
 function resizeWindow(){
 	gameBoard.height = window.innerHeight;
@@ -112,6 +123,7 @@ function resizeWindow(){
   setDebug("drawScale x,y " + xSc + ", " + ySc, 2);
 }
 
+
 function updateAll() {
 	moveAll();
 	drawAll();
@@ -130,6 +142,7 @@ function updateAll() {
 	drawingContext.drawImage(uiCanvas, 0, 0);
 	drawingContext.restore();
 }
+
 
 function moveAll() {
   if (gameState == STATE_MENU || gameState == STATE_CREDITS || paused) {
@@ -287,6 +300,7 @@ function drawTutorial() {
     }
 }
 
+
 function loadLevel(whichLevel) {
   areaGrid = levelList[whichLevel].slice();
   agentGrid = agentLevelList[whichLevel].slice();
@@ -301,7 +315,6 @@ function loadLevel(whichLevel) {
   if (whichLevel >= 3) { // dog present on later levels only
     dog.init(dogPic);
   }
-
   sheepList = [];  // fresh set of sheep
 
   if (testMode == NORMAL_PLAY) {
@@ -360,6 +373,7 @@ function loadLevel(whichLevel) {
   teamSizeSoFar = [0,0,0];
   // reset level-ending detector
   sheepInPlay = FLOCK_SIZE[whichLevel];
+  levelScore = 0;
   update_debug_report();
   levelLoaded = whichLevel;
 }

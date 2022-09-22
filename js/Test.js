@@ -1,4 +1,3 @@
-var debugBelowCanvas = false;
 // no ITCH branch, now merged into main
 var editMode = true;
 
@@ -17,13 +16,22 @@ const ROAM_FROM_R1 = 2;
 const CALL_FROM_R13 = 3;
 var testMode = NORMAL_PLAY;
 
-// const TEST_SEND_SPEED = 10;
-var testSpeedMultiplier = [ 1, 5, 20 ];
+// test hasten either via speed in sheep.changeMode() or via FPS
+// problem with latter is that FPS can only change by relaunch game
+const baseFPS = 20;
+var hastenTestViaFPS = true;
+var testHasteMultiplier = [1, 5, 20];
 const PLAY_SPEED = 0;
-const VISUAL_TEST_SPEED = 1;
-const INVISIBLE_TEST_SPEED = 2;
-var testSpeed = PLAY_SPEED;
+const VISUAL_TEST = 1;
+const UNDRAWN_TEST = 2;
 
+if (hastenTestViaFPS) {
+  haste = testHasteMultiplier[VISUAL_TEST];
+} else {
+  haste = testHasteMultiplier[PLAY_SPEED];
+}
+
+var debugBelowCanvas = false;
 const DEBUGS = 5;
 var debugTextLine = Array(DEBUGS);
 const DEBUG_TOP = 480;
@@ -32,7 +40,6 @@ const DEBUG_LINE_SP = 25;
 var testColumnSet = true; // flag to get column number from keypress
 var testTimer = null;
 var testLevel = 0;
-
 
 var touchDevice = null; // tested in Main.js onload
 var TOUCH_TEST = null; // enable to activate Touch handling code

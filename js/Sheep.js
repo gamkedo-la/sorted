@@ -316,7 +316,7 @@ function sheepClass() {
 
 
     else if (this.enterOccupiedPen(tileType)) {
-      if (testSpeed != VISUAL_TEST_SPEED) {
+      if (haste != VISUAL_TEST) {
         // don't stack above pen, instead roam
         this.changeMode(ROAM);
         nextX = this.x;
@@ -327,7 +327,7 @@ function sheepClass() {
         this.orient = 0;
         console.log("Pen occupied, graze", this.id);
       }
-      else if (testSpeed == VISUAL_TEST_SPEED) {
+      else if (haste == VISUAL_TEST) {
         nextX = nearestColumnCentre(nextX);
         nextY = ((tileRow - 1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
         console.log("Agenthandling: retreat to Y=", nextY);
@@ -358,7 +358,7 @@ function sheepClass() {
     }
 
     else if (tileType == FULL_DITCH) {
-      if (testSpeed != VISUAL_TEST_SPEED) {
+      if (haste != VISUAL_TEST) {
         // don't stack above ditch, instead roam away
         this.changeMode(ROAM);
         nextX = this.x;
@@ -370,7 +370,7 @@ function sheepClass() {
         console.log("Ditch occupied, turn away id", this.id);
       }
 
-      else if (testSpeed == VISUAL_TEST_SPEED) {
+      else if (haste == VISUAL_TEST) {
         nextX = nearestColumnCentre(nextX);
         nextY = ((tileRow - 1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
         console.log("stack at Y=", nextY);
@@ -517,7 +517,7 @@ function sheepClass() {
       this.speed = 0;
       this.levelDone = true;
       // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
-      levelEnding = isLevelOver();
+      levelOver = isLevelOver();
     }
 
     else {
@@ -530,16 +530,18 @@ function sheepClass() {
       this.setExpiry();
     }
 
-    // changing FPS instead to avoid passing through tiles
-    this.speed *= testSpeedMultiplier[testMode];
+    // change FPS instead to avoid sheep jumping through tiles
+    if (!hastenTestViaFPS) {
+      this.speed *= testHasteMultiplier[testMode];
+    }
 
-    // changeMode also called from tileHandling
-    // is .x.y set before timer handling ?
+    // changeMode is not changing X or Y this/next/goto y
     // return {
     //   x: nextX,
     //   y: nextY
     // };
   }
+
 
   // restart timer to expire mode
   this.setExpiry = function() {

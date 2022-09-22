@@ -216,7 +216,7 @@ function menuKeyChoice(key) {
       if (key == KEY_ESC || key == KEY_M) {
         gotoMenu("Play, key M or Esc");
         testMode = NORMAL_PLAY; // remove Test settings
-        testSpeed = PLAY_SPEED;
+        haste = PLAY_SPEED;
       }
       else if (key == KEY_SPACE) {
         togglePause();
@@ -232,7 +232,7 @@ function menuKeyChoice(key) {
           // duplicate of code in case STATE_PLAY
           gotoMenu("LevelEnd, key M or Esc");
           testMode = NORMAL_PLAY;
-          testSpeed = PLAY_SPEED;
+          haste = PLAY_SPEED;
         }
       }
 
@@ -300,10 +300,10 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
         if (key == KEY_A) {
           // testMode = !testMode; // toggle
           testMode++;
-          testSpeed = VISUAL_TEST_SPEED;
+          haste = VISUAL_TEST;
           if (testMode > 2) { // stack Column is 3, Every_X is 4
             testMode = 0;
-            testSpeed = PLAY_SPEED;
+            haste = PLAY_SPEED;
           }
           console.log(TEST_DESCRIPTION[testMode]);
         }
