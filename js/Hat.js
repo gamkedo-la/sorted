@@ -1,11 +1,5 @@
 var player = new playerClass(1);
 var screenWrapHat = true;
-var moveLikeCar = false;
-
-// Hat moved like a car
-var GROUNDSPEED_DECAY_MULT = 0.94;
-var drivePower = 1.0;
-var reversePower = 1.0;
 
 // values kept here in case level-tuning assignment fails
 // Call
@@ -14,18 +8,24 @@ const CALL_X_ALIGN = 20; // hat not exactly above sheep
 var callAlignLimitX = null; // more X leeway when longer Y distance
 const CALL_X_WEIGHT = 7;
 
+
 function playerClass(id) {
   this.id = id;
-  this.x = TILE_W/2; // gameCanvas.width/2;
-  this.y = TILE_H/2;
-  this.ang = Math.PI;
-  this.speed = 0;
-  this.pic; // which image to use
-  this.callGapTimer = 0;
-  this.keyHeld_left = false;
-  this.keyHeld_right = false;
-  this.keyHeld_call = false;
-  this.keyHeld_send = false;
+
+  this.reset = function(whichPic) {
+    this.pic = whichPic;
+    this.x = TILE_COLS/2 * TILE_W; // halfway horizontal
+    this.y = TILE_H / 2;
+    this.gotoX = this.x;
+    this.direction = 0;
+    this.speed = 0;
+    this.ang = 0;
+    this.sheepIDheld = null; // ID of sheep carried
+    this.callGapTimer = 0;
+    this.callWhenInPlace = false;
+    this.sendWhenInPlace = false;
+  }
+
 
   // store ASCII number of key assigned
   this.setupInput = function(upKey, downKey, leftKey, rightKey) {
@@ -33,23 +33,12 @@ function playerClass(id) {
     this.controlKeyDown = downKey;
     this.controlKeyLeft = leftKey;
     this.controlKeyRight = rightKey;
-  }
-
-  this.reset = function(whichPic) {
-    this.pic = whichPic;
-    this.direction = 0;
-    this.speed = 0;
-    this.ang = 0;
-    this.sheepIDheld = null;  // ID of sheep carried
-    this.callGapTimer = 0;
-    this.x = 5*TILE_W + TILE_W/2; //TILE_COLS / 2 * TILE_W; // halfway horizontal
-    this.y = TILE_H / 2;
-    this.gotoX = this.x;
-    player.button_left = false;
-    player.button_right = false;
-    this.callWhenInPlace = false;
-    this.sendWhenInPlace = false;
-    // not using grid to initially place Hat
+    this.keyHeld_left = false;
+    this.keyHeld_right = false;
+    this.keyHeld_call = false;
+    this.keyHeld_send = false;
+    this.button_left = false;
+    this.button_right = false;
   }
 
 
@@ -70,6 +59,7 @@ function playerClass(id) {
       }
       this.keyHeld_send = false;
     }
+
 
     if (this.keyHeld_call) {
       this.keyHeld_call = false; // is this needed?
@@ -143,6 +133,8 @@ function playerClass(id) {
       } // end of else (Hat can call)
     } // end of CALL
 
+
+    // MOVE left or right
     // button sets gotoX to next column-centre
     if (this.button_left || this.button_right) {
       if (this.button_left) {
@@ -161,66 +153,64 @@ function playerClass(id) {
     var gotoDirection = null;
     this.direction = 0;
 
-      if (Math.abs(deltaX) <= moveX) {
+    if (Math.abs(deltaX) <= moveX) {
 
-        // nearly reached gotoX position
-        nextX = this.gotoX;
-        this.direction = 0; // move command completed
+      // nearly reached gotoX position
+      nextX = this.gotoX;
+      this.direction = 0; // move command completed
 
-        if (nextX > gameCanvas.width) {
-          nextX -= gameCanvas.width; // offset to ghost self
-        }
-        if (nextX < 0) {
-          nextX += gameCanvas.width; // offset to ghost self
-        }
-        // console.log(nextX);
-
-        if (this.callWhenInPlace) {
-          this.keyHeld_call = true;
-          this.callWhenInPlace = false;
-        }
-        if (this.sendWhenInPlace) {
-          this.keyHeld_send = true;
-          this.sendWhenInPlace = false;
-        }
+      if (nextX > gameCanvas.width) {
+        nextX -= gameCanvas.width; // offset to ghost self
       }
-      else { // some way to travel yet
-
-        if (deltaX > 0) {
-          this.direction =1;
-        }
-
-        if (deltaX < 0) {
-          this.direction = -1;
-        }
-      } // end of nearly there OR some way to travel
-
-      if (this.direction > 0) {
-      // if (gotoDirection > 0) {
-        nextX += moveX; // move right
+      if (nextX < 0) {
+        nextX += gameCanvas.width; // offset to ghost self
       }
-      else if (this.direction < 0) {
-        nextX -= moveX; // move left
-      }
-      // console.log("gotoDirection before wrap test: nextX " + nextX)
 
-    /* } // end Hat movement by button */
+      if (this.callWhenInPlace) {
+        this.keyHeld_call = true;
+        this.callWhenInPlace = false;
+      }
+      if (this.sendWhenInPlace) {
+        this.keyHeld_send = true;
+        this.sendWhenInPlace = false;
+      }
+    }
+
+    else { // some way to travel yet
+      if (deltaX > 0) {
+        this.direction = 1;
+      }
+      if (deltaX < 0) {
+        this.direction = -1;
+      }
+    } // end of nearly there OR some way to travel
+
+    if (this.direction > 0) {
+      nextX += moveX; // move right
+    }
+    else if (this.direction < 0) {
+      nextX -= moveX; // move left
+    }
 
     this.x = nextX;
     this.y = nextY;
+
   } // end of move()
+
 
   this.draw = function() {
     drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x,this.y, this.ang);
-    // is image all on canvas?
+    // when part of image off canvas, draw mirror on other side
     if (this.x > gameCanvas.width - this.pic.width/2) {
       drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x - gameCanvas.width, this.y, this.ang);
     }
     if (this.x < this.pic.width/2) {
       drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width, this.y, this.ang);
     }
-  }
-}
+  } // end of draw()
+
+} // end of playerClass
+
 
 function isSheepCallable(location) {
   callable = (location != IN_BLUE_PEN && location != IN_RED_PEN && location != ON_ROAD && location != IN_DITCH && location != STACKED && location != STUCK);
@@ -251,6 +241,7 @@ function hatDemoHoldingX(x) {
   player.gotoX = x;
   player.sendWhenInPlace = true;
 }
+
 function hatDemoHoldingCol(col) {
   player.gotoX = (col * TILE_W) - (TILE_W / 2);
   player.sendWhenInPlace = true;

@@ -193,11 +193,11 @@ function arrowKeySet(evt, whichPlayer, setTo) {
   // this helps press & release functions are identical except for true/false
   if (evt.keyCode == whichPlayer.controlKeyLeft) {
 		whichPlayer.keyHeld_left = setTo;
-    whichPlayer.button_left = setTo; // keys for slidemove
+    whichPlayer.button_left = setTo; // key for slide-move
 	}
   if (evt.keyCode == whichPlayer.controlKeyRight) {
 		whichPlayer.keyHeld_right = setTo;
-    whichPlayer.button_right = setTo; // keys for slidemove
+    whichPlayer.button_right = setTo; // key for slide-move
 	}
   if (evt.keyCode == whichPlayer.controlKeyUp) {
 		whichPlayer.keyHeld_call = setTo;
@@ -207,6 +207,7 @@ function arrowKeySet(evt, whichPlayer, setTo) {
 	}
   // console.log("key", player.keyHeld_left, player.keyHeld_right)
 }
+
 
 // handles in-menu keyboard input, depending on gameState
 function menuKeyChoice(key) {
@@ -222,6 +223,7 @@ function menuKeyChoice(key) {
         togglePause();
       }
       break;
+
 
     case STATE_LEVEL_END:
       if (key == KEY_ESC || key == KEY_M) {
@@ -245,6 +247,7 @@ function menuKeyChoice(key) {
       }
       break;
 
+
     case STATE_MENU:
       menuSound.play();
 
@@ -261,7 +264,7 @@ function menuKeyChoice(key) {
             levelRunning = true;
             playLevel++;
             currentLevel = playLevel;
-console.log("Level number now playLevel=" + playLevel + " currentLevel=" + currentLevel);
+            console.log("Level number now playLevel=" + playLevel + " currentLevel=" + currentLevel);
             loadLevel(playLevel);
             checkGridMatchColsRows();
           }
@@ -285,8 +288,8 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
             testLevel = key - KEY_NUM_0; // 1 on keyb is code 49
             currentLevel = testLevel;
             levelRunning = true;
-// console.log('Loading level from editMode menu with Num-key');
-// console.log("Level number now =", currentLevel);
+            // console.log('Loading level from editMode menu with Num-key');
+            // console.log("Level number now =", currentLevel);
             loadLevel(testLevel);
             checkGridMatchColsRows();
             gotoPlay("Key number from Edit-mode Menu");
@@ -322,28 +325,30 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
       } // editMode
       break;
 
+
     case STATE_SCOREBOARD:
       if (key == KEY_ESC || key == KEY_M) {
         gotoMenu("Scoreboard, key M or Esc");
       }
       break;
 
+
     case STATE_CREDITS:
       if (key == KEY_ESC || key == KEY_M) {
         gotoMenu("Credits, key M or Esc");
-
       }
       if (key == KEY_P) {
         gameState = STATE_PLAY;
       }
       break;
 
-    case STATE_HELP:
 
+    case STATE_HELP:
       if (key == KEY_ESC || key == KEY_M) {
         gotoMenu("Help, key M or Esc");
       }
       break;
+
 
     case STATE_DESIGN_LEVEL:
 
@@ -359,13 +364,12 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
         clearDesign();
         console.log("Field visual cleared but grid unchanged.");
       }
-      // if (key == KEY_L) {
-      //   tileType = TILE_CONVEYOR_LEFT;
-      // }
 
       // temporarily using number keys to select tiletype
       else if (key >= KEY_NUM_0 && key <= KEY_NUM_9) {
+
         tileType = key - KEY_NUM_0;
+
         if (tileType == 8 || tileType == 9) {
           console.log("Tile types 8 and 9 are not defined");
         } else {
@@ -385,6 +389,7 @@ console.log("Level number now playLevel=" + playLevel + " currentLevel=" + curre
       break;
   }
 }
+
 
 // detect Fn key, usable from any gameState
 function getFunctionKeys(key) {
@@ -448,10 +453,12 @@ function getFunctionKeys(key) {
     drawDesignerFromLevelNum(designLevel);
   }
 
+
   function noGridValuesDisplay() {
     return ( !showAreaGridValues && !showAgentGridValues && !showGridIndex )
   }
-}
+} // end getFunctionKeys()
+
 
 function keyPressed(evt) {
 
@@ -472,13 +479,16 @@ function keyPressed(evt) {
   else {
     menuKeyChoice(evt.keyCode); // play, menu, or credits
   }
+
 	evt.preventDefault();
-}
+} // end keyPressed()
+
 
 // only relevant to arrowKeys, not Menu or Fn keys
 function keyReleased(evt) {
   arrowKeySet(evt, player, false);
 }
+
 
 // used by mousemove, though not by other mouse/touch
 function updateMousePos(evt) {
