@@ -79,17 +79,12 @@ function togglePause() {
   paused = !paused;
 }
 
-// called every interval, from Main.js
-function drawPlayState() {
 
+// called by drawPlay & drawLevelOver
+function drawField() {
   drawArea();
   decals.draw();
-  if (HatNotMovedYet) {
-    drawLevelName();
-  }
-
   drawBarTitle("Level " + currentLevel, 20);
-  drawBarButtons(playButtonLabel);
 
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     sheepList[i].draw();
@@ -102,23 +97,6 @@ function drawPlayState() {
       sheepList[i].idLabel();
     }
   }
-  player.draw();
-  if (currentLevel >= 3 && runMode == NORMAL_PLAY) { // only on some levels
-    dog.draw();
-  }
-
-  if (editMode) {
-    if (showAgentGridValues) {
-      drawAgentGridValues();
-    } else if (showAreaGridValues) {
-      let fontSize = 14;
-      drawGridValues(areaGrid, fontSize, "white");
-    }
-  }
-
-  drawBarButtons(playButtonLabel);
-
-  drawTutorial();
 
   // if a pen is occupied draw a gate
   for(var i=0; i<TILE_COLS; i++) {
@@ -130,6 +108,40 @@ function drawPlayState() {
       colDrawPenGate(i, RED);
     }
   } // loop bottom row
+
+  if (editMode) {
+    if (showAgentGridValues) {
+      drawAgentGridValues();
+    } else if (showAreaGridValues) {
+      let fontSize = 14;
+      drawGridValues(areaGrid, fontSize, "white");
+    }
+  }
+} // end drawField
+
+
+// called every interval, from Main.js
+function drawPlay() {
+  drawField(); // common to Play and LevelOver
+
+  if (HatNotMovedYet) {
+    drawLevelName();
+  }
+
+  drawBarButtons(playButtonLabel);
+
+  drawTutorial();
+
+  player.draw();
+
+  if (currentLevel >= 3 && runMode == NORMAL_PLAY) { // only on some levels
+    dog.draw();
+  }
+} // end drawPlay
+
+
+function drawlevelOver() {
+
 }
 
 

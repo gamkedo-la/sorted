@@ -191,14 +191,28 @@ function drawAll() {
   }
 
   else if (gameState == STATE_PLAY) {
-    drawPlayState();
+    drawPlay();
   }
 
   else if (gameState == STATE_LEVEL_END) {
+    // drawField();
     drawArea();
+    decals.draw();
+    drawBarTitle("Level " + currentLevel, 20);
     drawBarButtons(levelEndButtonLabel);
     player.draw();
-    decals.draw();
+
+    // if a pen is occupied draw a gate
+    for(var i=0; i<TILE_COLS; i++) {
+      var index = i + (TILE_COLS * (TILE_ROWS - 1));
+      if (areaGrid[index] == FULL_BLUE) {
+        colDrawPenGate(i, BLUE);
+      }
+      else if (areaGrid[index] == FULL_RED) {
+        colDrawPenGate(i, RED);
+      }
+    } // loop bottom row
+
 
     // draw label with score on sheep
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
