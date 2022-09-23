@@ -323,7 +323,8 @@ function sheepClass() {
 
 
     else if (this.enterOccupiedPen(tileType)) {
-      if (haste != VISUAL_TEST) {
+
+      if (runMode == NORMAL_PLAY) {
         // don't stack above pen, instead roam
         this.changeMode(ROAM);
         nextX = this.x;
@@ -335,7 +336,7 @@ function sheepClass() {
         console.log("Pen occupied, graze", this.id);
       }
 
-      else if (haste == VISUAL_TEST) {
+      else if (runMode == SEND_COLUMNS || runMode == ROAM_FROM_R1) {
         nextX = nearestColumnCentre(nextX);
         nextY = ((tileRow - 1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
         console.log("Agenthandling: retreat to Y=", nextY);
@@ -371,7 +372,7 @@ function sheepClass() {
 
     else if (tileType == FULL_DITCH) {
 
-      if (haste != VISUAL_TEST) {
+      if (runMode == NORMAL_PLAY) {
         // don't stack above ditch, instead roam away
         this.changeMode(ROAM);
         nextX = this.x;
@@ -383,7 +384,7 @@ function sheepClass() {
         console.log("Ditch occupied, turn away id", this.id);
       }
 
-      else if (haste == VISUAL_TEST) {
+      else if (runMode == SEND_COLUMNS || runMode == ROAM_FROM_R1) {
         nextX = nearestColumnCentre(nextX);
         nextY = ((tileRow - 1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
         console.log("stack at Y=", nextY);
@@ -542,11 +543,6 @@ function sheepClass() {
 
     if (this.isModeTimed()) {
       this.setExpiry();
-    }
-
-    // change FPS instead to avoid sheep jumping through tiles
-    if (!hastenTestViaFPS) {
-      this.speed *= testHasteMultiplier[runMode];
     }
 
     // changeMode is not changing X or Y this/next/goto y

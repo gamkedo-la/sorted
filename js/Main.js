@@ -73,13 +73,7 @@ window.onload = function() {
 function imageLoadingDoneSoStartGame() {
   setupDecals();
 
-  if (hastenTestViaFPS) {
-    framesPerSecond = baseFPS * haste;
-  } else {
-    framesPerSecond = baseFPS;
-  }
-  console.log("FPS =", framesPerSecond);
-
+  let framesPerSecond = baseFPS;
 	setInterval(updateAll, 1000/framesPerSecond);
 
   setupInput();
@@ -125,11 +119,12 @@ function resizeWindow(){
 
 
 function updateAll() {
-	moveAll();
+
+  for (var i=0; i < haste; i++) {
+    moveAll();
+  }
+
 	drawAll();
-  step[currentLevel]++; // level timesteps
-  player.callGapTimer--; // prevent call again too soon
-  dog.barkTimer--;
 
   drawingContext.save();
   drawingContext.scale(drawScaleX * playFieldFractionOfScreen, drawScaleY);
@@ -145,9 +140,14 @@ function updateAll() {
 
 
 function moveAll() {
-  if (gameState == STATE_MENU || gameState == STATE_CREDITS || paused) {
+  step[currentLevel]++; // level timesteps
+  player.callGapTimer--; // prevent call again too soon
+  dog.barkTimer--;
+
+  if ( staticScreen() ) {
     return;
   }
+
 
   else if (gameState == STATE_DESIGN_LEVEL) {
     if (designTileReady) {
@@ -157,6 +157,7 @@ function moveAll() {
       designTileReady = false;
     }
   }
+
 
   else if (gameState == STATE_PLAY) {
     player.move();
@@ -175,7 +176,8 @@ function moveAll() {
       levelEnding();
     }
   }
-}
+} // end moveAll
+
 
 function drawAll() {
   // background for canvas
@@ -236,6 +238,7 @@ function drawAll() {
 
   } // end of Level_Over
 
+
   else if (gameState == STATE_DESIGN_LEVEL) {
     // drawDesignerFromLevelNum(designLevel);
     drawDesignerFromGrid(designGrid);
@@ -289,6 +292,7 @@ function drawAll() {
 
 } // end drawAll()
 
+
 var tutorial_start_time = 0;
 var tutorial_timespan = 5000; // ms
 function drawTutorial() {
@@ -338,7 +342,7 @@ function loadLevel(whichLevel) {
 
 
   else if (runMode == SEND_COLUMNS) {
-    console.log("Test send row of sheep in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
+    console.log("Testing level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
     baaVolume = 0;
 
     // overwriting to use flocksize array seems a bad approach
@@ -385,4 +389,9 @@ function loadLevel(whichLevel) {
   update_debug_report();
   levelLoaded = whichLevel;
   baaVolume = 1.0;
+}
+
+
+function staticScreen() {
+  return paused || gameState == STATE_MENU || gameState == STATE_CREDITS || gameState == STATE_HELP || gameState == STATE_SCOREBOARD
 }

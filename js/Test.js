@@ -2,32 +2,30 @@ const NORMAL_PLAY = 0;
 const SEND_COLUMNS = 1;
 const ROAM_FROM_R1 = 2;
 const CALL_FROM_R13 = 3;
+const AI_PLAY_MIDFIELD = 4;
 var runMode = NORMAL_PLAY;
 // var runMode = ROAM_FROM_R1;
+const NUM_TEST_MODES = 3;
 
-// test hasten either via speed in sheep.changeMode() or via FPS
-// problem with latter is that FPS can only change by relaunch game
-const baseFPS = 20;
-var hastenTestViaFPS = false;
-var testHasteMultiplier = [1, 5, 20];
+var hastenTest = true;
+var hasteMultiplier = [1, 3, 8, 20];
+var haste = 1;
+
+// SEND best slow until all Send expire, then only roaming so go fast - array is timeStep when to switch haste multiplier.
+var hasteWhen = [0, 80, 400];
+
 const PLAY_SPEED = 0;
 const VISUAL_TEST = 1;
 const UNDRAWN_TEST = 2;
 
-if (hastenTestViaFPS) {
-  // haste = testHasteMultiplier[VISUAL_TEST];
-  haste = testHasteMultiplier[UNDRAWN_TEST];
-} else {
-  haste = testHasteMultiplier[PLAY_SPEED];
-}
-
-const TEST_DESCRIPTION = ["not automating, normal play", "from each column centre send a sheep", "start in row 1 and roam"];
+const TEST_DESCRIPTION = ["NORMAL play, not automating.", "SEND sheep from each column centre.", "ROAM sheep placed near top row.", "CALL sheep paced near bottom row.", "AI play with call & send"];
 
 var testColumnSet = true; // flag to get column number from keypress
 var testTimer = null;
 var testLevel = 0;
 
 var editMode = true;
+const baseFPS = 20;
 
 const PLAIN = 0; // sheep normal colour
 const BLUE = 1;

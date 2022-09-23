@@ -301,14 +301,22 @@ function menuKeyChoice(key) {
         }
 
         if (key == KEY_A) {
-          // runMode = !runMode; // toggle
           runMode++;
-          haste = VISUAL_TEST;
-          if (runMode > 2) { // stack Column is 3, Every_X is 4
+          if (runMode > NUM_TEST_MODES) {
             runMode = 0;
-            haste = PLAY_SPEED;
+            haste = 1;
+            hastenTest = false;
           }
-          console.log(TEST_DESCRIPTION[runMode]);
+          else {
+            hastenTest = true;
+          }
+          if (runMode == SEND_COLUMNS) {
+            haste = 4;  //hasteMultiplier[1];
+          }
+          if (runMode == ROAM_FROM_R1) {
+            haste = 10;  //hasteMultiplier[1];
+          }
+          console.log(TEST_DESCRIPTION[runMode], "Haste:", haste);
         }
 
         if (key == KEY_T) {
