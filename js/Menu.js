@@ -15,6 +15,7 @@ const CREDITS_WIDTH = 720;
 
 var barTitle = "barTitle undefined";
 var barIndent = 10;
+const POPUP_W = 320;
 
 
 function drawMenuFlock() {

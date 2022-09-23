@@ -162,9 +162,11 @@ function playerClass(id) {
 
       if (nextX > gameCanvas.width) {
         nextX -= gameCanvas.width; // offset to mirror image
+        this.gotoX = TILE_W/2;
       }
       if (nextX < 0) {
         nextX += gameCanvas.width; // offset to mirror image
+        this.gotoX = gameCanvas.width - TILE_W/2;
       }
 
       if (this.callWhenInPlace) {
