@@ -302,22 +302,25 @@ function menuKeyChoice(key) {
 
         if (key == KEY_A) {
           runMode++;
-          if (runMode > NUM_TEST_MODES) {
+          if (runMode > NUM_TEST_TYPES) {
             runMode = 0;
             haste = 1;
             hastenTest = false;
+            console.log(TEST_DESCRIPTION[runMode], "Haste =", haste);
           }
           else {
+            if (runMode == SEND_ONLY || runMode == SEND_ROAM) {
+              haste = 1;
+            }
+            else if (runMode == ROAM_FROM_R1) {
+              haste = 100;
+            }
+            else if (runMode == CALL_FROM_R10) {
+              haste = 3;
+            }
             hastenTest = true;
+            console.log(TEST_DESCRIPTION[runMode], "Haste initially =", haste);
           }
-
-          if (runMode == SEND_ONLY || runMode == SEND_ROAM) {
-            haste = 2;
-          }
-          if (runMode == ROAM_FROM_R1) {
-            haste = 50;  //hasteMultiplier[1];
-          }
-          console.log(TEST_DESCRIPTION[runMode], "Haste:", haste);
         }
 
         if (key == KEY_T) {

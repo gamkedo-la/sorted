@@ -6,6 +6,7 @@ const FACING_RADIUS = 2;
 var teamSizeSoFar = [0, 0, 0];
 var sheepInPlay = 0;
 const plainSheepCanFinish = true;
+var tryIndex = 0; // used in Tests for stacking
 
 const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
 const TILE_Y_ADJUST = 0.650; // position outOfPlay sheep in tile
@@ -18,6 +19,7 @@ const HELD = 3;
 const SENT = 4;
 const CONVEYOR = 5;
 const STUCK = 6;
+const STILL = 19;
 
 // below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
 // on-road and fenced were orig created for end-of-level calculation
@@ -80,6 +82,11 @@ function sheepClass() {
     this.speed = defaultRoamSpeed;
     this.ang = Math.PI/2;
   }
+  this.testStillInit = function () {
+    this.speed = 0;
+    this.ang = Math.PI / 2;
+    this.mode = STILL;
+  }
 
   this.placeTop = function() {
     this.x = TILE_W/2 + this.id * TILE_W;
@@ -89,6 +96,10 @@ function sheepClass() {
   this.placeRoamR1 = function() {
     this.x = TILE_W/2 + this.id * TILE_W;
     this.y = TILE_H * 3/2;
+  }
+  this.placeRow = function (row) {
+    this.x = TILE_W / 2 + this.id * TILE_W;
+    this.y = TILE_H * row + TILE_H / 2;
   }
 
   this.testColumnInit = function() {
@@ -129,8 +140,8 @@ function sheepClass() {
     var tileOccupied;
     var pos; // temporary position
 
-    if (this.levelDone) {
-      // if sheep in a PEN or DITCH no action
+    if (this.levelDone || this.mode == STILL) {
+      // if sheep outOfPlay no action
       return;
     }
 
@@ -325,6 +336,7 @@ function sheepClass() {
     else if (this.enterOccupiedPen(tileType)) {
 
       if (runMode == NORMAL_PLAY) {
+      // if (runMode == 99) {
         // don't stack above pen, instead roam
         this.changeMode(ROAM);
         nextX = this.x;
@@ -336,25 +348,30 @@ function sheepClass() {
         console.log("Pen occupied, graze", this.id);
       }
 
-      else if (runMode == SEND_ONLY || runMode == SEND_ROAM || runMode == ROAM_FROM_R1) {
+      // else if (runMode == SEND_ONLY || runMode == SEND_ROAM || runMode == ROAM_FROM_R1) {
+      else { // not NORMAL_PLAY
         nextX = nearestColumnCentre(nextX);
-        nextY = ((tileRow - 1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
-        console.log("Agenthandling: retreat to Y=", nextY);
+        tryIndex = tileIndexUnder;
+
+        while (agentGrid[tryIndex] != 0) {
+          tryIndex -= TILE_COLS;
+          console.log('tryIndex', tryIndex)
+        }
+        nextY = yTopFromIndex(tryIndex) + TILE_H * TILE_Y_ADJUST;
+
+        console.log("tilehandle full pen: retreat to Y=", nextY);
+        agentGrid[tryIndex] = this.team;
         this.speed = 0;
         this.ang = Math.PI * 1 / 2;
+        this.mode = STACKED; // maybe should record PEN colour
+        this.endLevel(tileCol);
 
         if (this.team == BLUE) {
           this.orient = Math.PI * 1 / 2;
         } else {
           this.orient = Math.PI * 3 / 2;
         }
-
-        this.mode = STACKED;
-        this.endLevel(tileCol);
-        levelOver = isLevelOver();
-
-        agentGrid[tileIndexUnder - TILE_COLS] = this.team;
-        stacking = false; // return to default behaviour
+        // stacking = false; // return to default behaviour
       } // end enter full pen of either colour
     }
 
@@ -384,22 +401,30 @@ function sheepClass() {
         console.log("Ditch occupied, turn away id", this.id);
       }
 
-      else if (runMode == SEND_ONLY || runMode == SEND_ROAM || runMode == ROAM_FROM_R1) {
+      // else if (runMode == SEND_ONLY || runMode == SEND_ROAM || runMode == ROAM_FROM_R1) {
+      else { // not NORMAL_PLAY
+        
         nextX = nearestColumnCentre(nextX);
-        nextY = ((tileRow - 1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
-        console.log("stack at Y=", nextY);
+        tryIndex = tileIndexUnder;
+
+        while (agentGrid[tryIndex] != 0) {
+          tryIndex -= TILE_COLS;
+          console.log('tryIndex', tryIndex)
+        }
+        nextY = yTopFromIndex(tryIndex) + TILE_H * TILE_Y_ADJUST;
+
+        console.log("tilehandle full pen: retreat to Y=", nextY);
+        agentGrid[tryIndex] = this.team;
         this.speed = 0;
         this.ang = Math.PI * 1 / 2;
+        this.mode = STACKED; // maybe should record PEN colour
+        this.endLevel(tileCol);
+
         if (this.team == BLUE) {
           this.orient = Math.PI * 1 / 2;
         } else {
           this.orient = Math.PI * 3 / 2;
         }
-        this.mode = STACKED;
-        this.endLevel(tileCol);
-        levelOver = isLevelOver();
-        agentGrid[tileIndexUnder - TILE_COLS] = this.team;
-        stacking = false; // return to default behaviour
       }
     } // end full_ditch
 
@@ -433,7 +458,6 @@ function sheepClass() {
         if (this.ang > 1/4*Math.PI && this.ang < 3/4*Math.PI) {
           // nextY -= this.speed; // stay at edge of lake
           nextY = nearestRowEdge(nextY) -10;
-          console.log("Avoid walking into water");
         }
         var turn = randomRangeInt(1,2) == 1 ? 1 : (-1);
         this.ang += turn * Math.PI/2;

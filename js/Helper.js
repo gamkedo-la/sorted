@@ -23,6 +23,15 @@ function isTilePen(index) {
 }
 
 
+function yTopFromIndex(index) {
+  let row = rowFromIndex(index);
+  return TILE_H * row;
+}
+function rowFromIndex(index) {
+  return Math.floor(index / TILE_COLS);
+}
+
+
 function countPennedSheep() {
   var count = 0;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {

@@ -2,15 +2,18 @@ const NORMAL_PLAY = 0;
 const SEND_ONLY = 1;
 const SEND_ROAM = 2;
 const ROAM_FROM_R1 = 3;
-const CALL_FROM_R13 = 4;
+const CALL_FROM_R10 = 4;
 const AI_PLAY_MIDFIELD = 5;
 var runMode = NORMAL_PLAY;
 // var runMode = ROAM_FROM_R1;
-const NUM_TEST_MODES = 5;
+
+// number of Test types currently usable
+const NUM_TEST_TYPES = 3;
 
 var hastenTest = true;
 var hasteMultiplier = [1, 3, 8, 20];
 var haste = 1;
+var hasteSet = false;
 
 // SEND best slow until all Send expire, then only roaming so go fast - array is timeStep when to switch haste multiplier.
 var hasteWhen = [0, 80, 400];

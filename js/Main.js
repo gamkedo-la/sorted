@@ -162,7 +162,6 @@ function moveAll() {
   else if (gameState == STATE_PLAY) {
 
     // console.log('step', step[currentLevel], ' haste ', haste)
-    var hasteSet = false;
 
     for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].move();
@@ -181,19 +180,32 @@ function moveAll() {
       if ( !isAnySending() ) {
         // only on conveyors, go faster
         haste = 8;
-        console.log('step', step[currentLevel], 'Go faster as all Roaming');
+        console.log('step', step[currentLevel], 'Faster while on conveyor');
       }
       if ( !isAnySendOrConvey() ) {
-        // none on conveyors, all roaming
+        // none on conveyors, all roaming so force LevelEnd
         levelEnding();
-        console.log('step', step[currentLevel], 'Level end as none Sending');
+        console.log('step', step[currentLevel], 'Level end as none are Send');
       }
     }
 
-    else if ( runMode == SEND_ROAM && allRoamGrazeOrDone() ) {
-      haste = 5;
-      hasteSet = true;
-      console.log('step', step[currentLevel], ' no Send = haste 5')
+    else if (runMode == SEND_ROAM && !hasteSet) {
+      if (!isAnySending()) {
+        // only on conveyors, go faster
+        haste = 8;
+        console.log('Fast while remainder on conveyor');
+      }
+      if (allRoamGrazeOrDone()) {
+        haste = 100;
+        hasteSet = true;
+        console.log('step', step[currentLevel], 'Very fast as remainder all roaming')
+      }
+      // use normal LevelEnd condition
+    }
+
+    else if (runMode == CALL_FROM_R10) {
+
+      // force LevelEnd when sheep in final column Held or give up.
     }
 
     if ( isLevelOver() ) {
@@ -358,11 +370,7 @@ function loadLevel(whichLevel) {
 
   player.reset(playerHatPic, "Shepherding Hat");
   HatNotMovedYet = true;
-
-  GROUNDSPEED_DECAY_MULT = HAT_FRICTION[whichLevel]; // hat moves like car
-  drivePower = HAT_POWER[whichLevel];
-  reversePower = HAT_POWER[whichLevel];
-  tractorSpeed = CALL_SPEED[whichLevel];
+  hasteSet = false;
 
   sheepList = [];  // fresh set of sheep
 
@@ -419,10 +427,25 @@ function loadLevel(whichLevel) {
       var spawnSheep = new sheepClass();
       spawnSheep.reset(i, testTeam, PLAIN, ROAM);
       spawnSheep.testRoamInit();
-      spawnSheep.placeRoamR1();
+      spawnSheep.placeRow(1);
       sheepList.push(spawnSheep);
     }
-    // isLevelOver();
+  }
+
+  else if (runMode == CALL_FROM_R10) {
+    console.log("Test call sheep in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
+    baaVolume = 0;
+
+    FLOCK_SIZE[whichLevel] = TILE_COLS;
+    testTeam = PLAIN;
+
+    for (var i = 0; i < FLOCK_SIZE[whichLevel]; i++) {
+      var spawnSheep = new sheepClass();
+      spawnSheep.reset(i, testTeam, PLAIN, ROAM);
+      spawnSheep.testStillInit();
+      spawnSheep.placeRow(10);
+      sheepList.push(spawnSheep);
+    }
   }
 
   // reset sorting
