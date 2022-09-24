@@ -255,7 +255,7 @@ function menuKeyChoice(key) {
       }
       break;
 
-      
+
     case STATE_MENU:
       menuSound.play();
 
@@ -334,7 +334,7 @@ function menuKeyChoice(key) {
 
         if (key == KEY_T) {
           testTeam++;
-          if (testTeam > 3) {
+          if (testTeam > NUM_TEAM_TYPES) {
             testTeam = 0;
           }
           console.log("Paint for automated test is", TEAM_NAMES[testTeam]);

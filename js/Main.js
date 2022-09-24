@@ -29,6 +29,7 @@ var decals; // grass, flowers, footprints, pebbles, etc
 
 const TEAM_NAMES = ["plain", "blue", "red", "mixed"];
 const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple"];
+const NUM_TEAM_TYPES = 3;
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
@@ -262,9 +263,9 @@ function drawAll() {
 
     // is Popup wanted for Test runs?
     if (runMode == NORMAL_PLAY) {
-      drawLevelEndOnward();
-    } else {
       drawLevelEnd();
+    } else {
+      drawLevelEndTest();
     }
 
     // do once per level-ending
@@ -301,7 +302,7 @@ function drawAll() {
     drawBarButtons(designButtonLabel);
   }
 
-  
+
   else if (gameState == STATE_MENU) {
     drawMenuState();
   }

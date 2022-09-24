@@ -9,7 +9,10 @@ const plainSheepCanFinish = true;
 var tryIndex = 0; // used in Tests for stacking
 
 const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
-const TILE_Y_ADJUST = 0.650; // position outOfPlay sheep in tile
+const TILE_Y_ADJUST = 0.650; // sheep to tile centre
+
+const ORIENT_BLUE = Math.PI * 1/2; // looks left
+const ORIENT_RED = Math.PI * 3/2; // looks right
 
 // sheep modes
 const GRAZE = 0;
@@ -274,19 +277,17 @@ function sheepClass() {
     }
   }
 
+
   this.tileHandling = function (nextX, nextY) {
     var tileCol = Math.floor(nextX / TILE_W);
     var tileRow = Math.floor(nextY / TILE_H);
     var tileIndexUnder = colRowToIndex(tileCol, tileRow);
-
     var tileType = getTileTypeAtColRow(tileCol, tileRow);
-
 
     if (this.enterPen(tileType)) {
 
       if (tileType == TILE_PEN_BLUE) {
         console.log("Sheep ID", this.id, "reached a blue pen.");
-        this.orient = Math.PI * 1 / 2;
         this.mode = IN_PEN_BLUE;
         areaGrid[tileIndexUnder] = FULL_BLUE;
       }
@@ -303,6 +304,12 @@ function sheepClass() {
       this.ang = Math.PI * 1 / 2;
       this.endLevel(tileCol);
 
+      if (this.team == BLUE) {
+        this.orient = ORIENT_BLUE;
+      }
+      else if (this.team == RED) {
+        this.orient = ORIENT_RED;
+      }
       // fixme: perhaps we need some "unhappy" BAA sounds?
       random_baa_sound(baaVolume);
     } // end enter empty pen of either colour
@@ -319,12 +326,17 @@ function sheepClass() {
         let flip = randomRangeInt(1, 2);
         let angleAdjust = (flip == 1) ? 9 / 8 : 15 / 8;
         this.ang = angleAdjust * Math.PI;
-        this.orient = 0;
+        if (this.team == BLUE) {
+          this.orient = ORIENT_BLUE;
+        }
+        else if (this.team == RED) {
+          this.orient = ORIENT_RED;
+        }
         console.log("Pen occupied, graze", this.id);
       }
 
-      // else if (runMode == SEND_ONLY || runMode == SEND_ROAM || runMode == ROAM_FROM_R1) {
-      else { // not NORMAL_PLAY
+      else if (runMode == SEND_ONLY || runMode == SEND_ROAM || runMode == ROAM_FROM_R1) {
+      // else { // not NORMAL_PLAY
         nextX = nearestColumnCentre(nextX);
         tryIndex = tileIndexUnder;
 
@@ -335,7 +347,7 @@ function sheepClass() {
 
         nextY = yTopFromIndex(tryIndex) + TILE_H * TILE_Y_ADJUST;
 
-        console.log("tilehandle full pen: retreat to Y=", nextY);
+        console.log("tilehandle full pen: retreat to Y=", nextY, tryIndex);
         agentGrid[tryIndex] = this.team;
         this.speed = 0;
         this.ang = Math.PI * 1 / 2;
@@ -360,6 +372,12 @@ function sheepClass() {
         nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
         areaGrid[tileIndexUnder] = FULL_DITCH;
         agentGrid[tileIndexUnder] = this.team;
+        if (this.team == BLUE) {
+          this.orient = ORIENT_BLUE;
+        }
+        else if (this.team == RED) {
+          this.orient = ORIENT_RED;
+        }
       }
     }
 
@@ -373,7 +391,12 @@ function sheepClass() {
         let flip = randomRangeInt(1, 2);
         let angleAdjust = (flip == 1) ? 9 / 8 : 15 / 8;
         this.ang = angleAdjust * Math.PI;
-        this.orient = 0;
+        if (this.team == BLUE) {
+          this.orient = ORIENT_BLUE;
+        }
+        else if (this.team == RED) {
+          this.orient = ORIENT_RED;
+        }
         console.log("Ditch occupied, turn away id", this.id);
       }
 
@@ -432,18 +455,20 @@ function sheepClass() {
         this.changeMode(GRAZE);
         // if arriving at lake from above
         if (this.ang > 1/4*Math.PI && this.ang < 3/4*Math.PI) {
-          // nextY -= this.speed; // stay at edge of lake
           nextY = nearestRowEdge(nextY) - 12;
         }
         if (this.team == BLUE) {
           this.ang = Math.PI;
+          nextX -= 4;
         }
         else if (this.team == RED) {
           this.ang = 0;
+          nextX += 4;
         }
         else {
           let turn = randomRangeInt(1,2) == 1 ? 1 : (-1);
           this.ang += turn * Math.PI/2;
+          nextX += turn > 0 ? -4 : 4;
         }
       }
     }

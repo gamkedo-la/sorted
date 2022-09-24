@@ -31,7 +31,7 @@ var testLevel = 0;
 var editMode = true;
 const baseFPS = 20;
 
-const PLAIN = 0; // sheep normal colour
+const PLAIN = 7; // sheep normal colour
 const BLUE = 1;
 const RED = 2;
 const MIXED = 3;
@@ -73,7 +73,7 @@ var HatNotMovedYet = true;
 // var testCount = Array(NUM_LEVELS);
 // testCount.fill(0);
 
-var testTeam = MIXED; // both teams, as in normal play
+var testTeam = PLAIN; // both teams, as in normal play
 var whichColumn = 10; // for automated test
 
 var endLevelShowID = false; // otherwise show score per ball

@@ -6,7 +6,7 @@ const NOT_OCCUPIED = 0;
 const OCCUPY_BLUE = 1;
 const OCCUPY_RED = 2;
 const OCCUPY_MIXED = 3;
-const OCCUPY_PLAIN = 4;
+const OCCUPY_PLAIN = 7;
 
 const agentLevel_0 = [
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
