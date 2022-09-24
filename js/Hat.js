@@ -219,7 +219,7 @@ function playerClass(id) {
 
 
 function isSheepCallable(location) {
-  callable = (location != IN_BLUE_PEN && location != IN_RED_PEN && location != ON_ROAD && location != IN_DITCH && location != STACKED && location != STUCK);
+  callable = ( location != IN_PEN_BLUE && location != IN_PEN_RED && location != IN_DITCH && location != STUCK && location != STACKED );
   return callable;
 }
 

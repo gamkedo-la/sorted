@@ -19,13 +19,13 @@ const HELD = 3;
 const SENT = 4;
 const CONVEYOR = 5;
 const STUCK = 6;
-const STILL = 19;
+const STILL = 11;
 
 // below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
 // on-road and fenced were orig created for end-of-level calculation
 const IN_DITCH = 7;
-const IN_BLUE_PEN = 8;
-const IN_RED_PEN = 9;
+const IN_PEN_BLUE = 8;
+const IN_PEN_RED = 9;
 const SELECTED = 10; // only while manually edit/testing
 
 // for Tests
@@ -33,11 +33,6 @@ const STACKED = 13;
 const STACKED_DITCH = 14;
 const STACKED_BLUE = 15;
 const STACKED_RED = 16;
-
-// not in use
-const IN_BLUE_LORRY = 11;
-const IN_RED_LORRY = 12;
-const ON_ROAD = 14;
 
 const sheepModeNames = ['Graze', 'Roam', 'Called', 'Held', 'Sent', 'Conveyor', 'Stuck', 'In_Ditch', 'In_Blue_Pen', 'In_Red_Pen', 'On_Road', 'In_Blue_Lorry', 'In_Red_Lorry'];
 
@@ -102,31 +97,12 @@ function sheepClass() {
     this.y = TILE_H * row + TILE_H / 2;
   }
 
-  this.testColumnInit = function() {
-    this.speed = 3 + this.id * 3;
-    this.ang = Math.PI/2;
-  }
-  this.testColumnXInit = function() {
-    // this.speed = TEST_SEND_SPEED;
-    this.ang = Math.PI/2;
-  }
-
-  this.placeColumn = function(col) {
-    this.x = TILE_W/2 + col * TILE_W;
-    this.y = TILE_H * 3/2 -15;
-    this.sentX = this.x;
-  }
-  this.placeColumnX = function(col, Xoffset) {
-    this.x = (col * TILE_W) + Xoffset;
-    this.y = TILE_H * 3/2 -15;
-    this.sentX = this.x;
-  }
-
   this.placeRandom = function(depth) {
     this.x = randomRangeInt(0 + SIDE_MARGIN, gameCanvas.width - SIDE_MARGIN -2);
     this.y = randomRangeInt(TOP_MARGIN+10, depth);
     // console.log(this.id, this.x, this.y)
   }
+
 
   // 1st, mode governs speed
   // 2nd, check screenwrap X and bounce Y
@@ -311,13 +287,13 @@ function sheepClass() {
       if (tileType == TILE_PEN_BLUE) {
         console.log("Sheep ID", this.id, "reached a blue pen.");
         this.orient = Math.PI * 1 / 2;
-        this.mode = IN_BLUE_PEN;
+        this.mode = IN_PEN_BLUE;
         areaGrid[tileIndexUnder] = FULL_BLUE;
       }
       else if (tileType == TILE_PEN_RED) {
         console.log("Sheep ID", this.id, "reached a red pen.");
         this.orient = Math.PI * 3 / 2;
-        this.mode = IN_RED_PEN;
+        this.mode = IN_PEN_RED;
         areaGrid[tileIndexUnder] = FULL_RED;
       }
 
@@ -326,7 +302,6 @@ function sheepClass() {
       nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
       this.ang = Math.PI * 1 / 2;
       this.endLevel(tileCol);
-      levelOver = isLevelOver();
 
       // fixme: perhaps we need some "unhappy" BAA sounds?
       random_baa_sound(baaVolume);
@@ -357,19 +332,21 @@ function sheepClass() {
           tryIndex -= TILE_COLS;
           console.log('tryIndex', tryIndex)
         }
+
         nextY = yTopFromIndex(tryIndex) + TILE_H * TILE_Y_ADJUST;
 
         console.log("tilehandle full pen: retreat to Y=", nextY);
         agentGrid[tryIndex] = this.team;
         this.speed = 0;
         this.ang = Math.PI * 1 / 2;
-        this.mode = STACKED; // maybe should record PEN colour
         this.endLevel(tileCol);
 
         if (this.team == BLUE) {
           this.orient = Math.PI * 1 / 2;
+          this.mode = STACKED_BLUE;
         } else {
           this.orient = Math.PI * 3 / 2;
+          this.mode = STACKED_RED;
         }
         // stacking = false; // return to default behaviour
       } // end enter full pen of either colour
@@ -381,9 +358,8 @@ function sheepClass() {
         this.endLevel(tileCol);
         nextX = nearestColumnCentre(nextX);
         nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
-        agentGrid[tileIndexUnder] = this.team;
         areaGrid[tileIndexUnder] = FULL_DITCH;
-        levelOver = isLevelOver();
+        agentGrid[tileIndexUnder] = this.team;
       }
     }
 
@@ -403,7 +379,7 @@ function sheepClass() {
 
       // else if (runMode == SEND_ONLY || runMode == SEND_ROAM || runMode == ROAM_FROM_R1) {
       else { // not NORMAL_PLAY
-        
+
         nextX = nearestColumnCentre(nextX);
         tryIndex = tileIndexUnder;
 
@@ -417,7 +393,7 @@ function sheepClass() {
         agentGrid[tryIndex] = this.team;
         this.speed = 0;
         this.ang = Math.PI * 1 / 2;
-        this.mode = STACKED; // maybe should record PEN colour
+        this.mode = STACKED_DITCH;
         this.endLevel(tileCol);
 
         if (this.team == BLUE) {
@@ -457,29 +433,41 @@ function sheepClass() {
         // if arriving at lake from above
         if (this.ang > 1/4*Math.PI && this.ang < 3/4*Math.PI) {
           // nextY -= this.speed; // stay at edge of lake
-          nextY = nearestRowEdge(nextY) -10;
+          nextY = nearestRowEdge(nextY) - 12;
         }
-        var turn = randomRangeInt(1,2) == 1 ? 1 : (-1);
-        this.ang += turn * Math.PI/2;
+        if (this.team == BLUE) {
+          this.ang = Math.PI;
+        }
+        else if (this.team == RED) {
+          this.ang = 0;
+        }
+        else {
+          let turn = randomRangeInt(1,2) == 1 ? 1 : (-1);
+          this.ang += turn * Math.PI/2;
+        }
       }
     }
+
 
     else if (tileType == TILE_LOST) {
       if (this.mode != ROAM) {
         this.changeMode(ROAM);
-        this.ang = randomRange(0, Math.PI * 2);
+        let angleChange = randomRange(-1, +1);
+        this.ang += angleChange;
+        // this.ang = randomRange(0, Math.PI * 2);
       }
     }
+
 
     else if (tileType == TILE_STUCK) {
       if (this.mode != STUCK) {
         this.mode = STUCK;
         stuckSound.play();
         this.endLevel(tileCol);
-        levelOver = isLevelOver();
-        // definitely need endRow, and Stuck is not a scoring result
+        // need endRow, and Stuck is not a scoring result
       }
     }
+
 
     else if ( this.isTileConveyor(tileType) ) {
       if (this.mode != CONVEYOR) {
@@ -495,9 +483,10 @@ function sheepClass() {
       }
     } // end of entering Conveyor mode
 
+
     else if (tileType != TILE_FIELD) {
       this.speed = 0;
-    } // end Grass Field
+    } // end not Field ???
 
     return {
       x: nextX,
@@ -522,6 +511,7 @@ function sheepClass() {
     else if (newMode == GRAZE) {
       this.mode = GRAZE;
       this.speed = GRAZE_SPEED[currentLevel];
+      this.orient = 0; // normal upright
     }
 
     else if (newMode == CONVEYOR) {
@@ -546,7 +536,6 @@ function sheepClass() {
 
     else if (newMode == IN_DITCH) {
       this.mode = IN_DITCH;
-      // reference Y of row above fence, instead of canvas.height
       this.ang = Math.PI * 1/2;
       if (this.team == BLUE) {
         this.orient = Math.PI * 1/2;
@@ -555,8 +544,6 @@ function sheepClass() {
       }
       this.speed = 0;
       this.levelDone = true;
-      // agentGrid[tileIndexUnder - TILE_COLS] = OCCUPIED;
-      levelOver = isLevelOver();
     }
 
     else {
@@ -568,12 +555,6 @@ function sheepClass() {
     if (this.isModeTimed()) {
       this.setExpiry();
     }
-
-    // changeMode is not changing X or Y this/next/goto y
-    // return {
-    //   x: nextX,
-    //   y: nextY
-    // };
   }
 
 
@@ -615,7 +596,7 @@ function sheepClass() {
       return true;
     }
     else if ( this.team != PLAIN ) {
-      return (this.mode == SENT || this.mode == IN_DITCH || this.mode == IN_BLUE_PEN || this.mode == IN_RED_PEN || this.mode == ON_ROAD || this.mode == STACKED);
+      return (this.mode == SENT || this.mode == IN_DITCH || this.mode == IN_PEN_BLUE || this.mode == IN_PEN_RED || this.mode == ON_ROAD || this.mode == STACKED);
     }
   }
 
@@ -624,7 +605,7 @@ function sheepClass() {
   }
 
   this.modeIsInPen = function () {
-    return this.mode == IN_BLUE_PEN || this.mode == IN_RED_PEN;
+    return this.mode == IN_PEN_BLUE || this.mode == IN_PEN_RED;
   }
 
   this.enterPen = function (tileType) {
@@ -776,10 +757,10 @@ function sheepClass() {
       if (this.mode == IN_DITCH) {
         score = DITCH_SCORE;
       }
-      else if (this.mode == IN_BLUE_PEN) {
+      else if (this.mode == IN_PEN_BLUE) {
         score = PEN_SCORE;
       }
-      else if (this.mode == IN_RED_PEN) {
+      else if (this.mode == IN_PEN_RED) {
         score = PEN_SCORE;
       }
 

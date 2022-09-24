@@ -301,6 +301,7 @@ function drawAll() {
     drawBarButtons(designButtonLabel);
   }
 
+  
   else if (gameState == STATE_MENU) {
     drawMenuState();
   }

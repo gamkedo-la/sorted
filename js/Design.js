@@ -117,6 +117,7 @@ function getLength(number) {
   return number.toString().length;
 }
 
+
 function arrowKeyDesign(evt) {
   if (evt.keyCode == KEY_LEFT_ARROW) {
     gridIndex -= 1;
@@ -132,5 +133,5 @@ function arrowKeyDesign(evt) {
   }
   designTileReady = true; // will draw
   console.log("gridIndex changed to " + gridIndex);
-  console.log("Tile type previously selected is", tileType, TILE_NAMES[tileType]);
+  console.log("Tile type selected is", tileType, TILE_NAMES[tileType]);
 }

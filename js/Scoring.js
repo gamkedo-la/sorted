@@ -60,7 +60,7 @@ function levelEnding() {
 
 
 function isInPen(mode) {
-  return mode == IN_BLUE_PEN || mode == IN_RED_PEN
+  return mode == IN_PEN_BLUE || mode == IN_PEN_RED
 }
 
 
@@ -105,10 +105,10 @@ function checkScore() {
     //     score = DITCH_SCORE * (1 - currentLevel/5);
     //   }
 
-    //   if (mode == IN_BLUE_PEN) {
+    //   if (mode == IN_PEN_BLUE) {
     //     score = PEN_SCORE * (1 - currentLevel/5);
     //   }
-    //   if (mode == IN_RED_PEN) {
+    //   if (mode == IN_PEN_RED) {
     //     score = PEN_SCORE * (1 - currentLevel/5);
     //   }
 

@@ -83,6 +83,7 @@ var endLevelShowID = false; // otherwise show score per ball
 
 const SEPARATOR = "\t"; // ", "
 
+
 function isTouchDevice() {
   return ( 'ontouchstart' in window ) ||
          ( navigator.maxTouchPoints > 0 ) ||
@@ -122,20 +123,11 @@ function deviceTests() {
 
 
 function testResult() {
-  var output = "Level " + currentLevel;
+  var output = "Level " + currentLevel + " - " + TEST_DESCRIPTION[runMode];
 
-  if (runMode == SEND_ONLY) {
-    output += "Send from each column\n";
-  }
-  else if (runMode == SEND_ROAM) {
-    output += "Send then Roam/Graze\n";
-  }
-  else if (runMode == ROAM_FROM_R1) {
-    output += "Roam from top row\n";
-  }
-
-  output += "sentX" + SEPARATOR + "col" + SEPARATOR + "state" + SEPARATOR + "endTime\n";
+  output += "sentX" + SEPARATOR + "endCol" + SEPARATOR + "state" + SEPARATOR + "endTime\n";
   var txtLine;
+
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
     // nice idea but sheep object contains functions as well as properties
     // txtLine = Object.values(sheepList[i]).join(',');
@@ -148,6 +140,7 @@ function testResult() {
   }
   return output;
 }
+
 
 function playResult() {
   var output = "Level " + currentLevel + " - play result\n";

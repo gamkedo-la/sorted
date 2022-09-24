@@ -35,10 +35,10 @@ function rowFromIndex(index) {
 function countPennedSheep() {
   var count = 0;
   for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    if (sheepList[i].mode == IN_BLUE_PEN && sheepList[i].team == 1) {
+    if (sheepList[i].mode == IN_PEN_BLUE && sheepList[i].team == 1) {
       count++;
     }
-    if (sheepList[i].mode == IN_RED_PEN && sheepList[i].team == 2) {
+    if (sheepList[i].mode == IN_PEN_RED && sheepList[i].team == 2) {
       count++;
     }
   } // end loop all sheep

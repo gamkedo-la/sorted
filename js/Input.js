@@ -15,7 +15,8 @@ function setupInput() {
   player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
 }
 
-//////// from APC5 ///////////////////
+
+//////// from APC5 Htgd ///////////////////
 // mouse object stores mouse information
 var mouse = (function () {
 	//Position
@@ -43,7 +44,8 @@ var uiPos = {
   y: null
 }
 
-//// from Irenic Htgd ////////////////
+
+//// from Irenic Htgd //////////////////
 function setMousePosFromXY(x,y) {
 	var rect = drawingCanvas.getBoundingClientRect();
 	var root = document.documentElement;
@@ -55,6 +57,7 @@ function setMousePosFromXY(x,y) {
   mouse.x = Math.round(fixScaleX * gameX);
   mouse.y = Math.round(gameY);
 }
+
 
 function clickOrTouch(event) {
   event.preventDefault();
@@ -83,6 +86,7 @@ function clickOrTouch(event) {
     mouse.button = event.button;
   }
 
+
   setMousePosFromXY(x, y); // adapted from Irenic
   // report("scaled: " +  mouse.x + "," + mouse.y, 3);
 
@@ -99,6 +103,7 @@ function clickOrTouch(event) {
       ui_mouseupHandler();
     }
   } // end UI, below is game-field mosue/tap
+
   else {
     if (event.type == 'mousedown' || event.type == 'touchstart') {
       field_mousedownHandler();
@@ -113,10 +118,12 @@ function clickOrTouch(event) {
 } // end clickOrTouch
 ////////////////////////////// end Irenic
 
+
 // function mousemoveHandler(evt) {
 //   var mousePos = getMousePos(evt);
 //   setDebug("cursor: " + mousePos.x + "," + mousePos.y, 0);
 // }
+
 
 // click or tap in field
 function field_mousedownHandler() {
@@ -133,7 +140,6 @@ function field_mousedownHandler() {
       } else {
         console.log("No sheep within selection range");
       }
-
     }
 
     // context-menu has been prevented
@@ -168,6 +174,7 @@ function field_mousedownHandler() {
   } // End of Design-Level mousedown handling
 }
 
+
 function field_mouseupHandler() {
   if (gameState == STATE_PLAY) {
 
@@ -187,6 +194,7 @@ function field_mouseupHandler() {
       }
   }
 }
+
 
 // handles in-game-level keyboard input
 function arrowKeySet(evt, whichPlayer, setTo) {
@@ -247,7 +255,7 @@ function menuKeyChoice(key) {
       }
       break;
 
-
+      
     case STATE_MENU:
       menuSound.play();
 
@@ -284,7 +292,6 @@ function menuKeyChoice(key) {
         if (key >= KEY_NUM_0 && key <= KEY_NUM_9) {
 
           if (testColumnSet) {
-
             testLevel = key - KEY_NUM_0; // 1 on keyb is code 49
             currentLevel = testLevel;
             levelRunning = true;
@@ -293,7 +300,9 @@ function menuKeyChoice(key) {
             loadLevel(testLevel);
             checkGridMatchColsRows();
             gotoPlay("Key number from Edit-mode Menu");
-          } else {
+          }
+
+          else {
             whichColumn = key - KEY_NUM_0;
             console.log("Test column = " + whichColumn + ". Now select a level.");
             testColumnSet = true;
