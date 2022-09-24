@@ -188,18 +188,28 @@ function smallBodyLine(txt, lineNum,startY) {
 
 
 function drawLevelEnd() {
-  var nextLevel = currentLevel + 1;
-  var advanceFontSize = 12 + Math.sqrt( levelScores[currentLevel] / FLOCK_SIZE[currentLevel] +1 );
   var y = 50;
-
-  canvasContext.textAlign = "center";
-  colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2, y, POPUP_W, 270, "black");
 
   canvasContext.font = "24px Arial";
   colorText(canvasContext, "Level "+ currentLevel + " completed", gameCanvas.width/2, y += 50, "white");
 
   canvasContext.font = "36px Arial";
   colorText(canvasContext, "Score = " + levelScores[currentLevel], gameCanvas.width/2, y += 50, "white");
+
+} // end drawLevelEnd
+
+
+function drawLevelEndOnward() {
+  var y = 50;
+
+  var nextLevel = currentLevel + 1;
+  var advanceFontSize = 12 + Math.sqrt( levelScores[currentLevel] / FLOCK_SIZE[currentLevel] +1 );
+
+  canvasContext.textAlign = "center";
+  colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2, y, POPUP_W, 270, "black");
+
+  drawLevelEnd();
+  var y = 150; // below basic report
 
   canvasContext.font = "16px Arial";
   colorText(canvasContext, "Max Possible Score = " + levelMaxScores[currentLevel], gameCanvas.width/2, y += 40, "white");
@@ -211,7 +221,7 @@ function drawLevelEnd() {
 
   // colorText("H to hide/show this box", canvas.width/2, y+210, "white");
   canvasContext.textAlign = "left";
-} // end drawLevelEnd
+} // end drawLevelEndOnward
 
 
 function drawScoreboard() {

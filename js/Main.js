@@ -160,19 +160,43 @@ function moveAll() {
 
 
   else if (gameState == STATE_PLAY) {
-    player.move();
+
+    // console.log('step', step[currentLevel], ' haste ', haste)
+    var hasteSet = false;
 
     for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].move();
     }
 
-    flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
+    if (runMode == NORMAL_PLAY) {
+      flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
+      player.move();
+    }
 
     if (currentLevel >= 3 && runMode == NORMAL_PLAY) { // dog present on later levels only
       dog.move();
     }
 
-    if (levelOver) {
+    if (runMode == SEND_ONLY) {
+      if ( !isAnySending() ) {
+        // only on conveyors, go faster
+        haste = 8;
+        console.log('step', step[currentLevel], 'Go faster as all Roaming');
+      }
+      if ( !isAnySendOrConvey() ) {
+        // none on conveyors, all roaming
+        levelEnding();
+        console.log('step', step[currentLevel], 'Level end as none Sending');
+      }
+    }
+
+    else if ( runMode == SEND_ROAM && allRoamGrazeOrDone() ) {
+      haste = 5;
+      hasteSet = true;
+      console.log('step', step[currentLevel], ' no Send = haste 5')
+    }
+
+    if ( isLevelOver() ) {
       levelEnding();
     }
   }
@@ -224,7 +248,10 @@ function drawAll() {
       }
     }
 
+    // is Popup wanted for Test runs?
     if (runMode == NORMAL_PLAY) {
+      drawLevelEndOnward();
+    } else {
       drawLevelEnd();
     }
 
@@ -322,6 +349,9 @@ function drawTutorial() {
 }
 
 
+// should be called ONCE at start of level
+// but test runModes assume it loops because tests levelEnd?
+
 function loadLevel(whichLevel) {
   areaGrid = levelList[whichLevel].slice();
   agentGrid = agentLevelList[whichLevel].slice();
@@ -355,7 +385,7 @@ function loadLevel(whichLevel) {
   }
 
 
-  else if (runMode == SEND_COLUMNS) {
+  else if (runMode == SEND_ONLY || runMode == SEND_ROAM) {
     console.log("Testing level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
     baaVolume = 0;
 
@@ -374,7 +404,7 @@ function loadLevel(whichLevel) {
       spawnSheep.placeTop();
       sheepList.push(spawnSheep);
     }
-    isLevelOver();
+    // isLevelOver();
   }
 
 
@@ -392,7 +422,7 @@ function loadLevel(whichLevel) {
       spawnSheep.placeRoamR1();
       sheepList.push(spawnSheep);
     }
-    isLevelOver();
+    // isLevelOver();
   }
 
   // reset sorting

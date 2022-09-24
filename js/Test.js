@@ -1,11 +1,12 @@
 const NORMAL_PLAY = 0;
-const SEND_COLUMNS = 1;
-const ROAM_FROM_R1 = 2;
-const CALL_FROM_R13 = 3;
-const AI_PLAY_MIDFIELD = 4;
+const SEND_ONLY = 1;
+const SEND_ROAM = 2;
+const ROAM_FROM_R1 = 3;
+const CALL_FROM_R13 = 4;
+const AI_PLAY_MIDFIELD = 5;
 var runMode = NORMAL_PLAY;
 // var runMode = ROAM_FROM_R1;
-const NUM_TEST_MODES = 3;
+const NUM_TEST_MODES = 5;
 
 var hastenTest = true;
 var hasteMultiplier = [1, 3, 8, 20];
@@ -18,7 +19,7 @@ const PLAY_SPEED = 0;
 const VISUAL_TEST = 1;
 const UNDRAWN_TEST = 2;
 
-const TEST_DESCRIPTION = ["NORMAL play, not automating.", "SEND sheep from each column centre.", "ROAM sheep placed near top row.", "CALL sheep paced near bottom row.", "AI play with call & send"];
+const TEST_DESCRIPTION = ["NORMAL play, not automating.", "SEND a sheep from each column.", "SEND from each column then ROAM.", "ROAM from top row, n=columns.", "CALL sheep placed at bottom row.", "AI autoplay call & send, n=cols"];
 
 var testColumnSet = true; // flag to get column number from keypress
 var testTimer = null;
@@ -118,14 +119,16 @@ function deviceTests() {
 
 
 function testResult() {
-  var output = "Level " + currentLevel + " - test send from ";
+  var output = "Level " + currentLevel;
 
-  if (runMode == SEND_COLUMNS) {
-    output += "centre of each column\n";
+  if (runMode == SEND_ONLY) {
+    output += "Send from each column\n";
   }
-
+  else if (runMode == SEND_ROAM) {
+    output += "Send then Roam/Graze\n";
+  }
   else if (runMode == ROAM_FROM_R1) {
-    output += "all X of one column\n";
+    output += "Roam from top row\n";
   }
 
   output += "sentX" + SEPARATOR + "col" + SEPARATOR + "state" + SEPARATOR + "endTime\n";
@@ -233,4 +236,36 @@ const debugLevelTransition = false;
 function drawLevelDebug() {
   debugTextLine[1] = "currentLevel=" + currentLevel;
   debugTextLine[2] = "levelRunning=" + levelRunning;
+}
+
+function isAnySendOrConvey() {
+  for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
+    if (sheepList[i].mode == SENT || sheepList[i].mode == CONVEYOR) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function isAnySending() {
+  for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
+    if (sheepList[i].mode == SENT) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function allRoamGrazeOrDone() {
+  var grazeRoamOrDone = 0;
+  for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
+    if (sheepList[i].mode == ROAM || sheepList[i].mode == GRAZE || sheepList[i].levelDone) {
+      grazeRoamOrDone++;
+    }
+  }
+  if (grazeRoamOrDone == FLOCK_SIZE[currentLevel]) {
+    return true;
+  } else {
+    return false;
+  }
 }

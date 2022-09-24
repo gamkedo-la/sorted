@@ -336,7 +336,7 @@ function sheepClass() {
         console.log("Pen occupied, graze", this.id);
       }
 
-      else if (runMode == SEND_COLUMNS || runMode == ROAM_FROM_R1) {
+      else if (runMode == SEND_ONLY || runMode == SEND_ROAM || runMode == ROAM_FROM_R1) {
         nextX = nearestColumnCentre(nextX);
         nextY = ((tileRow - 1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
         console.log("Agenthandling: retreat to Y=", nextY);
@@ -384,7 +384,7 @@ function sheepClass() {
         console.log("Ditch occupied, turn away id", this.id);
       }
 
-      else if (runMode == SEND_COLUMNS || runMode == ROAM_FROM_R1) {
+      else if (runMode == SEND_ONLY || runMode == SEND_ROAM || runMode == ROAM_FROM_R1) {
         nextX = nearestColumnCentre(nextX);
         nextY = ((tileRow - 1) * TILE_H) + (TILE_H * TILE_Y_ADJUST);
         console.log("stack at Y=", nextY);

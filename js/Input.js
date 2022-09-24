@@ -310,11 +310,12 @@ function menuKeyChoice(key) {
           else {
             hastenTest = true;
           }
-          if (runMode == SEND_COLUMNS) {
-            haste = 4;  //hasteMultiplier[1];
+
+          if (runMode == SEND_ONLY || runMode == SEND_ROAM) {
+            haste = 2;
           }
           if (runMode == ROAM_FROM_R1) {
-            haste = 10;  //hasteMultiplier[1];
+            haste = 50;  //hasteMultiplier[1];
           }
           console.log(TEST_DESCRIPTION[runMode], "Haste:", haste);
         }
