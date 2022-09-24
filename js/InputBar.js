@@ -2,7 +2,7 @@
 function ui_mousedownHandler() {
   if (gameState == STATE_MENU) {
 
-    for (var i = 0; i < menuButtonLabel.length - 1; i++) {
+    for (var i = 0; i < menuButtonLabel.length; i++) {
       // report( buttonRects[i] );
       if (xyIsInRect(uiPos, buttonRects[i])) {
         report('Button down ' + i + ' ' + menuButtonLabel[i], 2)
@@ -96,6 +96,10 @@ function ui_mousedownHandler() {
 
             case "Pause":
               togglePause();
+              break;
+
+            case "Quit":
+              gotoMenu("Play's CanvasButton Quit");
               break;
           }
         }
