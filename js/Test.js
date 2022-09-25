@@ -41,6 +41,11 @@ const RIGHT = +1;
 var debugBelowCanvas = false;
 const DEBUGS = 5;
 var debugTextLine = Array(DEBUGS);
+debugTextLine[0] = 'Cursor Location'
+debugTextLine[1] = 'Play Activation Method'
+debugTextLine[2] = 'Draw Scale (x,y)'
+debugTextLine[3] = 'Mouse Dn (x,y)/Pixel Ratio'
+debugTextLine[4] = 'Canvas Size'
 const DEBUG_TOP = 480;
 const DEBUG_LINE_SP = 25;
 
@@ -224,6 +229,9 @@ function report(msg, debugN) {
 }
 
 function setDebug(msg, debugN) {
+  if (debugN === 1) {
+    console.log('stop')
+  }
   debugTextLine[debugN] = msg;
 }
 
