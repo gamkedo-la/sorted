@@ -121,6 +121,8 @@ function resizeWindow(){
 
 function updateAll() {
 
+  if (haste == 0) { haste = 1; } // why was it zero?
+
   for (var i=0; i < haste; i++) {
     moveAll();
   }
@@ -205,7 +207,6 @@ function moveAll() {
     }
 
     else if (runMode == CALL_FROM_R10) {
-
       // force LevelEnd when sheep in final column Held or give up.
     }
 
@@ -235,8 +236,6 @@ function drawAll() {
     // drawField();
     drawArea();
     decals.draw();
-    drawBarTitle("Level " + currentLevel, 20);
-    drawBarButtons(levelEndButtonLabel);
     player.draw();
 
     // if a pen is occupied draw a gate
@@ -261,11 +260,16 @@ function drawAll() {
       }
     }
 
-    // is Popup wanted for Test runs?
+    // any of Popup wanted for Test runs?
     if (runMode == NORMAL_PLAY) {
       drawLevelEnd();
-    } else {
+      drawBarTitle("Level " + currentLevel, 20);
+      drawBarButtons(levelEndButtonLabel);
+    }
+    else {
       drawLevelEndTest();
+      drawBarButtons(offMenuButtonLabel);
+      drawBarTitle("Level " + currentLevel + " Test", 20);
     }
 
     // do once per level-ending

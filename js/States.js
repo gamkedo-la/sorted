@@ -128,7 +128,14 @@ function drawPlay() {
     drawLevelName();
   }
 
-  drawBarButtons(playButtonLabel);
+  if (runMode == NORMAL_PLAY) {
+    drawBarButtons(playButtonLabel);
+  }
+  else {
+    drawBarTitle("Level " + currentLevel + " Test", 20);
+    drawBarButtons(offMenuButtonLabel);
+  }
+
 
   drawTutorial();
 

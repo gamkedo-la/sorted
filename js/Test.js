@@ -16,7 +16,6 @@ var haste = 1;
 var hasteSet = false;
 
 // SEND best slow until all Send expire, then only roaming so go fast - array is timeStep when to switch haste multiplier.
-var hasteWhen = [0, 80, 400];
 
 const PLAY_SPEED = 0;
 const VISUAL_TEST = 1;
@@ -116,14 +115,14 @@ function displayTest() {
 
 // runs in Main.js onload
 function deviceTests() {
-  touchTest();
+  // touchTest();
   displayTest();
-  scalingTest();
+  // scalingTest();
 }
 
 
 function testResult() {
-  var output = "Level " + currentLevel + " - " + TEST_DESCRIPTION[runMode];
+  var output = "Level " + currentLevel + " - " + TEST_DESCRIPTION[runMode] + "\n";
 
   output += "sentX" + SEPARATOR + "endCol" + SEPARATOR + "state" + SEPARATOR + "endTime\n";
   var txtLine;

@@ -21,21 +21,22 @@ const CALLED = 2;
 const HELD = 3;
 const SENT = 4;
 const CONVEYOR = 5;
-const STUCK = 6;
-const STILL = 11;
+const LOST = 6;
+const STILL = 7;
+const SELECTED = 9; // only while manually edit/testing
 
 // below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
 // on-road and fenced were orig created for end-of-level calculation
-const IN_DITCH = 7;
-const IN_PEN_BLUE = 8;
-const IN_PEN_RED = 9;
-const SELECTED = 10; // only while manually edit/testing
+const STUCK = 11;
+const IN_DITCH = 12;
+const IN_PEN_BLUE = 13;
+const IN_PEN_RED = 14;
 
 // for Tests
-const STACKED = 13;
-const STACKED_DITCH = 14;
-const STACKED_BLUE = 15;
-const STACKED_RED = 16;
+const STACKED = 15;
+const STACKED_DITCH = 16;
+const STACKED_BLUE = 17;
+const STACKED_RED = 18;
 
 const sheepModeNames = ['Graze', 'Roam', 'Called', 'Held', 'Sent', 'Conveyor', 'Stuck', 'In_Ditch', 'In_Blue_Pen', 'In_Red_Pen', 'On_Road', 'In_Blue_Lorry', 'In_Red_Lorry'];
 
@@ -47,6 +48,8 @@ function sheepClass() {
   this.orient = 0; // image display angle
   this.score = 0;
   this.timer = 0;
+  this.prevTile = null;
+  this.lostApplied = false;
   this.test = "normal";
   this.sentX = null;
   this.beginTime = null;
@@ -148,7 +151,7 @@ function sheepClass() {
         update_debug_report(); // to display Hold
 
         // if already Sorted, don't change
-        if (this.team == 0) {
+        if (this.team == PLAIN) {
           var teamSort = this.potentialTeam;
           teamSizeSoFar[teamSort]++;
           this.team = teamSort;
@@ -310,8 +313,11 @@ function sheepClass() {
       else if (this.team == RED) {
         this.orient = ORIENT_RED;
       }
-      // fixme: perhaps we need some "unhappy" BAA sounds?
-      random_baa_sound(baaVolume);
+
+      if (runMode == NORMAL_PLAY) {
+        // fixme: perhaps we need some "unhappy" BAA sounds?
+        random_baa_sound(baaVolume);
+      }
     } // end enter empty pen of either colour
 
 
@@ -355,11 +361,18 @@ function sheepClass() {
 
         if (this.team == BLUE) {
           this.orient = Math.PI * 1 / 2;
-          this.mode = STACKED_BLUE;
-        } else {
+        }
+        else if (this.team == RED) {
           this.orient = Math.PI * 3 / 2;
+        }
+
+        if (tileType == TILE_PEN_BLUE) {
+          this.mode = STACKED_BLUE;
+        }
+        else if (tileType == TILE_PEN_RED) {
           this.mode = STACKED_RED;
         }
+
         // stacking = false; // return to default behaviour
       } // end enter full pen of either colour
     }
@@ -428,8 +441,7 @@ function sheepClass() {
     } // end full_ditch
 
 
-    // deflection size governed by how many steps inside tile
-    // applied every loop
+    // deflection applied every loop so how many steps sheep inside tile => amount deflected
     else if (tileType == TILE_BEND_LEFT) {
       if (this.mode == SENT) {
         this.ang += 0.1;
@@ -475,10 +487,14 @@ function sheepClass() {
 
 
     else if (tileType == TILE_LOST) {
-      if (this.mode != ROAM) {
-        this.changeMode(ROAM);
-        let angleChange = randomRange(-1, +1);
-        this.ang += angleChange;
+      if (this.mode == SENT) {
+        this.speed -= 0.1;
+      // if (this.mode == SENT && this.lostApplied == false) {
+        // this.speed *= 0.5;
+        // this.lostApplied = true;
+        // this.changeMode(ROAM);
+        // let angleChange = randomRange(-1, +1);
+        // this.ang += angleChange;
         // this.ang = randomRange(0, Math.PI * 2);
       }
     }
@@ -512,6 +528,7 @@ function sheepClass() {
     else if (tileType != TILE_FIELD) {
       this.speed = 0;
     } // end not Field ???
+    this.prevTile = tileType;
 
     return {
       x: nextX,
