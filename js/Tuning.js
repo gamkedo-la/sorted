@@ -71,6 +71,11 @@ const CONVEYOR_SPEED = Array(NUM_LEVELS);
 var defaultConveyorSpeed = 1.0;
 CONVEYOR_SPEED.fill(defaultConveyorSpeed);
 
+// on conveyor speed
+const HALTED_TIME = Array(NUM_LEVELS);
+var defaultHaltedTime = 180;
+HALTED_TIME.fill(defaultHaltedTime);
+
 // Rogue path
 const ROGUE_ROW = Array(NUM_LEVELS);
 var defaultRogueRow = 11;

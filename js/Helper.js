@@ -220,6 +220,17 @@ function findNearestSheep(x,y) {
 }
 
 
+function findSheepMeanY() {
+  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+    let distTo = sheepList[i].distFrom(x,y);
+    if (distTo < nearestSheepDist) {
+      nearestSheepDist = distTo;
+      nearestSheep = sheepList[i];
+    }
+  }
+}
+
+
 function angleRadiansBetweenPoints(p1, p2) {
   return Math.atan2(p2.y - p1.y, p2.x - p1.x);
 }

@@ -159,10 +159,10 @@ function field_mousedownHandler() {
   else if (gameState == STATE_DESIGN_LEVEL) {
     // select grid cell to outline
     if (mouse.y < TILE_H) {
-      console.log("Top row reserved for Hat movement " + mouse.y);
+      console.log("Top row reserved for Hat movement, mouse Y=" + mouse.y);
     }
     else if (mouse.y > gameCanvas.height - TILE_H) {
-      console.log("Bottom row reserved for pen and ditch tiles " + mouse.y);
+      console.log("Bottom row reserved for pen and ditch, mouse Y=" + mouse.y);
     }
     else {
       gridIndex = getTileIndexAtXY(mouse.x, mouse.y);

@@ -8,7 +8,7 @@ var sheepInPlay = 0;
 const plainSheepCanFinish = true;
 var tryIndex = 0; // used in Tests for stacking
 
-const SCORE_GAP = 5; // when drawn beside a sheep (individual score)
+const SCORE_GAP = 5; // score drawn above a sheep
 const TILE_Y_ADJUST = 0.650; // sheep to tile centre
 
 const ORIENT_BLUE = Math.PI * 1/2; // looks left
@@ -23,7 +23,8 @@ const SENT = 4;
 const CONVEYOR = 5;
 const LOST = 6;
 const STILL = 7;
-const SELECTED = 9; // only while manually edit/testing
+const HALTED = 8;
+const SELECTED = 22; // only while manually edit/testing
 
 // below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
 // on-road and fenced were orig created for end-of-level calculation
@@ -133,6 +134,29 @@ function sheepClass() {
       nextY = mouse.y;
     }
 
+    // traversing above Halt tile
+    else if (this.mode == HALTED && this.speed > 0) {
+      var deltaX = this.gotoX - this.x;
+      var moveX = this.speed;
+
+      if (deltaX > 0) {  // goto is right of current position
+        if (deltaX > moveX) {
+          nextX += moveX;
+        } else {
+          nextX = this.gotoX; // arrive column beyond Halt
+          this.changeMode(this.previousMode);
+        }
+      }
+      else {          // goto is left of current position
+        if (Math.abs(deltaX) > moveX) {
+          nextX -= moveX;
+        } else {
+          nextX = this.gotoX; // arrive column beyond Halt
+          this.changeMode(this.previousMode);
+        }
+      }
+    }
+
     // attached to player
     else if (this.mode == HELD) {
       nextX = player.x;
@@ -185,6 +209,7 @@ function sheepClass() {
       }
     }
 
+
     else if (this.mode == CONVEYOR) {
       var deltaX = this.gotoX - this.x;
       var moveX = CONVEYOR_SPEED[currentLevel];
@@ -196,7 +221,8 @@ function sheepClass() {
           nextX = this.gotoX; // arrive at end of conveyor
           this.changeMode(this.previousMode);
         }
-      } else {          // goto is left of current position
+      }
+      else {          // goto is left of current position
         if (Math.abs(deltaX) > moveX) {
           nextX -= moveX;
         } else {
@@ -205,6 +231,7 @@ function sheepClass() {
         }
       }
     }
+
 
     // common to ROAM, CALLED, SENT
     if (this.isMovedBySpeed(this.mode)) {
@@ -255,6 +282,12 @@ function sheepClass() {
         }
         else if (this.mode == GRAZE) {
           this.changeMode(ROAM);
+        }
+        // else if (this.mode == HALTED && this.speed > 0) {
+        //   changeMode(SENT);
+        // }
+        else if (this.mode == HALTED && this.speed == 0) {
+          this.speed = ROAM_SPEED[currentLevel];
         }
       }
     }
@@ -463,24 +496,38 @@ function sheepClass() {
 
 
     else if (tileType == TILE_HALT) {
-      if (this.mode != GRAZE) {
-        this.changeMode(GRAZE);
-        // if arriving at lake from above
-        if (this.ang > 1/4*Math.PI && this.ang < 3/4*Math.PI) {
-          nextY = nearestRowEdge(nextY) - 12;
-        }
-        if (this.team == BLUE) {
-          this.ang = Math.PI;
-          nextX -= 4;
-        }
-        else if (this.team == RED) {
-          this.ang = 0;
-          nextX += 4;
-        }
-        else {
-          let turn = randomRangeInt(1,2) == 1 ? 1 : (-1);
-          this.ang += turn * Math.PI/2;
-          nextX += turn > 0 ? -4 : 4;
+
+      if (this.mode != HALTED) {
+
+        if (this.team == BLUE || this.team == RED) {
+          this.changeMode(HALTED);
+
+          // if arriving at lake from above
+          if (this.ang > 1/4*Math.PI && this.ang < 3/4*Math.PI) {
+            var turn = 0;
+            nextY = nearestRowEdge(nextY) - 12;
+          }
+          if (this.team == BLUE) {
+            turn = LEFT;
+            this.ang = Math.PI;
+            nextX -= 4;
+          }
+          else if (this.team == RED) {
+            turn = RIGHT;
+            this.ang = 0;
+            nextX += 4;
+          }
+          else {
+            turn = randomRangeInt(1,2) == 1 ? LEFT : RIGHT;
+            this.ang += turn * Math.PI/2;
+            nextX += turn > 0 ? -4 : 4;
+          }
+
+          // time halted grazing tasty waterside veg
+          this.timer = HALTED_TIME[currentLevel];
+
+          // move to adjacent column i.e. go around lake
+          this.gotoX = nextX + turn * TILE_W;
         }
       }
     }
@@ -560,6 +607,12 @@ function sheepClass() {
       this.mode = CONVEYOR;
       this.orient = 0; // normal upright
       this.speed = CONVEYOR_SPEED[currentLevel];
+    }
+
+    else if (newMode == HALTED) {
+      this.mode = HALTED;
+      this.orient = 0; // normal upright
+      this.speed = 0;
     }
 
     else if (newMode == SENT) {
@@ -643,7 +696,7 @@ function sheepClass() {
   }
 
   this.isModeTimed = function() {
-    return this.mode == ROAM || this.mode == GRAZE || this.mode == CALLED || this.mode == SENT;
+    return this.mode == ROAM || this.mode == GRAZE || this.mode == CALLED || this.mode == SENT || this.mode == HALTED;
   }
 
   this.modeIsInPen = function () {
