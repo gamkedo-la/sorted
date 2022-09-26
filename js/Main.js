@@ -33,7 +33,7 @@ const NUM_TEAM_TYPES = 3;
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [5, 3, 3, 3, 3, 3, 3, 3, 3, 3];
+const TEAM_SIZE = [2, 1, 3, 3, 3, 3, 3, 3, 3, 3];
 const FLOCK_SIZE = [];
 var sheepList = [];
 
@@ -253,11 +253,11 @@ function drawAll() {
     // draw label with score on sheep
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].draw();
-      if (endLevelShowID) {
+      // if (endLevelShowID) {
         sheepList[i].idLabel();
-      } else {
-        sheepList[i].scoreLabel();
-      }
+      // } else {
+        sheepList[i].drawScore();
+      // }
     }
 
     // any of Popup wanted for Test runs?

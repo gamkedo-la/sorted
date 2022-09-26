@@ -10,7 +10,7 @@ Introduce: Hat movement, Call action, Send action.
 
 ## Level 2
 
-Introduce: tiles for Halt and Deflection.
+Introduce: tiles for Distract and Deflection.
 
 ## Level 3
 

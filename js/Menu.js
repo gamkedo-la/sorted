@@ -259,9 +259,9 @@ function drawBarText() {
   var line = 0;
   barLine("Tile: key", ++line);
   barLine("Field: 0", ++line);
-  barLine("Lost: 1", ++line);
+  barLine("Slow: 1", ++line);
   barLine("Stuck: 2", ++line);
-  barLine("Halt: 3", ++line);
+  barLine("Distract: 3", ++line);
   barLine("Bend Left: 4", ++line);
   barLine("Bend Right: 5", ++line);
   barLine("Conveyor L: 6", ++line);

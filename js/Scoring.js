@@ -55,6 +55,7 @@ function levelEnding() {
   checkScore(levelScore);
   levelTestDataReady = true;
   levelRunning = false;
+
   // console.log("Level " + currentLevel + " over");
 }
 

@@ -31,7 +31,7 @@ function getTileTypeAtColRow(col, row) {
 		 return (areaGrid[tileIndexUnderColRow]);
 	} else {
     console.log("column/row not within field");
-		return TILE_HALT;
+    return TILE_DISTRACT;
 	}
 }
 
@@ -114,9 +114,9 @@ function tileTypeHasTransparency(tileType) {
         tileType == TILE_PEN_RED ||
         tileType == FULL_BLUE ||
         tileType == FULL_RED ||
-        tileType == TILE_LOST ||
+    tileType == TILE_SLOW ||
         tileType == TILE_STUCK ||
-        tileType == TILE_HALT ||
+    tileType == TILE_DISTRACT ||
         tileType == TILE_BEND_LEFT ||
         tileType == TILE_BEND_RIGHT ||
         tileType == TILE_CONVEYOR_LEFT ||

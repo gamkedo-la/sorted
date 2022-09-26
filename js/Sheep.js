@@ -21,9 +21,8 @@ const CALLED = 2;
 const HELD = 3;
 const SENT = 4;
 const CONVEYOR = 5;
-const LOST = 6;
 const STILL = 7;
-const HALTED = 8;
+const DISTRACTED = 8;
 const SELECTED = 22; // only while manually edit/testing
 
 // below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
@@ -50,6 +49,7 @@ function sheepClass() {
   this.score = 0;
   this.timer = 0;
   this.prevTile = null;
+  this.slowed = false;
   this.lostApplied = false;
   this.test = "normal";
   this.sentX = null;
@@ -134,8 +134,8 @@ function sheepClass() {
       nextY = mouse.y;
     }
 
-    // traversing above Halt tile
-    else if (this.mode == HALTED && this.speed > 0) {
+    // traversing above Distract tile
+    else if (this.mode == DISTRACTED && this.speed > 0) {
       var deltaX = this.gotoX - this.x;
       var moveX = this.speed;
 
@@ -143,7 +143,7 @@ function sheepClass() {
         if (deltaX > moveX) {
           nextX += moveX;
         } else {
-          nextX = this.gotoX; // arrive column beyond Halt
+          nextX = this.gotoX; // arrive column beyond Distract
           this.changeMode(this.previousMode);
         }
       }
@@ -151,7 +151,7 @@ function sheepClass() {
         if (Math.abs(deltaX) > moveX) {
           nextX -= moveX;
         } else {
-          nextX = this.gotoX; // arrive column beyond Halt
+          nextX = this.gotoX; // arrive column beyond Distract
           this.changeMode(this.previousMode);
         }
       }
@@ -283,10 +283,10 @@ function sheepClass() {
         else if (this.mode == GRAZE) {
           this.changeMode(ROAM);
         }
-        // else if (this.mode == HALTED && this.speed > 0) {
+        // else if (this.mode == DISTRACTED && this.speed > 0) {
         //   changeMode(SENT);
         // }
-        else if (this.mode == HALTED && this.speed == 0) {
+        else if (this.mode == DISTRACTED && this.speed == 0) {
           this.speed = ROAM_SPEED[currentLevel];
         }
       }
@@ -410,7 +410,9 @@ function sheepClass() {
       } // end enter full pen of either colour
     }
 
+
     else if (tileType == TILE_DITCH) {
+
       if (this.mode != IN_DITCH) {
         this.changeMode(IN_DITCH);
         this.endLevel(tileCol);
@@ -426,6 +428,7 @@ function sheepClass() {
         }
       }
     }
+
 
     else if (tileType == FULL_DITCH) {
 
@@ -495,12 +498,12 @@ function sheepClass() {
     }
 
 
-    else if (tileType == TILE_HALT) {
+    else if (tileType == TILE_DISTRACT) {
 
-      if (this.mode != HALTED) {
+      if (this.mode != DISTRACTED) {
 
         if (this.team == BLUE || this.team == RED) {
-          this.changeMode(HALTED);
+          this.changeMode(DISTRACTED);
 
           // if arriving at lake from above
           if (this.ang > 1/4*Math.PI && this.ang < 3/4*Math.PI) {
@@ -523,8 +526,8 @@ function sheepClass() {
             nextX += turn > 0 ? -4 : 4;
           }
 
-          // time halted grazing tasty waterside veg
-          this.timer = HALTED_TIME[currentLevel];
+          // time distracted grazing tasty waterside veg
+          this.timer = DISTRACTED_TIME[currentLevel];
 
           // move to adjacent column i.e. go around lake
           this.gotoX = nextX + turn * TILE_W;
@@ -533,9 +536,11 @@ function sheepClass() {
     }
 
 
-    else if (tileType == TILE_LOST) {
-      if (this.mode == SENT) {
-        this.speed -= 0.1;
+    else if (tileType == TILE_SLOW) {
+      if (!this.slowed) {
+        this.speed = this.speed / 3;
+        this.slowed = true;
+        console.log('speed reduce by woods', this.mode);
       // if (this.mode == SENT && this.lostApplied == false) {
         // this.speed *= 0.5;
         // this.lostApplied = true;
@@ -609,8 +614,8 @@ function sheepClass() {
       this.speed = CONVEYOR_SPEED[currentLevel];
     }
 
-    else if (newMode == HALTED) {
-      this.mode = HALTED;
+    else if (newMode == DISTRACTED) {
+      this.mode = DISTRACTED;
       this.orient = 0; // normal upright
       this.speed = 0;
     }
@@ -696,7 +701,7 @@ function sheepClass() {
   }
 
   this.isModeTimed = function() {
-    return this.mode == ROAM || this.mode == GRAZE || this.mode == CALLED || this.mode == SENT || this.mode == HALTED;
+    return this.mode == ROAM || this.mode == GRAZE || this.mode == CALLED || this.mode == SENT || this.mode == DISTRACTED;
   }
 
   this.modeIsInPen = function () {
