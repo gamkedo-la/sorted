@@ -155,6 +155,7 @@ function field_mousedownHandler() {
     }
   } // end STATE_PLAY
 
+
   else if (gameState == STATE_DESIGN_LEVEL) {
     // select grid cell to outline
     if (mouse.y < TILE_H) {
@@ -165,7 +166,7 @@ function field_mousedownHandler() {
     }
     else {
       gridIndex = getTileIndexAtXY(mouse.x, mouse.y);
-      console.log("Designer", mouse.x, mouse.y, gridIndex);
+      console.log("Design, mousedown", mouse.x, mouse.y, gridIndex);
     }
     // designer/editor doesn't need buttons, also currently no space for Menu button, so not in use
     if (xyIsInRect(mouse, buttonRects[4])) {
@@ -177,21 +178,19 @@ function field_mousedownHandler() {
 
 function field_mouseupHandler() {
   if (gameState == STATE_PLAY) {
-
     // if (mouse.button == 0) {
 
-      // release a sheep from manual control
-      let nearest = findNearestSheep(mouse.x, mouse.y);
+    // release a sheep from manual control
+    let nearest = findNearestSheep(mouse.x, mouse.y);
     if (nearest.mode == SELECTED) {
       nearest.mode = GRAZE;
-        nearest.timer = 120; // ensure a decent delay
-        sheepSelected = null;
-      }
+      nearest.timer = 120; // ensure a decent delay
+      sheepSelected = null;
+    }
     // }
 
     else if (mouse.button == 2) {
-
-      }
+    }
   }
 }
 
@@ -234,6 +233,7 @@ function menuKeyChoice(key) {
 
 
     case STATE_LEVEL_END:
+
       if (key == KEY_ESC || key == KEY_M) {
         if (playLevel == LAST_LEVEL) {
           gameState = STATE_GAME_OVER;
@@ -377,9 +377,11 @@ function menuKeyChoice(key) {
         formatDesign();
         gotoMenu("Design, key M or Esc");
       }
+
       else if (key == KEY_S) {
         formatDesign();
       }
+
       else if (key == KEY_C) {
         formatDesign();
         clearDesign();
@@ -393,7 +395,8 @@ function menuKeyChoice(key) {
 
         if (tileType == 8 || tileType == 9) {
           console.log("Tile types 8 and 9 are not defined");
-        } else {
+        }
+        else {
           console.log("Tile type selected =", tileType, TILE_NAMES[tileType]);
           designTileReady = true;
         }

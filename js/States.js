@@ -68,7 +68,7 @@ function gotoCredits(from) {
 
 function gotoDesign(from) {
   gameState = STATE_DESIGN_LEVEL;
-  designGrid = levelList[designLevel].slice();
+  areaGrid = levelList[designLevel].slice();
   designGridSet = true;
   report('Design via ' + from, 1);
   let msg = "Press F7 to advance Level number; Mouse click to choose a grid location; Number key to choose a tile-type; key S to save design to console and file; key M returns to Menu";

@@ -160,6 +160,7 @@ const agentLevel_9 = [
 
 var agentLevelList = [agentLevel_0, agentLevel_1, agentLevel_2, agentLevel_3, agentLevel_4, agentLevel_5, agentLevel_6, agentLevel_7, agentLevel_8, agentLevel_9];
 
+
 function makeEmptyAgentGrid() {
   var txt = '';
   var emptyStr = NOT_OCCUPIED + ', ';

@@ -1,16 +1,17 @@
 var designLevel = 0; // blank start
 var tileType = 0;
 var gridIndex = 88; // changed by Input.js
-var designGrid = [];
+var areaGrid = [];
 
-var designTileReady = false;
-var designGridSet = false;
+var designTileReady = false; // only write change once
+var designGridSet = false; // new grid loaded
 
 // to increment filename of design saves
 var designCount = Array(NUM_LEVELS);
 designCount.fill(0);
 
-function drawDesignerFromGrid(designGrid) {
+
+function drawDesignerFromGrid(areaGrid) {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
@@ -18,7 +19,7 @@ function drawDesignerFromGrid(designGrid) {
   for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
     for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
 
-      var tileTypeHere = designGrid[arrayIndex];
+      var tileTypeHere = areaGrid[arrayIndex];
 
       if (tileTypeHasTransparency(tileTypeHere)) {
         canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
@@ -34,18 +35,24 @@ function drawDesignerFromGrid(designGrid) {
     drawTileX = 0;
     drawTileY += TILE_H;
   } // end of for each row
-}
+
+  designGridSet = true; // new grid ready
+  agentGrid = agentLevelList[designLevel].slice();
+
+} // end drawDesignerFromGrid
+
 
 function drawDesignerFromLevelNum(whichLevel) {
   if (!designGridSet) {
-    designGrid = levelList[whichLevel].slice();
+    areaGrid = levelList[whichLevel].slice();
   }
-  drawDesignerFromGrid(designGrid);
+  drawDesignerFromGrid(areaGrid);
 }
+
 
 function levelDesignerTitle() {
   canvasContext.font = "20px Arial";
-  canvasContext.align = "left";
+  canvasContext.textAlign = "left";
   let x = 30;
   let y = TILE_H - 16;
   colorText(canvasContext, "Design Level " + designLevel + " -- F7 change level; click square; numkey tiletype; S save; M menu", x, y, "white");
@@ -77,7 +84,7 @@ function outlineRow(row) {
 // cannot directly clear Grid.js level data
 // may only clear current display, and even that would only work if drawDesignerFromLevelNum() could be passed a grid rather than a level number which looks up stored levelList grid values
 function clearDesign() {
-  designGrid = levelList[0].slice();
+  areaGrid = levelList[0].slice();
   designGridSet = true;
   tileType = TILE_FIELD;
   designTileReady = true;
@@ -92,10 +99,10 @@ function formatDesign() {
   for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
     var line = ' ';
     for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
-      let tile = designGrid[arrayIndex];
+      let tile = areaGrid[arrayIndex];
       getLength(tile) > 1 ? space = ' ' : space = '  ';
 
-      line += space + designGrid[arrayIndex] + ',';
+      line += space + areaGrid[arrayIndex] + ',';
       arrayIndex++;
     }
     output += line + '\n';
