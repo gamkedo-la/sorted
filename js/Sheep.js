@@ -1,3 +1,5 @@
+
+const HOOFPRINT_OPACITY = 0.6; // how transparent are the sheep hoofprints 0.0 to 1.0
 const SHEEP_RADIUS = 16;
 const SIDE_MARGIN = SHEEP_RADIUS/2 + 1;
 const TOP_MARGIN = 60;
@@ -301,7 +303,7 @@ function sheepClass() {
   this.leaveHoofprints = function() {
     const mindist = 8;
     const leftrightoffset = 6;
-    const alpha = 0.4;
+    const alpha = HOOFPRINT_OPACITY;
     const rot = 0;
     if (!this.lastHoofprintPos) this.lastHoofprintPos = {x:-999,y:-999};
     if ((Math.abs(this.x-this.lastHoofprintPos.x)>=mindist) || (Math.abs(this.y-this.lastHoofprintPos.y)>=mindist)) {
