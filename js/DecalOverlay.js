@@ -54,6 +54,21 @@ var decalOverlay = function() {
             this.add(x,y,0,1,spritePic);
         }
     }
+
+    this.scatterDecorationsInRadius = function(x,y,radius,howMany,spritePic) {
+        for (var sx,sy,angle,rot,rad,i=0; i<howMany; i++) {
+            // choose a random location inside a circle:
+            angle = Math.random()*Math.PI*2;
+            rad = Math.random()*radius;
+            sx = Math.cos(angle)*rad;
+            sy = Math.sin(angle)*rad;
+            // orient the sprite randomly too
+            rot = Math.random()*Math.PI*2;
+            this.add(x+sx,y+sy,rot,1,spritePic);
+        }
+    }
+
+
     this.resize(); // ensure we start the same size as game canvas
 };
 
@@ -66,10 +81,37 @@ function randomInteger(min, max) {
 
 function setupDecals() {
   decals = new decalOverlay(); // grass, flowers, footprints, pebbles, etc
+  
+  // randomly scatter everything evenly
   decals.scatterDecorations(150, flower1Pic, bottomRowHeight);
   decals.scatterDecorations(150, flower2Pic, bottomRowHeight);
   decals.scatterDecorations(150, flower3Pic, bottomRowHeight);
   decals.scatterDecorations(150, grass1Pic, bottomRowHeight);
   decals.scatterDecorations(150, grass2Pic, bottomRowHeight);
   decals.scatterDecorations(150, grass3Pic, bottomRowHeight);
+
+  // now add three big clusters of flowers for visual appeal
+  let blobsize = 75; // max radius
+  let clustercount = 150; // how many
+  // grass clusters
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomRowHeight),blobsize,clustercount,grass1Pic);
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomRowHeight),blobsize,clustercount,grass2Pic);
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomRowHeight),blobsize,clustercount,grass3Pic);
+  // flower clusters
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomRowHeight),blobsize,clustercount,flower1Pic);
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomRowHeight),blobsize,clustercount,flower2Pic);
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomRowHeight),blobsize,clustercount,flower3Pic);
+
+  /*
+  // alternate: don't overlap edges of screen
+  // grass clusters
+  decals.scatterDecorationsInRadius(blobsize+Math.random()*(gameCanvas.width-blobsize*2),blobsize+Math.random()*(gameCanvas.height-bottomRowHeight-blobsize*2),blobsize,clustercount,grass1Pic);
+  decals.scatterDecorationsInRadius(blobsize+Math.random()*(gameCanvas.width-blobsize*2),blobsize+Math.random()*(gameCanvas.height-bottomRowHeight-blobsize*2),blobsize,clustercount,grass2Pic);
+  decals.scatterDecorationsInRadius(blobsize+Math.random()*(gameCanvas.width-blobsize*2),blobsize+Math.random()*(gameCanvas.height-bottomRowHeight-blobsize*2),blobsize,clustercount,grass3Pic);
+  // flower clusters
+  decals.scatterDecorationsInRadius(blobsize+Math.random()*(gameCanvas.width-blobsize*2),blobsize+Math.random()*(gameCanvas.height-bottomRowHeight-blobsize*2),blobsize,clustercount,flower1Pic);
+  decals.scatterDecorationsInRadius(blobsize+Math.random()*(gameCanvas.width-blobsize*2),blobsize+Math.random()*(gameCanvas.height-bottomRowHeight-blobsize*2),blobsize,clustercount,flower2Pic);
+  decals.scatterDecorationsInRadius(blobsize+Math.random()*(gameCanvas.width-blobsize*2),blobsize+Math.random()*(gameCanvas.height-bottomRowHeight-blobsize*2),blobsize,clustercount,flower3Pic);
+  */
+
 }
