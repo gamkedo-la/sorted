@@ -116,19 +116,20 @@ function checkGridMatchColsRows() {
 
 
 function tileTypeHasTransparency(tileType) {
-  return(tileType == TILE_UNSORT ||
-        tileType == TILE_PEN_BLUE ||
-        tileType == TILE_PEN_RED ||
-        tileType == FULL_BLUE ||
-        tileType == FULL_RED ||
+  return (tileType == TILE_UNSORT ||
+    tileType == TILE_PEN_BLUE ||
+    tileType == TILE_PEN_RED ||
+    tileType == FULL_BLUE ||
+    tileType == FULL_RED ||
     tileType == TILE_SLOW ||
-        tileType == TILE_STUCK ||
+    tileType == TILE_STUCK ||
+    tileType == TILE_HALT ||
     tileType == TILE_DISTRACT ||
-        tileType == TILE_BEND_LEFT ||
-        tileType == TILE_BEND_RIGHT ||
-        tileType == TILE_CONVEYOR_LEFT ||
-        tileType == TILE_CONVEYOR_RIGHT
-        );
+    tileType == TILE_BEND_LEFT ||
+    tileType == TILE_BEND_RIGHT ||
+    tileType == TILE_CONVEYOR_LEFT ||
+    tileType == TILE_CONVEYOR_RIGHT
+  );
 }
 
 

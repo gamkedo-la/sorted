@@ -35,7 +35,7 @@ function drawLevelEndFlock() {
         drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic,x,y,r);
     }
 }
-  
+
 function drawMenu() {
   colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
   canvasContext.drawImage(menuBGPic,0,0);
@@ -277,7 +277,7 @@ function drawBarText() {
   barLine("Field: 0", ++line);
   barLine("Slow: 1", ++line);
   barLine("Stuck: 2", ++line);
-  barLine("Distract: 3", ++line);
+  barLine("Halt: 3", ++line);
   barLine("Bend Left: 4", ++line);
   barLine("Bend Right: 5", ++line);
   barLine("Conveyor L: 6", ++line);

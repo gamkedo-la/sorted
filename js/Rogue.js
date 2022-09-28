@@ -1,5 +1,5 @@
 const ROGUE_UNSORT_RANGE = 40;
-const ROGUE_WOOF_RANGE = 80;
+const ROGUE_WOOF_RANGE = 70;
 
 function rogueClass() {
   this.init = function(id, whichPic, x, y) {
@@ -27,7 +27,7 @@ function rogueClass() {
 
     // is close enough to smell a sheep
     if (this.isRogueClose(nearestSheep, ROGUE_WOOF_RANGE)) {
-      // console.log("Rogue smells sheep id =", nearestSheep.id);
+      console.log("Rogue smells sheep id =", nearestSheep.id);
       if (this.barkTimer < 1) {
         if (runMode == NORMAL_PLAY) {
           rogueSound.play();
@@ -69,6 +69,15 @@ function rogueClass() {
     drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x,this.y, this.ang);
     // dog's head
     drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x,this.y, this.ang);
+    // when part of image off canvas, draw mirror on other side
+    if (this.x > gameCanvas.width - this.pic.width/2) {
+      drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x - gameCanvas.width, this.y, this.ang);
+      drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x - gameCanvas.width, this.x,this.y, this.ang);
+    }
+    else if (this.x < this.pic.width/2) {
+      drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x + gameCanvas.width, this.y, this.ang);
+      drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width,this.y, this.ang);
+    }
   }
 
   this.findNearestSheep = function(x,y) {

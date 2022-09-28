@@ -25,13 +25,14 @@ GRAZE_TIME_MAX[0] = 150;
 CALL_SPEED[0] = 5;
 
 // Level 1
-PLACING_DEPTH[3] = 400;
+PLACING_DEPTH[3] = 300;
 
 // Level 2
-PLACING_DEPTH[2] = 100;
+PLACING_DEPTH[2] = 300;
 
 // Level 3
-PLACING_DEPTH[3] = 400; // for demo video
+PLACING_DEPTH[3] = 300; // for demo video
+ROGUE_SPEED[3] = 4;
 
 // Level 4
 

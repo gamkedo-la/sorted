@@ -25,6 +25,7 @@ const SENT = 4;
 const CONVEYOR = 5;
 const STILL = 7;
 const DISTRACTED = 8;
+const HALTED = 9;
 const SELECTED = 22; // only while manually edit/testing
 
 // below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
@@ -351,7 +352,8 @@ function sheepClass() {
 
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
-        random_baa_sound(baaVolume);
+        // random_baa_sound(baaVolume);
+        pennedSound.play();
       }
     } // end enter empty pen of either colour
 
@@ -548,23 +550,21 @@ function sheepClass() {
         }
         this.slowed = true;
         console.log('speed reduce by woods', this.mode);
-      // if (this.mode == SENT && this.lostApplied == false) {
-        // this.speed *= 0.5;
-        // this.lostApplied = true;
-        // this.changeMode(ROAM);
-        // let angleChange = randomRange(-1, +1);
-        // this.ang += angleChange;
-        // this.ang = randomRange(0, Math.PI * 2);
       }
     }
 
 
     else if (tileType == TILE_STUCK) {
       if (this.mode != STUCK) {
-        this.mode = STUCK;
-        stuckSound.play();
+        this.changeMode(STUCK);
         this.endLevel(tileCol);
-        // need endRow, and Stuck is not a scoring result
+      }
+    }
+
+
+    else if (tileType == TILE_HALT) {
+      if (this.mode != HALTED) {
+        this.changeMode(HALTED);
       }
     }
 
@@ -627,6 +627,19 @@ function sheepClass() {
       this.speed = 0;
     }
 
+    else if (newMode == HALTED) {
+      this.mode = HALTED;
+      haltedSound.play();
+      // this.orient = 0; // normal upright
+      this.speed = 0;
+    }
+
+    else if (newMode == STUCK) {
+      this.mode = STUCK;
+      stuckSound.play();
+      // need endRow, and Stuck is not a scoring result
+    }
+
     else if (newMode == SENT) {
       this.mode = SENT;
       // set once when sent, may change on way
@@ -650,6 +663,7 @@ function sheepClass() {
         this.orient = Math.PI * 3/2;
       }
       this.speed = 0;
+      ditchSound.play();
       this.levelDone = true;
     }
 

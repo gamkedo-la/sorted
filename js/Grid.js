@@ -1,11 +1,12 @@
 const TILE_FIELD = 0;
 const TILE_SLOW = 1;
 const TILE_STUCK = 2;
-const TILE_DISTRACT = 3;
+const TILE_HALT = 3;
 const TILE_BEND_LEFT = 4;
 const TILE_BEND_RIGHT = 5;
 const TILE_CONVEYOR_LEFT = 6;
 const TILE_CONVEYOR_RIGHT = 7;
+const TILE_DISTRACT = 8;
 const TILE_UNSORT = 9;
 
 const TILE_DITCH = 10;
@@ -15,7 +16,7 @@ const FULL_BLUE = 13; // when sheep on pen
 const FULL_RED = 14;
 const FULL_DITCH = 15;
 
-const TILE_NAMES = ['Field', 'Slow', 'Stuck', 'Distract', 'Bend left', 'Bend right', 'Conveyor left', 'Conveyor right', 'Not allocated', 'Unsort', 'Road', 'Pen blue', 'Pen red', 'Centre'];
+const TILE_NAMES = ['Field', 'Slow', 'Stuck', 'Halt', 'Bend left', 'Bend right', 'Conveyor left', 'Conveyor right', 'Distract', 'Unsort', 'Road', 'Pen blue', 'Pen red', 'Centre'];
 
 var areaGrid = [];
 var saveGrid = [];
@@ -30,9 +31,9 @@ const level_0 = [
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
   0,  0,  4,  4,  4,  4,  4,  4,  5,  5,  5,  5,  5,  5,  0,  0,
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-  0,  0,  6,  6,  6,  6,  6,  6,  7,  7,  7,  7,  7,  7,  0,  0,
-  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
   0,  0,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  0,  0,
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  0,  6,  6,  6,  6,  6,  6,  7,  7,  7,  7,  7,  7,  0,  0,
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
  10, 11, 10, 10, 11, 10, 10, 11, 12, 10, 10, 12, 10, 10, 12, 10,
@@ -72,10 +73,10 @@ const level_3 = [
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-  0,  0,  7,  7,  7,  7,  7,  0,  0,  6,  6,  6,  6,  6,  0,  0,
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-  0,  6,  6,  6,  6,  6,  6,  0,  0,  7,  7,  7,  7,  7,  7,  0,
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
