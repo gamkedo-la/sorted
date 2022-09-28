@@ -66,7 +66,8 @@ function rogueClass() {
   }
 
   this.draw = function() {
-    // colorCircle(this.x, this.y, 30, "yellow");
+    drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x,this.y, this.ang);
+    // dog's head
     drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x,this.y, this.ang);
   }
 

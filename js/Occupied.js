@@ -1,7 +1,6 @@
 var agentGrid = [];
 var saveAgentGrid = [];
 
-const HAT_START = 8;
 const NOT_OCCUPIED = 0;
 const OCCUPY_BLUE = 1;
 const OCCUPY_RED = 2;

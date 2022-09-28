@@ -8,6 +8,7 @@ var sheepTailPic = document.createElement("img");
 var sheepTailBluePic = document.createElement("img");
 var sheepTailRedPic = document.createElement("img");
 var rogueDogPic = document.createElement("img");
+var dogBodyPic = document.createElement("img");
 var menuBGPic = document.createElement("img");
 var helpBGPic = document.createElement("img");
 var creditsBGPic = document.createElement("img");
@@ -67,6 +68,7 @@ function loadImages() {
     {varName: grass3Pic, theFile: "grass3.png"},
     {varName: hoofprintPic, theFile: "hoofprint.png"},
     {varName: dogPic, theFile: "dog_normal.png"},
+    {varName: dogBodyPic, theFile: "dog_butt.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass_50.png"},
     {tileType: TILE_DISTRACT, theFile: "tile_lake.png"},
     {tileType: TILE_DITCH, theFile: "tile_ditch.png"},
