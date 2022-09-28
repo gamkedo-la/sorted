@@ -50,7 +50,7 @@ function sheepClass() {
   this.orient = 0; // image display angle
   this.score = 0;
   this.timer = 0;
-  this.prevTile = null;
+  this.previousTile = null;
   this.slowed = false;
   this.lostApplied = false;
   this.test = "normal";
@@ -583,11 +583,14 @@ function sheepClass() {
       }
     } // end of entering Conveyor mode
 
-
     else if (tileType != TILE_FIELD) {
       this.speed = 0;
     } // end not Field ???
-    this.prevTile = tileType;
+
+    if (tileType != TILE_SLOW) {
+      this.slowed = false;
+    }
+    this.previousTile = tileType;
 
     return {
       x: nextX,
@@ -601,9 +604,6 @@ function sheepClass() {
     // should not set at start of .move()
     this.previousMode = this.mode;
 
-    // console.log(this.id, this.mode, newMode)
-
-    // if these two swapping might cause trouble when a third mode (e.g. Conveyor) ends and wants to change to Graze or Roam; fixed now
     if (newMode == ROAM) {
       this.mode = ROAM;
       this.speed = ROAM_SPEED[currentLevel];
