@@ -1,7 +1,11 @@
 var designLevel = 0; // blank start
 var tileType = 0;
 var gridIndex = 88; // changed by Input.js
-var areaGrid = [];
+var areaGrid = Array(TILE_COLS * TILE_ROWS);
+var ditchRow = [10, 11, 10, 10, 11, 10, 10, 11, 12, 10, 10, 12, 10, 10, 12, 10];
+if (ditchRow.length != TILE_COLS) {
+  console.log('Error: ditchRow array doesnt match game columns');
+}
 
 var designTileReady = false; // only write change once
 var designGridSet = false; // new grid loaded
@@ -59,6 +63,7 @@ function levelDesignerTitle() {
   canvasContext.font = "16px Arial";
 }
 
+
 function outlineSelectedTile(index) {
   // get row col from index
   let col = indexToCol(index);
@@ -72,6 +77,7 @@ function outlineSelectedTile(index) {
   canvasContext.strokeRect(topLeftX,topLeftY, TILE_W,TILE_H);
 }
 
+
 function outlineRow(row) {
   let topLeftX = 0;
   let topLeftY = row * TILE_H;
@@ -81,15 +87,18 @@ function outlineRow(row) {
   canvasContext.strokeRect(topLeftX, topLeftY, TILE_W * TILE_COLS, TILE_H);
 }
 
-// cannot directly clear Grid.js level data
-// may only clear current display, and even that would only work if drawDesignerFromLevelNum() could be passed a grid rather than a level number which looks up stored levelList grid values
+
+// cannot directly clear Grid.js level data, instead visually clear current display by making zero areaGrid with pens and ditch for bottom row, for drawDesignerFromGrid()
 function clearDesign() {
-  areaGrid = levelList[0].slice();
+  let topGrid = Array( TILE_COLS * (TILE_ROWS-1) );
+  topGrid.fill(TILE_FIELD);
+  areaGrid = topGrid.concat(ditchRow);
   designGridSet = true;
   tileType = TILE_FIELD;
   designTileReady = true;
-  console.log("Clear: gridIndex", gridIndex);
+  console.log("Field visually cleared but grid.js unchanged");
 }
+
 
 function formatDesign() {
   var output = 'const level_' + designLevel + ' = [\n';
@@ -114,11 +123,13 @@ function formatDesign() {
   return output;
 }
 
+
 function saveDesign(output) {
   // + designCount[designLevel]
   let filename = 'level_' + designLevel + '_design_' + '.txt';
   downloader(filename, output);
 }
+
 
 function getLength(number) {
   return number.toString().length;

@@ -147,7 +147,7 @@ function moveAll() {
   step[currentLevel]++; // level timesteps
   player.callGapTimer--; // prevent call again too soon
   for (var i = 0; i < dogList.length; i++) {
-    dogList[].barkTimer--;
+    dogList[i].barkTimer--;
   }
 
   if ( staticScreen() ) {
@@ -354,6 +354,9 @@ function drawAll() {
     else if (showGridIndex) {
       drawGridIndex(areaGrid, 14, "white");
     }
+    else if (showColRow) {
+      drawColRow(areaGrid, 14, "white");
+    }
   }
 } // end drawAll()
 
@@ -383,6 +386,7 @@ function loadLevel(whichLevel) {
   player.reset(playerHatPic, "Shepherding Hat");
   HatNotMovedYet = true;
   hasteSet = false;
+  step[whichLevel] = 0; // reset frame counter
 
   sheepList = [];  // fresh set of sheep
   dogList = [];

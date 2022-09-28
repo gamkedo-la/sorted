@@ -383,9 +383,8 @@ function menuKeyChoice(key) {
       }
 
       else if (key == KEY_C) {
-        formatDesign();
+        // formatDesign(); // if needed press key S before
         clearDesign();
-        console.log("Field visual cleared but grid unchanged.");
       }
 
       // temporarily using number keys to select tiletype
@@ -464,6 +463,11 @@ function getFunctionKeys(key) {
     }
     else if (showGridIndex) {
       showGridIndex = false;
+      showColRow = true;
+      console.log("showColRow is now", showColRow);
+    }
+    else if (showColRow) {
+      showColRow = false;
       console.log("No grid overlay");
     }
   }

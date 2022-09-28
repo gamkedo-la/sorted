@@ -12,6 +12,7 @@ const POST_GAP = 10;
 // not in use
 const TEAM_POST_COLOURS = [ "white", "blue", "#ca1504", "purple"];
 
+
 function getTileIndexAtXY(x, y) {
   if (x < 0 || x > gameCanvas.width || y < 0 || y > gameCanvas.height) {
     console.log("co-ordinate not within field");
@@ -24,6 +25,7 @@ function getTileIndexAtXY(x, y) {
   return (colRowToIndex(tileCol, tileRow));
 }
 
+
 function getTileTypeAtColRow(col, row) {
   if (col >= 0 && col < TILE_COLS &&
 		row >= 0 && row < TILE_ROWS) {
@@ -34,6 +36,7 @@ function getTileTypeAtColRow(col, row) {
     return TILE_DISTRACT;
 	}
 }
+
 
 function getTileTypeAtXY(x, y) {
   let index = getTileIndexAtXY(x,y);
@@ -48,6 +51,7 @@ function colRowToIndex(col, row) {
 function indexToCol(index) {
   return (index % TILE_COLS);
 }
+
 function indexToRow(index) {
   return Math.floor(index / TILE_COLS);
 }
@@ -55,9 +59,11 @@ function indexToRow(index) {
 function getColFromX(x) {
   return Math.floor( x / TILE_W );
 }
+
 function getRowFromX(y) {
   return Math.floor( y / TILE_H );
 }
+
 
 function drawArea() {
   var arrayIndex = 0;
@@ -108,6 +114,7 @@ function checkGridMatchColsRows() {
   }
 }
 
+
 function tileTypeHasTransparency(tileType) {
   return(tileType == TILE_UNSORT ||
         tileType == TILE_PEN_BLUE ||
@@ -124,6 +131,7 @@ function tileTypeHasTransparency(tileType) {
         );
 }
 
+
 // initially 21 cols, 9 levels
 function makePenRow(cols, penSize) {
   var middle = cols - penSize*2;
@@ -137,6 +145,7 @@ function makePenRow(cols, penSize) {
   rowStr = rowStr.slice(0, -1); // remove final space
   return rowStr;
 }
+
 
 function writePenRow(cols, penSize, offset) {
   var rowStr = '  '; // grid.js indent if pasting
@@ -155,6 +164,7 @@ function writePenRow(cols, penSize, offset) {
   return rowStr;
 }
 
+
 function levelsPenRows() {
   var txt = '';
   for (var i=0; i < 8; i++) {
@@ -163,6 +173,7 @@ function levelsPenRows() {
   console.log(txt);
 }
 
+
 function makeFieldRow(cols) {
   var rowStr = '  '; // grid.js indent if pasting
   var fieldStr = TILE_FIELD + ', ';
@@ -170,6 +181,7 @@ function makeFieldRow(cols) {
   rowStr = rowStr.slice(0, -1); // remove final space
   return rowStr;
 }
+
 
 function makeHatRow(cols) {
   var halfCols = (cols-1) / 2;
@@ -182,6 +194,7 @@ function makeHatRow(cols) {
   return rowStr;
 }
 
+
 function strRowSameTile(cols, tile) {
   var rowStr = '  '; // grid.js indent if pasting
   var fieldStr = tile + ', ';
@@ -189,6 +202,7 @@ function strRowSameTile(cols, tile) {
   rowStr = rowStr.slice(0, -1); // remove final space
   return rowStr;
 }
+
 
 function drawGridValues(grid, fontSize, fontColor) {
   var arrayIndex = 0;
@@ -210,6 +224,7 @@ function drawGridValues(grid, fontSize, fontColor) {
 	} // end of for each row
 }
 
+
 // refactor showOnGrid() combining drawGridValues(), showGridIndex(), and showAgentGrid() with extra parameter which text to write.
 function drawGridIndex(grid, fontSize, fontColor) {
   var arrayIndex = 0;
@@ -229,6 +244,26 @@ function drawGridIndex(grid, fontSize, fontColor) {
   } // end of for each row
 }
 
+function drawColRow(grid, fontSize, fontColor) {
+  var arrayIndex = 0;
+  var drawTileX = 0;
+  var drawTileY = 0;
+  for (var eachRow = 0; eachRow < TILE_ROWS; eachRow++) {
+    for (var eachCol = 0; eachCol < TILE_COLS; eachCol++) {
+      let colRowStr = eachCol + "," + eachRow;
+      canvasContext.font = fontSize + "px Arial";
+      canvasContext.textAlign = "center";
+      colorText(canvasContext, colRowStr, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, fontColor);
+
+      drawTileX += TILE_W;
+      arrayIndex++;
+    } // end of for each col
+    drawTileX = 0;
+    drawTileY += TILE_H;
+  } // end of for each row
+}
+
+
 function colRowToXY(col, row) {
   // top left corner of tile
   var x = col * TILE_W;
@@ -238,6 +273,7 @@ function colRowToXY(col, row) {
     y: y,
   }
 }
+
 
 function colDrawPenFence(col, team) {
   let row = TILE_ROWS - 1; // bottom row always
@@ -262,6 +298,7 @@ function colDrawPenFence(col, team) {
   }
 }
 
+
 function xyDrawPenFence(x, y, team) {
   var topLeft = { x: x, y: y };
   // left fence
@@ -284,6 +321,7 @@ function xyDrawPenFence(x, y, team) {
   // }
 }
 
+
 function colDrawPenGate(col, team) {
   let row = TILE_ROWS - 1; // bottom row always
   let topLeft = colRowToXY(col, row);
@@ -294,24 +332,12 @@ function colDrawPenGate(col, team) {
     colorRect(canvasContext, x1,y1, POST_SIZE, POST_THICK, TEAM_COLOURS[team])
   }
 }
-// function xyDrawPenGate(x, y, team) {
-//   var topLeft = { x: x, y: y };
-//   // top fence
-//   var y1 = topLeft.y + TILE_H - POST_SIZE;
-//   for(var i=0; i<4; i++) {
-//     var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
-//     colorRect(x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
-//   }
-// }
 
-// multi-tile pen
-// - POST_SIZE/2; // half on adjacent tile
-    // var x2 = x1 + POST_SIZE;
-    // var y2 = y1 + POST_SIZE;
 
 function isPen(tile) {
   return tile == TILE_PEN_BLUE || tile == TILE_PEN_RED || tile == FULL_BLUE || tile == FULL_RED
 }
+
 function isBluePen(tile) {
   return tile == TILE_PEN_BLUE || tile == FULL_BLUE
 }

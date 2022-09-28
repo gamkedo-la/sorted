@@ -62,6 +62,7 @@ var deviceHeight = null;
 var showAreaGridValues = false;
 var showAgentGridValues = false;
 var showGridIndex = false;
+var showColRow = false;
 
 var idLabel = false;
 var timerLabel = true;
