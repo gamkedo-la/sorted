@@ -1,5 +1,6 @@
 const NORMAL_PLAY = 0;
 const SEND_ONLY = 1;
+const SEND_SEQ_ONLY = 6;
 const SEND_ROAM = 2;
 const ROAM_FROM_R1 = 3;
 const CALL_FROM_R10 = 4;
@@ -18,8 +19,6 @@ var hasteSet = false;
 // SEND best slow until all Send expire, then only roaming so go fast - array is timeStep when to switch haste multiplier.
 
 const PLAY_SPEED = 0;
-const VISUAL_TEST = 1;
-const UNDRAWN_TEST = 2;
 
 const TEST_DESCRIPTION = ["NORMAL play, not automating.", "SEND a sheep from each column.", "SEND from each column then ROAM.", "ROAM from top row, n=columns.", "CALL sheep placed at bottom row.", "AI autoplay call & send, n=cols"];
 

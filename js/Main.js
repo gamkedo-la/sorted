@@ -59,10 +59,6 @@ window.onload = function() {
   colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "red");
   colorText(canvasContext, "Loading Images", 50,50, "white");
 
-  // Is this needed?
-  // uiCanvas.width = gameCanvas.width * playFieldFractionOfScreen;
-	// uiCanvas.height = gameCanvas.height;
-
   if (debugBelowCanvas) {
     makeParagraphsBelowCanvas();
   }
@@ -186,11 +182,13 @@ function moveAll() {
     }
 
     if (runMode == SEND_ONLY) {
+
       if ( !isAnySending() ) {
         // only on conveyors, go faster
         haste = 8;
         console.log('step', step[currentLevel], 'Faster while on conveyor');
       }
+
       if ( !isAnySendOrConvey() ) {
         // none on conveyors, all roaming so force LevelEnd
         levelEnding();
@@ -408,7 +406,7 @@ function loadLevel(whichLevel) {
   }
 
 
-  else if (runMode == SEND_ONLY || runMode == SEND_ROAM) {
+  else if (runMode == SEND_ONLY || SEND_SEQ || runMode == SEND_ROAM) {
     console.log("Testing level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
     baaVolume = 0;
 

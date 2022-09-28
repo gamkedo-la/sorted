@@ -40,7 +40,7 @@ const STACKED_DITCH = 16;
 const STACKED_BLUE = 17;
 const STACKED_RED = 18;
 
-const sheepModeNames = ['Graze', 'Roam', 'Called', 'Held', 'Sent', 'Conveyor', 'Stuck', 'In_Ditch', 'In_Blue_Pen', 'In_Red_Pen', 'On_Road', 'In_Blue_Lorry', 'In_Red_Lorry'];
+const sheepModeNames = ['Graze', 'Roam', 'Called', 'Held', 'Sent', 'Conveyor', '', 'Still', 'Distracted', '', '', 'Stuck', 'In_Ditch', 'In_Pen_Blue', 'In_Pen_Red', 'Stacked', 'Stacked_Ditch', 'Stacked_Blue', 'Stacked_Red', 'In_Blue_Lorry', 'In_Red_Lorry', '', 'Selected'];
 
 function sheepClass() {
   this.x = 0;
@@ -540,7 +540,12 @@ function sheepClass() {
 
     else if (tileType == TILE_SLOW) {
       if (!this.slowed) {
-        this.speed = this.speed / 3;
+        if (this.mode == SENT) {
+          this.speed = this.speed / 6;
+        }
+        else {
+          this.speed = this.speed / 2;
+        }
         this.slowed = true;
         console.log('speed reduce by woods', this.mode);
       // if (this.mode == SENT && this.lostApplied == false) {
