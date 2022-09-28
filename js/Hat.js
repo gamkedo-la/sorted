@@ -2,7 +2,8 @@ var player = new playerClass(1);
 
 // values here in case level-tuning assignment fails
 var tractorSpeed = 3; // speed of sheep moving up
-const CALL_X_ALIGN = 20; // hat not exactly above sheep
+const CALL_X_ALIGN = 10; // hat not exactly above sheep
+const CALL_Y_TOLERANCE = 800;
 var callAlignLimitX = null; // more X leeway if longer Y distance
 const CALL_X_WEIGHT = 7; // X dist weighted 7x more than Y
 
@@ -101,7 +102,10 @@ function playerClass(id) {
               aligned = i;
               nearestWeightDist = weightedCallDist;
               calledXdist = xDist; // save the nearest's xDist
-              callAlignLimitX = CALL_X_ALIGN * yDist / 100;
+              callAlignLimitX = CALL_X_ALIGN;
+              if (yDist > CALL_Y_TOLERANCE) {
+                callAlignLimitX *= yDist / CALL_Y_TOLERANCE;
+              }
 
               console.log('id:' + i + ' callAlignLimitX:' + callAlignLimitX.toFixed(0) )
             }

@@ -136,14 +136,10 @@ function drawPlay() {
     drawBarButtons(offMenuButtonLabel);
   }
 
-
   drawTutorial();
 
   player.draw();
 
-  // if (currentLevel >= 3 && runMode == NORMAL_PLAY) { // only on some levels
-  //   dog.draw();
-  // }
   for (var i = 0; i < dogList.length; i++) {
     dogList[i].draw();
   }

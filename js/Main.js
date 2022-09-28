@@ -33,7 +33,7 @@ const NUM_TEAM_TYPES = 3;
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [2, 1, 3, 3, 3, 3, 3, 3, 3, 3];
+const TEAM_SIZE = [4, 2, 3, 3, 3, 3, 3, 3, 3, 3];
 const FLOCK_SIZE = [];
 var sheepList = [];
 var dogList = [];
@@ -232,7 +232,7 @@ function drawAll() {
 
   if (paused) {
     drawBarButtons(pauseButtonLabel);
-    return;
+    return; // no sheep???
   }
 
   else if (gameState == STATE_PLAY) {
@@ -257,14 +257,11 @@ function drawAll() {
     } // loop bottom row
 
 
-    // draw label with score on sheep
+    // draw sheep, label with ID and score
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       sheepList[i].draw();
-      // if (endLevelShowID) {
-        sheepList[i].idLabel();
-      // } else {
-        sheepList[i].drawScore();
-      // }
+      sheepList[i].idLabel();
+      sheepList[i].drawScore();
     }
 
     // any of Popup wanted for Test runs?
@@ -289,7 +286,6 @@ function drawAll() {
         levelData = playResult();
         filename += "play.tsv";
         downloader(filename, levelData);
-
         console.log("Results of play downloaded to " + filename);
       }
       else {
@@ -409,7 +405,7 @@ function loadLevel(whichLevel) {
   }
 
 
-  else if (runMode == SEND_ONLY || SEND_SEQ || runMode == SEND_ROAM) {
+  else if (runMode == SEND_ONLY || SEND_SEQ_ONLY || runMode == SEND_ROAM) {
     console.log("Testing level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
     baaVolume = 0;
 
