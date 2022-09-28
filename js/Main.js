@@ -36,6 +36,7 @@ const NUM_TEAM_TYPES = 3;
 const TEAM_SIZE = [2, 1, 3, 3, 3, 3, 3, 3, 3, 3];
 const FLOCK_SIZE = [];
 var sheepList = [];
+var dogList = [];
 
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
 var stuckSound = new SoundOverlapsClass("sound/baa08");
@@ -145,7 +146,9 @@ function updateAll() {
 function moveAll() {
   step[currentLevel]++; // level timesteps
   player.callGapTimer--; // prevent call again too soon
-  dog.barkTimer--;
+  for (var i = 0; i < dogList.length; i++) {
+    dogList[].barkTimer--;
+  }
 
   if ( staticScreen() ) {
     return;
@@ -175,8 +178,11 @@ function moveAll() {
       player.move();
     }
 
-    if (currentLevel >= 3 && runMode == NORMAL_PLAY) { // dog present on later levels only
-      dog.move();
+    // if (currentLevel >= 3 && runMode == NORMAL_PLAY) { // dog present on later levels only
+    //   dog.move();
+    // }
+    for (var i = 0; i < dogList.length; i++) {
+      dogList[i].move();
     }
 
     if (runMode == SEND_ONLY) {
@@ -379,10 +385,9 @@ function loadLevel(whichLevel) {
   hasteSet = false;
 
   sheepList = [];  // fresh set of sheep
+  dogList = [];
 
-  if (whichLevel >= 3) { // dog present on later levels only
-    dog.init(dogPic);
-  }
+  setupDogs(whichLevel);
 
   if (runMode == NORMAL_PLAY) {
     var team = PLAIN;

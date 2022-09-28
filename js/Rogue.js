@@ -1,17 +1,17 @@
 const ROGUE_UNSORT_RANGE = 40;
 const ROGUE_WOOF_RANGE = 80;
 
-var dog = new rogueClass();
-
 function rogueClass() {
-  this.init = function(whichPic) {
+  this.init = function(id, whichPic, x, y) {
     this.pic = whichPic;
+    this.x = x;
+    this.y = y;
     this.reset();
   }
 
   this.reset = function() {
-    this.x = randomRangeInt(20 + SIDE_MARGIN, gameCanvas.width - SIDE_MARGIN -18);
-    this.y = 425;
+    // this.x = randomRangeInt(20 + SIDE_MARGIN, gameCanvas.width - SIDE_MARGIN -18);
+    // this.y = 425;
     this.ang = 0;
     this.speedX = ROGUE_SPEED[currentLevel];
     this.speedY = 0;
@@ -93,3 +93,29 @@ function rogueClass() {
   }
 
 } // end of rogue class
+
+
+function setupDogs (whichLevel) {
+  var arrayIndex = 0;
+  var drawTileX = 0;
+  var drawTileY = 0;
+
+  for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
+    for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+
+      var agentHere = agentGrid[arrayIndex];
+
+      if (agentHere == ROGUE) {
+        console.log('agent', agentHere, drawTileX, drawTileY)
+        var spawnDog = new rogueClass();
+        spawnDog.init(i, dogPic, drawTileX + TILE_W/2, drawTileY + TILE_H/2);
+        dogList.push(spawnDog);
+      }
+
+      drawTileX += TILE_W;
+      arrayIndex++;
+    } // end of for each col
+    drawTileX = 0;
+    drawTileY += TILE_H;
+  } // end of for each row
+}
