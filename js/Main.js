@@ -144,7 +144,7 @@ function updateAll() {
 
 function moveAll() {
   step[currentLevel]++; // level timesteps
-  player.callGapTimer--; // prevent call again too soon
+
   for (var i = 0; i < dogList.length; i++) {
     dogList[i].barkTimer--;
   }
@@ -277,6 +277,8 @@ function drawAll() {
     }
 
     // do once per level-ending
+    // if (editMode || !touchDevice) {
+    if (editMode) {
     if (levelTestDataReady) {
       levelTestDataReady = false;
       var filename = "level_" + currentLevel + "_";
@@ -296,7 +298,7 @@ function drawAll() {
         console.log("Level " + currentLevel + " completed. Score " + levelScore);
       }
     }// end levelTestDataReady, run once when level completed
-
+    } //if editMode
   } // end of Level_Over
 
 

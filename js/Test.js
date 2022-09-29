@@ -26,7 +26,7 @@ var testColumnSet = true; // flag to get column number from keypress
 var testTimer = null;
 var testLevel = 0;
 
-var editMode = true;
+var editMode = false;
 const baseFPS = 20;
 
 const PLAIN = 7; // sheep normal colour
@@ -120,9 +120,9 @@ function displayTest() {
 
 // runs in Main.js onload
 function deviceTests() {
-  // touchTest();
+  touchTest();
   displayTest();
-  // scalingTest();
+  scalingTest();
 }
 
 

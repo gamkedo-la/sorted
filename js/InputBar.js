@@ -98,8 +98,9 @@ function ui_mousedownHandler() {
               togglePause();
               break;
 
-            case "Quit":
-              gotoMenu("Play's CanvasButton Quit");
+            case "End":
+              levelEnding();
+              // gotoMenu("Play's CanvasButton Quit");
               break;
           }
         }

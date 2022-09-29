@@ -127,7 +127,8 @@ function clickOrTouch(event) {
 
 // click or tap in field
 function field_mousedownHandler() {
-  if (gameState == STATE_PLAY) {
+  
+  if (gameState == STATE_PLAY && editMode == true) {
 
     if (mouse.button == 0) {0
       // select a sheep to move manually

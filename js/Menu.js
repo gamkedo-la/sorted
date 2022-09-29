@@ -228,11 +228,21 @@ function drawLevelEnd() {
 
   canvasContext.font = "16px Arial";
   colorText(canvasContext, "Max Possible Score = " + levelMaxScores[currentLevel], gameCanvas.width/2, y += 40, "white");
-  colorText(canvasContext, "Press key M for menu", gameCanvas.width/2, y += 35, "white");
-  colorText(canvasContext, "key R to replay level " + currentLevel, gameCanvas.width/2, y += 18, "white");
 
-  canvasContext.font = advanceFontSize + "px Arial";
-  colorText(canvasContext, "key L to advance to level " + nextLevel, gameCanvas.width/2, y += 18 + advanceFontSize, "white");
+  if (touchDevice) {
+    colorText(canvasContext, "Use buttons in right bar to:", gameCanvas.width/2, y += 35, "white");
+    colorText(canvasContext, "Replay this level " + currentLevel, gameCanvas.width/2, y += 18, "white");
+
+    canvasContext.font = advanceFontSize + "px Arial";
+    colorText(canvasContext, "Advance to level " + nextLevel, gameCanvas.width/2, y += 18 + advanceFontSize, "white");
+  }
+  else {
+    colorText(canvasContext, "Press key M for menu", gameCanvas.width/2, y += 35, "white");
+    colorText(canvasContext, "key R to replay level " + currentLevel, gameCanvas.width/2, y += 18, "white");
+
+    canvasContext.font = advanceFontSize + "px Arial";
+    colorText(canvasContext, "key L to advance to level " + nextLevel, gameCanvas.width/2, y += 18 + advanceFontSize, "white");
+  }
 
   // colorText("H to hide/show this box", canvas.width/2, y+210, "white");
   canvasContext.textAlign = "left";

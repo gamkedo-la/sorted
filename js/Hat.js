@@ -2,8 +2,8 @@ var player = new playerClass(1);
 
 // values here in case level-tuning assignment fails
 var tractorSpeed = 3; // speed of sheep moving up
-const CALL_X_ALIGN = 10; // hat not exactly above sheep
-const CALL_Y_TOLERANCE = 800;
+const CALL_X_ALIGN = 20; // hat not exactly above sheep
+const CALL_Y_TOLERANCE = 200;
 var callAlignLimitX = null; // more X leeway if longer Y distance
 const CALL_X_WEIGHT = 7; // X dist weighted 7x more than Y
 
@@ -64,10 +64,7 @@ function playerClass(id) {
     if (this.keyHeld_call) {
       this.keyHeld_call = false; // is this needed?
 
-      if (this.callGapTimer > 0) {
-        console.log("Cannot call again so soon");
-      }
-      else if (this.sheepIDheld != null) {
+      if (this.sheepIDheld != null) {
         console.log('Cannot call a sheep while one already held');
       }
       else if (isAnySheepCalledAlready()) {
@@ -80,7 +77,7 @@ function playerClass(id) {
         // check all sheep to see if any below Hat
         // or select a sheep using mouse like in RTS
 
-        this.callGapTimer = 30;
+        // this.callGapTimer = 30;
         var aligned = null;
         var nearestWeightDist = 999;
 

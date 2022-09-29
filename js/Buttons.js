@@ -1,7 +1,7 @@
 var barButtonInactive = null;
 
 const menuButtonLabel = ["Play", "Score", "Help", "Credits", "Quit"];
-const playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "Quit"];
+const playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "End"];
 // , "Pause" temp removed because it obscures debug
 const pauseButtonLabel = ["Resume"];
 const levelEndButtonLabel = ["Replay", "Advance", "Menu"];
