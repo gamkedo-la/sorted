@@ -1,5 +1,7 @@
 function setupInput() {
 
+  initButtonRects(); // set coords of right bar buttons
+
   drawingCanvas.addEventListener('mousemove', updateMousePos);
   //drawingCanvas.addEventListener('touchmove', updateTouchPos);
 

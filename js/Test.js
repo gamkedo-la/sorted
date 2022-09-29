@@ -71,7 +71,6 @@ var sheepSelected = null; // is a sheep selected for manual movement?
 const SELECT_RANGE = 40;
 
 var stacking = false;
-var HatNotMovedYet = true;
 
 // for increment of test output filename
 // var testCount = Array(NUM_LEVELS);

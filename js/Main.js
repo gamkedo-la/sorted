@@ -10,7 +10,7 @@ const playFieldFractionOfScreen = fieldX / (fieldX + uiBarX); // % board for pla
 const fieldY = 600;
 
 const UI_COLOR = "#222222";
-var bottomRowHeight = 55; // a margin where no flowers or grass grows - see scatterDecals()
+var bottomRowHeight = 0; // a margin where no flowers or grass grows - see scatterDecals() - now not needed as decalsCanvas height reduced so it doesn't cover bottom row (to stop clustered flowers growing in pens)
 
 var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; //
 var paused = false;
@@ -383,7 +383,6 @@ function loadLevel(whichLevel) {
   agentGrid = agentLevelList[whichLevel].slice();
 
   player.reset(playerHatPic, "Shepherding Hat");
-  HatNotMovedYet = true;
   hasteSet = false;
   step[whichLevel] = 0; // reset frame counter
 
@@ -403,6 +402,8 @@ function loadLevel(whichLevel) {
       spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
       sheepList.push(spawnSheep);
     }
+
+    setupDecals();
     console.log("Level loaded: " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
   }
 

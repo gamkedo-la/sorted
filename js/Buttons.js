@@ -2,13 +2,12 @@ var barButtonInactive = null;
 
 const menuButtonLabel = ["Play", "Score", "Help", "Credits", "Quit"];
 const playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "End"];
-// , "Pause" temp removed because it obscures debug
 const pauseButtonLabel = ["Resume"];
 const levelEndButtonLabel = ["Replay", "Advance", "Menu"];
 const gameOverButtonLabel = ["Restart", "Menu", "Quit"];
 const offMenuButtonLabel = ["Menu"];
-const designButtonLabel = [];
 const editmodeButtonLabel = ["Test", "Team", "Player"];
+const designButtonLabel = []; // need bar for tile/agent info
 
 var buttonsTop = 100;
 var buttonsLeft = 10;
@@ -17,27 +16,30 @@ const buttonHeight = 60;
 const buttonGap = 10;
 const buttonRects = [];
 
+
+function initButtonRects() {
+  // max num rect/buttons are in play state
+  for (var i = 0; i < playButtonLabel.length; i++) {
+    buttonRects[i] = {
+      x: buttonsLeft,
+      y: buttonsTop + i * (buttonHeight + buttonGap),
+      width: buttonWidth,
+      height: buttonHeight
+    };
+  }
+}
+
+
 function drawBarTitle(txt, fontSize) {
-  // txt += " not usable!";
   uiContext.font = fontSize +"px Arial";
   colorText(uiContext, txt, buttonsLeft, 30, "white");
 }
 
-// play state has most buttons
-for (var i = 0; i < playButtonLabel.length; i++) {
-  buttonRects[i] = {
-    x: buttonsLeft,
-    y: buttonsTop + i * (buttonHeight + buttonGap),
-    width: buttonWidth,
-    height: buttonHeight
-  };
-}
 
 function drawBarButtons(btnList) {
   var lineWidth = 1;
   uiContext.lineWidth = lineWidth;
   for (var i = 0; i < btnList.length; i++) {
-    // console.log(btnList[i])
     colorRectBorder(uiContext, buttonRects[i].x, buttonRects[i].y, buttonRects[i].width, buttonRects[i].height, "white", "red", lineWidth);
     uiContext.textAlign = "left";
     uiContext.font = "14px Arial";
@@ -46,13 +48,11 @@ function drawBarButtons(btnList) {
   }
 }
 
-function needsTouchEnd(btn) {
-  return btn == "Left" || btn == "Right" || btn == "Call" || btn == "Send"
-}
 
 function requireButtonGotoMenu() {
   return gameState == STATE_CREDITS || gameState == STATE_HELP || gameState == STATE_SCOREBOARD
 }
+
 
 function touchstartPlayHandler() {
   if (!levelRunning) {
@@ -65,6 +65,7 @@ function touchstartPlayHandler() {
   gotoPlay("bar touchstart Play");
 }
 
+
 function touchstartScoreHandler() {
   gotoScore("bar touchstart Score");
 }
@@ -72,9 +73,11 @@ function touchstartScoreHandler() {
 function touchstartHelpHandler() {
   gotoHelp("bar touchstart Help");
 }
+
 function touchstartCreditsHandler() {
   gotoCredits("bar touchstart Credits");
 }
+
 function touchstartQuitHandler() {
   window.close();
 }
@@ -82,8 +85,8 @@ function touchstartQuitHandler() {
 // handle touchstarts on Play screen
 function touchstartLeftHandler() {
   player.keyHeld_left = true;
-
 }
+
 function touchstartRightHandler() {
   player.keyHeld_right = true;
 }
