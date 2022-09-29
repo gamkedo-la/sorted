@@ -30,7 +30,7 @@ function drawMenuFlock() {
 function drawLevelEndFlock() {
     for (let x,y,i = 0; i<64; i++) {
         x = (gameCanvas.width/2/*-POPUP_W/2*/) + Math.sin(performance.now()*0.00005+i*321) * POPUP_W/2;
-        y = 90 + Math.cos(performance.now()*0.00513+i*234) * 10;
+        y = 80 + Math.cos(performance.now()*0.00513+i*234) * 10;
         r = Math.cos(performance.now()*0.005+i*456) * 0.5;
         drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic,x,y,r);
     }
@@ -217,11 +217,12 @@ function drawLevelEnd() {
   colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2, y, POPUP_W, 270, "rgba(0,0,0,0.25)");
   // sheep
   drawLevelEndFlock();
+
   // small white bar
-  colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2 + 40, y+20, POPUP_W - 80, 40, "rgba(255,255,255,0.75)");
+  colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2 + 40, y+10, POPUP_W - 80, 40, "rgba(255,255,255,0.75)");
 
   canvasContext.font = "24px Arial Bold";
-  colorText(canvasContext, "Level " + currentLevel + " completed", gameCanvas.width / 2, y += 50, "black");
+  colorText(canvasContext, "Level " + currentLevel + " completed", gameCanvas.width / 2, y += 40, "black");
 
   canvasContext.font = "36px Arial";
   colorText(canvasContext, "Score = " + levelScores[currentLevel], gameCanvas.width / 2, y += 50, "white");
@@ -230,8 +231,8 @@ function drawLevelEnd() {
   colorText(canvasContext, "Max Possible Score = " + levelMaxScores[currentLevel], gameCanvas.width/2, y += 40, "white");
 
   if (touchDevice) {
-    colorText(canvasContext, "Use buttons in right bar to:", gameCanvas.width/2, y += 35, "white");
-    colorText(canvasContext, "Replay this level " + currentLevel, gameCanvas.width/2, y += 18, "white");
+    colorText(canvasContext, "Use buttons (on right) to:", gameCanvas.width/2, y += 36, "white");
+    colorText(canvasContext, "Replay level " + currentLevel, gameCanvas.width/2, y += 24, "white");
 
     canvasContext.font = advanceFontSize + "px Arial";
     colorText(canvasContext, "Advance to level " + nextLevel, gameCanvas.width/2, y += 18 + advanceFontSize, "white");

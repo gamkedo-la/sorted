@@ -69,13 +69,17 @@ function UI_level_number() {
   canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
 
+
 function drawLevelName() {
-  canvasContext.font = "18px Verdana";
+  canvasContext.font = "16px Verdana";
   canvasContext.fillStyle = "white";
   canvasContext.textAlign = "left";
-  canvasContext.fillText("Level " + currentLevel  + ': "'  + LEVEL_NAMES[currentLevel] + '"', 10, TILE_H/2);
+  let txt = "Level " + currentLevel  + ': "'  + LEVEL_NAMES[currentLevel] + '"';
+  levelTitleWidth = canvasContext.measureText(txt).width;
+  canvasContext.fillText(txt, 10, TILE_H/2);
   canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
+
 
 function getLines(ctx, text, maxWidth) {
   var words = text.split(" ");

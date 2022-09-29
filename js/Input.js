@@ -127,7 +127,7 @@ function clickOrTouch(event) {
 
 // click or tap in field
 function field_mousedownHandler() {
-  
+
   if (gameState == STATE_PLAY && editMode == true) {
 
     if (mouse.button == 0) {0
@@ -201,11 +201,11 @@ function arrowKeySet(evt, whichPlayer, setTo) {
   // this helps press & release functions are identical except for true/false
   if (evt.keyCode == whichPlayer.controlKeyLeft) {
 		whichPlayer.keyHeld_left = setTo;
-    whichPlayer.button_left = setTo; // key for slide-move
+    // whichPlayer.button_left = setTo; // key for slide-move
 	}
   if (evt.keyCode == whichPlayer.controlKeyRight) {
 		whichPlayer.keyHeld_right = setTo;
-    whichPlayer.button_right = setTo; // key for slide-move
+    // whichPlayer.button_right = setTo; // key for slide-move
 	}
   if (evt.keyCode == whichPlayer.controlKeyUp) {
 		whichPlayer.keyHeld_call = setTo;
@@ -400,12 +400,6 @@ function menuKeyChoice(key) {
           console.log("Tile type selected =", tileType, TILE_NAMES[tileType]);
           designTileReady = true;
         }
-
-        // When tiles are selected visually, use numkeys to select Level.
-        // designLevel = key - KEY_NUM_0; // key '1' is code 49
-        // console.log("Number key from Designer = ", designLevel)
-        // drawDesignerFromLevelNum(designLevel);
-        // loadDesignLevel(designLevel);
       }
       break;
 

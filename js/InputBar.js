@@ -71,15 +71,13 @@ function ui_mousedownHandler() {
               // console.log('button left')
               // player.direction = -1; // left
               // player.keyHeld_left = true;
-              // touchArrowHandling(LEFT);
               break;
 
             case "Right":
               player.button_right = true;
+              // player.keyHeld_right = true;
               // console.log('button right')
               // player.direction = +1; // right
-              // player.keyHeld_right = true;
-              // touchArrowHandling(RIGHT);
               break;
 
             case "Call":
@@ -153,17 +151,16 @@ function ui_mouseupHandler(evt) {
         switch (playButtonLabel[i]) {
 
           case "Left":
-            // player.keyHeld_left = false;
-            // touchArrowDebug();
+            player.button_left = true;
             break;
 
           case "Right":
-            // player.button_right = false;
+            player.button_right = false;
             break;
 
           case "Call":
-            // player.keyHeld_call = false;
-            // not needed since there is a timer before next Call allowed
+            player.keyHeld_call = false;
+            // not needed if there is a timer before next Call allowed
             break;
 
           case "Send":

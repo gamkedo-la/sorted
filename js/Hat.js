@@ -17,7 +17,7 @@ function playerClass(id) {
     this.y = TILE_H / 2;
     this.gotoX = this.x;
     this.direction = 0;
-    this.speed = 0;
+    this.speed = HAT_MAX_SPEED[currentLevel]; // was 0
     this.ang = 0;
     this.sheepIDheld = null; // ID of sheep carried
     this.callGapTimer = 0;
@@ -134,7 +134,26 @@ function playerClass(id) {
     } // end of CALL
 
 
-    // MOVE left or right using key or button
+    // arrowkey move now accepts held key
+    if (this.keyHeld_left || this.keyHeld_right) {
+      this.gotoX = null;
+      if (this.keyHeld_left) {
+        nextX -= this.speed;
+      }
+      else if (this.keyHeld_right) {
+        nextX += this.speed;
+      }
+      if (nextX > gameCanvas.width) {
+        nextX -= gameCanvas.width; // offset to mirror image
+      }
+      if (nextX < 0) {
+        nextX += gameCanvas.width; // offset to mirror image
+      }
+      console.log(this.x, this.gotoX, player.keyHeld_left, player.keyHeld_right, player.button_left, player.button_right)
+    }
+
+
+    // MOVE left or right using touch or button
     // gotoX set to next column-centre
     if (this.button_left || this.button_right) {
 
@@ -147,61 +166,60 @@ function playerClass(id) {
         this.button_right = false;
       }
       console.log("From " + this.x + " gotoX " + this.gotoX);
+    } // end button set gotoX
 
-      HatNotMovedYet = false; // temporary flag to hide name of level which was drawn on top row
+
+    if (this.gotoX != this.x && this.gotoX != null) {
+      var deltaX = this.gotoX - this.x;
+      var moveX = HAT_MAX_SPEED[currentLevel];
+      this.direction = 0;
+
+      if (Math.abs(deltaX) <= moveX) {
+        // nearly reached gotoX position
+
+        nextX = this.gotoX;
+        this.direction = 0; // move command completed
+
+        if (nextX > gameCanvas.width) {
+          nextX -= gameCanvas.width; // offset to mirror image
+          this.gotoX = TILE_W/2;
+        }
+        if (nextX < 0) {
+          nextX += gameCanvas.width; // offset to mirror image
+          this.gotoX = gameCanvas.width - TILE_W/2;
+        }
+
+        if (this.callWhenInPlace) {
+          this.keyHeld_call = true;
+          this.callWhenInPlace = false;
+        }
+
+        if (this.sendWhenInPlace) {
+          this.keyHeld_send = true;
+          this.sendWhenInPlace = false;
+        }
+      } // end nearly_reached_gotoX
+
+      else { // some_way_to_go_yet
+        if (deltaX > 0) {
+          this.direction = 1;
+        }
+        if (deltaX < 0) {
+          this.direction = -1;
+        }
+      } // end some_way_to_go_yet
+
+      if (this.direction > 0) {
+        nextX += moveX; // move right
+      }
+      else if (this.direction < 0) {
+        nextX -= moveX; // move left
+      }
     }
 
-    var deltaX = this.gotoX - this.x;
-    var moveX = HAT_MAX_SPEED[currentLevel];
-    this.direction = 0;
-
-    if (Math.abs(deltaX) <= moveX) {
-      // nearly reached gotoX position
-
-      nextX = this.gotoX;
-      this.direction = 0; // move command completed
-
-      if (nextX > gameCanvas.width) {
-        nextX -= gameCanvas.width; // offset to mirror image
-        this.gotoX = TILE_W/2;
-      }
-      if (nextX < 0) {
-        nextX += gameCanvas.width; // offset to mirror image
-        this.gotoX = gameCanvas.width - TILE_W/2;
-      }
-
-      if (this.callWhenInPlace) {
-        this.keyHeld_call = true;
-        this.callWhenInPlace = false;
-      }
-
-      if (this.sendWhenInPlace) {
-        this.keyHeld_send = true;
-        this.sendWhenInPlace = false;
-      }
-    } // end nearly_reached_gotoX
-
-    else { // some_way_to_go_yet
-      if (deltaX > 0) {
-        this.direction = 1;
-      }
-      if (deltaX < 0) {
-        this.direction = -1;
-      }
-    } // end some_way_to_go_yet
-
-    if (this.direction > 0) {
-      nextX += moveX; // move right
-    }
-    else if (this.direction < 0) {
-      nextX -= moveX; // move left
-    }
 
     this.x = nextX;
     this.y = nextY;
-
-    // this.button_left = false;
-    // this.button_right = false;
   } // end move()
 
 

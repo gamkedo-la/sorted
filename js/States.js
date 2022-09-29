@@ -124,7 +124,7 @@ function drawField() {
 function drawPlay() {
   drawField(); // common to Play and LevelOver
 
-  if (HatNotMovedYet) {
+  if (player.x > levelTitleWidth + 10) {
     drawLevelName();
   }
 
