@@ -108,6 +108,7 @@ function setupDogs (whichLevel) {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
+  var nDog = 0;
 
   for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
     for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
@@ -117,8 +118,9 @@ function setupDogs (whichLevel) {
       if (agentHere == ROGUE) {
         console.log('agent', agentHere, drawTileX, drawTileY)
         var spawnDog = new rogueClass();
-        spawnDog.init(i, dogPic, drawTileX + TILE_W/2, drawTileY + TILE_H/2);
+        spawnDog.init(nDog, dogPic, drawTileX + TILE_W/2, drawTileY + TILE_H/2);
         dogList.push(spawnDog);
+        nDog++;
       }
 
       drawTileX += TILE_W;

@@ -72,7 +72,8 @@ window.onload = function() {
 
 
 function imageLoadingDoneSoStartGame() {
-  setupDecals();
+  bottomMargin = 0;
+  setupDecals(bottomMargin);
 
   let framesPerSecond = baseFPS;
 	setInterval(updateAll, 1000/framesPerSecond);
@@ -403,7 +404,9 @@ function loadLevel(whichLevel) {
       sheepList.push(spawnSheep);
     }
 
-    setupDecals();
+    bottomMargin = TILE_H;
+    setupDecals(bottomMargin);
+
     console.log("Level loaded: " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
   }
 

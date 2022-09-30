@@ -6,6 +6,8 @@ const TILE_H = 50;
 const TILE_COLS = 16;
 const TILE_ROWS = 12;
 
+var bottomMargin = 0;
+
 const POST_SIZE = 5;
 const POST_THICK = 4;
 const POST_GAP = 10;

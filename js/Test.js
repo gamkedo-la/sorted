@@ -1,3 +1,5 @@
+var editMode = true;
+
 const NORMAL_PLAY = 0;
 const SEND_ONLY = 1;
 const SEND_SEQ_ONLY = 6;
@@ -26,7 +28,6 @@ var testColumnSet = true; // flag to get column number from keypress
 var testTimer = null;
 var testLevel = 0;
 
-var editMode = false;
 const baseFPS = 20;
 
 const PLAIN = 7; // sheep normal colour
