@@ -22,7 +22,7 @@ var areaGrid = [];
 var saveGrid = [];
 
 // level 0 scratchpad for asset integration testing
-const LEVEL_NAMES =["Testing", "Call and send", "Bends in the field", "Dogs erase paint", "Three part-rows of bends", "Full row bends and crop lines", "Name of Level 6", "Name of Level 7", "Rogue test woof & unsort", "Name of Level 9"];
+const LEVEL_NAMES =["Testing", "Call and send", "Bends in the field", "Dogs erase paint", "Bo Peep leads up", "Full row bends and crop lines", "Name of Level 6", "Name of Level 7", "Rogue test woof & unsort", "Name of Level 9"];
 
 var levelTitleWidth = 200;
 // = Array(NUM_LEVELS);

@@ -84,10 +84,12 @@ function sheepClass() {
     this.speed = 15;
     this.ang = Math.PI/2;
   }
+
   this.testRoamInit = function() {
     this.speed = defaultRoamSpeed;
     this.ang = Math.PI/2;
   }
+
   this.testStillInit = function () {
     this.speed = 0;
     this.ang = Math.PI / 2;
@@ -99,10 +101,12 @@ function sheepClass() {
     this.y = TILE_H * 3/2 -15;
     this.sentX = this.x; // won't go through player.send()
   }
+
   this.placeRoamR1 = function() {
     this.x = TILE_W/2 + this.id * TILE_W;
     this.y = TILE_H * 3/2;
   }
+
   this.placeRow = function (row) {
     this.x = TILE_W / 2 + this.id * TILE_W;
     this.y = TILE_H * row + TILE_H / 2;
@@ -198,6 +202,7 @@ function sheepClass() {
       // isMovedBySpeed() handles angle effect
       // if waggle while Sent, that goes here
     }
+
 
     else if (this.mode == GRAZE) {
       // if (randomRangeInt(1, GRAZE_FACING[currentLevel]) == 1) {
@@ -674,7 +679,7 @@ function sheepClass() {
     else if (newMode == PEEPED) {
       this.mode = PEEPED;
       this.ang = Math.PI * 3 / 2;
-      this.speed = 1.8;
+      this.speed = BOPEEP_SPEED * 0.9;
     }
 
     else {
