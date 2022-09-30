@@ -143,6 +143,9 @@ function drawPlay() {
   for (var i = 0; i < dogList.length; i++) {
     dogList[i].draw();
   }
+  for (var i = 0; i < BoPeepList.length; i++) {
+    BoPeepList[i].draw();
+  }
 } // end drawPlay
 
 

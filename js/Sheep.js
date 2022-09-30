@@ -22,7 +22,8 @@ const ROAM = 1;
 const CALLED = 2;
 const HELD = 3;
 const SENT = 4;
-const CONVEYOR = 5;
+const PEEPED = 5;
+const CONVEYOR = 6;
 const STILL = 7;
 const DISTRACTED = 8;
 const HALTED = 9;
@@ -254,6 +255,9 @@ function sheepClass() {
       if (this.isAllowedTopRow() == false) {
         this.ang = 2*Math.PI - this.ang;
         nextY = this.y; // stops oscillation
+        if (this.mode = PEEPED) {
+          this.changeMode(ROAM);
+        }
       }
     }
     // bounce up from bottom row if not allowed there
@@ -667,6 +671,12 @@ function sheepClass() {
       this.levelDone = true;
     }
 
+    else if (newMode == PEEPED) {
+      this.mode = PEEPED;
+      this.ang = Math.PI * 3 / 2;
+      this.speed = 1.8;
+    }
+
     else {
       console.log("Unprocessed changeMode for ID", this.id)
       this.mode = newMode;
@@ -705,7 +715,7 @@ function sheepClass() {
   }
 
   this.isMovedBySpeed = function(mode) {
-    return mode == ROAM || mode == GRAZE || mode == CALLED || mode == SENT;
+    return mode == ROAM || mode == GRAZE || mode == CALLED || mode == SENT || mode == PEEPED;
   }
 
   this.isAllowedTopRow = function() {

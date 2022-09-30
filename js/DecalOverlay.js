@@ -86,7 +86,7 @@ function setupDecals(bottomMargin) {
 
   // randomly scatter everything evenly
   decals.scatterDecorations(30, flower1Pic, bottomMargin);
-  decals.scatterDecorations(120, flower2Pic, bottomMargin);
+  decals.scatterDecorations(120, flowerBluePic, bottomMargin);
   decals.scatterDecorations(90, flower3Pic, bottomMargin);
   decals.scatterDecorations(150, grass1Pic, bottomMargin);
   decals.scatterDecorations(150, grass2Pic, bottomMargin);
@@ -106,7 +106,7 @@ function setupDecals(bottomMargin) {
   // flower clusters
   decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flower1Pic);
 
-  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flower2Pic);
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerBluePic);
 
   decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flower3Pic);
 

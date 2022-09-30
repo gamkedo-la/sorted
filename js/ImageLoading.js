@@ -7,6 +7,7 @@ var sheepRuffRedPic = document.createElement("img");
 var sheepTailPic = document.createElement("img");
 var sheepTailBluePic = document.createElement("img");
 var sheepTailRedPic = document.createElement("img");
+var BoPeepPic = document.createElement("img");
 var rogueDogPic = document.createElement("img");
 var dogBodyPic = document.createElement("img");
 var menuBGPic = document.createElement("img");
@@ -14,7 +15,7 @@ var helpBGPic = document.createElement("img");
 var creditsBGPic = document.createElement("img");
 var controlsPic = document.createElement("img");
 var flower1Pic = document.createElement("img");
-var flower2Pic = document.createElement("img");
+var flowerBluePic = document.createElement("img");
 var flower3Pic = document.createElement("img");
 var grass1Pic = document.createElement("img");
 var grass2Pic = document.createElement("img");
@@ -61,12 +62,13 @@ function loadImages() {
     {varName: creditsBGPic, theFile: "credits_bg.png"},
     {varName: controlsPic, theFile: "controls.png"},
     {varName: flower1Pic, theFile: "flower1.png"},
-    {varName: flower2Pic, theFile: "flower2.png"},
+    {varName: flowerBluePic, theFile: "flower_blue.png"},
     {varName: flower3Pic, theFile: "flower3.png"},
     {varName: grass1Pic, theFile: "grass1.png"},
     {varName: grass2Pic, theFile: "grass2.png"},
     {varName: grass3Pic, theFile: "grass3.png"},
     {varName: hoofprintPic, theFile: "hoofprint.png"},
+    {varName: BoPeepPic, theFile: "BoPeep.png"},
     {varName: dogPic, theFile: "dog_normal.png"},
     {varName: dogBodyPic, theFile: "dog_butt.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass_50.png"},

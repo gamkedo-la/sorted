@@ -35,8 +35,11 @@ const NUM_TEAM_TYPES = 3;
 // 9 levels initial values, should Level Editor be able to change these?
 const TEAM_SIZE = [4, 2, 3, 3, 3, 3, 3, 3, 3, 3];
 const FLOCK_SIZE = [];
+var flockSize = null;
+
 var sheepList = [];
 var dogList = [];
+var BoPeepList = [];
 
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
 var stuckSound = new SoundOverlapsClass("sound/baa08");
@@ -183,6 +186,9 @@ function moveAll() {
     // }
     for (var i = 0; i < dogList.length; i++) {
       dogList[i].move();
+    }
+    for (var i = 0; i < BoPeepList.length; i++) {
+      BoPeepList[i].move();
     }
 
     if (runMode == SEND_ONLY) {
@@ -389,12 +395,15 @@ function loadLevel(whichLevel) {
 
   sheepList = [];  // fresh set of sheep
   dogList = [];
+  BoPeepList = [];
 
   setupDogs(whichLevel);
+  setupBoPeep(whichLevel);
 
   if (runMode == NORMAL_PLAY) {
+    flockSize = FLOCK_SIZE[whichLevel];
     var team = PLAIN;
-    for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
+    for(var i=0; i<flockSize; i++) {
       var spawnSheep = new sheepClass();
       var mode = i % 2 == 0 ? ROAM : GRAZE;
       var potential = i % 2 == 0 ? BLUE : RED;
@@ -415,9 +424,8 @@ function loadLevel(whichLevel) {
     console.log("Testing level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
     baaVolume = 0;
 
-    // overwriting to use flocksize array seems a bad approach
-    FLOCK_SIZE[whichLevel] = TILE_COLS;
-    for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
+    flockSize = TILE_COLS;
+    for(var i=0; i<flockSize; i++) {
       var spawnSheep = new sheepClass();
       if (testTeam == MIXED) {
         var team = i % 2 == 0 ? BLUE : RED;
@@ -438,7 +446,7 @@ function loadLevel(whichLevel) {
     console.log("Test sheep roaming in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
     baaVolume = 0;
 
-    FLOCK_SIZE[whichLevel] = TILE_COLS;
+    flockSize = TILE_COLS;
     testTeam = PLAIN;
 
     for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
@@ -454,10 +462,10 @@ function loadLevel(whichLevel) {
     console.log("Test call sheep in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
     baaVolume = 0;
 
-    FLOCK_SIZE[whichLevel] = TILE_COLS;
+    flockSize = TILE_COLS;
     testTeam = PLAIN;
 
-    for (var i = 0; i < FLOCK_SIZE[whichLevel]; i++) {
+    for (var i = 0; i < flockSize; i++) {
       var spawnSheep = new sheepClass();
       spawnSheep.reset(i, testTeam, PLAIN, ROAM);
       spawnSheep.testStillInit();
@@ -469,7 +477,7 @@ function loadLevel(whichLevel) {
   // reset sorting
   teamSizeSoFar = [0,0,0];
   // reset level-ending detector
-  sheepInPlay = FLOCK_SIZE[whichLevel];
+  sheepInPlay = flockSize;
   levelScore = 0;
   update_debug_report();
   levelLoaded = whichLevel;
