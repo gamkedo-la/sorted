@@ -1,4 +1,4 @@
-var editMode =true;
+var editMode = false;
 
 const NORMAL_PLAY = 0;
 const SEND_ONLY = 1;

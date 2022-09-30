@@ -48,7 +48,7 @@ function drawMenu() {
     textIndent = 225;
     headLine("Menu");
     bodyLine("Play - key P", ++line);
-    bodyLine("Score - key S", ++line);
+    // bodyLine("Score - key S", ++line);
     bodyLine("Help - key H", ++line);
     bodyLine("Credits - key C", ++line);
     bodyLine("Edit mode - key F1", ++line);
@@ -88,7 +88,7 @@ function drawHelp() {
 
   smallBodyLine("Aim: get all sheep to bottom row, sorting two groups.", ++line, yTop);
 
-  var txt = "How to play: move Hat sideways (use arrow keys), call a sheep (Up arrow key), send a sheep (Down arrow). Points are gained if a sheep arrives on correct side of the field, and closer to field's horizontal centre scores more. Bonus points for a sheep arriving on the pen (chequered tile).";
+  var txt = "How to play: move Hat left or right, call a sheep upward, send a sheep down. Points are gained if a sheep arrives on correct side of the field, and bonus points for reaching a pen rather than falling into ditch.";
 
   var txtLines = getLines(canvasContext, txt, 600);
   line++; // gap between paragraphs
@@ -119,7 +119,10 @@ function drawCredits() {
   var line = 0;
   var paragraph = 1;
 
-  paragraphLine("No more updates as Credits will be compiled by Chris DeLeon.", ++line, paragraph);
+  paragraphLine("No more updates to Credits: will be compiled by Chris.", ++line, paragraph);
+  paragraph++;
+
+  paragraphLine("Patrick McKeown - programming, design.", ++line, paragraph);
   paragraph++;
 
   var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grass; hoofprints behind sheep; many soundfx for sheep, and dog; ambient sheep sounds; baa when sheep enters pen.'
@@ -142,7 +145,7 @@ function drawCredits() {
   paragraphLine("Tim Waskett - algorithm for sheep roaming.", ++line, paragraph);
   paragraph++;
 
-  var txt = "H Trayford - maximum possible score; screenwrap hat.";
+  var txt = "H Trayford - maximum possible score; early Hat screenwrap.";
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
   for(var i=0; i<txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);

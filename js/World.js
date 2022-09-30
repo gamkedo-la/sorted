@@ -1,5 +1,5 @@
 var currentLevel = 0; // load level increments
-const LAST_LEVEL = 6;
+const LAST_LEVEL = 4;
 
 const TILE_W = 50;
 const TILE_H = 50;

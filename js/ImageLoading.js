@@ -14,9 +14,9 @@ var menuBGPic = document.createElement("img");
 var helpBGPic = document.createElement("img");
 var creditsBGPic = document.createElement("img");
 var controlsPic = document.createElement("img");
-var flower1Pic = document.createElement("img");
+var flowerYellowPic = document.createElement("img");
 var flowerBluePic = document.createElement("img");
-var flower3Pic = document.createElement("img");
+var flowerRedPic = document.createElement("img");
 var grass1Pic = document.createElement("img");
 var grass2Pic = document.createElement("img");
 var grass3Pic = document.createElement("img");
@@ -61,9 +61,9 @@ function loadImages() {
     {varName: helpBGPic, theFile: "help_bg.png"},
     {varName: creditsBGPic, theFile: "credits_bg.png"},
     {varName: controlsPic, theFile: "controls.png"},
-    {varName: flower1Pic, theFile: "flower1.png"},
+    {varName: flowerYellowPic, theFile: "flower1.png"},
     {varName: flowerBluePic, theFile: "flower_blue.png"},
-    {varName: flower3Pic, theFile: "flower3.png"},
+    {varName: flowerRedPic, theFile: "flower_red.png"},
     {varName: grass1Pic, theFile: "grass1.png"},
     {varName: grass2Pic, theFile: "grass2.png"},
     {varName: grass3Pic, theFile: "grass3.png"},

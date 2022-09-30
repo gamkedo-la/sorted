@@ -34,18 +34,22 @@ function gotoReplay(from) {
 }
 
 function gotoAdvance(from) {
-  gameState = STATE_PLAY;
-  if (!levelRunning) {
+
+  // if (!levelRunning) {
     if (playLevel == LAST_LEVEL) {
       console.log("No more Levels!");
+      // gameState = STATE_GAME_OVER;
+      gameState = STATE_SCOREBOARD;
     } else {
       playLevel++;
       currentLevel = playLevel;
       levelRunning = true;
       loadLevel(playLevel);
       checkGridMatchColsRows();
+      gameState = STATE_PLAY;
+      console.log("Level number now playLevel=" + playLevel + " currentLevel=" + currentLevel);
     }
-  }
+  // }
 }
 
 function gotoScore(from) {

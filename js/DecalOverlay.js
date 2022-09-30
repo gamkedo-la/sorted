@@ -85,9 +85,9 @@ function setupDecals(bottomMargin) {
   console.log('decal margin', bottomMargin, gameState)
 
   // randomly scatter everything evenly
-  decals.scatterDecorations(30, flower1Pic, bottomMargin);
+  decals.scatterDecorations(30, flowerYellowPic, bottomMargin);
   decals.scatterDecorations(120, flowerBluePic, bottomMargin);
-  decals.scatterDecorations(90, flower3Pic, bottomMargin);
+  decals.scatterDecorations(90, flowerRedPic, bottomMargin);
   decals.scatterDecorations(150, grass1Pic, bottomMargin);
   decals.scatterDecorations(150, grass2Pic, bottomMargin);
   decals.scatterDecorations(50, grass3Pic, bottomMargin);
@@ -104,11 +104,11 @@ function setupDecals(bottomMargin) {
   decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,grass3Pic);
 
   // flower clusters
-  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flower1Pic);
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerYellowPic);
 
   decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerBluePic);
 
-  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flower3Pic);
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerRedPic);
 
   /*
   // alternate: don't overlap edges of screen
