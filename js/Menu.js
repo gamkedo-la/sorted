@@ -27,6 +27,7 @@ function drawMenuFlock() {
   }
 }
 
+
 function drawLevelEndFlock() {
     for (let x,y,i = 0; i<64; i++) {
         x = (gameCanvas.width/2/*-POPUP_W/2*/) + Math.sin(performance.now()*0.00005+i*321) * POPUP_W/2;
@@ -35,6 +36,7 @@ function drawLevelEndFlock() {
         drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic,x,y,r);
     }
 }
+
 
 function drawMenu() {
   colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
@@ -48,7 +50,7 @@ function drawMenu() {
     textIndent = 225;
     headLine("Menu");
     bodyLine("Play - key P", ++line);
-    // bodyLine("Score - key S", ++line);
+    bodyLine("Score - key S", ++line);
     bodyLine("Help - key H", ++line);
     bodyLine("Credits - key C", ++line);
     bodyLine("Edit mode - key F1", ++line);
@@ -125,24 +127,24 @@ function drawCredits() {
   paragraphLine("Patrick McKeown - programming, design.", ++line, paragraph);
   paragraph++;
 
-  var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grass; hoofprints behind sheep; many soundfx for sheep, and dog; ambient sheep sounds; baa when sheep enters pen.'
+  var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grassclumps; hoofprints behind sheep; soundfx for sheep, and dog; ambient sounds; baa when sheep enters pen.'
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
   for(var i=0; i<txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
   }
   paragraph++;
 
-  var txt = "Chris DeLeon - sheep-head multi-part image; foundation of classic games code and tile art.";
+  var txt = "Chris DeLeon - sheep-head multi-part image; foundation of classic games code; Photopea help to make tile art.";
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
   for(var i=0; i<txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
   }
   paragraph++;
 
-  paragraphLine("Gonzalo Delgado - concept art and sprite for rogue dog.", ++line, paragraph);
+  paragraphLine("Gonzalo Delgado - rogue dog (head) concept art and sprite.", ++line, paragraph);
   paragraph++;
 
-  paragraphLine("Tim Waskett - algorithm for sheep roaming.", ++line, paragraph);
+  paragraphLine("Tim Waskett - verbal algorithm for sheep roaming.", ++line, paragraph);
   paragraph++;
 
   var txt = "H Trayford - maximum possible score; early Hat screenwrap.";
@@ -152,7 +154,7 @@ function drawCredits() {
   }
   paragraph++;
 
-  var txt = 'Nicholas Polchies - canvas scaling code from Hometeam game "Accidental Personal Confusion 5".';
+  var txt = 'Nicholas Polchies - canvas scaling (for phone screens) code from Hometeam game "Accidental Personal Confusion 5".';
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
   for(var i=0; i<txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
@@ -254,13 +256,24 @@ function drawLevelEnd() {
 
 
 function drawScoreboard() {
-  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
-  canvasContext.font = "24px Arial";
-  colorText(canvasContext, "Scoreboard", 100, 80, "white");
+  // colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
+  // canvasContext.drawImage(menuBGPic,0,0);
+  blankGrid = getEmptyField();
+  drawFieldFromGrid(blankGrid);
+  decals.draw();
+  drawMenuFlock();
 
-  canvasContext.font = "16px Arial";
+  canvasContext.font = "24px Arial";
+  colorText(canvasContext, "Scoreboard", 100, 60, "white");
+
   for(var i=1; i<7; i++) {
-    colorText(canvasContext, "Level " + i +  ' "' + LEVEL_NAMES[i] + '": ' + levelScores[i], 100, 80 + i*50, "white");
+
+    canvasContext.font = "24px Arial";
+    colorText(canvasContext, levelScores[i], 100, 60 + i*60, "white");
+
+    canvasContext.font = "18px Arial";
+    colorText(canvasContext, "Level " + i +  '  "' + LEVEL_NAMES[i] + '"', 150, 60 + i*60, "white");
+
   }
 
   canvasContext.font = "16px Arial";

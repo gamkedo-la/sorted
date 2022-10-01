@@ -310,7 +310,7 @@ function drawAll() {
 
 
   else if (gameState == STATE_DESIGN_LEVEL) {
-    drawDesignerFromGrid(areaGrid);
+    drawFieldFromGrid(areaGrid);
     levelDesignerTitle();
     outlineSelectedTile(gridIndex);
     drawBarText();

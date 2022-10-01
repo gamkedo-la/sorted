@@ -15,7 +15,7 @@ var designCount = Array(NUM_LEVELS);
 designCount.fill(0);
 
 
-function drawDesignerFromGrid(areaGrid) {
+function drawFieldFromGrid(areaGrid) {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
@@ -43,14 +43,14 @@ function drawDesignerFromGrid(areaGrid) {
   designGridSet = true; // new grid ready
   agentGrid = agentLevelList[designLevel].slice();
 
-} // end drawDesignerFromGrid
+} // end drawFieldFromGrid
 
 
 function drawDesignerFromLevelNum(whichLevel) {
   if (!designGridSet) {
     areaGrid = levelList[whichLevel].slice();
   }
-  drawDesignerFromGrid(areaGrid);
+  drawFieldFromGrid(areaGrid);
 }
 
 
@@ -88,17 +88,26 @@ function outlineRow(row) {
 }
 
 
-// cannot directly clear Grid.js level data, instead visually clear current display by making zero areaGrid with pens and ditch for bottom row, for drawDesignerFromGrid()
+// cannot directly clear Grid.js level data, instead visually clear current display by making zero areaGrid with pens and ditch for bottom row, for drawFieldFromGrid()
 function clearDesign() {
-  let topGrid = Array( TILE_COLS * (TILE_ROWS-1) );
-  topGrid.fill(TILE_FIELD);
-  areaGrid = topGrid.concat(ditchRow);
   designGridSet = true;
   tileType = TILE_FIELD;
   designTileReady = true;
   console.log("Field visually cleared but grid.js unchanged");
 }
 
+
+function getDitchField() {
+  let topGrid = Array( TILE_COLS * (TILE_ROWS-1) );
+  topGrid.fill(TILE_FIELD);
+  let grid = topGrid.concat(ditchRow);
+  return grid;
+}
+function getEmptyField() {
+  let grid = Array( TILE_COLS * (TILE_ROWS) );
+  grid.fill(TILE_FIELD);
+  return grid;
+}
 
 function formatDesign() {
   var output = 'const level_' + designLevel + ' = [\n';
