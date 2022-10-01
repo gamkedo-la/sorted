@@ -82,7 +82,7 @@ function randomInteger(min, max) {
 
 function setupDecals(bottomMargin) {
   decals = new decalOverlay(); // grass, flowers, footprints, pebbles, etc
-  console.log('decal margin', bottomMargin, gameState)
+  // console.log('decal margin', bottomMargin, gameState)
 
   // randomly scatter everything evenly
   decals.scatterDecorations(30, flowerYellowPic, bottomMargin);

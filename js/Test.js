@@ -14,7 +14,6 @@ var runMode = NORMAL_PLAY;
 const NUM_TEST_TYPES = 3;
 
 var hastenTest = true;
-var hasteMultiplier = [1, 3, 8, 20];
 var haste = 1;
 var hasteSet = false;
 

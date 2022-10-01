@@ -3,16 +3,14 @@ var tileType = 0;
 var gridIndex = 88; // changed by Input.js
 var areaGrid = Array(TILE_COLS * TILE_ROWS);
 var ditchRow = [10, 11, 10, 10, 11, 10, 10, 11, 12, 10, 10, 12, 10, 10, 12, 10];
+
+// put this inside an init test function
 if (ditchRow.length != TILE_COLS) {
   console.log('Error: ditchRow array doesnt match game columns');
 }
 
 var designTileReady = false; // only write change once
 var designGridSet = false; // new grid loaded
-
-// to increment filename of design saves
-var designCount = Array(NUM_LEVELS);
-designCount.fill(0);
 
 
 function drawFieldFromGrid(areaGrid) {
@@ -134,7 +132,6 @@ function formatDesign() {
 
 
 function saveDesign(output) {
-  // + designCount[designLevel]
   let filename = 'level_' + designLevel + '_design_' + '.txt';
   downloader(filename, output);
 }

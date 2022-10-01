@@ -3,6 +3,7 @@ const BOPEEP_SPEED = 2;
 BOPEEP_EARLIEST = 0;
 BOPEEP_LATEST = 100;
 
+
 function BoPeepClass() {
   this.init = function(id, whichPic, x, y) {
     this.pic = whichPic;
@@ -14,7 +15,7 @@ function BoPeepClass() {
   this.reset = function() {
     this.ang = 0;
     this.speedX = 0;
-    this.speedY = 0;
+    this.speed = BOPEEP_SPEED * randomRange(0.5, 1.5);
     this.begun = false;
     this.active = true;
     this.timeBeforeActive = randomInteger(BOPEEP_EARLIEST, BOPEEP_LATEST);
@@ -26,7 +27,7 @@ function BoPeepClass() {
     }
     else {
       this.begun = true;
-      this.speedY = -1 * BOPEEP_SPEED;
+      this.speedY = -1 * this.speed;
     }
 
     if (this.begun && this.active) {
@@ -38,9 +39,13 @@ function BoPeepClass() {
 
       // is close enough to attract and not in pen
       if (this.isSheepCloseBelow(nearestSheep, BOPEEP_RANGE)) {
-        if (isInPen(nearestSheep.mode)) {
+
+        if ( isInPen(nearestSheep.mode) ) {
           this.active = false;
           console.log('bopeep vanish')
+        }
+        else if (nearestSheep.mode == HELD) {
+          console.log("Cannot lead HELD sheep id =", nearestSheep.id)
         }
         else {
           nearestSheep.changeMode(PEEPED);

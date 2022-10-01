@@ -443,10 +443,12 @@ function getFunctionKeys(key) {
 
   // cycle through options because can only show one grid
   if (key == KEY_F6) {
+
     if ( noGridValuesDisplay() ) {
       showAreaGridValues = true;
       console.log("showAreaGridValues is now", showAreaGridValues);
     }
+
     else if (showAreaGridValues) {
       showAgentGridValues = true;
       showAreaGridValues = false;
@@ -480,7 +482,7 @@ function getFunctionKeys(key) {
 
 
   function noGridValuesDisplay() {
-    return ( !showAreaGridValues && !showAgentGridValues && !showGridIndex )
+    return ( !showAreaGridValues && !showAgentGridValues && !showGridIndex && ! showColRow )
   }
 } // end getFunctionKeys()
 
