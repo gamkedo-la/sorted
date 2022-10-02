@@ -679,7 +679,8 @@ function sheepClass() {
     else if (newMode == PEEPED) {
       this.mode = PEEPED;
       this.ang = Math.PI * 3 / 2;
-      this.speed = BOPEEP_SPEED * 0.8;
+      let id = this.bopeepid;
+      this.speed = BoPeepList[id].speed * 0.9;
     }
 
     else {

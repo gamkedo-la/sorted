@@ -8,7 +8,6 @@ var sheepTailPic = document.createElement("img");
 var sheepTailBluePic = document.createElement("img");
 var sheepTailRedPic = document.createElement("img");
 var BoPeepPic = document.createElement("img");
-var rogueDogPic = document.createElement("img");
 var dogBodyPic = document.createElement("img");
 var menuBGPic = document.createElement("img");
 var helpBGPic = document.createElement("img");
@@ -56,7 +55,6 @@ function loadImages() {
 		{varName: sheepTailRedPic, theFile: "sheep_tail_red.png"},
 		{varName: sheepRuffBluePic, theFile: "sheep_ruff_blue.png"},
 		{varName: sheepRuffRedPic, theFile: "sheep_ruff_red.png"},
-		{varName: rogueDogPic, theFile: "tile_girl.png"},
     {varName: menuBGPic, theFile: "menu_bg.png"},
     {varName: helpBGPic, theFile: "help_bg.png"},
     {varName: creditsBGPic, theFile: "credits_bg.png"},
@@ -68,7 +66,7 @@ function loadImages() {
     {varName: grass2Pic, theFile: "grass2.png"},
     {varName: grass3Pic, theFile: "grass3.png"},
     {varName: hoofprintPic, theFile: "hoofprint.png"},
-    {varName: BoPeepPic, theFile: "BoPeep.png"},
+    {varName: BoPeepPic, theFile: "bo_peep.png"},
     {varName: dogPic, theFile: "dog_normal.png"},
     {varName: dogBodyPic, theFile: "dog_butt.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass_50.png"},

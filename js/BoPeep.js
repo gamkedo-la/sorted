@@ -6,6 +6,7 @@ BOPEEP_LATEST = 100;
 
 function BoPeepClass() {
   this.init = function(id, whichPic, x, y) {
+    this.id = id;
     this.pic = whichPic;
     this.x = x;
     this.y = gameCanvas.height - TILE_H/2;
@@ -19,6 +20,7 @@ function BoPeepClass() {
     this.begun = false;
     this.active = true;
     this.timeBeforeActive = randomInteger(BOPEEP_EARLIEST, BOPEEP_LATEST);
+    this.bopeepid = null;
   }
 
   this.move = function() {
@@ -48,6 +50,7 @@ function BoPeepClass() {
           console.log("Cannot lead HELD sheep id =", nearestSheep.id)
         }
         else {
+          nearestSheep.bopeepid = this.id;
           nearestSheep.changeMode(PEEPED);
           console.log("BoPeep attracts sheep id =", nearestSheep.id);
         }
@@ -123,7 +126,7 @@ function setupBoPeep (whichLevel) {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
-  var nBoPeep = 0;
+  var BoPeep_num = 0;
 
   for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
     for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
@@ -132,10 +135,10 @@ function setupBoPeep (whichLevel) {
 
       if (agentHere == BO_PEEP) {
         console.log('Bo Peep', agentHere, drawTileX, drawTileY)
-        var spawnBoPeep = new BoPeepClass();
-        spawnBoPeep.init(nBoPeep, BoPeepPic, drawTileX + TILE_W/2, drawTileY + TILE_H/2);
-        BoPeepList.push(spawnBoPeep);
-        nBoPeep++;
+        var spawBoPeep_num = new BoPeepClass();
+        spawBoPeep_num.init(BoPeep_num, BoPeepPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2);
+        BoPeepList.push(spawBoPeep_num);
+        BoPeep_num++;
       }
 
       drawTileX += TILE_W;
