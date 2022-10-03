@@ -1,7 +1,7 @@
-const ROGUE_UNSORT_RANGE = 40;
-const ROGUE_WOOF_RANGE = 70;
+const LOSTSHEEP_ATTRACT_RANGE = 40;
+const LOSTSHEEP_BAA_RANGE = 40;
 
-function rogueClass() {
+function lostSheepClass() {
   this.init = function(id, whichPic, x, y) {
     this.pic = whichPic;
     this.x = x;
@@ -13,7 +13,7 @@ function rogueClass() {
     // this.x = randomRangeInt(20 + SIDE_MARGIN, gameCanvas.width - SIDE_MARGIN -18);
     // this.y = 425;
     this.ang = 0;
-    this.speedX = ROGUE_SPEED[currentLevel];
+    this.speedX = 4;
     this.speedY = 0;
     this.barkTimer = 0;
   }
@@ -25,21 +25,9 @@ function rogueClass() {
     // detect sheep
     var nearestSheep = this.findNearestSheep(this.x, this.y, sheepList);
 
-    // is close enough to smell a sheep
-    if (this.isRogueClose(nearestSheep, ROGUE_WOOF_RANGE)) {
-      console.log("Rogue smells sheep id =", nearestSheep.id);
-      if (this.barkTimer < 1) {
-        if (runMode == NORMAL_PLAY) {
-          rogueSound.play();
-        }
-        this.barkTimer = 40;
-      }
-    }
-
     // is close enough to unsort
-    if (this.isRogueClose(nearestSheep, ROGUE_UNSORT_RANGE)) {
+    if (this.isSheepClose(nearestSheep, LOSTSHEEP_ATTRACT_RANGE)) {
       if (nearestSheep.team != PLAIN) {
-        console.log("Unsort sheep id =", nearestSheep.id);
         nearestSheep.team = PLAIN;
         nearestSheep.color = TEAM_COLOURS[PLAIN];
       }

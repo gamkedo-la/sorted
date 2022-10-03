@@ -821,10 +821,18 @@ function sheepClass() {
 
     drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x,this.y, this.orient);
 
+    if (this.x > gameCanvas.width - sheepNormalPic/2) {
+      drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x - gameCanvas.width, this.y, this.orient);
+    }
+    else if (this.x < sheepNormalPic/2) {
+      drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x + gameCanvas.width, this.y, this.orient);
+    }
+
     if (this.mode == CALLED) {
       // draw line between sheep and hat
       colorLine(canvasContext, player.x,player.y, this.x,this.y, "yellow")
     }
+
     if (editMode) {
       var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
       var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;

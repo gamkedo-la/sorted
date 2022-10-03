@@ -144,12 +144,16 @@ function drawPlay() {
 
   player.draw();
 
-  for (var i = 0; i < dogList.length; i++) {
-    dogList[i].draw();
+  for (var i = 0; i < rogueDogList.length; i++) {
+    rogueDogList[i].draw();
+  }
+  for (var i = 0; i < lostSheepList.length; i++) {
+    lostSheepList[i].draw();
   }
   for (var i = 0; i < BoPeepList.length; i++) {
     BoPeepList[i].draw();
   }
+
 } // end drawPlay
 
 

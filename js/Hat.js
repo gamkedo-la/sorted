@@ -48,12 +48,17 @@ function playerClass(id) {
     if (this.keyHeld_send) {
 
       if (this.sheepIDheld != null) {
-        var sheepHere = sheepList[this.sheepIDheld];
-        this.sheepIDheld = null;
-        sheepHere.changeMode(SENT);
-        sheepHere.sentX = Math.round(this.x);
-        sheepHere.beginTime = step[currentLevel];
-        console.log("Sent sheep id", sheepHere.id);
+        if (sortingVFXtimer > 0) {
+          console.log("Send cannot be done while Sorting");
+        }
+        else {
+          var sheepHere = sheepList[this.sheepIDheld];
+          this.sheepIDheld = null;
+          sheepHere.changeMode(SENT);
+          sheepHere.sentX = Math.round(this.x);
+          sheepHere.beginTime = step[currentLevel];
+          console.log("Sent sheep id", sheepHere.id);
+        }
       } else {
         console.log('No sheep sent because clamp empty');
       }

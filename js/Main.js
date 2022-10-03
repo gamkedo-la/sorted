@@ -39,7 +39,8 @@ const FLOCK_SIZE = [];
 var flockSize = null;
 
 var sheepList = [];
-var dogList = [];
+var rogueDogList = [];
+var lostSheepList = [];
 var BoPeepList = [];
 
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
@@ -152,8 +153,8 @@ function updateAll() {
 function moveAll() {
   step[currentLevel]++; // level timesteps
 
-  for (var i = 0; i < dogList.length; i++) {
-    dogList[i].barkTimer--;
+  for (var i = 0; i < rogueDogList.length; i++) {
+    rogueDogList[i].barkTimer--;
   }
 
   if ( staticScreen() ) {
@@ -188,8 +189,8 @@ function moveAll() {
     // if (currentLevel >= 3 && runMode == NORMAL_PLAY) { // dog present on later levels only
     //   dog.move();
     // }
-    for (var i = 0; i < dogList.length; i++) {
-      dogList[i].move();
+    for (var i = 0; i < rogueDogList.length; i++) {
+      rogueDogList[i].move();
     }
     for (var i = 0; i < BoPeepList.length; i++) {
       BoPeepList[i].move();
@@ -399,7 +400,7 @@ function loadLevel(whichLevel) {
   step[whichLevel] = 0; // reset frame counter
 
   sheepList = [];  // fresh set of sheep
-  dogList = [];
+  rogueDogList = [];
   BoPeepList = [];
 
   setupDogs(whichLevel);

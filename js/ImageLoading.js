@@ -7,6 +7,7 @@ var sheepRuffRedPic = document.createElement("img");
 var sheepTailPic = document.createElement("img");
 var sheepTailBluePic = document.createElement("img");
 var sheepTailRedPic = document.createElement("img");
+var sheepTailGreenPic = document.createElement("img");
 var BoPeepPic = document.createElement("img");
 var dogBodyPic = document.createElement("img");
 var menuBGPic = document.createElement("img");
@@ -53,6 +54,7 @@ function loadImages() {
 		{varName: sheepTailPic, theFile: "sheep_tail_normal.png"},
 		{varName: sheepTailBluePic, theFile: "sheep_tail_blue.png"},
 		{varName: sheepTailRedPic, theFile: "sheep_tail_red.png"},
+		{varName: sheepTailGreenPic, theFile: "sheep_tail_green.png"},
 		{varName: sheepRuffBluePic, theFile: "sheep_ruff_blue.png"},
 		{varName: sheepRuffRedPic, theFile: "sheep_ruff_red.png"},
     {varName: menuBGPic, theFile: "menu_bg.png"},
