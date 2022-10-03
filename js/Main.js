@@ -14,6 +14,7 @@ var bottomRowHeight = 0; // a margin where no flowers or grass grows - see scatt
 
 var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; //
 var paused = false;
+var sortingVFX = false;
 
 var levelLoaded = null;
 var playLevel = 0; // not changed by editMode or state levelEditor
@@ -84,6 +85,8 @@ function imageLoadingDoneSoStartGame() {
   setupInput();
 
   setupGame();
+
+  makeParticles();
 }
 
 
@@ -157,7 +160,6 @@ function moveAll() {
     return;
   }
 
-
   else if (gameState == STATE_DESIGN_LEVEL) {
     if (designTileReady) {
       console.log('main (move) design', gridIndex, tileType);
@@ -167,9 +169,7 @@ function moveAll() {
     }
   }
 
-
   else if (gameState == STATE_PLAY) {
-
     // console.log('step', step[currentLevel], ' haste ', haste)
 
     for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
@@ -179,6 +179,10 @@ function moveAll() {
     if (runMode == NORMAL_PLAY) {
       flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
       player.move();
+
+      if (sortingVFXtimer > 0) { // Hat sorting
+        moveParticles();
+      }
     }
 
     // if (currentLevel >= 3 && runMode == NORMAL_PLAY) { // dog present on later levels only
@@ -244,6 +248,10 @@ function drawAll() {
 
   else if (gameState == STATE_PLAY) {
     drawPlay();
+    if (sortingVFXtimer > 0) { // Hat sorting
+      drawParticles();
+      sortingVFXtimer--;
+    }
   }
 
   else if (gameState == STATE_LEVEL_END) {
@@ -345,10 +353,6 @@ function drawAll() {
   if ( requireButtonGotoMenu() ) {
     drawBarButtons(offMenuButtonLabel);
   }
-
-  // if (debugLevelTransition) {
-  //   drawLevelDebug();
-  // }
 
   // state design must be handled differently from states play & levelEnd
   if (editMode) {

@@ -164,13 +164,14 @@ function sheepClass() {
         nextY = this.gotoY;
         this.changeMode(HELD);
 
-        console.log(distanceToGo.toFixed(2), this.gotoX, deltaX.toFixed(2), deltaY.toFixed(2), normX.toFixed(2), normY.toFixed(2))
+        console.log(distanceToGo.toFixed(2), this.gotoX, deltaX.toFixed(2), deltaY.toFixed(2), normX.toFixed(2), normY.toFixed(2));
 
         // if already Sorted, don't change
         if (this.team == PLAIN) {
           var teamSort = this.potentialTeam;
           teamSizeSoFar[teamSort]++;
           this.team = teamSort;
+          makeSortingVFX(nextX, nextY);
 
           if (teamSort == BLUE) {
             this.color = "#66b3ff"; // pale blue
