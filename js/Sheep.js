@@ -129,10 +129,9 @@ function sheepClass() {
   this.move = function() {
     var nextX = this.x; // previous location
     var nextY = this.y;
-    // this.previousMode = this.mode;
+
     var tileOccupied;
     var pos; // temporary position
-
 
     if (this.mode == SELECTED) {
       // selected for manual movement
@@ -147,40 +146,6 @@ function sheepClass() {
 
     else if (this.mode == CALLED) {
       this.gotoX = player.x; // Hat may have moved
-      var deltaX = this.gotoX - this.x;
-      var deltaY = this.gotoY - this.y;
-
-      var distanceToGo = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
-      var normX = deltaX / distanceToGo;
-      var normY = deltaY / distanceToGo;
-
-      if(distanceToGo > tractorSpeed) {
-        nextX += normX * tractorSpeed;
-        nextY += normY * tractorSpeed;
-        if (nextY < this.gotoY) { nextY = this.gotoY; }
-      }
-      else {
-        nextX = this.gotoX;
-        nextY = this.gotoY;
-        this.changeMode(HELD);
-
-        console.log(distanceToGo.toFixed(2), this.gotoX, deltaX.toFixed(2), deltaY.toFixed(2), normX.toFixed(2), normY.toFixed(2));
-
-        // if already Sorted, don't change
-        if (this.team == PLAIN) {
-          var teamSort = this.potentialTeam;
-          teamSizeSoFar[teamSort]++;
-          this.team = teamSort;
-          makeSortingVFX(nextX, nextY);
-
-          if (teamSort == BLUE) {
-            this.color = "#66b3ff"; // pale blue
-          }
-          else if (teamSort == RED) {
-            this.color = "#f38282"; // pale red
-          }
-        }
-      } // end distanceToGo
     } // end CALLED
 
     // attached to player
@@ -190,7 +155,7 @@ function sheepClass() {
     }
 
     else if (this.mode == SENT) {
-      // isMovedBySpeed() handles angle effect
+      // isMovedByFacing() handles angle effect
       // if waggle while Sent, that goes here
     }
 
@@ -209,56 +174,56 @@ function sheepClass() {
     }
 
     else if (this.mode == CONVEYOR) {
-      var deltaX = this.gotoX - this.x;
-      var moveX = CONVEYOR_SPEED[currentLevel];
 
-      if (deltaX > 0) {  // goto is right of current position
-        if (deltaX > moveX) {
-          nextX += moveX;
-        } else {
-          nextX = this.gotoX; // arrive at end of conveyor
-          this.changeMode(this.previousMode);
-        }
-      }
-      else {          // goto is left of current position
-        if (Math.abs(deltaX) > moveX) {
-          nextX -= moveX;
-        } else {
-          nextX = this.gotoX;
-          this.changeMode(this.previousMode);
-        }
-      }
     }
 
     else if (this.mode == DISTRACTED && this.speed > 0) {
-      // traversing above Distract tile
-      var deltaX = this.gotoX - this.x;
-      var moveX = this.speed;
 
-      if (deltaX > 0) {  // goto is right of current position
-        if (deltaX > moveX) {
-          nextX += moveX;
-        } else {
-          nextX = this.gotoX; // arrive column beyond Distract
-          this.changeMode(this.previousMode);
-        }
-      }
-      else {  // goto is left of current position
-        if (Math.abs(deltaX) > moveX) {
-          nextX -= moveX;
-        } else {
-          nextX = this.gotoX; // arrive column beyond Distract
-          this.changeMode(this.previousMode);
-        }
-      }
     }
     // end of mode alternatives
 
 
-    // common to ROAM, CALLED, SENT
-    if (this.isMovedBySpeed(this.mode)) {
+    if (this.gotoX && this.gotoY) {
+      // for Called, Conveyor, Distracted? and Tile-centring
+
+      var deltaX = this.gotoX - this.x;
+      var deltaY = this.gotoY - this.y;
+
+      var distanceToGo = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      var normX = deltaX / distanceToGo;
+      var normY = deltaY / distanceToGo;
+
+      if (distanceToGo > this.speed) {
+        nextX += normX * this.speed;
+        nextY += normY * this.speed;
+        if (nextY < this.gotoY) {nextY = this.gotoY;}
+      }
+      else {
+        nextX = this.gotoX;
+        nextY = this.gotoY;
+
+        // arriving at gotoXY
+        if (this.mode = CALLED) {
+          this.calledArrives(nextX, nextY);
+        }
+        else if (this.mode = CONVEYOR) {
+          this.changeMode(this.previousMode);
+        }
+        else if (this.mode == DISTRACTED && this.speed > 0) {
+          this.changeMode(this.previousMode);
+        }
+
+      } // end distanceToGo
+    }
+
+    else if (this.isMovedByFacing(this.mode)) {
+      // common to SENT, ROAM, GRAZE, PEEPED
       nextX += this.speed * Math.cos(this.ang);
       nextY += this.speed * Math.sin(this.ang);
+    }
+
+    else {
+      console.log("Neither goto nor guided by prior facing");
     }
 
     // screenwrap horizontal
@@ -641,7 +606,7 @@ function sheepClass() {
       this.mode = CALLED;
       this.gotoX = player.x;
       this.gotoY = player.y + 24;
-      this.speed = 0;
+      this.speed = tractorSpeed;
     }
 
     else if (newMode == HELD) {
@@ -760,8 +725,8 @@ function sheepClass() {
     }
   }
 
-  this.isMovedBySpeed = function(mode) {
-    return mode == ROAM || mode == GRAZE || mode == CALLED || mode == SENT || mode == PEEPED;
+  this.isMovedByFacing = function (mode) {
+    return mode == ROAM || mode == GRAZE || mode == SENT || mode == PEEPED;
   }
 
   this.isAllowedTopRow = function() {
@@ -973,6 +938,28 @@ function sheepClass() {
       offside = true;
     }
     return offside;
+  }
+
+  this.calledArrives = function (nextX, nextY) {
+
+    this.changeMode(HELD);
+
+    // if already Sorted, don't change
+    if (this.team == PLAIN) {
+      var teamSort = this.potentialTeam;
+      teamSizeSoFar[teamSort]++;
+      this.team = teamSort;
+      makeSortingVFX(nextX, nextY);
+
+      if (teamSort == BLUE) {
+        this.color = "#66b3ff"; // pale blue
+      }
+      else if (teamSort == RED) {
+        this.color = "#f38282"; // pale red
+      }
+    }
+
+    // this.gotoX, deltaX.toFixed(2), deltaY.toFixed(2), normX.toFixed(2), normY.toFixed(2));
   }
 
 } // end of sheepClass
