@@ -195,9 +195,23 @@ function sheepClass() {
     this.antennaRightX = nextX + antennaLength * Math.cos(antennaRightAngle);
     this.antennaRightY = nextY + antennaLength * Math.sin(antennaRightAngle);
 
-    if(this.id == 0) {
-      console.log(nextX.toFixed(0), nextY.toFixed(0), this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
+    // if(this.id == 0) {
+    //   console.log(nextX.toFixed(0), nextY.toFixed(0), this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
+    // }
+
+    // collision with other sheep
+    let leftDetect = this.overlapSheep(this.antennaLeftX, this.antennaLeftY);
+    let rightDetect = this.overlapSheep(this.antennaRightX, this.antennaRightY);
+    if (leftDetect && rightDetect) {
+      this.ang += Math.PI; // turn around
     }
+    else if (leftDetect) {
+      this.ang += Math.PI/4;
+    }
+    else if (rightDetect) {
+      this.ang -= Math.PI/4;
+    }
+
 
     if (this.gotoX && this.gotoY) {
       // for Called, Conveyor, Distracted? and Tile-centring
@@ -239,7 +253,9 @@ function sheepClass() {
     }
 
     else {
-      console.log("Neither goto nor guided by prior facing");
+      if (this.mode != SELECTED && this.mode != HELD) {
+        console.log("Neither goto nor guided by prior facing");
+      }
     }
 
     // screenwrap horizontal
@@ -277,9 +293,11 @@ function sheepClass() {
       this.y = pos.y;
     }
     else {
-      console.log("TileHandling did not set x & y values");
       this.x = nextX;
       this.y = nextY;
+      if (this.mode != SELECTED) {
+        console.log("TileHandling did not set x & y values");
+      }
     }
 
     if ( this.isModeTimed() ) {
@@ -981,5 +999,57 @@ function sheepClass() {
 
     // this.gotoX, deltaX.toFixed(2), deltaY.toFixed(2), normX.toFixed(2), normY.toFixed(2));
   }
+
+
+  this.overlapSheep = function(x,y) {
+
+    var overlapping = false;
+    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+      if (i == this.id) {
+        // don't sheck self
+      } else {
+        let distTo = sheepList[i].distFrom(x,y);
+        if (distTo < 20) {
+        console.log('Distance to sheep id', i, 'is', distTo);
+        overlapping = true;
+        }
+      }
+    }
+    return overlapping;
+  } // end overlapSheep
+
+
+  //     if (distTo < nearestSheepDist) {
+  //       nearestSheepDist = distTo;
+  //       nearestSheep = sheepList[i];
+  //     }
+  //   }
+  //   // console.log("Rogue found nearest sheep id =", nearestSheep.id)
+  //   return nearestSheep;
+  // }
+  //   this.isSheepCloseBelow = function (nearestSheep, range) {
+  //     // wait until passed above sheep so it looks like is following
+  //     if (nearestSheep.distFrom(this.x, this.y) < range && nearestSheep.y > this.y + TILE_H / 2) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   }
+  //   if (this.isSheepCloseBelow(nearestSheep, BOPEEP_RANGE)) {
+
+  //     if ( isInPen(nearestSheep.mode) ) {
+  //       this.active = false;
+  //       console.log('bopeep vanish')
+  //     }
+  //     else if (nearestSheep.mode == HELD) {
+  //       console.log("Cannot lead HELD sheep id =", nearestSheep.id)
+  //     }
+  //     else {
+  //       nearestSheep.bopeepid = this.id;
+  //       nearestSheep.changeMode(PEEPED);
+  //       console.log("BoPeep attracts sheep id =", nearestSheep.id);
+  //     }
+
+
 
 } // end of sheepClass

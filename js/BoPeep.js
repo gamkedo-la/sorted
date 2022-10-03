@@ -1,6 +1,6 @@
 const BOPEEP_RANGE = 40;
-const BOPEEP_SPEED = 2;
-BOPEEP_EARLIEST = 0;
+const BOPEEP_SPEED = 1.0;
+BOPEEP_EARLIEST = 10;
 BOPEEP_LATEST = 100;
 
 
@@ -24,11 +24,13 @@ function BoPeepClass() {
   }
 
   this.move = function() {
-    if (this.timeBeforeActive > 0 && this.begun == false) {
+    // if (this.timeBeforeActive > 0 && this.begun == false) {
+    if (this.timeBeforeActive > 0) {
       this.timeBeforeActive--;
     }
     else {
       this.begun = true;
+      this.active = true;
       this.speedY = -1 * this.speed;
     }
 
@@ -59,6 +61,8 @@ function BoPeepClass() {
       // screenwrap vertical
       if (nextY < 0) {
         nextY += gameCanvas.height;
+        this.active = false;
+        this.timeBeforeActive = randomInteger(BOPEEP_EARLIEST, BOPEEP_LATEST);
       } else if (nextY >= gameCanvas.height) {
         nextY -= gameCanvas.height;
       }
@@ -81,12 +85,12 @@ function BoPeepClass() {
       drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, this.x, this.y, this.ang);
 
       // when part of image off canvas, draw mirror on other side
-      if (this.y > gameCanvas.height - this.pic.height / 2) {
-        drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, this.x, this.y - gameCanvas.height, this.ang);
-      }
-      else if (this.y < this.pic.height / 2) {
-        drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, this.x, this.y + gameCanvas.height, this.ang);
-      }
+      // if (this.y > gameCanvas.height - this.pic.height / 2) {
+      //   drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, this.x, this.y - gameCanvas.height, this.ang);
+      // }
+      // else if (this.y < this.pic.height / 2) {
+      //   drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, this.x, this.y + gameCanvas.height, this.ang);
+      // }
     }
   }
 
@@ -116,6 +120,7 @@ function BoPeepClass() {
 
   this.disappear = function() {
     this.begun = false;
+    this.active = false;
     this.x = -100;
   }
 

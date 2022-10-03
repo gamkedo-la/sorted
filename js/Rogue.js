@@ -27,7 +27,7 @@ function rogueClass() {
 
     // is close enough to smell a sheep
     if (this.isRogueClose(nearestSheep, ROGUE_WOOF_RANGE)) {
-      console.log("Rogue smells sheep id =", nearestSheep.id);
+      // console.log("Rogue smells sheep id =", nearestSheep.id);
       if (this.barkTimer < 1) {
         if (runMode == NORMAL_PLAY) {
           rogueSound.play();
