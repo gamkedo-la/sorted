@@ -9,6 +9,7 @@ var teamSizeSoFar = [0, 0, 0];
 var sheepInPlay = 0;
 const plainSheepCanFinish = true;
 var tryIndex = 0; // used in Tests for stacking
+var antennaLength = 30;
 
 const SCORE_GAP = 5; // score drawn above a sheep
 const TILE_Y_ADJUST = 0.650; // sheep to tile centre
@@ -63,6 +64,10 @@ function sheepClass() {
   this.endTime = null;
   this.endCol = null;
   this.endRow = null;
+  this.antennaLeftX = null;
+  this.antennaLeftY = null;
+  this.antennaRightX = null;
+  this.antennaRightY = null;
 
   this.reset = function(i, team, potential, mode) {
     this.id = i;
@@ -182,6 +187,17 @@ function sheepClass() {
     }
     // end of mode alternatives
 
+    // antennae left & right
+    var antennaLeftAngle = this.ang - Math.PI/4;
+    var antennaRightAngle = this.ang + Math.PI/4;
+    this.antennaLeftY = nextY + antennaLength * Math.sin(antennaLeftAngle);
+    this.antennaLeftX = nextX + antennaLength * Math.cos(antennaLeftAngle);
+    this.antennaRightX = nextX + antennaLength * Math.cos(antennaRightAngle);
+    this.antennaRightY = nextY + antennaLength * Math.sin(antennaRightAngle);
+
+    if(this.id == 0) {
+      console.log(nextX.toFixed(0), nextY.toFixed(0), this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
+    }
 
     if (this.gotoX && this.gotoY) {
       // for Called, Conveyor, Distracted? and Tile-centring
@@ -802,6 +818,10 @@ function sheepClass() {
       var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
       var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
       colorCircle(canvasContext, facingX, facingY, FACING_RADIUS, "red");
+
+      // show Antennae
+      colorCircle(canvasContext, this.antennaLeftX, this.antennaLeftY, FACING_RADIUS, "yellow");
+      colorCircle(canvasContext, this.antennaRightX, this.antennaRightY, FACING_RADIUS, "limegreen");
 
       canvasContext.textAlign = "center";
       if (idLabel) {
