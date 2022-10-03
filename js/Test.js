@@ -228,9 +228,6 @@ function report(msg, debugN) {
 }
 
 function setDebug(msg, debugN) {
-  if (debugN === 1) {
-    console.log('stop')
-  }
   debugTextLine[debugN] = msg;
 }
 

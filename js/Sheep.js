@@ -47,6 +47,8 @@ const sheepModeNames = ['Graze', 'Roam', 'Called', 'Held', 'Sent', 'Conveyor', '
 function sheepClass() {
   this.x = 0;
   this.y = 0;
+  this.gotoX = null;
+  this.gotoY = null;
   this.speed = 0;
   this.ang = Math.PI/2; // move facing angle
   this.orient = 0; // image display angle
@@ -143,56 +145,42 @@ function sheepClass() {
       return;
     }
 
-    // traversing above Distract tile
-    else if (this.mode == DISTRACTED && this.speed > 0) {
-      var deltaX = this.gotoX - this.x;
-      var moveX = this.speed;
-
-      if (deltaX > 0) {  // goto is right of current position
-        if (deltaX > moveX) {
-          nextX += moveX;
-        } else {
-          nextX = this.gotoX; // arrive column beyond Distract
-          this.changeMode(this.previousMode);
-        }
-      }
-      else {          // goto is left of current position
-        if (Math.abs(deltaX) > moveX) {
-          nextX -= moveX;
-        } else {
-          nextX = this.gotoX; // arrive column beyond Distract
-          this.changeMode(this.previousMode);
-        }
-      }
-    }
-
-
     else if (this.mode == CALLED) {
-      nextY -= tractorSpeed;
+      this.gotoX = player.x; // Hat may have moved
+      var deltaX = this.gotoX - this.x;
+      var deltaY = this.gotoY - this.y;
 
-      if (nextY < player.y + 20) { // arriving at Hat
-        nextX = player.x;
-        nextY = player.y + 24;
-        this.mode = HELD;
-        this.speed = 0;
-        player.sheepIDheld = this.id;
-        update_debug_report(); // to display Hold
+      var distanceToGo = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+      var normX = deltaX / distanceToGo;
+      var normY = deltaY / distanceToGo;
+
+      if(distanceToGo > tractorSpeed) {
+        nextX += normX * tractorSpeed;
+        nextY += normY * tractorSpeed;
+        if (nextY < this.gotoY) { nextY = this.gotoY; }
+      }
+      else {
+        nextX = this.gotoX;
+        nextY = this.gotoY;
+        this.changeMode(HELD);
+
+        console.log(distanceToGo.toFixed(2), this.gotoX, deltaX.toFixed(2), deltaY.toFixed(2), normX.toFixed(2), normY.toFixed(2))
 
         // if already Sorted, don't change
         if (this.team == PLAIN) {
           var teamSort = this.potentialTeam;
           teamSizeSoFar[teamSort]++;
           this.team = teamSort;
+
           if (teamSort == BLUE) {
             this.color = "#66b3ff"; // pale blue
-            // this.img = blueSheepPic;
-          } else if (teamSort == RED) {
+          }
+          else if (teamSort == RED) {
             this.color = "#f38282"; // pale red
-            // this.img = redSheepPic;
           }
         }
-      }
-    }
+      } // end distanceToGo
+    } // end CALLED
 
     // attached to player
     else if (this.mode == HELD) {
@@ -219,7 +207,6 @@ function sheepClass() {
       }
     }
 
-
     else if (this.mode == CONVEYOR) {
       var deltaX = this.gotoX - this.x;
       var moveX = CONVEYOR_SPEED[currentLevel];
@@ -240,7 +227,31 @@ function sheepClass() {
           this.changeMode(this.previousMode);
         }
       }
-    } // end of mode alternatives
+    }
+
+    else if (this.mode == DISTRACTED && this.speed > 0) {
+      // traversing above Distract tile
+      var deltaX = this.gotoX - this.x;
+      var moveX = this.speed;
+
+      if (deltaX > 0) {  // goto is right of current position
+        if (deltaX > moveX) {
+          nextX += moveX;
+        } else {
+          nextX = this.gotoX; // arrive column beyond Distract
+          this.changeMode(this.previousMode);
+        }
+      }
+      else {  // goto is left of current position
+        if (Math.abs(deltaX) > moveX) {
+          nextX -= moveX;
+        } else {
+          nextX = this.gotoX; // arrive column beyond Distract
+          this.changeMode(this.previousMode);
+        }
+      }
+    }
+    // end of mode alternatives
 
 
     // common to ROAM, CALLED, SENT
@@ -625,7 +636,23 @@ function sheepClass() {
     // should not set at start of .move()
     this.previousMode = this.mode;
 
-    if (newMode == ROAM) {
+    if (newMode == CALLED) {
+      this.mode = CALLED;
+      this.gotoX = player.x;
+      this.gotoY = player.y + 24;
+      this.speed = 0;
+    }
+
+    else if (newMode == HELD) {
+      this.mode = HELD;
+      this.speed = 0;
+      this.gotoX = null;
+      this.gotoY = null;
+      player.sheepIDheld = this.id;
+      update_debug_report(); // to display Hold
+    }
+
+    else if (newMode == ROAM) {
       this.mode = ROAM;
       this.speed = ROAM_SPEED[currentLevel];
     }

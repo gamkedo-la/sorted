@@ -77,13 +77,11 @@ function playerClass(id) {
         // check all sheep to see if any below Hat
         // or select a sheep using mouse like in RTS
 
-        // this.callGapTimer = 30;
+        // this.callGapTimer = 30; // disable after feedback
         var aligned = null;
         var nearestWeightDist = 999;
 
-        // originally only considered X distance
-        // weights X dist strongly but also considers Y dist
-        // to avoid unexpected calling of a sheep far away but X-aligned
+        // weights X distance strongly, but includes Y distance to avoid unexpected calling of a sheep far away but X-aligned
 
         for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
 
@@ -119,7 +117,9 @@ function playerClass(id) {
         }
         else {
           console.log("Called sheep id =", sheepList[aligned].id);
-          sheepList[aligned].mode = CALLED;
+          // sheepList[aligned].mode = CALLED;
+          sheepList[aligned].changeMode(CALLED);
+          // could do lines below also in changeMode
           sheepList[aligned].timer = 0;
           sheepList[aligned].speed = CALL_SPEED[currentLevel];
           // change facing to upward
@@ -149,7 +149,7 @@ function playerClass(id) {
       if (nextX < 0) {
         nextX += gameCanvas.width; // offset to mirror image
       }
-      console.log(this.x, this.gotoX, player.keyHeld_left, player.keyHeld_right, player.button_left, player.button_right)
+      // 1console.log(this.x, this.gotoX, player.keyHeld_left, player.keyHeld_right, player.button_left, player.button_right)
     }
 
 
