@@ -131,15 +131,16 @@ function sheepClass() {
     var tileOccupied;
     var pos; // temporary position
 
-    if (this.levelDone || this.mode == STILL) {
-      // if sheep outOfPlay no action
-      return;
-    }
 
-    // selected for manual movement
-    else if (this.mode == SELECTED) {
+    if (this.mode == SELECTED) {
+      // selected for manual movement
       nextX = mouse.x;
       nextY = mouse.y;
+    }
+
+    else if (this.levelDone || this.mode == STILL) {
+      // if sheep outOfPlay no action
+      return;
     }
 
     // traversing above Distract tile
@@ -165,11 +166,6 @@ function sheepClass() {
       }
     }
 
-    // attached to player
-    else if (this.mode == HELD) {
-      nextX = player.x;
-      nextY = player.y + 24;
-    }
 
     else if (this.mode == CALLED) {
       nextY -= tractorSpeed;
@@ -198,11 +194,16 @@ function sheepClass() {
       }
     }
 
+    // attached to player
+    else if (this.mode == HELD) {
+      nextX = player.x;
+      nextY = player.y + 24;
+    }
+
     else if (this.mode == SENT) {
       // isMovedBySpeed() handles angle effect
       // if waggle while Sent, that goes here
     }
-
 
     else if (this.mode == GRAZE) {
       // if (randomRangeInt(1, GRAZE_FACING[currentLevel]) == 1) {
@@ -239,7 +240,7 @@ function sheepClass() {
           this.changeMode(this.previousMode);
         }
       }
-    }
+    } // end of mode alternatives
 
 
     // common to ROAM, CALLED, SENT
@@ -273,15 +274,17 @@ function sheepClass() {
       }
     }
 
-    // if x,y change inside tileHandling must be returned as object
-    pos = this.tileHandling(nextX, nextY);
+    if ( this.mode != SELECTED) {
+      // if x,y change inside tileHandling must be returned as object
+      pos = this.tileHandling(nextX, nextY);
+    }
 
     if (pos != undefined) {
       this.x = pos.x;
       this.y = pos.y;
     }
     else {
-      console.log("TileHandling failed to set x & y values");
+      console.log("TileHandling did not set x & y values");
       this.x = nextX;
       this.y = nextY;
     }
@@ -311,18 +314,27 @@ function sheepClass() {
 
   // occasionally leave a hoof-print if we've travelled far enough
   this.leaveHoofprints = function() {
-    const mindist = 8;
-    const leftrightoffset = 6;
-    const alpha = HOOFPRINT_OPACITY;
-    const rot = 0;
-    if (!this.lastHoofprintPos) this.lastHoofprintPos = {x:-999,y:-999};
-    if ((Math.abs(this.x-this.lastHoofprintPos.x)>=mindist) || (Math.abs(this.y-this.lastHoofprintPos.y)>=mindist)) {
-        // console.log("hoofprint!");
-        this.lastHoofprintPos.x = this.x;
-        this.lastHoofprintPos.y = this.y;
-        if (!this.hoofprintCount) this.hoofprintCount = 1; else this.hoofprintCount++;
-        decals.add(this.x+(this.hoofprintCount%2?0:leftrightoffset),this.y+(this.hoofprintCount%2?0:leftrightoffset),rot,alpha,hoofprintPic);
+
+    if ( this.hoofPrintModes() ) {
+      const mindist = 8;
+      const leftrightoffset = 6;
+      const alpha = HOOFPRINT_OPACITY;
+      const rot = 0;
+
+      if (!this.lastHoofprintPos) this.lastHoofprintPos = {x:-999,y:-999};
+
+      if ((Math.abs( this.x-this.lastHoofprintPos.x)>=mindist) || (Math.abs(this.y-this.lastHoofprintPos.y)>=mindist) ) {
+          // console.log("hoofprint!");
+          this.lastHoofprintPos.x = this.x;
+          this.lastHoofprintPos.y = this.y;
+          if (!this.hoofprintCount) this.hoofprintCount = 1; else this.hoofprintCount++;
+          decals.add(this.x+(this.hoofprintCount%2?0:leftrightoffset),this.y+(this.hoofprintCount%2?0:leftrightoffset),rot,alpha,hoofprintPic);
+      }
     }
+  }
+
+  this.hoofPrintModes = function() {
+    return this.mode == ROAM || this.mode == SENT || this.mode == CALLED || this.mode == CONVEYOR || this.mode == DISTRACTED
   }
 
 

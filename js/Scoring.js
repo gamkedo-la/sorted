@@ -63,6 +63,9 @@ function levelEnding() {
 function isInPen(mode) {
   return mode == IN_PEN_BLUE || mode == IN_PEN_RED
 }
+function isInPenOrDitch(mode) {
+  return mode == IN_PEN_BLUE || mode == IN_PEN_RED || mode == IN_DITCH
+}
 
 
 // scores are calculated immediately and recorded for sheep

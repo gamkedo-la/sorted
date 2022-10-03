@@ -67,7 +67,7 @@ var idLabel = false;
 var timerLabel = true;
 var modeLabel = true;
 
-var sheepSelected = null; // is a sheep selected for manual movement?
+var sheepSelected = null; // sheep selected for manual move
 const SELECT_RANGE = 40;
 
 var stacking = false;

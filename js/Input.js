@@ -10,7 +10,7 @@ function setupInput() {
 
   drawingCanvas.addEventListener('mouseup', clickOrTouch);
 
-  drawingCanvas.addEventListener('contextmenu', e => e.preventDefault());
+  drawingCanvas.addEventListener( 'contextmenu', e => e.preventDefault() );
 
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
@@ -137,9 +137,16 @@ function field_mousedownHandler() {
       let nearest = findNearestSheep(mouse.x, mouse.y);
       let distance = nearest.distFrom(mouse.x, mouse.y);
       if (distance < SELECT_RANGE) {
-        nearest.mode = SELECTED;
-        sheepSelected = nearest.id;
-        console.log("Selected sheep id " + sheepSelected);
+        // remove occupancy, ungate pen; if proper play wanted
+        // if (nearest.mode == )
+        if ( isInPenOrDitch(nearest.mode) ) {
+          console.log("Cannot move a sheep from pen or ditch");
+        }
+        else {
+          nearest.mode = SELECTED;
+          sheepSelected = nearest.id;
+          console.log("Selected sheep id " + sheepSelected);
+        }
       } else {
         console.log("No sheep within selection range");
       }
@@ -147,14 +154,7 @@ function field_mousedownHandler() {
 
     // context-menu has been prevented
     else if (mouse.button == 2) {
-      // change facing angle of a sheep, using mouse xy
-      // first identify nearest sheep as none will be SELECTED
-      let nearest = findNearestSheep(mouse.x, mouse.y);
-      report("Rightclick nearest " + nearest.id + ' ' + nearest.x, 1);
-      let sheepXY = { x: nearest.x, y: nearest.y };
-      let angle = angleRadiansBetweenPoints(sheepXY, mouse);
-      nearest.ang = angle;
-      report("new angle: " + angle.toFixed(2) + " for id " + nearest.id, 2);
+
     }
   } // end STATE_PLAY
 
@@ -181,18 +181,27 @@ function field_mousedownHandler() {
 
 function field_mouseupHandler() {
   if (gameState == STATE_PLAY) {
-    // if (mouse.button == 0) {
 
-    // release a sheep from manual control
-    let nearest = findNearestSheep(mouse.x, mouse.y);
-    if (nearest.mode == SELECTED) {
-      nearest.mode = GRAZE;
-      nearest.timer = 120; // ensure a decent delay
-      sheepSelected = null;
+    if (mouse.button == 0) {
+      // release a sheep from manual control
+      let nearest = findNearestSheep(mouse.x, mouse.y);
+      if (nearest.mode == SELECTED) {
+        nearest.levelDone = false;
+        nearest.mode = GRAZE;
+        nearest.timer = 21; // will switch to ROAM
+        sheepSelected = null;
+      }
     }
-    // }
 
     else if (mouse.button == 2) {
+      // change facing angle of a sheep, using mouse xy
+      // first identify nearest sheep as none will be SELECTED
+      let nearest = findNearestSheep(mouse.x, mouse.y);
+      report("Rightclick nearest " + nearest.id + ' ' + nearest.x, 1);
+      let sheepXY = { x: nearest.x, y: nearest.y };
+      let angle = angleRadiansBetweenPoints(sheepXY, mouse);
+      nearest.ang = angle;
+      report("new angle: " + angle.toFixed(2) + " for id " + nearest.id, 2);1
     }
   }
 }

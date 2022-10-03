@@ -239,7 +239,7 @@ function drawAll() {
 
   if (paused) {
     drawBarButtons(pauseButtonLabel);
-    return; // no sheep???
+    // previous frame's field & sheep & NPCs are left on screen
   }
 
   else if (gameState == STATE_PLAY) {
@@ -247,7 +247,7 @@ function drawAll() {
   }
 
   else if (gameState == STATE_LEVEL_END) {
-    // drawField();
+    // should call drawField() with parameter play or endLevel
     drawArea();
     decals.draw();
     player.draw();
