@@ -1009,8 +1009,8 @@ function sheepClass() {
       } else {
         let distTo = sheepList[i].distFrom(x,y);
         if (distTo < COLLISION_DIST) {
-        console.log('Distance to sheep id', i, 'is', distTo);
-        overlapping = true;
+          // console.log('Distance to sheep id', i, 'is', distTo);
+          overlapping = true;
         }
       }
     }

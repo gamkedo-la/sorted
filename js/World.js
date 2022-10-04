@@ -85,11 +85,11 @@ function drawArea() {
         let team = isBluePen(tileTypeHere) ? 1 : 2;
         xyDrawPenFence(drawTileX, drawTileY, team);
       }
-      else if (isDecalClump(tileTypeHere)) {
+      else if ( isDecalClump(tileTypeHere) ) {
         // update decal clump location
-        let index = tileTypeHere-21;
-        clumpXY[index] = { x: drawTileX+TILE_W/2, y: drawTileY+TILE_H/2 };
-        // storeXY(drawTileX+TILE_W/2, drawTileY+TILE_H/2,  clumpXY, tileTypeHere-21);
+        let index = tileTypeHere-20;
+        levelClumpXY[currentLevel][index] = { x: drawTileX+TILE_W/2, y: drawTileY+TILE_H/2 };
+        // console.log('levelClumpXY', currentLevel, index)
       }
       else {
         var useImg = tilePics[tileTypeHere];

@@ -10,7 +10,17 @@
 // decals.draw(); // run this every frame
 // decals.clear(); // if we need to erase everything
 
-var clumpXY = Array(4);
+var clumpRandom = true;
+var levelClumpXY = Array(NUM_LEVELS);
+
+// initial values for clump XY on each level
+for(var i=0; i<NUM_LEVELS; i++) {
+  let xv = i*80;
+  let yv = i*60;
+  let clumpXY = Array(4);
+  clumpXY.fill( {x: xv, y: yv} );
+  levelClumpXY[i] = clumpXY;
+}
 
 var decalOverlay = function() {
 
@@ -93,31 +103,42 @@ function setupDecals(bottomMargin) {
   decals.scatterDecorations(150, grass2Pic, bottomMargin);
   decals.scatterDecorations(50, grass3Pic, bottomMargin);
 
-  // now add three big clusters of flowers for visual appeal
-  let blobsize = 40; // max radius
+  // now add big clusters of flowers and grass for visual appeal
+  let blobsize = 75; // max radius
   let clustercount = 150; // how many
-  clumpXY.fill( {x:0,y:0} );
 
   // grass clusters
   decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize*2,clustercount,grass1Pic);
 
   decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize*2,clustercount,grass2Pic);
 
-  decals.scatterDecorationsInRadius(clumpXY[3].x, clumpXY[3].y, blobsize,clustercount, grass3Pic);
-  // decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,grass3Pic);
+  console.log('setupDecals clumpRandom is', clumpRandom);
+  if (clumpRandom) { // original behaviour
 
-  // flower clusters
-  decals.scatterDecorationsInRadius(clumpXY[0].x, clumpXY[0].y, blobsize,clustercount,flowerYellowPic);
+    decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount/2,grass3Pic);
 
-  decals.scatterDecorationsInRadius(clumpXY[1].x, clumpXY[1].y,blobsize,clustercount,flowerBluePic);
+    // flower clusters
+    decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerYellowPic);
 
-  decals.scatterDecorationsInRadius(clumpXY[2].x, clumpXY[2].y,blobsize,clustercount,flowerRedPic);
-  
-  // decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerYellowPic);
+    decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerBluePic);
 
-  // decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerBluePic);
+    decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerRedPic);
+  }
+  else { // position from areaGrid
+    let blobsize = 40; // max radius
+    let clustercount = 100; // how many
 
-  // decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerRedPic);
+    let clumpXY = levelClumpXY[currentLevel];
+    console.log(clumpXY);
+
+    decals.scatterDecorationsInRadius(clumpXY[3].x, clumpXY[3].y, blobsize,clustercount/2, grass3Pic);
+
+    decals.scatterDecorationsInRadius(clumpXY[0].x, clumpXY[0].y, blobsize,clustercount,flowerYellowPic);
+
+    decals.scatterDecorationsInRadius(clumpXY[1].x, clumpXY[1].y,blobsize,clustercount,flowerBluePic);
+
+    decals.scatterDecorationsInRadius(clumpXY[2].x, clumpXY[2].y,blobsize,clustercount*1.1,flowerRedPic);
+  }
 
   /*
   // alternate: don't overlap edges of screen

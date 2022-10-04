@@ -78,6 +78,7 @@ window.onload = function() {
 
 function imageLoadingDoneSoStartGame() {
   bottomMargin = 0;
+  clumpRandom = true;
   setupDecals(bottomMargin);
 
   let framesPerSecond = baseFPS;
@@ -420,6 +421,7 @@ function loadLevel(whichLevel) {
     }
 
     bottomMargin = TILE_H;
+    clumpRandom = false;
     setupDecals(bottomMargin);
 
     console.log("Level loaded: " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
