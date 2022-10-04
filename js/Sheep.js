@@ -1,4 +1,3 @@
-
 const HOOFPRINT_OPACITY = 0.6; // how transparent are the sheep hoofprints 0.0 to 1.0
 const SHEEP_RADIUS = 16;
 const SIDE_MARGIN = SHEEP_RADIUS/2 + 1;

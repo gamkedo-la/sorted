@@ -358,7 +358,12 @@ function colDrawPenGate(col, team) {
 function isPen(tile) {
   return tile == TILE_PEN_BLUE || tile == TILE_PEN_RED || tile == FULL_BLUE || tile == FULL_RED
 }
-
+function isEmptyPen(tile) {
+  return tile == TILE_PEN_BLUE || tile == TILE_PEN_RED
+}
+function isFullPen(tile) {
+  return tile == tile == FULL_BLUE || tile == FULL_RED
+}
 function isBluePen(tile) {
   return tile == TILE_PEN_BLUE || tile == FULL_BLUE
 }

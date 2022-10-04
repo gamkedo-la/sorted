@@ -10,7 +10,7 @@ const LOST_SHEEP = 7;
 const ROGUE = 8;
 const BO_PEEP = 9;
 
-const COLLISION_DIST = 10;
+const COLLISION_DIST = 20;
 
 const agentLevel_0 = [
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,

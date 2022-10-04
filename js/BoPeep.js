@@ -1,15 +1,16 @@
 const BOPEEP_RANGE = 40;
-const BOPEEP_SPEED = 1.0;
+const BOPEEP_SPEED = 1.0
 BOPEEP_EARLIEST = 10;
 BOPEEP_LATEST = 100;
 
 
 function BoPeepClass() {
-  this.init = function(id, whichPic, x, y) {
+  this.init = function(id, whichPic, x, y, col) {
     this.id = id;
     this.pic = whichPic;
     this.x = x;
     this.y = gameCanvas.height - TILE_H/2;
+    this.col = col;
     this.reset();
   }
 
@@ -17,24 +18,40 @@ function BoPeepClass() {
     this.ang = 0;
     this.speedX = 0;
     this.speed = BOPEEP_SPEED * randomRange(0.5, 1.5);
-    this.begun = false;
-    this.active = true;
+    this.active = false;
     this.timeBeforeActive = randomInteger(BOPEEP_EARLIEST, BOPEEP_LATEST);
     this.bopeepid = null;
   }
 
   this.move = function() {
-    // if (this.timeBeforeActive > 0 && this.begun == false) {
+
     if (this.timeBeforeActive > 0) {
       this.timeBeforeActive--;
     }
     else {
-      this.begun = true;
+      if (this.col == null) {
+        this.col = findColWithEmptyPen();
+        this.x = TILE_W/2 + this.col * TILE_W;
+        console.log("Bo Peep reappear", this.y, this.col)
+      }
       this.active = true;
       this.speedY = -1 * this.speed;
     }
 
-    if (this.begun && this.active) {
+    // test if pen in column is now full
+    var bopeepColPenIndex = TILE_COLS * (TILE_ROWS-1) + this.col;
+    if ( isFullPen(areaGrid[bopeepColPenIndex]) ) {
+      this.active = false;
+      this.col = null;
+      this.timeBeforeActive = randomInteger(BOPEEP_EARLIEST, BOPEEP_LATEST);
+
+      console.log('bopeep vanishes because pen in that column is full')
+    }
+    // else {
+    //   console.log("empty")
+    // }
+
+    if (this.active) {
       var nextX = this.x; // previous location
       var nextY = this.y;
 
@@ -81,7 +98,7 @@ function BoPeepClass() {
 
 
   this.draw = function() {
-    if (this.begun && this.active) {
+    if (this.active) {
       drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, this.x, this.y, this.ang);
 
       // when part of image off canvas, draw mirror on other side
@@ -118,12 +135,6 @@ function BoPeepClass() {
     }
   }
 
-  this.disappear = function() {
-    this.begun = false;
-    this.active = false;
-    this.x = -100;
-  }
-
 } // end of BoPeep class
 
 
@@ -140,9 +151,9 @@ function setupBoPeep (whichLevel) {
 
       if (agentHere == BO_PEEP) {
         console.log('Bo Peep', agentHere, drawTileX, drawTileY)
-        var spawBoPeep_num = new BoPeepClass();
-        spawBoPeep_num.init(BoPeep_num, BoPeepPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2);
-        BoPeepList.push(spawBoPeep_num);
+        var spawnBoPeep = new BoPeepClass();
+        spawnBoPeep.init(BoPeep_num, BoPeepPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, eachCol);
+        BoPeepList.push(spawnBoPeep);
         BoPeep_num++;
       }
 
@@ -152,4 +163,22 @@ function setupBoPeep (whichLevel) {
     drawTileX = 0;
     drawTileY += TILE_H;
   } // end of for each row
+}
+
+function findColWithEmptyPen() {
+  // loop bottom row, pick one isPenEmpty()
+
+  var bottomRowIndex = TILE_COLS * (TILE_ROWS-1);
+  var col = -1; // if none found
+
+  for(var i = 0; i < TILE_COLS; i++) {
+    let index = bottomRowIndex + i;
+    if ( isEmptyPen(areaGrid[index]) ) {
+      col = index - bottomRowIndex;
+      console.log(bottomRowIndex, index, col);
+      // could push to array and later randomly select one of empy pen columns
+      return col;
+    }
+  }
+  return col;
 }

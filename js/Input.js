@@ -188,7 +188,7 @@ function field_mouseupHandler() {
       if (nearest.mode == SELECTED) {
         nearest.levelDone = false;
         nearest.mode = GRAZE;
-        nearest.timer = 21; // will switch to ROAM
+        nearest.timer = 10; // will switch to ROAM
         sheepSelected = null;
       }
     }
@@ -438,7 +438,9 @@ function getFunctionKeys(key) {
   }
 
   if (key == KEY_F4) {
-    levelEnding();
+    if (gameState == STATE_PLAY) {
+      levelEnding();
+    }
   }
 
   if (key == KEY_F5) {
@@ -452,32 +454,34 @@ function getFunctionKeys(key) {
 
   // cycle through options because can only show one grid
   if (key == KEY_F6) {
+    if (gameState == STATE_PLAY || gameState == STATE_DESIGN_LEVEL) {
 
-    if ( noGridValuesDisplay() ) {
-      showAreaGridValues = true;
-      console.log("showAreaGridValues is now", showAreaGridValues);
-    }
+      if ( noGridValuesDisplay() ) {
+        showAreaGridValues = true;
+        console.log("showAreaGridValues is now", showAreaGridValues);
+      }
 
-    else if (showAreaGridValues) {
-      showAgentGridValues = true;
-      showAreaGridValues = false;
-      console.log("showAgentGridValues is now", showAgentGridValues);
-      console.log('Tiles occupied by out-of-play sheep are non-zero labelled: 1=team blue, 2=team red')
-    }
-    else if (showAgentGridValues) {
-      showAgentGridValues = false;
-      showGridIndex = true;
-      console.log("showGridIndex is now", showGridIndex);
-    }
-    else if (showGridIndex) {
-      showGridIndex = false;
-      showColRow = true;
-      console.log("showColRow is now", showColRow);
-    }
-    else if (showColRow) {
-      showColRow = false;
-      console.log("No grid overlay");
-    }
+      else if (showAreaGridValues) {
+        showAgentGridValues = true;
+        showAreaGridValues = false;
+        console.log("showAgentGridValues is now", showAgentGridValues);
+        console.log('Tiles occupied by out-of-play sheep are non-zero labelled: 1=team blue, 2=team red')
+      }
+      else if (showAgentGridValues) {
+        showAgentGridValues = false;
+        showGridIndex = true;
+        console.log("showGridIndex is now", showGridIndex);
+      }
+      else if (showGridIndex) {
+        showGridIndex = false;
+        showColRow = true;
+        console.log("showColRow is now", showColRow);
+      }
+      else if (showColRow) {
+        showColRow = false;
+        console.log("No grid overlay");
+      }
+    } // end if gameState play or design
   }
 
   if (key == KEY_F7) {
