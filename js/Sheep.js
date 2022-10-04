@@ -614,9 +614,16 @@ function sheepClass() {
       }
     } // end of entering Conveyor mode
 
-    else if (tileType != TILE_FIELD) {
-      this.speed = 0;
-    } // end not Field ???
+    else if (tileType == BRIGHT_GRASS) {
+      this.speed *= 2;
+    }
+    else if (tileType == YELLOW_FLOWER) {
+      // increase happiness of sheep
+    }
+    else if (tileType == BLUE_FLOWER) {
+    }
+    else if (tileType == RED_FLOWER) {
+    }
 
     if (tileType != TILE_SLOW) {
       this.slowed = false;

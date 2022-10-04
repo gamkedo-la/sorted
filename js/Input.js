@@ -307,9 +307,8 @@ function menuKeyChoice(key) {
             testLevel = key - KEY_NUM_0; // 1 on keyb is code 49
             currentLevel = testLevel;
             levelRunning = true;
-            // console.log('Loading level from editMode menu with Num-key');
-            // console.log("Level number now =", currentLevel);
-            loadLevel(testLevel);
+            console.log('Loading level', currentLevel, 'from editMode menu with Num-key');
+            loadLevel(currentLevel);
             checkGridMatchColsRows();
             gotoPlay("Key number from Edit-mode Menu");
           }

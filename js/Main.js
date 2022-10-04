@@ -73,6 +73,7 @@ window.onload = function() {
   deviceTests();
   resizeWindow();
 	loadImages();
+  refocus();
 }
 
 
@@ -80,6 +81,7 @@ function imageLoadingDoneSoStartGame() {
   bottomMargin = 0;
   clumpRandom = true;
   setupDecals(bottomMargin);
+  initFlowerClumps();
 
   let framesPerSecond = baseFPS;
 	setInterval(updateAll, 1000/framesPerSecond);
@@ -495,4 +497,10 @@ function loadLevel(whichLevel) {
 
 function staticScreen() {
   return paused || gameState == STATE_MENU || gameState == STATE_CREDITS || gameState == STATE_HELP || gameState == STATE_SCOREBOARD
+}
+
+
+function refocus(){
+  drawingCanvas.setAttribute('tabindex','0');
+  drawingCanvas.focus();
 }

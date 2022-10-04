@@ -93,7 +93,8 @@ function ui_mousedownHandler() {
               break;
 
             case "Pause":
-              togglePause();
+              gotoMenu("Play's CanvasButton Menu");
+              // togglePause();
               break;
 
             case "End":
