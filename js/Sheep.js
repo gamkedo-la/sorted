@@ -1002,14 +1002,14 @@ function sheepClass() {
 
 
   this.overlapSheep = function(x,y) {
-
+    // uses centre of face, may need a centroid taking account of bodytail (extra size opposite to angle).
     var overlapping = false;
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       if (i == this.id) {
         // don't sheck self
       } else {
         let distTo = sheepList[i].distFrom(x,y);
-        if (distTo < 20) {
+        if (distTo < COLLISION_DIST) {
         console.log('Distance to sheep id', i, 'is', distTo);
         overlapping = true;
         }
@@ -1017,39 +1017,5 @@ function sheepClass() {
     }
     return overlapping;
   } // end overlapSheep
-
-
-  //     if (distTo < nearestSheepDist) {
-  //       nearestSheepDist = distTo;
-  //       nearestSheep = sheepList[i];
-  //     }
-  //   }
-  //   // console.log("Rogue found nearest sheep id =", nearestSheep.id)
-  //   return nearestSheep;
-  // }
-  //   this.isSheepCloseBelow = function (nearestSheep, range) {
-  //     // wait until passed above sheep so it looks like is following
-  //     if (nearestSheep.distFrom(this.x, this.y) < range && nearestSheep.y > this.y + TILE_H / 2) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   }
-  //   if (this.isSheepCloseBelow(nearestSheep, BOPEEP_RANGE)) {
-
-  //     if ( isInPen(nearestSheep.mode) ) {
-  //       this.active = false;
-  //       console.log('bopeep vanish')
-  //     }
-  //     else if (nearestSheep.mode == HELD) {
-  //       console.log("Cannot lead HELD sheep id =", nearestSheep.id)
-  //     }
-  //     else {
-  //       nearestSheep.bopeepid = this.id;
-  //       nearestSheep.changeMode(PEEPED);
-  //       console.log("BoPeep attracts sheep id =", nearestSheep.id);
-  //     }
-
-
 
 } // end of sheepClass

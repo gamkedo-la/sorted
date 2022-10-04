@@ -77,14 +77,21 @@ function drawArea() {
 
       var tileTypeHere = areaGrid[arrayIndex];
 
-      if ( tileTypeHasTransparency(tileTypeHere) ) {
+      if (tileTypeHasTransparency(tileTypeHere) || isDecalClump(tileTypeHere)) {
         canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
       }
 
       if (isPen(tileTypeHere)) {
         let team = isBluePen(tileTypeHere) ? 1 : 2;
         xyDrawPenFence(drawTileX, drawTileY, team);
-      } else {
+      }
+      else if (isDecalClump(tileTypeHere)) {
+        // update decal clump location
+        let index = tileTypeHere-21;
+        clumpXY[index] = { x: drawTileX+TILE_W/2, y: drawTileY+TILE_H/2 };
+        // storeXY(drawTileX+TILE_W/2, drawTileY+TILE_H/2,  clumpXY, tileTypeHere-21);
+      }
+      else {
         var useImg = tilePics[tileTypeHere];
         canvasContext.drawImage(useImg, drawTileX, drawTileY);
       }
@@ -96,6 +103,7 @@ function drawArea() {
     drawTileY += TILE_H;
 	} // end of for each row
 } // end of drawArea func
+
 
 function checkGridMatchColsRows() {
   var numberTilesNeeded = TILE_COLS * TILE_ROWS;
@@ -118,7 +126,8 @@ function checkGridMatchColsRows() {
 
 
 function tileTypeHasTransparency(tileType) {
-  return (tileType == TILE_UNSORT ||
+  return (
+    tileType == TILE_UNSORT ||
     tileType == TILE_PEN_BLUE ||
     tileType == TILE_PEN_RED ||
     tileType == FULL_BLUE ||
@@ -131,6 +140,15 @@ function tileTypeHasTransparency(tileType) {
     tileType == TILE_BEND_RIGHT ||
     tileType == TILE_CONVEYOR_LEFT ||
     tileType == TILE_CONVEYOR_RIGHT
+  );
+}
+
+function isDecalClump(tileType) {
+  return (
+    tileType == YELLOW_FLOWER ||
+    tileType == BLUE_FLOWER ||
+    tileType == RED_FLOWER ||
+    tileType == BRIGHT_GRASS
   );
 }
 

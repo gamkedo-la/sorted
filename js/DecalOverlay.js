@@ -10,6 +10,8 @@
 // decals.draw(); // run this every frame
 // decals.clear(); // if we need to erase everything
 
+var clumpXY = Array(4);
+
 var decalOverlay = function() {
 
     //console.log("decalOverlay canvas initializing");
@@ -67,7 +69,6 @@ var decalOverlay = function() {
       this.add(x+sx,y+sy,rot,1,spritePic);
     }
   }
-
   this.resize(); // ensure we start the same size as game canvas
 };
 
@@ -93,22 +94,30 @@ function setupDecals(bottomMargin) {
   decals.scatterDecorations(50, grass3Pic, bottomMargin);
 
   // now add three big clusters of flowers for visual appeal
-  let blobsize = 75; // max radius
+  let blobsize = 40; // max radius
   let clustercount = 150; // how many
+  clumpXY.fill( {x:0,y:0} );
 
   // grass clusters
-  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,grass1Pic);
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize*2,clustercount,grass1Pic);
 
-  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,grass2Pic);
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize*2,clustercount,grass2Pic);
 
-  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,grass3Pic);
+  decals.scatterDecorationsInRadius(clumpXY[3].x, clumpXY[3].y, blobsize,clustercount, grass3Pic);
+  // decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,grass3Pic);
 
   // flower clusters
-  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerYellowPic);
+  decals.scatterDecorationsInRadius(clumpXY[0].x, clumpXY[0].y, blobsize,clustercount,flowerYellowPic);
 
-  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerBluePic);
+  decals.scatterDecorationsInRadius(clumpXY[1].x, clumpXY[1].y,blobsize,clustercount,flowerBluePic);
 
-  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerRedPic);
+  decals.scatterDecorationsInRadius(clumpXY[2].x, clumpXY[2].y,blobsize,clustercount,flowerRedPic);
+  
+  // decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerYellowPic);
+
+  // decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerBluePic);
+
+  // decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerRedPic);
 
   /*
   // alternate: don't overlap edges of screen
@@ -122,4 +131,16 @@ function setupDecals(bottomMargin) {
   decals.scatterDecorationsInRadius(blobsize+Math.random()*(gameCanvas.width-blobsize*2),blobsize+Math.random()*(gameCanvas.height-bottomMargin-blobsize*2),blobsize,clustercount,flower3Pic);
   */
 
+}
+
+
+function pushXY(xValue, yValue, thisArray) {
+  thisArray.push( { x: xValue, y: yValue });
+}
+function storeXY(xValue, yValue, thisArray, index) {
+  thisArray[index] = { x: xValue, y: yValue };
+
+  if(index==3) {
+    console.log("clump", xValue, yValue, thisArray)
+  }
 }
