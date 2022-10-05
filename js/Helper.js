@@ -142,11 +142,6 @@ function roundToNearest(number, multiple) {
   return number+half - (number+half) % multiple;
 }
 
-function nearestRowEdge(y) {
-  rowEdge = roundToNearest(y, TILE_H);
-  return rowEdge;
-}
-
 function isAtColumnEdge(x) {
   return ( x % TILE_W == 0 );
 }
@@ -177,7 +172,6 @@ function nextColumnCentre(x, direction) {
   }
 }
 
-
 function nextColumnEdge(x, direction) {
   var edge = Math.floor(x / TILE_W) * TILE_W;
   if (direction == 1) {
@@ -186,6 +180,18 @@ function nextColumnEdge(x, direction) {
   return edge;
 }
 
+function nextRowEdge(y, direction) {
+  var edge = Math.floor(y / TILE_H) * TILE_H;
+  if (direction == 1) {
+    edge += TILE_H;
+  }
+  return edge;
+}
+
+function nearestRowEdge(y) {
+  rowEdge = roundToNearest(y, TILE_H);
+  return rowEdge;
+}
 
 // check if a point is inside a rectangle
 function xyIsInRect(pos, rect) {

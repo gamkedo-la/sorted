@@ -1,4 +1,6 @@
 const NUM_SORTING_PARTICLES = 50;
+const NUM_ARRIVAL_PARTICLES = 150;
+var vfxArray = [];
 var particleArray = [];
 
 
@@ -55,7 +57,9 @@ function makeParticles(num, x, y) {
     let color = TEAM_COLOURS[ randomInteger(1,2) ];
     particleArray.push(new Particle(px, py, xVel, yVel, size, color, life));
   }
+  
 }
+
 
 var sortingVFXtimer = 0;
 function makeSortingVFX(HatX, HatY) {

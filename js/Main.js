@@ -423,7 +423,7 @@ function loadLevel(whichLevel) {
     }
 
     bottomMargin = TILE_H;
-    clumpRandom = false;
+    // clumpRandom = false;
     setupDecals(bottomMargin);
 
     console.log("Level loaded: " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);

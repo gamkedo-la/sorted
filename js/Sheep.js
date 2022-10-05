@@ -225,6 +225,7 @@ function sheepClass() {
       if (distanceToGo > this.speed) {
         nextX += normX * this.speed;
         nextY += normY * this.speed;
+        // hack to stop sheep rising above player
         if (nextY < this.gotoY) {nextY = this.gotoY;}
       }
       else {
@@ -374,12 +375,7 @@ function sheepClass() {
       this.ang = Math.PI * 1 / 2;
       this.endLevel(tileCol);
 
-      if (this.team == BLUE) {
-        this.orient = ORIENT_BLUE;
-      }
-      else if (this.team == RED) {
-        this.orient = ORIENT_RED;
-      }
+      this.teamOrient();
 
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
@@ -589,6 +585,9 @@ function sheepClass() {
       if (this.mode != STUCK) {
         this.changeMode(STUCK);
         this.endLevel(tileCol);
+        agentGrid[tileIndexUnder] = this.team;
+        nextX = nearestColumnCentre(nextX);
+        nextY = nextRowEdge(nextY, -1) + TILE_Y_ADJUST*TILE_H;
       }
     }
 
@@ -614,9 +613,9 @@ function sheepClass() {
       }
     } // end of entering Conveyor mode
 
-    else if (tileType == BRIGHT_GRASS) {
-      this.speed *= 2;
-    }
+    // else if (tileType == BRIGHT_GRASS) {
+    //   this.speed *= 2;
+    // }
     else if (tileType == YELLOW_FLOWER) {
       // increase happiness of sheep
     }
@@ -690,6 +689,8 @@ function sheepClass() {
 
     else if (newMode == STUCK) {
       this.mode = STUCK;
+      this.ang = Math.PI/2;
+      this.teamOrient();
       stuckSound.play();
       // need endRow, and Stuck is not a scoring result
     }
@@ -698,7 +699,7 @@ function sheepClass() {
       this.mode = SENT;
       // set once when sent, may change on way
       this.speed = SEND_SPEED[currentLevel];
-      this.ang = Math.PI/2 // straight down
+      this.ang = Math.PI/2; // straight down
 
       if (this.team == BLUE) {
         this.orient = Math.PI * 1/4;
@@ -711,11 +712,7 @@ function sheepClass() {
     else if (newMode == IN_DITCH) {
       this.mode = IN_DITCH;
       this.ang = Math.PI * 1/2;
-      if (this.team == BLUE) {
-        this.orient = Math.PI * 1/2;
-      } else {
-        this.orient = Math.PI * 3/2;
-      }
+      this.teamOrient();
       this.speed = 0;
       ditchSound.play();
       this.levelDone = true;
@@ -817,20 +814,39 @@ function sheepClass() {
     }
     else if (this.team == BLUE) {
       drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x,this.y, this.ang);
-      // drawBitmapCenteredWithRotation(sheepRuffBluePic, this.x,this.y, this.orient);
     }
     else if (this.team == RED) {
       drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x,this.y, this.ang);
-      // drawBitmapCenteredWithRotation(sheepRuffRedPic, this.x,this.y, this.orient);
     }
 
     drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x,this.y, this.orient);
 
-    if (this.x > gameCanvas.width - sheepNormalPic/2) {
+    if (this.x > gameCanvas.width - sheepNormalPic.width/2 -8) {
       drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x - gameCanvas.width, this.y, this.orient);
+
+      if (this.team == PLAIN) {
+        drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x - gameCanvas.width, this.y, this.ang);
+      }
+      else if (this.team == BLUE) {
+        drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x - gameCanvas.width, this.y, this.ang);
+      }
+      else if (this.team == RED) {
+        drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x - gameCanvas.width, this.y, this.ang);
+      }
     }
-    else if (this.x < sheepNormalPic/2) {
+
+    else if (this.x < sheepNormalPic.width/2 + 8) {
       drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x + gameCanvas.width, this.y, this.orient);
+
+      if (this.team == PLAIN) {
+        drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x + gameCanvas.width, this.y, this.ang);
+      }
+      else if (this.team == BLUE) {
+        drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x + gameCanvas.width, this.y, this.ang);
+      }
+      else if (this.team == RED) {
+        drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x + gameCanvas.width, this.y, this.ang);
+      }
     }
 
     if (this.mode == CALLED) {
@@ -1023,5 +1039,19 @@ function sheepClass() {
     }
     return overlapping;
   } // end overlapSheep
+
+
+  this.teamOrient = function() {
+    if (this.team == BLUE) {
+      this.orient = ORIENT_BLUE;
+    }
+    else if (this.team == RED) {
+      this.orient = ORIENT_RED;
+    }
+    else {
+      this.orient = Math.PI; // upside down
+    }
+
+  } // end teamOrient
 
 } // end of sheepClass
