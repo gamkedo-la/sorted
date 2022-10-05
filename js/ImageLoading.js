@@ -86,6 +86,8 @@ function loadImages() {
 		{tileType: TILE_BEND_RIGHT, theFile: "tile_bend_right.png"},
 		{tileType: TILE_CONVEYOR_LEFT, theFile: "tile_conveyor_left.png"},
 		{tileType: TILE_CONVEYOR_RIGHT, theFile: "tile_conveyor_right.png"},
+		{tileType: TILE_CONVEYOR_UP, theFile: "tile_conveyor_up.png"},
+		{tileType: TILE_CONVEYOR_DOWN, theFile: "tile_conveyor_down.png"},
 	];
 	picsToLoad = imageList.length;
 

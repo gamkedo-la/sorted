@@ -34,7 +34,7 @@ const NUM_TEAM_TYPES = 3;
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [4, 2, 3, 3, 3, 3, 1, 3, 3, 3];
+const TEAM_SIZE = [4, 3, 3, 3, 3, 3, 3, 3, 3, 3];
 const FLOCK_SIZE = [];
 var flockSize = null;
 

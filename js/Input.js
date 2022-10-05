@@ -403,13 +403,10 @@ function menuKeyChoice(key) {
 
         tileType = key - KEY_NUM_0;
 
-        if (tileType == 8 || tileType == 9) {
-          console.log("Tile types 8 and 9 are not defined");
-        }
-        else {
-          console.log("Tile type selected =", tileType, TILE_NAMES[tileType]);
-          designTileReady = true;
-        }
+        // if (tileType == 8 || tileType == 9) {
+        //   console.log("Tile types 8 and 9 are not defined");
+        console.log("Tile type selected =", tileType, TILE_NAMES[tileType]);
+        designTileReady = true;
       }
       break;
 

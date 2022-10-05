@@ -217,7 +217,7 @@ function sheepClass() {
       }
     }
 
-    if (this.gotoX && this.gotoY) {
+    if (this.gotoX || this.gotoY) {
       // for Called, Conveyor, Distracted? and Tile-centring
 
       var deltaX = this.gotoX - this.x;
@@ -353,7 +353,7 @@ function sheepClass() {
     return this.mode == ROAM || this.mode == SENT || this.mode == CALLED || this.mode == CONVEYOR || this.mode == DISTRACTED
   }
 
-
+////////// TILE HANDLING /////////////
   this.tileHandling = function (nextX, nextY) {
     var tileCol = Math.floor(nextX / TILE_W);
     var tileRow = Math.floor(nextY / TILE_H);
@@ -607,7 +607,16 @@ function sheepClass() {
     else if ( this.isTileConveyor(tileType) ) {
       if (this.mode != CONVEYOR) {
         this.changeMode(CONVEYOR);
-        if (tileType == TILE_CONVEYOR_LEFT) {
+        console.log('conv')
+        if (tileType == TILE_CONVEYOR_UP) {
+          this.gotoY = nextY - TILE_H;
+          this.ang = Math.PI * 3/2;
+        }
+        else if (tileType == TILE_CONVEYOR_DOWN) {
+          this.gotoY = nextY + TILE_H;
+          this.ang = Math.PI * 1/2;
+        }
+        else if (tileType == TILE_CONVEYOR_LEFT) {
           this.gotoX = nextX - TILE_W;
           this.ang = Math.PI;
         }
@@ -801,7 +810,7 @@ function sheepClass() {
   }
 
   this.isTileConveyor = function(tileType) {
-    return tileType == TILE_CONVEYOR_LEFT || tileType == TILE_CONVEYOR_RIGHT
+    return tileType == TILE_CONVEYOR_UP || tileType == TILE_CONVEYOR_DOWN || tileType == TILE_CONVEYOR_LEFT || tileType == TILE_CONVEYOR_RIGHT
   }
 
   this.distFrom = function(otherX, otherY) {

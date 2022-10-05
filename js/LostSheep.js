@@ -81,7 +81,7 @@ function lostSheepClass() {
     return nearestSheep;
   }
 
-  this.isRogueClose = function(nearestSheep, range) {
+  this.isSheepClose = function(nearestSheep, range) {
     if (nearestSheep.distFrom(this.x, this.y) < range) {
       return true;
     } else {

@@ -1,5 +1,7 @@
 const ROGUE_UNSORT_RANGE = 40;
 const ROGUE_WOOF_RANGE = 70;
+const MOVING = 1;
+const STOPPING = 2;
 
 function rogueClass() {
   this.init = function(id, whichPic, x, y) {
@@ -10,11 +12,11 @@ function rogueClass() {
   }
 
   this.reset = function() {
-    // this.x = randomRangeInt(20 + SIDE_MARGIN, gameCanvas.width - SIDE_MARGIN -18);
-    // this.y = 425;
     this.ang = 0;
     this.speedX = ROGUE_SPEED[currentLevel];
     this.speedY = 0;
+    this.mode = MOVING;
+    this.modeTimer = 0;
     this.barkTimer = 0;
   }
 
@@ -26,7 +28,7 @@ function rogueClass() {
     var nearestSheep = this.findNearestSheep(this.x, this.y, sheepList);
 
     // is close enough to smell a sheep
-    if (this.isRogueClose(nearestSheep, ROGUE_WOOF_RANGE)) {
+    if (this.isSheepClose(nearestSheep, ROGUE_WOOF_RANGE)) {
       // console.log("Rogue smells sheep id =", nearestSheep.id);
       if (this.barkTimer < 1) {
         if (runMode == NORMAL_PLAY) {
@@ -37,12 +39,16 @@ function rogueClass() {
     }
 
     // is close enough to unsort
-    if (this.isRogueClose(nearestSheep, ROGUE_UNSORT_RANGE)) {
+    if (this.isSheepClose(nearestSheep, ROGUE_UNSORT_RANGE)) {
       if (nearestSheep.team != PLAIN) {
         console.log("Unsort sheep id =", nearestSheep.id);
         nearestSheep.team = PLAIN;
         nearestSheep.color = TEAM_COLOURS[PLAIN];
       }
+    }
+
+    if ( this.isBoPeepAhead() ) {
+      this.changeMode(STOPPING);
     }
 
     // screenwrap horizontal
@@ -94,11 +100,38 @@ function rogueClass() {
     return nearestSheep;
   }
 
-  this.isRogueClose = function(nearestSheep, range) {
+  this.isSheepClose = function(nearestSheep, range) {
     if (nearestSheep.distFrom(this.x, this.y) < range) {
       return true;
     } else {
       return false;
+    }
+  }
+
+  this.findNearestBoPeep = function(x,y) {
+    var nearestDist = 999;
+    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+      let distTo = bopeepList[i].distFrom(x,y);
+      if (distTo < nearestSheepDist) {
+        nearestPeepDist = distTo;
+        nearestPgieep = sheepList[i];
+      }
+    }
+    // console.log("Rogue found nearest sheep id =", nearestSheep.id)
+    return nearestSheep;
+  }
+  this.isBoPeepAhead = function(nearestSheep, range) {
+    if (nearestSheep.distFrom(this.x, this.y) < range) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  this.changeMode = function(newMode) {
+    if (newMode == STOPPING) {
+      this.speed = 0;
+      this.orient = 0;
     }
   }
 

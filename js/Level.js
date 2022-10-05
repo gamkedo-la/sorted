@@ -45,9 +45,9 @@ SEND_SPEED[5] = 10;
 
 // Level 6
 PLACING_DEPTH[6] = 100;
-HAT_POWER[6] = 0.4; // slow Hat
-CALL_SPEED[6] = 1;
-SEND_SPEED[6] = 4;
+HAT_POWER[6] = 1.0; // slow Hat
+CALL_SPEED[6] = 3;
+SEND_SPEED[6] = 10;
 
 // Level 7
 
