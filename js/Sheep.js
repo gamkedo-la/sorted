@@ -67,6 +67,7 @@ function sheepClass() {
   this.antennaLeftY = null;
   this.antennaRightX = null;
   this.antennaRightY = null;
+  this.avoidCollisionTimer = 0;
 
   this.reset = function(i, team, potential, mode) {
     this.id = i;
@@ -186,31 +187,35 @@ function sheepClass() {
     }
     // end of mode alternatives
 
-    // antennae left & right
-    var antennaLeftAngle = this.ang - Math.PI/4;
-    var antennaRightAngle = this.ang + Math.PI/4;
-    this.antennaLeftY = nextY + antennaLength * Math.sin(antennaLeftAngle);
-    this.antennaLeftX = nextX + antennaLength * Math.cos(antennaLeftAngle);
-    this.antennaRightX = nextX + antennaLength * Math.cos(antennaRightAngle);
-    this.antennaRightY = nextY + antennaLength * Math.sin(antennaRightAngle);
-
-    // if(this.id == 0) {
-    //   console.log(nextX.toFixed(0), nextY.toFixed(0), this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
-    // }
-
-    // collision with other sheep
-    let leftDetect = this.overlapSheep(this.antennaLeftX, this.antennaLeftY);
-    let rightDetect = this.overlapSheep(this.antennaRightX, this.antennaRightY);
-    if (leftDetect && rightDetect) {
-      this.ang += Math.PI; // turn around
+    if (this.avoidCollisionTimer > 0) {
+      this.avoidCollisionTimer--;
     }
-    else if (leftDetect) {
-      this.ang += Math.PI/4;
-    }
-    else if (rightDetect) {
-      this.ang -= Math.PI/4;
-    }
+    else {
+      // antennae left & right
+      var antennaLeftAngle = this.ang - Math.PI/4;
+      var antennaRightAngle = this.ang + Math.PI/4;
+      this.antennaLeftY = nextY + antennaLength * Math.sin(antennaLeftAngle);
+      this.antennaLeftX = nextX + antennaLength * Math.cos(antennaLeftAngle);
+      this.antennaRightX = nextX + antennaLength * Math.cos(antennaRightAngle);
+      this.antennaRightY = nextY + antennaLength * Math.sin(antennaRightAngle);
 
+      // collision with other sheep
+      let leftDetect = this.overlapSheep(this.antennaLeftX, this.antennaLeftY);
+      let rightDetect = this.overlapSheep(this.antennaRightX, this.antennaRightY);
+      if (leftDetect && rightDetect) {
+        this.ang += Math.PI; // turn around
+      }
+      else if (leftDetect) {
+        this.ang += Math.PI/4;
+      }
+      else if (rightDetect) {
+        this.ang -= Math.PI/4;
+      }
+      if (leftDetect || rightDetect) {
+        this.avoidCollisionTimer = 10;
+        console.log(nextX.toFixed(0), nextY.toFixed(0), this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
+      }
+    }
 
     if (this.gotoX && this.gotoY) {
       // for Called, Conveyor, Distracted? and Tile-centring
@@ -818,12 +823,10 @@ function sheepClass() {
     else if (this.team == RED) {
       drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x,this.y, this.ang);
     }
-
+    // head should be drawn above body
     drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x,this.y, this.orient);
 
     if (this.x > gameCanvas.width - sheepNormalPic.width/2 -8) {
-      drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x - gameCanvas.width, this.y, this.orient);
-
       if (this.team == PLAIN) {
         drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x - gameCanvas.width, this.y, this.ang);
       }
@@ -833,11 +836,10 @@ function sheepClass() {
       else if (this.team == RED) {
         drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x - gameCanvas.width, this.y, this.ang);
       }
+      drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x - gameCanvas.width, this.y, this.orient);
     }
 
     else if (this.x < sheepNormalPic.width/2 + 8) {
-      drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x + gameCanvas.width, this.y, this.orient);
-
       if (this.team == PLAIN) {
         drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x + gameCanvas.width, this.y, this.ang);
       }
@@ -847,6 +849,7 @@ function sheepClass() {
       else if (this.team == RED) {
         drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x + gameCanvas.width, this.y, this.ang);
       }
+      drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x + gameCanvas.width, this.y, this.orient);
     }
 
     if (this.mode == CALLED) {

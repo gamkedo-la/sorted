@@ -17,19 +17,25 @@ function drawFieldFromGrid(areaGrid) {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
+  var useImg;
 
   for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
     for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
 
       var tileTypeHere = areaGrid[arrayIndex];
 
-      if (tileTypeHasTransparency(tileTypeHere)) {
+      if (tileTypeHasTransparency(tileTypeHere) || isDecalClump(tileTypeHere)) {
         canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
       }
 
-      var useImg = tilePics[tileTypeHere];
+      if (isDecalClump(tileTypeHere)) {
+        useImg = tilePics[TILE_FIELD];
+        // console.log('tileTypeHere, arrayIndex', tileTypeHere, arrayIndex)
+      } else {
+        useImg = tilePics[tileTypeHere];
+      }
+
       canvasContext.drawImage(useImg, drawTileX, drawTileY);
-      // console.log('tileTypeHere, arrayIndex', tileTypeHere, arrayIndex)
 
       drawTileX += TILE_W;
       arrayIndex++;
@@ -39,7 +45,6 @@ function drawFieldFromGrid(areaGrid) {
   } // end of for each row
 
   designGridSet = true; // new grid ready
-  agentGrid = agentLevelList[designLevel].slice();
 
 } // end drawFieldFromGrid
 
@@ -49,7 +54,34 @@ function drawDesignerFromLevelNum(whichLevel) {
     areaGrid = levelList[whichLevel].slice();
   }
   drawFieldFromGrid(areaGrid);
+  drawMovables();
 }
+
+
+function drawMovables() {
+  agentGrid = agentLevelList[designLevel].slice();
+  var arrayIndex = 0;
+  var drawTileX = 0;
+  var drawTileY = 0;
+
+  for (var eachRow = 0; eachRow < TILE_ROWS; eachRow++) {
+    for (var eachCol = 0; eachCol < TILE_COLS; eachCol++) {
+      var agent = agentGrid[arrayIndex];
+
+      if (agent == ROGUE_DOG) {
+        drawBitmapCenteredWithRotation(canvasContext, dogPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, 0);
+      }
+      if (agent == BO_PEEP) {
+        drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, 0);
+      }
+
+      drawTileX += TILE_W;
+      arrayIndex++;
+    } // end of for each col
+    drawTileX = 0;
+    drawTileY += TILE_H;
+  } // end of for each row
+} // end of drawMovables
 
 
 function levelDesignerTitle() {
@@ -101,6 +133,7 @@ function getDitchField() {
   let grid = topGrid.concat(ditchRow);
   return grid;
 }
+
 function getEmptyField() {
   let grid = Array( TILE_COLS * (TILE_ROWS) );
   grid.fill(TILE_FIELD);

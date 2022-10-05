@@ -75,13 +75,11 @@ function BoPeepClass() {
         }
       }
 
-      // screenwrap vertical
+      // screenwrap vertical, but delay before reappearance
       if (nextY < 0) {
         nextY += gameCanvas.height;
         this.active = false;
         this.timeBeforeActive = randomInteger(BOPEEP_EARLIEST, BOPEEP_LATEST);
-      } else if (nextY >= gameCanvas.height) {
-        nextY -= gameCanvas.height;
       }
 
       nextX += this.speedX;
@@ -100,14 +98,6 @@ function BoPeepClass() {
   this.draw = function() {
     if (this.active) {
       drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, this.x, this.y, this.ang);
-
-      // when part of image off canvas, draw mirror on other side
-      // if (this.y > gameCanvas.height - this.pic.height / 2) {
-      //   drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, this.x, this.y - gameCanvas.height, this.ang);
-      // }
-      // else if (this.y < this.pic.height / 2) {
-      //   drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, this.x, this.y + gameCanvas.height, this.ang);
-      // }
     }
   }
 

@@ -103,7 +103,7 @@ function setupDogs (whichLevel) {
 
       var agentHere = agentGrid[arrayIndex];
 
-      if (agentHere == ROGUE) {
+      if (agentHere == ROGUE_DOG) {
         console.log('agent', agentHere, drawTileX, drawTileY)
         var spawnDog = new rogueClass();
         spawnDog.init(nDog, dogPic, drawTileX + TILE_W/2, drawTileY + TILE_H/2);

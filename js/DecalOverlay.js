@@ -44,9 +44,7 @@ var decalOverlay = function() {
 	};
 
   this.draw = function() {
-    canvasContext.globalAlpha = 0.7
     canvasContext.drawImage(decalCanvas, 0, 0);
-    canvasContext.globalAlpha = 1.0
 	};
 
 	this.resize = function() {
@@ -60,7 +58,7 @@ var decalOverlay = function() {
     decalContext.clearRect(0, 0, decalCanvas.width, decalCanvas.height);
 	};
 
-  this.scatterDecorations = function(howMany=50, spritePic, bottomMargin) {
+  this.scatterDecorations = function(howMany=50, spritePic, bottomMargin, alpha) {
     //console.log("Scattering decoration decals");
     if (!spritePic) return;
     if (!bottomMargin) bottomMargin = 0; //avoid null
@@ -68,11 +66,11 @@ var decalOverlay = function() {
     for (var i=0; i<howMany; i++) {
         x = randomInteger(0,decalCanvas.width);
         y = randomInteger(0,decalCanvas.height-bottomMargin);
-        this.add(x,y,0,1,spritePic);
+        this.add(x,y,0,alpha,spritePic);
     }
   }
 
-  this.scatterDecorationsInRadius = function(x,y,radius,howMany,spritePic) {
+  this.scatterDecorationsInRadius = function(x,y,radius,howMany,spritePic,alpha) {
     for (var sx,sy,angle,rot,rad,i=0; i<howMany; i++) {
       // choose a random location inside a circle:
       angle = Math.random()*Math.PI*2;
@@ -81,7 +79,7 @@ var decalOverlay = function() {
       sy = Math.sin(angle)*rad;
       // orient the sprite randomly too
       rot = Math.random()*Math.PI*2;
-      this.add(x+sx,y+sy,rot,1,spritePic);
+      this.add(x+sx,y+sy,rot,alpha,spritePic);
     }
   }
   this.resize(); // ensure we start the same size as game canvas
@@ -102,35 +100,50 @@ function setupDecals(bottomMargin) {
   console.log('decal setup level', currentLevel, 'gameState', gameStateDescr[gameState]);
 
   // randomly scatter everything evenly
-  decals.scatterDecorations(30, flowerYellowPic, bottomMargin);
-  decals.scatterDecorations(120, flowerBluePic, bottomMargin);
-  decals.scatterDecorations(90, flowerRedPic, bottomMargin);
-  decals.scatterDecorations(150, grass1Pic, bottomMargin);
-  decals.scatterDecorations(150, grass2Pic, bottomMargin);
-  decals.scatterDecorations(50, grass3Pic, bottomMargin);
+  decals.scatterDecorations(30, flowerYellowPic, bottomMargin, 0.7);
+  decals.scatterDecorations(120, flowerBluePic, bottomMargin, 0.9);
+  decals.scatterDecorations(90, flowerRedPic, bottomMargin, 0.9);
+  decals.scatterDecorations(150, grass1Pic, bottomMargin, 1.0);
+  decals.scatterDecorations(150, grass2Pic, bottomMargin, 1.0);
+  decals.scatterDecorations(50, grass3Pic, bottomMargin, 0.8);
 
   // now add big clusters of flowers and grass for visual appeal
   let blobsize = 75; // max radius
   let clustercount = 70; // how many
 
   // grass clusters
-  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize*2,clustercount,grass1Pic);
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize*2,clustercount,grass1Pic, 1,0);
 
-  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize*2,clustercount,grass2Pic);
+  decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize*2,clustercount,grass2Pic, 1.0);
 
   console.log('setupDecals clumpRandom is', clumpRandom);
   if (clumpRandom) { // original behaviour
 
+    var alphaMin, alphaMax, decalPic, maxClumps;
     // could be random loop 0-2 instances for each type of flower clump
-    decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount/2,grass3Pic);
+
+    for (var i=0; i < randomInteger(0,maxClumps); i++) {
+      let alpha = randomInteger(6,8)*0.1;
+      decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount/2,grass3Pic, alpha);
+    }
 
     // flower clusters
-    decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerYellowPic);
+    for (var i=0; i < randomInteger(0,2); i++) {
+      let alpha = randomInteger(5,7)*0.1;
+      decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerYellowPic, alpha);
+    }
 
-    decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerBluePic);
+    for (var i=0; i < randomInteger(0,2); i++) {
+      let alpha = randomInteger(6,8)*0.1;
+      decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerBluePic, alpha);
+    }
 
-    decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount*1.1,flowerRedPic);
+    for (var i=0; i < randomInteger(0,2); i++) {
+      let alpha = randomInteger(7,9)*0.1;
+      decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize,clustercount,flowerRedPic, alpha);
+    }
   }
+
   else { // position from areaGrid
     let blobsize = 40; // max radius
     let clustercount = 100; // how many
@@ -144,7 +157,7 @@ function setupDecals(bottomMargin) {
 
     decals.scatterDecorationsInRadius(clumpXY[1].x, clumpXY[1].y,blobsize,clustercount,flowerBluePic);
 
-    decals.scatterDecorationsInRadius(clumpXY[2].x, clumpXY[2].y,blobsize,clustercount*1.1,flowerRedPic);
+    decals.scatterDecorationsInRadius(clumpXY[2].x, clumpXY[2].y,blobsize,clustercount,flowerRedPic);
   }
 
   /* alternate: don't overlap edges of screen

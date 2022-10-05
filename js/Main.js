@@ -327,6 +327,7 @@ function drawAll() {
     outlineSelectedTile(gridIndex);
     drawBarText();
     drawBarButtons(designButtonLabel);
+    drawMovables();
   }
 
 

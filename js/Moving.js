@@ -7,7 +7,7 @@ const OCCUPY_RED = 2;
 const OCCUPY_MIXED = 3;
 const OCCUPY_PLAIN = 4;
 const LOST_SHEEP = 7;
-const ROGUE = 8;
+const ROGUE_DOG = 8;
 const BO_PEEP = 9;
 
 const COLLISION_DIST = 20;

@@ -69,6 +69,7 @@ function rogueClass() {
     drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x,this.y, this.ang);
     // dog's head
     drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x,this.y, this.ang);
+
     // when part of image off canvas, draw mirror on other side
     if (this.x > gameCanvas.width - this.pic.width/2) {
       drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x - gameCanvas.width, this.y, this.ang);
@@ -115,7 +116,7 @@ function setupDogs (whichLevel) {
 
       var agentHere = agentGrid[arrayIndex];
 
-      if (agentHere == ROGUE) {
+      if (agentHere == ROGUE_DOG) {
         console.log('agent', agentHere, drawTileX, drawTileY)
         var spawnDog = new rogueClass();
         spawnDog.init(nDog, dogPic, drawTileX + TILE_W/2, drawTileY + TILE_H/2);

@@ -123,7 +123,7 @@ function drawAgentGridValues() {
     drawTileX = 0;
     drawTileY += TILE_H;
 	} // end of for each row
-} // end of drawArea func
+} // end of drawAgentGridValues
 
 
 function normaliseRadian(ang) {
