@@ -87,21 +87,9 @@ function togglePause() {
 
 // called by drawPlay & drawLevelOver
 function drawField() {
-  drawArea();
+  drawGrass();
   decals.draw();
-  drawBarTitle("Level " + currentLevel, 20);
-
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    sheepList[i].draw();
-
-    if (sheepList[i].levelDone) {
-      sheepList[i].drawScore();
-    }
-
-    if (editMode) {
-      sheepList[i].idLabel();
-    }
-  }
+  drawTiles();
 
   // if a pen is occupied draw a gate
   for(var i=0; i<TILE_COLS; i++) {
@@ -114,35 +102,26 @@ function drawField() {
     }
   } // loop bottom row
 
-  if (editMode) {
-    if (showAgentGridValues) {
-      drawAgentGridValues();
-    } else if (showAreaGridValues) {
-      let fontSize = 14;
-      drawGridValues(areaGrid, fontSize, "white");
-    }
-  }
 } // end drawField
 
 
-// called every interval, from Main.js
-function drawPlay() {
-  drawField(); // common to Play and LevelOver
+function drawSheep() {
+  // draw sheep, labelled with score
+  for(var i=0; i<sheepList.length; i++) {
+    sheepList[i].draw();
 
-  if (player.x > levelTitleWidth + 10) {
-    drawLevelName();
+    if (sheepList[i].levelDone) {
+      sheepList[i].drawScore();
+    }
+
+    if (editMode) {
+      sheepList[i].idLabel();
+    }
   }
+}
 
-  if (runMode == NORMAL_PLAY) {
-    drawBarButtons(playButtonLabel);
-  }
-  else {
-    drawBarTitle("Level " + currentLevel + " Test", 20);
-    drawBarButtons(offMenuButtonLabel);
-  }
 
-  drawTutorial();
-
+function drawMovingNotSheep() {
   player.draw();
 
   for (var i = 0; i < rogueDogList.length; i++) {
@@ -151,15 +130,63 @@ function drawPlay() {
   for (var i = 0; i < lostSheepList.length; i++) {
     lostSheepList[i].draw();
   }
-  for (var i = 0; i < bopeepList.length; i++) {
-    bopeepList[i].draw();
+  for (var i = 0; i < boPeepList.length; i++) {
+    boPeepList[i].draw();
   }
+}
+
+
+function drawUI() {
+  if (player.x > levelTitleWidth + 10) {
+    drawLevelName();
+  }
+  if (runMode == NORMAL_PLAY) {
+    drawBarTitle("Level " + currentLevel, 20);
+    drawBarButtons(playButtonLabel);
+  }
+  else {
+    drawBarTitle("Level " + currentLevel + " Test", 20);
+    drawBarButtons(offMenuButtonLabel);
+  }
+
+  if (editMode) {
+    if (showAgentGridValues) {
+      drawAgentGridValues();
+    } else if (showAreaGridValues) {
+      let fontSize = 14;
+      drawGridValues(areaGrid, fontSize, "white");
+    }
+  }
+
+  drawTutorial();
+}
+
+
+// called every interval, from Main.js
+function drawPlay() {
+  drawField(); // common to Play and LevelOver
+  drawSheep();
+  drawMovingNotSheep();
+  drawUI();
 
 } // end drawPlay
 
 
-function drawlevelOver() {
+function drawLevelOver() {
+  drawField();
+  drawSheep();
 
+  // any of Popup wanted for Test runs?
+  if (runMode == NORMAL_PLAY) {
+    drawLevelScore();
+    drawBarTitle("Level " + currentLevel, 20);
+    drawBarButtons(levelEndButtonLabel);
+  }
+  else {
+    drawLevelScoreTest();
+    drawBarButtons(offMenuButtonLabel);
+    drawBarTitle("Level " + currentLevel + " Test", 20);
+  }
 }
 
 

@@ -61,7 +61,7 @@ function rogueClass() {
     }
 
     // if Bo Peep ahead & would collide, dog stops temporarily
-    var nearestBo = findNearestInList(nextX,nextY, bopeepList);
+    var nearestBo = findNearestInList(nextX,nextY, boPeepList);
 
     if (nearestBo.distFrom(nextX,nextY) < TILE_W && nextX < nearestBo.x && this.mode == MOVING) {
       // console.log(nearestBo.x, nearestBo.distFrom(nextX,nextY))

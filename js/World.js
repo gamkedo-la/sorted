@@ -67,7 +67,24 @@ function getRowFromX(y) {
 }
 
 
-function drawArea() {
+function drawGrass() {
+  var drawTileX = 0;
+  var drawTileY = 0;
+
+	for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
+		for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+
+      canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
+
+      drawTileX += TILE_W;
+		} // end of for each col
+    drawTileX = 0;
+    drawTileY += TILE_H;
+	} // end of for each row
+} // end of drawGrass
+
+
+function drawTiles() {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
@@ -77,11 +94,11 @@ function drawArea() {
 
       var tileTypeHere = areaGrid[arrayIndex];
 
-      if (tileTypeHasTransparency(tileTypeHere) || isDecalClump(tileTypeHere)) {
-        canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
-      }
+      // if (tileTypeHasTransparency(tileTypeHere) || isDecalClump(tileTypeHere)) {
+      //   canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
+      // }
 
-      if (isPen(tileTypeHere)) {
+      if ( isPen(tileTypeHere) ) {
         let team = isBluePen(tileTypeHere) ? 1 : 2;
         xyDrawPenFence(drawTileX, drawTileY, team);
       }
@@ -91,7 +108,7 @@ function drawArea() {
         levelClumpXY[currentLevel][index] = { x: drawTileX+TILE_W/2, y: drawTileY+TILE_H/2 };
         // console.log('levelClumpXY', currentLevel, index)
       }
-      else {
+      else if (tileTypeHere != TILE_FIELD) {
         var useImg = tilePics[tileTypeHere];
         canvasContext.drawImage(useImg, drawTileX, drawTileY);
       }
@@ -102,7 +119,7 @@ function drawArea() {
     drawTileX = 0;
     drawTileY += TILE_H;
 	} // end of for each row
-} // end of drawArea func
+} // end of drawTiles
 
 
 function checkGridMatchColsRows() {

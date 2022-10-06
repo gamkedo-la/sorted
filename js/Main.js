@@ -41,7 +41,7 @@ var flockSize = null;
 var sheepList = [];
 var rogueDogList = [];
 var lostSheepList = [];
-var bopeepList = [];
+var boPeepList = [];
 
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
 var stuckSound = new SoundOverlapsClass("sound/baa08");
@@ -195,8 +195,8 @@ function moveAll() {
     for (var i = 0; i < rogueDogList.length; i++) {
       rogueDogList[i].move();
     }
-    for (var i = 0; i < bopeepList.length; i++) {
-      bopeepList[i].move();
+    for (var i = 0; i < boPeepList.length; i++) {
+      boPeepList[i].move();
     }
 
     if (runMode == SEND_ONLY) {
@@ -260,41 +260,8 @@ function drawAll() {
 
   else if (gameState == STATE_LEVEL_END) {
     // should call drawField() with parameter play or endLevel
-    drawArea();
-    decals.draw();
-    player.draw();
-
-    // if a pen is occupied draw a gate
-    for(var i=0; i<TILE_COLS; i++) {
-      var index = i + (TILE_COLS * (TILE_ROWS - 1));
-      if (areaGrid[index] == FULL_BLUE) {
-        colDrawPenGate(i, BLUE);
-      }
-      else if (areaGrid[index] == FULL_RED) {
-        colDrawPenGate(i, RED);
-      }
-    } // loop bottom row
-
-
-    // draw sheep, label with ID and score
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-      sheepList[i].draw();
-      sheepList[i].idLabel();
-      sheepList[i].drawScore();
-    }
-
-    // any of Popup wanted for Test runs?
-    if (runMode == NORMAL_PLAY) {
-      drawLevelEnd();
-      drawBarTitle("Level " + currentLevel, 20);
-      drawBarButtons(levelEndButtonLabel);
-    }
-    else {
-      drawLevelEndTest();
-      drawBarButtons(offMenuButtonLabel);
-      drawBarTitle("Level " + currentLevel + " Test", 20);
-    }
-
+    drawLevelOver();
+ 
     // do once per level-ending
     // if (editMode || !touchDevice) {
     if (editMode) {
@@ -405,7 +372,7 @@ function loadLevel(whichLevel) {
 
   sheepList = [];  // fresh set of sheep
   rogueDogList = [];
-  bopeepList = [];
+  boPeepList = [];
 
   setupDogs(whichLevel);
   setupBoPeep(whichLevel);

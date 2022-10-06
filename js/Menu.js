@@ -28,7 +28,7 @@ function drawMenuFlock() {
 }
 
 
-function drawLevelEndFlock() {
+function drawLevelScoreFlock() {
     for (let x,y,i = 0; i<64; i++) {
         x = (gameCanvas.width/2/*-POPUP_W/2*/) + Math.sin(performance.now()*0.00005+i*321) * POPUP_W/2;
         y = 80 + Math.cos(performance.now()*0.00513+i*234) * 10;
@@ -200,16 +200,16 @@ function smallBodyLine(txt, lineNum,startY) {
 }
 
 
-function drawLevelEndTest() {
+function drawLevelScoreTest() {
   var y = 50;
   canvasContext.textAlign = "center";
   canvasContext.font = "24px Arial";
   colorText(canvasContext, "Level "+ currentLevel + " completed", gameCanvas.width/2, y += 50, "white");
   canvasContext.textAlign = "left";
-} // end drawLevelEndTest
+} // end drawLevelScoreTest
 
 
-function drawLevelEnd() {
+function drawLevelScore() {
   var y = 50;
   var nextLevel = currentLevel + 1;
   var advanceFontSize = 12 + Math.sqrt( levelScores[currentLevel] / FLOCK_SIZE[currentLevel] +1 );
@@ -221,7 +221,7 @@ function drawLevelEnd() {
   // bg
   colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2, y, POPUP_W, 270, "rgba(0,0,0,0.25)");
   // sheep
-  drawLevelEndFlock();
+  drawLevelScoreFlock();
 
   // small white bar
   colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2 + 40, y+10, POPUP_W - 80, 40, "rgba(255,255,255,0.75)");
@@ -252,7 +252,7 @@ function drawLevelEnd() {
 
   // colorText("H to hide/show this box", canvas.width/2, y+210, "white");
   canvasContext.textAlign = "left";
-} // end drawLevelEnd
+} // end drawLevelScore
 
 
 function drawScoreboard() {

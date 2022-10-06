@@ -144,7 +144,7 @@ function setupBoPeep (whichLevel) {
         console.log('Bo Peep', agentHere, drawTileX, drawTileY)
         var spawnBoPeep = new BoPeepClass();
         spawnBoPeep.init(BoPeep_num, BoPeepPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, eachCol);
-        bopeepList.push(spawnBoPeep);
+        boPeepList.push(spawnBoPeep);
         BoPeep_num++;
       }
 
