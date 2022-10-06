@@ -97,7 +97,7 @@ function randomInteger(min, max) {
 function setupDecals(bottomMargin) {
 
   decals = new decalOverlay(); // grass, flowers, footprints, pebbles, etc
-  console.log('decal setup level', currentLevel, 'gameState', gameStateDescr[gameState]);
+  // console.log('decal setup level', currentLevel, 'gameState', gameStateDescr[gameState]);
 
   // randomly scatter everything evenly
   decals.scatterDecorations(30, flowerYellowPic, bottomMargin, 0.7);
@@ -116,7 +116,7 @@ function setupDecals(bottomMargin) {
 
   decals.scatterDecorationsInRadius(Math.random()*(gameCanvas.width),Math.random()*(gameCanvas.height-bottomMargin),blobsize*2,clustercount,grass2Pic, 1.0);
 
-  console.log('setupDecals clumpRandom is', clumpRandom);
+  // console.log('setupDecals clumpRandom is', clumpRandom);
   if (clumpRandom) { // original behaviour
 
     var alphaMin, alphaMax, decalPic, maxClumps;

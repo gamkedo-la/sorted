@@ -41,7 +41,7 @@ var flockSize = null;
 var sheepList = [];
 var rogueDogList = [];
 var lostSheepList = [];
-var BoPeepList = [];
+var bopeepList = [];
 
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
 var stuckSound = new SoundOverlapsClass("sound/baa08");
@@ -195,8 +195,8 @@ function moveAll() {
     for (var i = 0; i < rogueDogList.length; i++) {
       rogueDogList[i].move();
     }
-    for (var i = 0; i < BoPeepList.length; i++) {
-      BoPeepList[i].move();
+    for (var i = 0; i < bopeepList.length; i++) {
+      bopeepList[i].move();
     }
 
     if (runMode == SEND_ONLY) {
@@ -405,7 +405,7 @@ function loadLevel(whichLevel) {
 
   sheepList = [];  // fresh set of sheep
   rogueDogList = [];
-  BoPeepList = [];
+  bopeepList = [];
 
   setupDogs(whichLevel);
   setupBoPeep(whichLevel);

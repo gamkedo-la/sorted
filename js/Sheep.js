@@ -44,6 +44,8 @@ const STACKED_RED = 18;
 
 const sheepModeNames = ['Graze', 'Roam', 'Called', 'Held', 'Sent', 'Conveyor', '', 'Still', 'Distracted', '', '', 'Stuck', 'In_Ditch', 'In_Pen_Blue', 'In_Pen_Red', 'Stacked', 'Stacked_Ditch', 'Stacked_Blue', 'Stacked_Red', 'In_Blue_Lorry', 'In_Red_Lorry', '', 'Selected'];
 
+sheepClass.prototype = new movingClass();
+
 function sheepClass() {
   this.x = 0;
   this.y = 0;
@@ -736,7 +738,7 @@ function sheepClass() {
       this.mode = PEEPED;
       this.ang = Math.PI * 3 / 2;
       let id = this.bopeepid;
-      this.speed = BoPeepList[id].speed * 0.9;
+      this.speed = bopeepList[id].speed * 0.9;
     }
 
     else {
@@ -811,12 +813,6 @@ function sheepClass() {
 
   this.isTileConveyor = function(tileType) {
     return tileType == TILE_CONVEYOR_UP || tileType == TILE_CONVEYOR_DOWN || tileType == TILE_CONVEYOR_LEFT || tileType == TILE_CONVEYOR_RIGHT
-  }
-
-  this.distFrom = function(otherX, otherY) {
-    var deltaX = otherX-this.x;
-    var deltaY = otherY-this.y;
-    return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
   }
 
 

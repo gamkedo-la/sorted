@@ -3,6 +3,7 @@ const BOPEEP_SPEED = 1.0
 BOPEEP_EARLIEST = 10;
 BOPEEP_LATEST = 100;
 
+BoPeepClass.prototype = new movingClass();
 
 function BoPeepClass() {
   this.init = function(id, whichPic, x, y, col) {
@@ -143,7 +144,7 @@ function setupBoPeep (whichLevel) {
         console.log('Bo Peep', agentHere, drawTileX, drawTileY)
         var spawnBoPeep = new BoPeepClass();
         spawnBoPeep.init(BoPeep_num, BoPeepPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, eachCol);
-        BoPeepList.push(spawnBoPeep);
+        bopeepList.push(spawnBoPeep);
         BoPeep_num++;
       }
 

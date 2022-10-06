@@ -3,6 +3,8 @@ const ROGUE_WOOF_RANGE = 70;
 const MOVING = 1;
 const STOPPING = 2;
 
+rogueClass.prototype = new movingClass();
+
 function rogueClass() {
   this.init = function(id, whichPic, x, y) {
     this.pic = whichPic;
@@ -13,6 +15,7 @@ function rogueClass() {
 
   this.reset = function() {
     this.ang = 0;
+    this.orient = 0;
     this.speedX = ROGUE_SPEED[currentLevel];
     this.speedY = 0;
     this.mode = MOVING;
@@ -24,8 +27,18 @@ function rogueClass() {
     var nextX = this.x; // previous location
     var nextY = this.y;
 
+    if (this.modeTimer > 0) {
+      this.modeTimer--;
+      console.log(this.modeTimer)
+      if (this.modeTimer < 1) {
+        // if (this.mode == STOPPING) {
+          this.changeMode(MOVING);
+        // }
+      }
+    }
+  
     // detect sheep
-    var nearestSheep = this.findNearestSheep(this.x, this.y, sheepList);
+    var nearestSheep = findNearestInList(this.x, this.y, sheepList);
 
     // is close enough to smell a sheep
     if (this.isSheepClose(nearestSheep, ROGUE_WOOF_RANGE)) {
@@ -47,9 +60,15 @@ function rogueClass() {
       }
     }
 
-    if ( this.isBoPeepAhead() ) {
+    // if Bo Peep ahead & would collide, dog stops temporarily
+    var nearestBo = findNearestInList(nextX,nextY, bopeepList);
+
+    if (nearestBo.distFrom(nextX,nextY) < TILE_W && nextX < nearestBo.x && this.mode == MOVING) {
+      // console.log(nearestBo.x, nearestBo.distFrom(nextX,nextY))
       this.changeMode(STOPPING);
+      this.modeTimer = 20;
     }
+
 
     // screenwrap horizontal
     if (nextX < 0) {
@@ -74,7 +93,7 @@ function rogueClass() {
   this.draw = function() {
     drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x,this.y, this.ang);
     // dog's head
-    drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x,this.y, this.ang);
+    drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x,this.y, this.orient);
 
     // when part of image off canvas, draw mirror on other side
     if (this.x > gameCanvas.width - this.pic.width/2) {
@@ -107,30 +126,15 @@ function rogueClass() {
       return false;
     }
   }
-
-  this.findNearestBoPeep = function(x,y) {
-    var nearestDist = 999;
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-      let distTo = bopeepList[i].distFrom(x,y);
-      if (distTo < nearestSheepDist) {
-        nearestPeepDist = distTo;
-        nearestPgieep = sheepList[i];
-      }
-    }
-    // console.log("Rogue found nearest sheep id =", nearestSheep.id)
-    return nearestSheep;
-  }
-  this.isBoPeepAhead = function(nearestSheep, range) {
-    if (nearestSheep.distFrom(this.x, this.y) < range) {
-      return true;
-    } else {
-      return false;
-    }
-  }
   
   this.changeMode = function(newMode) {
+    console.log('mode',newMode)
     if (newMode == STOPPING) {
-      this.speed = 0;
+      this.speedX = 0;
+      this.orient = Math.PI * 7 / 4;
+    }
+    else if (newMode == MOVING) {
+      this.speedX = ROGUE_SPEED[currentLevel];
       this.orient = 0;
     }
   }
