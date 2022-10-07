@@ -229,6 +229,7 @@ function findNearestSheep(x,y) {
   return nearestSheep;
 }
 
+
 function findNearestInList(x,y, list) {
   var nearestDist = 999; // arbitrarily wider than game area
   var nearest = null;
@@ -240,6 +241,18 @@ function findNearestInList(x,y, list) {
     }
   }
   return nearest;
+}
+
+
+function findNearbyXInList(movingX, list, range) {
+  for(var i=0; i<list.length; i++) {
+    let distX = list[i].x - movingX;
+    if (distX < range) {
+      nearby = list[i];
+      return nearby;
+    }
+  }
+  return null;
 }
 
 function findSheepMeanY() {

@@ -5,6 +5,13 @@ function movingClass() {
     var deltaY = otherY-this.y;
     return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
   }
+
+  this.distXFrom = function(otherX) {
+    return otherX - this.x;
+  }
+  this.distYFrom = function(otherY) {
+    return otherY - this.y;
+  }
   
   this.overlap = function(x,y) {
     var overlapping = false;

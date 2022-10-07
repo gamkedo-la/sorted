@@ -1,21 +1,21 @@
 const BOPEEP_RANGE = 40;
 const BOPEEP_SPEED = 1.0
 BOPEEP_EARLIEST = 10;
-BOPEEP_LATEST = 100;
+BOPEEP_LATEST = 10;
 
 BoPeepClass.prototype = new movingClass();
 
 function BoPeepClass() {
-  this.init = function(id, whichPic, x, y, col) {
+  this.init = function (id, whichPic, x, y, col) {
     this.id = id;
     this.pic = whichPic;
     this.x = x;
-    this.y = gameCanvas.height - TILE_H/2;
+    this.y = gameCanvas.height - TILE_H / 2;
     this.col = col;
     this.reset();
   }
 
-  this.reset = function() {
+  this.reset = function () {
     this.ang = 0;
     this.speedX = 0;
     this.speed = BOPEEP_SPEED * randomRange(0.5, 1.5);
@@ -24,7 +24,7 @@ function BoPeepClass() {
     this.bopeepid = null;
   }
 
-  this.move = function() {
+  this.move = function () {
 
     if (this.timeBeforeActive > 0) {
       this.timeBeforeActive--;
@@ -32,7 +32,7 @@ function BoPeepClass() {
     else {
       if (this.col == null) {
         this.col = findColWithEmptyPen();
-        this.x = TILE_W/2 + this.col * TILE_W;
+        this.x = TILE_W / 2 + this.col * TILE_W;
         console.log("Bo Peep reappear", this.y, this.col)
       }
       this.active = true;
@@ -40,8 +40,8 @@ function BoPeepClass() {
     }
 
     // test if pen in column is now full
-    var bopeepColPenIndex = TILE_COLS * (TILE_ROWS-1) + this.col;
-    if ( isFullPen(areaGrid[bopeepColPenIndex]) ) {
+    var bopeepColPenIndex = TILE_COLS * (TILE_ROWS - 1) + this.col;
+    if (isFullPen(areaGrid[bopeepColPenIndex])) {
       this.active = false;
       this.col = null;
       this.timeBeforeActive = randomInteger(BOPEEP_EARLIEST, BOPEEP_LATEST);
@@ -62,7 +62,7 @@ function BoPeepClass() {
       // is close enough to attract and not in pen
       if (this.isSheepCloseBelow(nearestSheep, BOPEEP_RANGE)) {
 
-        if ( isInPen(nearestSheep.mode) ) {
+        if (isInPen(nearestSheep.mode)) {
           this.active = false;
           console.log('bopeep vanish')
         }
@@ -96,17 +96,17 @@ function BoPeepClass() {
   }
 
 
-  this.draw = function() {
+  this.draw = function () {
     if (this.active) {
       drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, this.x, this.y, this.ang);
     }
   }
 
 
-  this.findNearestSheep = function(x,y) {
+  this.findNearestSheep = function (x, y) {
     var nearestSheepDist = 999;
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-      let distTo = sheepList[i].distFrom(x,y);
+    for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
+      let distTo = sheepList[i].distFrom(x, y);
       if (distTo < nearestSheepDist) {
         nearestSheepDist = distTo;
         nearestSheep = sheepList[i];
@@ -129,14 +129,14 @@ function BoPeepClass() {
 } // end of BoPeep class
 
 
-function setupBoPeep (whichLevel) {
+function setupBoPeep(whichLevel) {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
   var BoPeep_num = 0;
 
-  for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
-    for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+  for (var eachRow = 0; eachRow < TILE_ROWS; eachRow++) {
+    for (var eachCol = 0; eachCol < TILE_COLS; eachCol++) {
 
       var agentHere = agentGrid[arrayIndex];
 
@@ -159,12 +159,12 @@ function setupBoPeep (whichLevel) {
 function findColWithEmptyPen() {
   // loop bottom row, pick one isPenEmpty()
 
-  var bottomRowIndex = TILE_COLS * (TILE_ROWS-1);
+  var bottomRowIndex = TILE_COLS * (TILE_ROWS - 1);
   var col = -1; // if none found
 
-  for(var i = 0; i < TILE_COLS; i++) {
+  for (var i = 0; i < TILE_COLS; i++) {
     let index = bottomRowIndex + i;
-    if ( isEmptyPen(areaGrid[index]) ) {
+    if (isEmptyPen(areaGrid[index])) {
       col = index - bottomRowIndex;
       console.log(bottomRowIndex, index, col);
       // could push to array and later randomly select one of empy pen columns
