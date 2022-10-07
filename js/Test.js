@@ -8,6 +8,7 @@ const ROAM_FROM_R1 = 3;
 const CALL_FROM_R10 = 4;
 const AI_PLAY_MIDFIELD = 5;
 var runMode = NORMAL_PLAY;
+var testWrite = false;
 // var runMode = ROAM_FROM_R1;
 
 // number of Test types currently usable

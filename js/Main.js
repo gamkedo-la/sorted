@@ -34,7 +34,7 @@ const NUM_TEAM_TYPES = 3;
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [1, 3, 3, 3, 3, 3, 3, 3, 3, 3];
+const TEAM_SIZE = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3];
 const FLOCK_SIZE = [];
 var flockSize = null;
 
@@ -187,13 +187,13 @@ function moveAll() {
       if (sortingVFXtimer > 0) { // Hat sorting
         moveParticles(sortingParticles);
       }
-      if (penVFXtimer > 0) { // Arrival
+      if (penVFXtimer > 0) { 
         moveParticles(penParticles);
       }
-      if (ditchVFXtimer > 0) { // ditch or stuck
+      if (ditchVFXtimer > 0) { 
         moveParticles(ditchParticles);
       }
-      if (stuckVFXtimer > 0) { // ditch or stuck
+      if (stuckVFXtimer > 0) { 
         moveParticles(stuckParticles);
       }
     }
@@ -264,18 +264,26 @@ function drawAll() {
     if (sortingVFXtimer > 0) { // Hat sorting
       drawParticles(sortingParticles);
       sortingVFXtimer--;
+    } else {
+      sortingParticles = [];
     }
     if (penVFXtimer > 0) { // arrival pen
       drawParticles(penParticles);
       penVFXtimer--;
+    } else {
+      penParticles = [];
     }
     if (stuckVFXtimer > 0) { // arrival ditch, stuck
       drawParticles(stuckParticles);
       stuckVFXtimer--;
+    } else {
+      stuckParticles = [];
     }
     if (ditchVFXtimer > 0) { // arrival ditch, stuck
       drawParticles(ditchParticles);
       ditchVFXtimer--;
+    } else {
+      ditchParticles = [];
     }
   }
 
@@ -284,8 +292,7 @@ function drawAll() {
     drawLevelOver();
 
     // do once per level-ending
-    // if (editMode || !touchDevice) {
-    if (editMode) {
+    if (editMode && testWrite) {
       if (levelTestDataReady) {
         levelTestDataReady = false;
         var filename = "level_" + currentLevel + "_";

@@ -78,11 +78,11 @@ function makePenVFX(centreX, centreY) {
   penVFXtimer = 40;
 }
 function makeDitchVFX(centreX, centreY) {
-  ditchParticles = makeParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, 'brown', 2, 30);
+  ditchParticles = makeParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, '#996633', 2, 30);
   ditchVFXtimer = 40;
 }
 function makeStuckVFX(centreX, centreY) {
-  ditchParticles = makeParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, 'brown', 2, 30);
+  stuckParticles = makeParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, '#663300', 2, 30);
   stuckVFXtimer = 40;
 }
 

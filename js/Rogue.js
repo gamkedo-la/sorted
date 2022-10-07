@@ -4,6 +4,7 @@ const ROGUE_COLLISION_BOPEEP_X = 60;
 const ROGUE_COLLISION_BOPEEP_Y = 50;
 const MOVING = 1;
 const STOPPING = 2;
+const LICKING = 3;
 
 rogueClass.prototype = new movingClass();
 
@@ -29,14 +30,10 @@ function rogueClass() {
     var nextX = this.x; // previous location
     var nextY = this.y;
 
-    if (this.modeTimer > 0) {
-      this.modeTimer--;
-      console.log(this.modeTimer)
-      if (this.modeTimer < 1) {
-        // if (this.mode == STOPPING) {
-        this.changeMode(MOVING);
-        // }
-      }
+    this.modeTimer--;
+    if (this.modeTimer == 0) {
+      this.changeMode(MOVING);  
+      // console.log(this.modeTimer)
     }
 
     // detect sheep
@@ -59,6 +56,7 @@ function rogueClass() {
         console.log("Unsort sheep id =", nearestSheep.id);
         nearestSheep.team = PLAIN;
         nearestSheep.color = TEAM_COLOURS[PLAIN];
+        this.changeMode(LICKING);
       }
     }
 
@@ -76,10 +74,10 @@ function rogueClass() {
 
             var distY = boNearX.y - nextY;
             if (Math.abs(distY) < ROGUE_COLLISION_BOPEEP_Y) {
-              // console.log(nearestBo.x, nearestBo.distFrom(nextX,nextY))
+
               this.changeMode(STOPPING);
-              this.modeTimer = ROGUE_COLLISION_BOPEEP_Y + 1 + distY;
-              console.log('distY', distY)
+              this.modeTimer = Math.floor(ROGUE_COLLISION_BOPEEP_Y + 1 + distY);
+              console.log('distY', distY, 'boNearX.x', boNearX.x, 'nextX', nextX, 'timer', this.modeTimer)
             }
           } // end MOVING
         } else {
@@ -146,10 +144,16 @@ function rogueClass() {
   }
 
   this.changeMode = function (newMode) {
-    console.log('mode', newMode)
+
     if (newMode == STOPPING) {
       this.speedX = 0;
       this.orient = Math.PI * 7 / 4;
+      // this.modeTimer = 30; // backstop default
+    }
+    else if (newMode == LICKING) {
+      this.speedX = 0.5;
+      this.orient = Math.PI * 3 / 2;
+      this.modeTimer = 40;
     }
     else if (newMode == MOVING) {
       this.speedX = ROGUE_SPEED[currentLevel];

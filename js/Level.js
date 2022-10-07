@@ -11,7 +11,7 @@
 // GRAZE_SPEED:     0.05
 // HAT_POWER:       1.0
 // HAT_FRICTION:    0.94
-// CALL_SPEED:      3
+// CALL_SPEED:      4
 // SEND_SPEED:      10
 // ROGUE_SPEED:     5
 

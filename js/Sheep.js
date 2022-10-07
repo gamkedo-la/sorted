@@ -579,7 +579,7 @@ function sheepClass() {
     else if (tileType == TILE_SLOW) {
       if (!this.slowed) {
         if (this.mode == SENT) {
-          this.speed = this.speed / 6;
+          this.speed = this.speed / 4;
         }
         else {
           this.speed = this.speed / 2;
@@ -612,7 +612,8 @@ function sheepClass() {
     else if ( this.isTileConveyor(tileType) ) {
       if (this.mode != CONVEYOR) {
         this.changeMode(CONVEYOR);
-        console.log('conv')
+        console.log('conveyor')
+
         if (tileType == TILE_CONVEYOR_UP) {
           this.gotoY = nextY - TILE_H;
           this.ang = Math.PI * 3/2;
