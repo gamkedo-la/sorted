@@ -53,26 +53,26 @@ var menuSound = new SoundOverlapsClass("sound/menu_choice");
 var menuBackSound = new SoundOverlapsClass("sound/menuback");
 
 
-window.onload = function() {
+window.onload = function () {
   drawingCanvas = document.getElementById('drawingCanvas');
-	drawingContext = drawingCanvas.getContext('2d');
-	window.addEventListener("resize", resizeWindow);
+  drawingContext = drawingCanvas.getContext('2d');
+  window.addEventListener("resize", resizeWindow);
   gameBoard = document.getElementById('gameBoard');
-	gameCanvas = document.getElementById('gameCanvas');
-	canvasContext = gameCanvas.getContext('2d');
-	uiCanvas = document.getElementById('uiCanvas');
-	uiContext = uiCanvas.getContext('2d');
+  gameCanvas = document.getElementById('gameCanvas');
+  canvasContext = gameCanvas.getContext('2d');
+  uiCanvas = document.getElementById('uiCanvas');
+  uiContext = uiCanvas.getContext('2d');
 
   canvasContext.font = "28px Arial";
-  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "red");
-  colorText(canvasContext, "Loading Images", 50,50, "white");
+  colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "red");
+  colorText(canvasContext, "Loading Images", 50, 50, "white");
 
   if (debugBelowCanvas) {
     makeParagraphsBelowCanvas();
   }
   deviceTests();
   resizeWindow();
-	loadImages();
+  loadImages();
   refocus();
 }
 
@@ -84,7 +84,7 @@ function imageLoadingDoneSoStartGame() {
   initFlowerClumps();
 
   let framesPerSecond = baseFPS;
-	setInterval(updateAll, 1000/framesPerSecond);
+  setInterval(updateAll, 1000 / framesPerSecond);
 
   setupInput();
 
@@ -102,27 +102,27 @@ function setupGame() {
 }
 
 
-function resizeWindow(){
-	gameBoard.height = window.innerHeight;
-	gameBoard.width = window.innerWidth;
+function resizeWindow() {
+  gameBoard.height = window.innerHeight;
+  gameBoard.width = window.innerWidth;
 
   var width = gameCanvas.width + uiCanvas.width;
   var height = gameCanvas.height;
 
-	if (window.innerHeight / height > window.innerWidth / width) {
-		drawingCanvas.width = window.innerWidth;
-		drawingCanvas.height = window.innerWidth * height / width;
-	} else {
-		drawingCanvas.height = window.innerHeight;
-		drawingCanvas.width = window.innerHeight * width / height;
-	}
+  if (window.innerHeight / height > window.innerWidth / width) {
+    drawingCanvas.width = window.innerWidth;
+    drawingCanvas.height = window.innerWidth * height / width;
+  } else {
+    drawingCanvas.height = window.innerHeight;
+    drawingCanvas.width = window.innerHeight * width / height;
+  }
 
-	drawingCanvas.style.top = (window.innerHeight/2 - drawingCanvas.height/2) + "px";
-	drawingCanvas.style.left = (window.innerWidth/2 - drawingCanvas.width/2) + "px";
-	colorRect(drawingContext, 0,0, drawingCanvas.width,drawingCanvas.height, "white");
+  drawingCanvas.style.top = (window.innerHeight / 2 - drawingCanvas.height / 2) + "px";
+  drawingCanvas.style.left = (window.innerWidth / 2 - drawingCanvas.width / 2) + "px";
+  colorRect(drawingContext, 0, 0, drawingCanvas.width, drawingCanvas.height, "white");
 
-	drawScaleX = drawingCanvas.width/ gameCanvas.width;
-	drawScaleY = drawingCanvas.height/gameCanvas.height;
+  drawScaleX = drawingCanvas.width / gameCanvas.width;
+  drawScaleY = drawingCanvas.height / gameCanvas.height;
 
   let xSc = drawScaleX.toFixed(2);
   let ySc = drawScaleY.toFixed(2);
@@ -134,22 +134,22 @@ function updateAll() {
 
   if (haste == 0) { haste = 1; } // why was it zero?
 
-  for (var i=0; i < haste; i++) {
+  for (var i = 0; i < haste; i++) {
     moveAll();
   }
 
-	drawAll();
+  drawAll();
 
   drawingContext.save();
   drawingContext.scale(drawScaleX * playFieldFractionOfScreen, drawScaleY);
-	drawingContext.drawImage(gameCanvas, 0, 0);
-	drawingContext.restore();
+  drawingContext.drawImage(gameCanvas, 0, 0);
+  drawingContext.restore();
 
-	drawingContext.save();
+  drawingContext.save();
   drawingContext.translate(gameCanvas.width * drawScaleX * playFieldFractionOfScreen, 0);
-	drawingContext.scale(drawScaleX, drawScaleY);
-	drawingContext.drawImage(uiCanvas, 0, 0);
-	drawingContext.restore();
+  drawingContext.scale(drawScaleX, drawScaleY);
+  drawingContext.drawImage(uiCanvas, 0, 0);
+  drawingContext.restore();
 }
 
 
@@ -160,7 +160,7 @@ function moveAll() {
     rogueDogList[i].barkTimer--;
   }
 
-  if ( staticScreen() ) {
+  if (staticScreen()) {
     return;
   }
 
@@ -185,7 +185,16 @@ function moveAll() {
       player.move();
 
       if (sortingVFXtimer > 0) { // Hat sorting
-        moveParticles();
+        moveParticles(sortingParticles);
+      }
+      if (penVFXtimer > 0) { // Arrival
+        moveParticles(penParticles);
+      }
+      if (ditchVFXtimer > 0) { // ditch or stuck
+        moveParticles(ditchParticles);
+      }
+      if (stuckVFXtimer > 0) { // ditch or stuck
+        moveParticles(stuckParticles);
       }
     }
 
@@ -201,13 +210,13 @@ function moveAll() {
 
     if (runMode == SEND_ONLY) {
 
-      if ( !isAnySending() ) {
+      if (!isAnySending()) {
         // only on conveyors, go faster
         haste = 8;
         console.log('step', step[currentLevel], 'Faster while on conveyor');
       }
 
-      if ( !isAnySendOrConvey() ) {
+      if (!isAnySendOrConvey()) {
         // none on conveyors, all roaming so force LevelEnd
         levelEnding();
         console.log('step', step[currentLevel], 'Level end as none are Send');
@@ -232,7 +241,7 @@ function moveAll() {
       // force LevelEnd when sheep in final column Held or give up.
     }
 
-    if ( isLevelOver() ) {
+    if (isLevelOver()) {
       levelEnding();
     }
   }
@@ -241,8 +250,8 @@ function moveAll() {
 
 function drawAll() {
   // background for canvas
-  colorRect(drawingContext, 0,0, drawingCanvas.width,drawingCanvas.height, "white");
-  colorRect(uiContext, 0,0, uiCanvas.width,uiCanvas.height, UI_COLOR);
+  colorRect(drawingContext, 0, 0, drawingCanvas.width, drawingCanvas.height, "white");
+  colorRect(uiContext, 0, 0, uiCanvas.width, uiCanvas.height, UI_COLOR);
   showDebugText();
 
   if (paused) {
@@ -253,37 +262,49 @@ function drawAll() {
   else if (gameState == STATE_PLAY) {
     drawPlay();
     if (sortingVFXtimer > 0) { // Hat sorting
-      drawParticles();
+      drawParticles(sortingParticles);
       sortingVFXtimer--;
+    }
+    if (penVFXtimer > 0) { // arrival pen
+      drawParticles(penParticles);
+      penVFXtimer--;
+    }
+    if (stuckVFXtimer > 0) { // arrival ditch, stuck
+      drawParticles(stuckParticles);
+      stuckVFXtimer--;
+    }
+    if (ditchVFXtimer > 0) { // arrival ditch, stuck
+      drawParticles(ditchParticles);
+      ditchVFXtimer--;
     }
   }
 
   else if (gameState == STATE_LEVEL_END) {
     // should call drawField() with parameter play or endLevel
     drawLevelOver();
- 
+
     // do once per level-ending
     // if (editMode || !touchDevice) {
     if (editMode) {
-    if (levelTestDataReady) {
-      levelTestDataReady = false;
-      var filename = "level_" + currentLevel + "_";
-    // sheep outcome data file downloads automatically
+      if (levelTestDataReady) {
+        levelTestDataReady = false;
+        var filename = "level_" + currentLevel + "_";
+        // sheep outcome data file downloads automatically
 
-      if (runMode == NORMAL_PLAY) {
-        levelData = playResult();
-        filename += "play.tsv";
-        downloader(filename, levelData);
-        console.log("Results of play downloaded to " + filename);
-      }
-      else {
-        levelData = testResult();
-        filename += "test.tsv";
-        downloader(filename, levelData);
-        console.log("Results of test downloaded to " + filename);
-        console.log("Level " + currentLevel + " completed. Score " + levelScore);
-      }
-    }// end levelTestDataReady, run once when level completed
+        if (runMode == NORMAL_PLAY) {
+          levelData = playResult();
+          filename += "play.tsv";
+          downloader(filename, levelData);
+          console.log("Results of play downloaded to " + filename);
+        }
+        else {
+          levelData = testResult();
+          filename += "test.tsv";
+          downloader(filename, levelData);
+          console.log("Results of test downloaded to " + filename);
+          console.log("Level " + currentLevel + " completed. Score " + levelScore);
+        }
+      }// end levelTestDataReady, run once when level completed
     } //if editMode
   } // end of Level_Over
 
@@ -322,7 +343,7 @@ function drawAll() {
     console.log("Game in unknown state.");
   }
 
-  if ( requireButtonGotoMenu() ) {
+  if (requireButtonGotoMenu()) {
     drawBarButtons(offMenuButtonLabel);
   }
 
@@ -347,15 +368,15 @@ function drawAll() {
 var tutorial_start_time = 0;
 var tutorial_timespan = 5000; // ms
 function drawTutorial() {
-    // display the controls reference gui tutorial popup
-    // for a few seconds, then fade it out
-    let now = performance.now();
-    if (!tutorial_start_time) tutorial_start_time = now;
-    if (now < tutorial_start_time + tutorial_timespan) {
-        canvasContext.globalAlpha = 1-((now-tutorial_start_time)/tutorial_timespan);
-        canvasContext.drawImage(controlsPic,320,75);
-        canvasContext.globalAlpha = 1;
-    }
+  // display the controls reference gui tutorial popup
+  // for a few seconds, then fade it out
+  let now = performance.now();
+  if (!tutorial_start_time) tutorial_start_time = now;
+  if (now < tutorial_start_time + tutorial_timespan) {
+    canvasContext.globalAlpha = 1 - ((now - tutorial_start_time) / tutorial_timespan);
+    canvasContext.drawImage(controlsPic, 320, 75);
+    canvasContext.globalAlpha = 1;
+  }
 }
 
 
@@ -380,7 +401,7 @@ function loadLevel(whichLevel) {
   if (runMode == NORMAL_PLAY) {
     flockSize = FLOCK_SIZE[whichLevel];
     var team = PLAIN;
-    for(var i=0; i<flockSize; i++) {
+    for (var i = 0; i < flockSize; i++) {
       var spawnSheep = new sheepClass();
       var mode = i % 2 == 0 ? ROAM : GRAZE;
       var potential = i % 2 == 0 ? BLUE : RED;
@@ -403,7 +424,7 @@ function loadLevel(whichLevel) {
     baaVolume = 0;
 
     flockSize = TILE_COLS;
-    for(var i=0; i<flockSize; i++) {
+    for (var i = 0; i < flockSize; i++) {
       var spawnSheep = new sheepClass();
       if (testTeam == MIXED) {
         var team = i % 2 == 0 ? BLUE : RED;
@@ -427,7 +448,7 @@ function loadLevel(whichLevel) {
     flockSize = TILE_COLS;
     testTeam = PLAIN;
 
-    for(var i=0; i<FLOCK_SIZE[whichLevel]; i++) {
+    for (var i = 0; i < FLOCK_SIZE[whichLevel]; i++) {
       var spawnSheep = new sheepClass();
       spawnSheep.reset(i, testTeam, PLAIN, ROAM);
       spawnSheep.testRoamInit();
@@ -453,7 +474,7 @@ function loadLevel(whichLevel) {
   }
 
   // reset sorting
-  teamSizeSoFar = [0,0,0];
+  teamSizeSoFar = [0, 0, 0];
   // reset level-ending detector
   sheepInPlay = flockSize;
   levelScore = 0;
@@ -468,7 +489,7 @@ function staticScreen() {
 }
 
 
-function refocus(){
-  drawingCanvas.setAttribute('tabindex','0');
+function refocus() {
+  drawingCanvas.setAttribute('tabindex', '0');
   drawingCanvas.focus();
 }

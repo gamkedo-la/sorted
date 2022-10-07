@@ -380,9 +380,10 @@ function sheepClass() {
       nextX = nearestColumnCentre(nextX);
       nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
       this.ang = Math.PI * 1 / 2;
+      this.teamOrient();
       this.endLevel(tileCol);
 
-      this.teamOrient();
+      makePenVFX(nextX, nextY);
 
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
@@ -464,6 +465,7 @@ function sheepClass() {
         else if (this.team == RED) {
           this.orient = ORIENT_RED;
         }
+        makeDitchVFX(nextX, nextY);
       }
     }
 
@@ -595,6 +597,7 @@ function sheepClass() {
         agentGrid[tileIndexUnder] = this.team;
         nextX = nearestColumnCentre(nextX);
         nextY = nextRowEdge(nextY, -1) + TILE_Y_ADJUST*TILE_H;
+        makeStuckVFX(nextX, nextY);
       }
     }
 
@@ -1012,7 +1015,7 @@ function sheepClass() {
 
     this.changeMode(HELD);
 
-    // if already Sorted, don't change
+    // if not already Sorted, change
     if (this.team == PLAIN) {
       var teamSort = this.potentialTeam;
       teamSizeSoFar[teamSort]++;
