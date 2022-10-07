@@ -2,6 +2,7 @@ const HOOFPRINT_OPACITY = 0.6; // how transparent are the sheep hoofprints 0.0 t
 const SHEEP_RADIUS = 16;
 const SIDE_MARGIN = SHEEP_RADIUS/2 + 1;
 const TOP_MARGIN = 60;
+const HAT_PATH_SHEEP_EXCLUSION_Y = 60;
 const FACING_RADIUS = 2;
 
 var teamSizeSoFar = [0, 0, 0];
@@ -204,6 +205,7 @@ function sheepClass() {
       // collision with other sheep
       let leftDetect = this.overlapSheep(this.antennaLeftX, this.antennaLeftY);
       let rightDetect = this.overlapSheep(this.antennaRightX, this.antennaRightY);
+
       if (leftDetect && rightDetect) {
         this.ang += Math.PI; // turn around
       }
@@ -274,7 +276,7 @@ function sheepClass() {
     }
 
     // bounce down from top row if not Called
-    if (nextY < 50) {
+    if (nextY < HAT_PATH_SHEEP_EXCLUSION_Y) {
       if (this.isAllowedTopRow() == false) {
         this.ang = 2*Math.PI - this.ang;
         nextY = this.y; // stops oscillation
@@ -520,22 +522,11 @@ function sheepClass() {
 
     // deflection applied every loop so how many steps sheep inside tile => amount deflected
     else if (tileType == TILE_BEND_LEFT) {
-      if (this.mode == SENT) {
-        this.ang += 0.1;
-      }
-      else {
-        this.ang += 0.01;
-      }
+      this.ang += this.speed * 0.01;
     }
 
     else if (tileType == TILE_BEND_RIGHT) {
-      if (this.mode == SENT) {
-        this.ang -= 0.1;
-      }
-      else {
-        this.ang -= 0.01;
-      }
-    // should only apply on entering
+      this.ang -= this.speed * 0.01;
     }
 
 
@@ -1041,7 +1032,7 @@ function sheepClass() {
     var overlapping = false;
     for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
       if (i == this.id) {
-        // don't sheck self
+        // don't check self
       } else {
         let distTo = sheepList[i].distFrom(x,y);
         if (distTo < COLLISION_DIST) {

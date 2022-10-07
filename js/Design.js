@@ -123,6 +123,7 @@ function clearDesign() {
   designGridSet = true;
   tileType = TILE_FIELD;
   designTileReady = true;
+  areaGrid = getDitchField();
   console.log("Field visually cleared but grid.js unchanged");
 }
 
@@ -139,6 +140,7 @@ function getEmptyField() {
   grid.fill(TILE_FIELD);
   return grid;
 }
+
 
 function formatDesign() {
   var output = 'const level_' + designLevel + ' = [\n';

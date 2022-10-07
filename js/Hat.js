@@ -7,7 +7,6 @@ const CALL_Y_TOLERANCE = 200;
 var callAlignLimitX = null; // more X leeway if longer Y distance
 const CALL_X_WEIGHT = 7; // X dist weighted 7x more than Y
 
-
 function playerClass(id) {
   this.id = id;
 
