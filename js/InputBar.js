@@ -11,9 +11,8 @@ function ui_mousedownHandler() {
           case "Play":
             if (!levelRunning) { // otherwise return to level mid-play
               levelRunning = true;
-              playLevel++;
-              currentLevel = playLevel;
-              loadLevel(playLevel);
+              currentLevel++;
+              loadLevel(currentLevel);
               checkGridMatchColsRows();
             }
             gotoPlay("canvasButton");

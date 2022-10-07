@@ -71,9 +71,8 @@ function requireButtonGotoMenu() {
 function touchstartPlayHandler() {
   if (!levelRunning) {
     levelRunning = true;
-    playLevel++;
-    currentLevel = playLevel;
-    loadLevel(playLevel);
+    currentLevel++;
+    loadLevel(currentLevel);
     checkGridMatchColsRows();
   }
   gotoPlay("bar touchstart Play");

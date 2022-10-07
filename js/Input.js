@@ -247,7 +247,7 @@ function menuKeyChoice(key) {
     case STATE_LEVEL_END:
 
       if (key == KEY_ESC || key == KEY_M) {
-        if (playLevel == LAST_LEVEL) {
+        if (currentLevel == LAST_LEVEL) {
           gameState = STATE_GAME_OVER;
           console.log("Game Over!");
         } else {
@@ -278,14 +278,13 @@ function menuKeyChoice(key) {
       if (key == KEY_P) {
         if (!levelRunning) { // otherwise return mid-level
           // this condition should be caught by levelEnd handling
-          if (playLevel == LAST_LEVEL) {
+          if (currentLevel == LAST_LEVEL) {
             console.log("No more Levels!");
           } else {
             levelRunning = true;
-            playLevel++;
-            currentLevel = playLevel;
-            console.log("Level number now playLevel=" + playLevel + " currentLevel=" + currentLevel);
-            loadLevel(playLevel);
+            currentLevel++;
+            console.log("Level number now =" + currentLevel);
+            loadLevel(currentLevel);
             checkGridMatchColsRows();
           }
         }

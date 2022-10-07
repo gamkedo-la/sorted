@@ -17,7 +17,6 @@ var paused = false;
 var sortingVFX = false;
 
 var levelLoaded = null;
-var playLevel = 0; // not changed by editMode or state levelEditor
 var levelRunning = false;
 var levelTestDataReady = false;
 var levelOver = false;

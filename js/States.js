@@ -29,7 +29,7 @@ function gotoReplay(from) {
   gameState = STATE_PLAY;
   if (!levelRunning) {
     levelRunning = true;
-    loadLevel(playLevel);
+    loadLevel(currentLevel);
     checkGridMatchColsRows();
   }
 }
@@ -37,18 +37,17 @@ function gotoReplay(from) {
 function gotoAdvance(from) {
 
   // if (!levelRunning) {
-    if (playLevel == LAST_LEVEL) {
+    if (currentLevel == LAST_LEVEL) {
       console.log("No more Levels!");
       // gameState = STATE_GAME_OVER;
       gameState = STATE_SCOREBOARD;
     } else {
-      playLevel++;
-      currentLevel = playLevel;
+      currentLevel++;
       levelRunning = true;
-      loadLevel(playLevel);
+      loadLevel(currentLevel);
       checkGridMatchColsRows();
       gameState = STATE_PLAY;
-      console.log("Level number now playLevel=" + playLevel + " currentLevel=" + currentLevel);
+      console.log("Level number now =" + currentLevel);
     }
   // }
 }
