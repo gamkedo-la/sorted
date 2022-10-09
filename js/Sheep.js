@@ -583,7 +583,10 @@ function sheepClass() {
 
 
     else if (tileType == TILE_STUCK) {
-      if (this.mode != STUCK) {
+      if (agentGrid[tileIndexUnder] != 0) {
+        this.ang -= Math.PI;
+      }
+      else if (this.mode != STUCK) {
         this.changeMode(STUCK);
         this.endLevel(tileCol);
         agentGrid[tileIndexUnder] = this.team;
@@ -863,9 +866,11 @@ function sheepClass() {
       var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
       colorCircle(canvasContext, facingX, facingY, FACING_RADIUS, "red");
 
-      // show Antennae
-      colorCircle(canvasContext, this.antennaLeftX, this.antennaLeftY, FACING_RADIUS, "yellow");
-      colorCircle(canvasContext, this.antennaRightX, this.antennaRightY, FACING_RADIUS, "limegreen");
+      if (this.levelDone == false) {
+        // show Antennae
+        colorCircle(canvasContext, this.antennaLeftX, this.antennaLeftY, FACING_RADIUS, "yellow");
+        colorCircle(canvasContext, this.antennaRightX, this.antennaRightY, FACING_RADIUS, "limegreen");
+      }
 
       canvasContext.textAlign = "center";
       if (idLabel) {
