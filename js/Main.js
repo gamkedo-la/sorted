@@ -175,7 +175,8 @@ function moveAll() {
   else if (gameState == STATE_PLAY) {
     // console.log('step', step[currentLevel], ' haste ', haste)
 
-    for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
+    // for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
+    for (var i = 0; i < sheepList.length; i++) {
       sheepList[i].move();
     }
 
@@ -196,9 +197,6 @@ function moveAll() {
       }
     }
 
-    // if (currentLevel >= 3 && runMode == NORMAL_PLAY) { // dog present on later levels only
-    //   dog.move();
-    // }
     for (var i = 0; i < rogueDogList.length; i++) {
       rogueDogList[i].move();
     }

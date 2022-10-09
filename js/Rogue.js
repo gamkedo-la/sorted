@@ -53,10 +53,11 @@ function rogueClass() {
     // is close enough to unsort
     if (this.isSheepClose(nearestSheep, ROGUE_UNSORT_RANGE)) {
       if (nearestSheep.team != PLAIN) {
-        console.log("Unsort sheep id =", nearestSheep.id);
+        makeLickVFX(nearestSheep.x, nearestSheep.y, nearestSheep.team);
         nearestSheep.team = PLAIN;
         nearestSheep.color = TEAM_COLOURS[PLAIN];
         this.changeMode(LICKING);
+        console.log("Unsort sheep id =", nearestSheep.id);
       }
     }
 
@@ -81,7 +82,7 @@ function rogueClass() {
             }
           } // end MOVING
         } else {
-          console.log('dog has passed BoPeep X already')
+          // console.log('dog has passed BoPeep X already')
         } // end X right test
       }
     }

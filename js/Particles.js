@@ -94,18 +94,15 @@ function makeStuckVFX(centreX, centreY) {
   addParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, ['#663300'], size, life, shapeX, shapeY);
 }
 
-
-function moveParticles(particleList) {
-  for (let i = 0; i < particleList.length; i++) {
-    particleList[i].move();
-  }
+function makeLickVFX(centreX, centreY, team) {
+  console.log('Licking', team)
+  let size = 1;
+  let life = 40;
+  let shapeX = 30;
+  let shapeY = 30;
+  addParticles(NUM_SORTING_PARTICLES, centreX, centreY, [TEAM_COLOURS[team]], size, life, shapeX, shapeY);
 }
 
-function drawParticles(particleList) {
-  for (let i = 0; i < particleList.length; i++) {
-    particleList[i].draw();
-  }
-}
 
 function removeFromUnordered(arr, i) {
   if (i <= 0 || i >= arr.length) {

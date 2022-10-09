@@ -15,7 +15,7 @@ function movingClass() {
   
   this.overlap = function(x,y) {
     var overlapping = false;
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+    for(var i=0; i<sheepList.length; i++) {
       if (i == this.id) {
         // don't sheck self
       } else {
