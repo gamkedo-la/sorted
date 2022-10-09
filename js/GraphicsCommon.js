@@ -26,6 +26,7 @@ function colorCircle(ctx, centerX,centerY, radius, fillColor) {
 	ctx.arc(centerX,centerY, radius, 0,Math.PI*2, true);
 	ctx.fill();
 }
+
 function colorCircleBorder(ctx, centerX,centerY, radius, fillColor, strokeColor) {
   ctx.fillStyle = fillColor;
 	ctx.beginPath();

@@ -160,14 +160,23 @@ function drawUI() {
   drawTutorial();
 }
 
+function drawCalling() {
+  var sheepCalled = player.sheepIDcalled;
+  if (sheepCalled != null) {
+    // draw line between Hat and called sheep
+    let x = sheepList[sheepCalled].x;
+    let y = sheepList[sheepCalled].y;
+    colorLine(canvasContext, player.x,player.y, x,y, "yellow")
+  }
+}
 
 // called every interval, from Main.js
 function drawPlay() {
   drawField(); // common to Play and LevelOver
+  drawCalling();
   drawSheep();
   drawMovingNotSheep();
   drawUI();
-
 } // end drawPlay
 
 

@@ -18,7 +18,8 @@ function playerClass(id) {
     this.direction = 0;
     this.speed = HAT_MAX_SPEED[currentLevel]; // was 0
     this.ang = 0;
-    this.sheepIDheld = null; // ID of sheep carried
+    this.sheepIDheld = null; // ID of sheep held after calling
+    this.sheepIDcalled = null;
     this.callGapTimer = 0;
     this.callWhenInPlace = false;
     this.sendWhenInPlace = false;
@@ -43,6 +44,10 @@ function playerClass(id) {
   this.move = function () {
     var nextX = this.x;
     var nextY = this.y;
+
+    // if (this.sheepIDheld != null) {
+    //   sheepList[this.sheepIDheld].x = nextX;
+    // }
 
     if (this.keyHeld_send) {
 
@@ -83,7 +88,7 @@ function playerClass(id) {
 
         // weights X distance strongly, but includes Y distance to avoid unexpected calling of a sheep far away but X-aligned
 
-        for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
+        for (var i = 0; i < sheepList.length; i++) {
 
           var mode = sheepList[i].mode;
           if (isSheepCallable(mode)) {
@@ -101,7 +106,6 @@ function playerClass(id) {
               if (yDist > CALL_Y_TOLERANCE) {
                 callAlignLimitX *= yDist / CALL_Y_TOLERANCE;
               }
-
               console.log('id:' + i + ' callAlignLimitX:' + callAlignLimitX.toFixed(0))
             }
           } else {
@@ -129,6 +133,7 @@ function playerClass(id) {
           } else {
             sheepList[aligned].orient = Math.PI * 7 / 4;
           }
+          this.sheepIDcalled = sheepList[aligned].id;
         } // end check if any sheep is callable
       } // end of else (Hat can call)
     } // end of CALL
@@ -216,7 +221,6 @@ function playerClass(id) {
         nextX -= moveX; // move left
       }
     }
-
 
     this.x = nextX;
     this.y = nextY;

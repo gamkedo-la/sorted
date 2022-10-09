@@ -61,7 +61,7 @@ function addParticles(num=10, x, y, colourList=['white'], size=1, life=40, shape
 
 
 function makeSortingVFX(hatX, hatY) {
-  let numParticles = NUM_SORTING_PARTICLES;
+  let numParticles = NUM_SORTING_PARTICLES*2;
   let size = 1;
   let life = 40;
   let shapeX = 50;
@@ -70,7 +70,7 @@ function makeSortingVFX(hatX, hatY) {
 }
 
 function makePenVFX(centreX, centreY, team) {
-  let size = 2;
+  let size = 1;
   let life = 40;
   let shapeX = 40;
   let shapeY = 80;

@@ -154,6 +154,7 @@ function sheepClass() {
 
     else if (this.mode == CALLED) {
       this.gotoX = player.x; // Hat may have moved
+      // tried in Hat.js to avoid lag but no effect 
     } // end CALLED
 
     // attached to player
@@ -193,7 +194,7 @@ function sheepClass() {
     if (this.avoidCollisionTimer > 0) {
       this.avoidCollisionTimer--;
     }
-    else {
+    else if (this.mode != CALLED) {
       // antennae left & right
       var antennaLeftAngle = this.ang - Math.PI/4;
       var antennaRightAngle = this.ang + Math.PI/4;
@@ -372,7 +373,6 @@ function sheepClass() {
       nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
       this.ang = Math.PI * 1 / 2;
       this.teamOrient();
-      this.endLevel(tileCol);
 
       if (tileType == TILE_PEN_BLUE) {
         console.log("Sheep ID", this.id, "reached a blue pen.");
@@ -387,6 +387,8 @@ function sheepClass() {
         areaGrid[tileIndexUnder] = FULL_RED;
         makePenVFX(nextX, nextY, RED);
       }
+
+      this.endLevel(tileCol);
 
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
@@ -856,11 +858,6 @@ function sheepClass() {
       drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x + gameCanvas.width, this.y, this.orient);
     }
 
-    if (this.mode == CALLED) {
-      // draw line between sheep and hat
-      colorLine(canvasContext, player.x,player.y, this.x,this.y, "yellow")
-    }
-
     if (editMode) {
       var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
       var facingY = this.y + Math.sin(this.ang) * SHEEP_RADIUS;
@@ -1010,8 +1007,8 @@ function sheepClass() {
   }
 
   this.calledArrives = function (nextX, nextY) {
-
     this.changeMode(HELD);
+    player.sheepIDcalled = null;
 
     // if not already Sorted, change
     if (this.team == PLAIN) {
