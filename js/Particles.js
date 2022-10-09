@@ -1,27 +1,19 @@
 const NUM_SORTING_PARTICLES = 50;
 const NUM_ARRIVAL_PARTICLES = 150;
-var vfxArrayList = [];
-var sortingVFXtimer = 0;
-var penVFXtimer = 0;
-var ditchVFXtimer = 0;
-var stuckVFXtimer = 0;
-
-var sortingParticles = [];
-var penParticles = [];
-var ditchParticles = [];
-var stuckParticles = [];
+var particleList = [];
 
 
-function Particle(x, y, xVel, yVel, size, color, life) {
+function Particle(x, y, xVel, yVel, size, growth, color, life) {
   this.x = x;
   this.y = y;
   this.xVel = xVel;
   this.yVel = yVel;
   this.size = size;
+  this.growth = growth;
   this.color = color;
   this.life = life;
-  this.ang = Math.PI * 2.0 * Math.random();
-  this.angVel = (Math.random() - 0.5) * 0.01;
+  // this.ang = Math.PI * 2.0 * Math.random();
+  // this.angVel = (Math.random() - 0.5) * 0.01;
 }
 
 
@@ -41,60 +33,73 @@ Particle.prototype.draw = function () {
 
 
 Particle.prototype.move = function () {
+  this.x += this.xVel;
+  this.y += this.yVel;
+  this.ang += this.angVel;
+  this.size += this.growth;
   this.life = this.life - 1;
-  if (this.life > 0) {
-    this.x += this.xVel;
-    this.y += this.yVel;
-    this.ang += this.angVel;
-    this.size += 0.02;
-  } else {
-
-  }
 }
 
 
-function makeParticles(num = 10, x, y, colour = 'white', size = 1, life = 40) {
-  particleArray = [];
+function addParticles(num=10, x, y, colourList=['white'], size=1, life=40, shapeX=50, shapeY=50) {
   for (let i = 0; i < num; i++) {
     // let size = 1;
-    // let life = 40; // + Math.random() * 10;
+    let growth = 0;
+
     let px = x + (Math.random() * 8) - 4;
     let py = y + (Math.random() * 8) - 4;
-    let xVel = (Math.random() * 4) - 2;
-    let yVel = (Math.random() * 2) - 1;
-    // let colour = TEAM_COLOURS[randomInteger(1, 2)];
-    particleArray.push(new Particle(px, py, xVel, yVel, size, colour, life));
+
+    // let life = 40; // + Math.random() * 10;
+    let xVel = (shapeX / life) * randomRange(-1,1);
+    let yVel = (shapeY / life) * randomRange(-1,1);
+
+    let colourRange = colourList.length - 1;
+    let colour = colourList[randomInteger(0, colourRange)];
+    particleList.push(new Particle(px, py, xVel, yVel, size, growth, colour, life));
   }
-  return particleArray;
 }
 
 
 function makeSortingVFX(HatX, HatY) {
-  sortingParticles = makeParticles(NUM_SORTING_PARTICLES, HatX, HatY, TEAM_COLOURS[1], 1, 40);
-  sortingVFXtimer = 40;
+  let numParticles = NUM_SORTING_PARTICLES;
+  let centreX = HatX;
+  let centreY = HatY;
+  let size = 2;
+  let life = 40;
+  let shapeX = 50;
+  let shapeY = 30;
+  addParticles(numParticles, centreX, centreY, TEAM_COLOURS, size, life, shapeX, shapeY);
 }
-function makePenVFX(centreX, centreY) {
-  penParticles = makeParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, TEAM_COLOURS[2], 2, 30);
-  penVFXtimer = 40;
+
+function makePenVFX(centreX, centreY, team) {
+  addParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, TEAM_COLOURS[team], 2, 30);
 }
 function makeDitchVFX(centreX, centreY) {
-  ditchParticles = makeParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, '#996633', 2, 30);
-  ditchVFXtimer = 40;
+  addParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, '#996633', 2, 30);
 }
 function makeStuckVFX(centreX, centreY) {
-  stuckParticles = makeParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, '#663300', 2, 30);
-  stuckVFXtimer = 40;
+  addParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, '#663300', 2, 30);
 }
 
 
-function moveParticles(particleArray) {
-  for (let i = 0; i < particleArray.length; i++) {
-    particleArray[i].move();
+function moveParticles(particleList) {
+  for (let i = 0; i < particleList.length; i++) {
+    particleList[i].move();
   }
 }
 
-function drawParticles(particleArray) {
-  for (let i = 0; i < particleArray.length; i++) {
-    particleArray[i].draw();
+function drawParticles(particleList) {
+  for (let i = 0; i < particleList.length; i++) {
+    particleList[i].draw();
   }
+}
+
+function removeFromUnordered(arr, i) {
+  if (i <= 0 || i >= arr.length) {
+    return;
+  }
+  if (i < arr.length - 1) {
+    arr[i] = arr[arr.length - 1];
+  }
+  arr.length -= 1;
 }

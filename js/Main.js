@@ -89,7 +89,7 @@ function imageLoadingDoneSoStartGame() {
 
   setupGame();
 
-  makeParticles();
+  initialHatVFXsetup();
 }
 
 
@@ -180,20 +180,19 @@ function moveAll() {
     }
 
     if (runMode == NORMAL_PLAY) {
+
       flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
+
       player.move();
 
-      if (sortingVFXtimer > 0) { // Hat sorting
-        moveParticles(sortingParticles);
-      }
-      if (penVFXtimer > 0) { 
-        moveParticles(penParticles);
-      }
-      if (ditchVFXtimer > 0) { 
-        moveParticles(ditchParticles);
-      }
-      if (stuckVFXtimer > 0) { 
-        moveParticles(stuckParticles);
+      for (var i = 0; i < particleList.length; i++) {
+        // particleList[i].life--; let obj.move do decrement
+        if (particleList[i].life < 1) {
+          removeFromUnordered(particleList, i);
+        }
+        else {
+          particleList[i].move();
+        }
       }
     }
 
@@ -260,31 +259,11 @@ function drawAll() {
 
   else if (gameState == STATE_PLAY) {
     drawPlay();
-    if (sortingVFXtimer > 0) { // Hat sorting
-      drawParticles(sortingParticles);
-      sortingVFXtimer--;
-    } else {
-      sortingParticles = [];
-    }
-    if (penVFXtimer > 0) { // arrival pen
-      drawParticles(penParticles);
-      penVFXtimer--;
-    } else {
-      penParticles = [];
-    }
-    if (stuckVFXtimer > 0) { // arrival ditch, stuck
-      drawParticles(stuckParticles);
-      stuckVFXtimer--;
-    } else {
-      stuckParticles = [];
-    }
-    if (ditchVFXtimer > 0) { // arrival ditch, stuck
-      drawParticles(ditchParticles);
-      ditchVFXtimer--;
-    } else {
-      ditchParticles = [];
+    for (var i = 0; i < particleList.length; i++) {
+      particleList[i].draw();
     }
   }
+
 
   else if (gameState == STATE_LEVEL_END) {
     // should call drawField() with parameter play or endLevel

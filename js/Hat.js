@@ -10,9 +10,9 @@ const CALL_X_WEIGHT = 7; // X dist weighted 7x more than Y
 function playerClass(id) {
   this.id = id;
 
-  this.reset = function(whichPic) {
+  this.reset = function (whichPic) {
     this.pic = whichPic;
-    this.x = TILE_COLS/2 * TILE_W; // halfway horizontal
+    this.x = TILE_COLS / 2 * TILE_W; // halfway horizontal
     this.y = TILE_H / 2;
     this.gotoX = this.x;
     this.direction = 0;
@@ -26,7 +26,7 @@ function playerClass(id) {
 
 
   // store ASCII number of key assigned
-  this.setupInput = function(upKey, downKey, leftKey, rightKey) {
+  this.setupInput = function (upKey, downKey, leftKey, rightKey) {
     this.controlKeyUp = upKey;
     this.controlKeyDown = downKey;
     this.controlKeyLeft = leftKey;
@@ -40,12 +40,7 @@ function playerClass(id) {
   }
 
 
-  this.move = function() {
-    if (sortingVFXtimer > 0) {
-      console.log("Cannot take other action while Sorting");
-      return;
-    }
-
+  this.move = function () {
     var nextX = this.x;
     var nextY = this.y;
 
@@ -96,7 +91,7 @@ function playerClass(id) {
             var xDist = Math.abs(nextX - sheepList[i].x);
             var yDist = Math.abs(nextY - sheepList[i].y);
             var weightedCallDist = (yDist / CALL_X_WEIGHT) + xDist;
-            console.log('id:' + i + ' x:' + xDist.toFixed(0) + ' y:' + yDist.toFixed(0) + ' weighted:' + weightedCallDist.toFixed(0) );
+            console.log('id:' + i + ' x:' + xDist.toFixed(0) + ' y:' + yDist.toFixed(0) + ' weighted:' + weightedCallDist.toFixed(0));
 
             if (weightedCallDist < nearestWeightDist) {
               aligned = i;
@@ -107,7 +102,7 @@ function playerClass(id) {
                 callAlignLimitX *= yDist / CALL_Y_TOLERANCE;
               }
 
-              console.log('id:' + i + ' callAlignLimitX:' + callAlignLimitX.toFixed(0) )
+              console.log('id:' + i + ' callAlignLimitX:' + callAlignLimitX.toFixed(0))
             }
           } else {
             console.log('Sheep ' + i + ' cannot be called because mode ' + sheepModeNames[mode]);
@@ -187,11 +182,11 @@ function playerClass(id) {
 
         if (nextX > gameCanvas.width) {
           nextX -= gameCanvas.width; // offset to mirror image
-          this.gotoX = TILE_W/2;
+          this.gotoX = TILE_W / 2;
         }
         if (nextX < 0) {
           nextX += gameCanvas.width; // offset to mirror image
-          this.gotoX = gameCanvas.width - TILE_W/2;
+          this.gotoX = gameCanvas.width - TILE_W / 2;
         }
 
         if (this.callWhenInPlace) {
@@ -228,13 +223,13 @@ function playerClass(id) {
   } // end move()
 
 
-  this.draw = function() {
-    drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x,this.y, this.ang);
+  this.draw = function () {
+    drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x, this.y, this.ang);
     // when part of image off canvas, draw mirror on other side
-    if (this.x > gameCanvas.width - this.pic.width/2) {
+    if (this.x > gameCanvas.width - this.pic.width / 2) {
       drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x - gameCanvas.width, this.y, this.ang);
     }
-    if (this.x < this.pic.width/2) {
+    if (this.x < this.pic.width / 2) {
       drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width, this.y, this.ang);
     }
   } // end draw()
@@ -243,14 +238,14 @@ function playerClass(id) {
 
 
 function isSheepCallable(location) {
-  callable = ( location != IN_PEN_BLUE && location != IN_PEN_RED && location != IN_DITCH && location != STUCK && location != STACKED );
+  callable = (location != IN_PEN_BLUE && location != IN_PEN_RED && location != IN_DITCH && location != STUCK && location != STACKED);
   return callable;
 }
 
 
 function isAnySheepCalledAlready() {
   var calledAlready = false;
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+  for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
     if (sheepList[i].mode == CALLED) {
       calledAlready = true;
     }
@@ -278,4 +273,16 @@ function hatDemoHoldingX(x) {
 function hatDemoHoldingCol(col) {
   player.gotoX = (col * TILE_W) - (TILE_W / 2);
   player.sendWhenInPlace = true;
+}
+
+function initialHatVFXsetup() {
+  let numParticles = 180;
+  let centreX = 400;
+  let centreY = 25;
+  let colours = ['white', 'purple']
+  let size = 2;
+  let life = 40;
+  let shapeX = 80;
+  let shapeY = 40;
+  addParticles(numParticles, centreX, centreY, colours, size, life, shapeX, shapeY);
 }
