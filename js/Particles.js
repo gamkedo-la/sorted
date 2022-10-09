@@ -1,5 +1,5 @@
-const NUM_SORTING_PARTICLES = 50;
-const NUM_ARRIVAL_PARTICLES = 150;
+const NUM_SORTING_PARTICLES = 120;
+const NUM_ARRIVAL_PARTICLES = 160;
 var particleList = [];
 
 
@@ -60,25 +60,38 @@ function addParticles(num=10, x, y, colourList=['white'], size=1, life=40, shape
 }
 
 
-function makeSortingVFX(HatX, HatY) {
+function makeSortingVFX(hatX, hatY) {
   let numParticles = NUM_SORTING_PARTICLES;
-  let centreX = HatX;
-  let centreY = HatY;
-  let size = 2;
+  let size = 1;
   let life = 40;
   let shapeX = 50;
   let shapeY = 30;
-  addParticles(numParticles, centreX, centreY, TEAM_COLOURS, size, life, shapeX, shapeY);
+  addParticles(numParticles, hatX, hatY, TEAM_COLOURS, size, life, shapeX, shapeY);
 }
 
 function makePenVFX(centreX, centreY, team) {
-  addParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, TEAM_COLOURS[team], 2, 30);
+  let size = 2;
+  let life = 40;
+  let shapeX = 40;
+  let shapeY = 80;
+  centreY -= 20;
+  addParticles(NUM_ARRIVAL_PARTICLES*1.5, centreX, centreY, [TEAM_COLOURS[team]], size, life, shapeX, shapeY);
 }
+
 function makeDitchVFX(centreX, centreY) {
-  addParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, '#996633', 2, 30);
+  let size = 1;
+  let life = 40;
+  let shapeX = 40;
+  let shapeY = 70;
+  addParticles(NUM_ARRIVAL_PARTICLES*2, centreX, centreY-20, ['#996633'], size, life, shapeX, shapeY);
 }
+
 function makeStuckVFX(centreX, centreY) {
-  addParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, '#663300', 2, 30);
+  let size = 2;
+  let life = 40;
+  let shapeX = 40;
+  let shapeY = 40;
+  addParticles(NUM_ARRIVAL_PARTICLES, centreX, centreY, ['#663300'], size, life, shapeX, shapeY);
 }
 
 

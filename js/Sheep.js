@@ -367,18 +367,6 @@ function sheepClass() {
 
     if (this.enterPen(tileType)) {
 
-      if (tileType == TILE_PEN_BLUE) {
-        console.log("Sheep ID", this.id, "reached a blue pen.");
-        this.mode = IN_PEN_BLUE;
-        areaGrid[tileIndexUnder] = FULL_BLUE;
-      }
-      else if (tileType == TILE_PEN_RED) {
-        console.log("Sheep ID", this.id, "reached a red pen.");
-        this.orient = Math.PI * 3 / 2;
-        this.mode = IN_PEN_RED;
-        areaGrid[tileIndexUnder] = FULL_RED;
-      }
-
       agentGrid[tileIndexUnder] = this.team;
       nextX = nearestColumnCentre(nextX);
       nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
@@ -386,7 +374,19 @@ function sheepClass() {
       this.teamOrient();
       this.endLevel(tileCol);
 
-      makePenVFX(nextX, nextY);
+      if (tileType == TILE_PEN_BLUE) {
+        console.log("Sheep ID", this.id, "reached a blue pen.");
+        this.mode = IN_PEN_BLUE;
+        areaGrid[tileIndexUnder] = FULL_BLUE;
+        makePenVFX(nextX, nextY, BLUE);
+      }
+      else if (tileType == TILE_PEN_RED) {
+        console.log("Sheep ID", this.id, "reached a red pen.");
+        this.orient = Math.PI * 3 / 2;
+        this.mode = IN_PEN_RED;
+        areaGrid[tileIndexUnder] = FULL_RED;
+        makePenVFX(nextX, nextY, RED);
+      }
 
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
