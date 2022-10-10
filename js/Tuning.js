@@ -31,7 +31,7 @@ HAT_MAX_SPEED.fill(defaultHatMaxSpeed);
 // Call a sheep
 // const CALL_X_ALIGN = 20; // tractor not exactly above sheep
 const CALL_SPEED = Array(NUM_LEVELS); // speed of sheep moving up
-var defaultCallSpeed = 4;
+var defaultCallSpeed = 5;
 CALL_SPEED.fill(defaultCallSpeed);
 
 // Send a sheep

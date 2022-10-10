@@ -47,14 +47,24 @@ function drawMenu() {
   canvasContext.textAlign = "left";
   var line = 0;
   if (!editMode) {
-    textIndent = 225;
-    headLine("Menu");
-    bodyLine("Play - key P", ++line);
-    bodyLine("Score - key S", ++line);
-    bodyLine("Help - key H", ++line);
-    bodyLine("Credits - key C", ++line);
-    bodyLine("Edit mode - key F1", ++line);
-  } else {
+    if (touchDevice) {
+      textIndent = 150;
+      bodyLine("Buttons on right to Play, or", ++line);
+      bodyLine("show Scoreboard, Help, Credits", ++line);
+    } 
+    else {
+      textIndent = 225;
+      headLine("Menu");
+      bodyLine("Play - key P", ++line);
+      bodyLine("Score - key S", ++line);
+      bodyLine("Help - key H", ++line);
+      bodyLine("Credits - key C", ++line);
+      bodyLine("Edit mode - key F1", ++line);
+
+      canvasContext.drawImage(controlsPic,550,250); // controls reference gui tutorial popup
+    }
+  } 
+  else {
     textIndent = 190;
     headLine("Edit-mode menu");
     bodyLine("Level select - key 0-9", ++line);
@@ -63,8 +73,6 @@ function drawMenu() {
     bodyLine("Team paint test - key T", ++line);
     bodyLine("toggle Edit mode - key F1", ++line);
   }
-
-  canvasContext.drawImage(controlsPic,550,250); // controls reference gui tutorial popup
 }
 
 

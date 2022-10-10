@@ -1,5 +1,6 @@
 // when click/tap UI bar on right side of display
 function ui_mousedownHandler() {
+
   if (gameState == STATE_MENU) {
 
     for (var i = 0; i < menuButtonLabel.length; i++) {
@@ -92,8 +93,7 @@ function ui_mousedownHandler() {
               break;
 
             case "Pause":
-              gotoMenu("Play's CanvasButton Menu");
-              // togglePause();
+              togglePause();
               break;
 
             case "End":

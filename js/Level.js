@@ -11,7 +11,7 @@
 // GRAZE_SPEED:     0.05
 // HAT_POWER:       1.0
 // HAT_FRICTION:    0.94
-// CALL_SPEED:      4
+// CALL_SPEED:      5
 // SEND_SPEED:      10
 // ROGUE_SPEED:     5
 
@@ -46,7 +46,6 @@ SEND_SPEED[5] = 10;
 // Level 6
 PLACING_DEPTH[6] = 100;
 HAT_POWER[6] = 1.0; // slow Hat
-CALL_SPEED[6] = 3;
 SEND_SPEED[6] = 10;
 
 // Level 7
