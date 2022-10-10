@@ -27,8 +27,8 @@ step.fill(0);
 
 var decals; // grass, flowers, footprints, pebbles, etc
 
-const TEAM_NAMES = ["plain", "blue", "red", "mixed"];
-const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple"];
+const TEAM_NAMES = ["plain", "blue", "red", "mixed",,,,"white"];
+const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple",,,,"white"];
 const NUM_TEAM_TYPES = 3;
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
@@ -43,11 +43,15 @@ var lostSheepList = [];
 var boPeepList = [];
 
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
+var gateSound = new SoundOverlapsClass("sound/gate_close");
+
 var stuckSound = new SoundOverlapsClass("sound/baa08");
 var ditchSound = new SoundOverlapsClass("sound/baa08");
 var haltedSound = new SoundOverlapsClass("sound/baa12");
 var pennedSound = new SoundOverlapsClass("sound/baa17");
+
 var rogueSound = new SoundOverlapsClass("sound/woof01");
+
 var menuSound = new SoundOverlapsClass("sound/menu_choice");
 var menuBackSound = new SoundOverlapsClass("sound/menuback");
 
@@ -248,7 +252,10 @@ function drawAll() {
   // background for canvas
   colorRect(drawingContext, 0, 0, drawingCanvas.width, drawingCanvas.height, "white");
   colorRect(uiContext, 0, 0, uiCanvas.width, uiCanvas.height, UI_COLOR);
-  showDebugText();
+
+  if (editMode) {
+    showDebugText();
+  }
 
   if (paused) {
     drawBarButtons(pauseButtonLabel);

@@ -36,6 +36,10 @@ function rogueClass() {
       // console.log(this.modeTimer)
     }
 
+    nextX += this.speedX;
+    nextY += this.speedY;
+
+    // collision handling
     // detect sheep
     var nearestSheep = findNearestInList(this.x, this.y, sheepList);
 
@@ -96,12 +100,8 @@ function rogueClass() {
       // this.ang += Math.PI;
     }
 
-    nextX += this.speedX;
-    nextY += this.speedY;
-
-    // collision handling
-
     // tileHandling
+    this.tileHandling(nextX, nextY);
 
     this.x = nextX;
     this.y = nextY;
@@ -159,6 +159,21 @@ function rogueClass() {
     else if (newMode == MOVING) {
       this.speedX = ROGUE_SPEED[currentLevel];
       this.orient = 0;
+    }
+  }
+
+  this.tileHandling = function() {
+    if (tileType == TILE_SLOW) {
+      if (!this.slowed) {
+        if (this.mode == SENT) {
+          this.speed = this.speed / 4;
+        }
+        else {
+          this.speed = this.speed / 2;
+        }
+        this.slowed = true;
+        // console.log('speed reduce by woods', this.mode);
+      }
     }
   }
 

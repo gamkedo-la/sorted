@@ -373,19 +373,19 @@ function sheepClass() {
       nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
       this.ang = Math.PI * 1 / 2;
       this.teamOrient();
+      makePenVFX(nextX, nextY, this.team);
 
       if (tileType == TILE_PEN_BLUE) {
         console.log("Sheep ID", this.id, "reached a blue pen.");
         this.mode = IN_PEN_BLUE;
         areaGrid[tileIndexUnder] = FULL_BLUE;
-        makePenVFX(nextX, nextY, BLUE);
       }
       else if (tileType == TILE_PEN_RED) {
         console.log("Sheep ID", this.id, "reached a red pen.");
         this.orient = Math.PI * 3 / 2;
         this.mode = IN_PEN_RED;
         areaGrid[tileIndexUnder] = FULL_RED;
-        makePenVFX(nextX, nextY, RED);
+        // makePenVFX(nextX, nextY, RED);
       }
 
       this.endLevel(tileCol);
@@ -393,6 +393,7 @@ function sheepClass() {
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
         // random_baa_sound(baaVolume);
+        gateSound.play();
         pennedSound.play();
       }
     } // end enter empty pen of either colour
@@ -579,7 +580,7 @@ function sheepClass() {
           this.speed = this.speed / 2;
         }
         this.slowed = true;
-        console.log('speed reduce by woods', this.mode);
+        // console.log('speed reduce by woods', this.mode);
       }
     }
 
