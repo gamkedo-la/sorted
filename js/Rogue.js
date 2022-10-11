@@ -32,7 +32,7 @@ function rogueClass() {
 
     this.modeTimer--;
     if (this.modeTimer == 0) {
-      this.changeMode(MOVING);  
+      this.changeMode(MOVING);
       // console.log(this.modeTimer)
     }
 
@@ -162,16 +162,16 @@ function rogueClass() {
     }
   }
 
-  this.tileHandling = function() {
+  this.tileHandling = function () {
     if (tileType == TILE_SLOW) {
-      if (!this.slowed) {
+      if (!this.adjustSpeed) {
         if (this.mode == SENT) {
           this.speed = this.speed / 4;
         }
         else {
           this.speed = this.speed / 2;
         }
-        this.slowed = true;
+        this.adjustSpeed = true;
         // console.log('speed reduce by woods', this.mode);
       }
     }
