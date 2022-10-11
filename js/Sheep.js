@@ -1006,6 +1006,7 @@ function sheepClass() {
   this.calledArrives = function (nextX, nextY) {
     this.changeMode(HELD);
     player.sheepIDcalled = null;
+    calledArrivalSound.play();
 
     // if not already Sorted, change
     if (this.team == PLAIN) {
@@ -1021,7 +1022,6 @@ function sheepClass() {
         this.color = "#f38282"; // pale red
       }
     }
-
     // this.gotoX, deltaX.toFixed(2), deltaY.toFixed(2), normX.toFixed(2), normY.toFixed(2));
   }
 

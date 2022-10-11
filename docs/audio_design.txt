@@ -1,0 +1,6 @@
+Hat (farmer's clamp)
+
+sheep held (metallic)
+gen.play([
+  {type:"n1", gain:{a:0.1,h:0,d:0.1,s:0.8,r:0.1}},
+], 103, 1, gen.now(), gen.now() + 0.2)
