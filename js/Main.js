@@ -157,13 +157,8 @@ function updateAll() {
 
 
 function moveAll() {
-  step[currentLevel]++; // level timesteps
 
-  for (var i = 0; i < rogueDogList.length; i++) {
-    rogueDogList[i].barkTimer--;
-  }
-
-  if (staticScreen()) {
+  if ( staticScreen() ) { // includes paused
     return;
   }
 
@@ -176,75 +171,81 @@ function moveAll() {
     }
   }
 
-  else if (gameState == STATE_PLAY) {
-    // console.log('step', step[currentLevel], ' haste ', haste)
+  else if (gameState == STATE_PLAY || gameState == STATE_LEVEL_END) {
 
-    // for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
-    for (var i = 0; i < sheepList.length; i++) {
-      sheepList[i].move();
-    }
-
-    if (runMode == NORMAL_PLAY) {
-
-      flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
-
-      player.move();
-
-      for (var i = 0; i < particleList.length; i++) {
-        // particleList[i].life--; let obj.move do decrement
-        if (particleList[i].life < 1) {
-          removeFromUnordered(particleList, i);
-        }
-        else {
-          particleList[i].move();
-        }
+    for (var i = 0; i < particleList.length; i++) {
+      // object decrements life
+      if (particleList[i].life < 1) {
+        removeFromUnordered(particleList, i);
+      }
+      else {
+        particleList[i].move();
       }
     }
 
-    for (var i = 0; i < rogueDogList.length; i++) {
-      rogueDogList[i].move();
-    }
-    for (var i = 0; i < boPeepList.length; i++) {
-      boPeepList[i].move();
-    }
+    if (gameState == STATE_PLAY) {
+      step[currentLevel]++; // level timesteps
 
-    if (runMode == SEND_ONLY) {
-
-      if (!isAnySending()) {
-        // only on conveyors, go faster
-        haste = 8;
-        console.log('step', step[currentLevel], 'Faster while on conveyor');
+      for (var i = 0; i < rogueDogList.length; i++) {
+        rogueDogList[i].barkTimer--;
+      }
+  
+      for (var i = 0; i < sheepList.length; i++) {
+        sheepList[i].move();
       }
 
-      if (!isAnySendOrConvey()) {
-        // none on conveyors, all roaming so force LevelEnd
+      for (var i = 0; i < rogueDogList.length; i++) {
+        rogueDogList[i].move();
+      }
+      for (var i = 0; i < boPeepList.length; i++) {
+        boPeepList[i].move();
+      }
+  
+      if (runMode == NORMAL_PLAY) {
+  
+        flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
+  
+        player.move();
+      }
+  
+      else if (runMode == SEND_ONLY) {
+  
+        if (!isAnySending()) {
+          // only on conveyors, go faster
+          haste = 8;
+          console.log('step', step[currentLevel], 'Faster while on conveyor');
+        }
+  
+        if (!isAnySendOrConvey()) {
+          // none on conveyors, all roaming so force LevelEnd
+          levelEnding();
+          console.log('step', step[currentLevel], 'Level end as none are Send');
+        }
+      }
+  
+      else if (runMode == SEND_ROAM && !hasteSet) {
+        if (!isAnySending()) {
+          // only on conveyors, go faster
+          haste = 8;
+          console.log('Fast while remainder on conveyor');
+        }
+        if (allRoamGrazeOrDone()) {
+          haste = 100;
+          hasteSet = true;
+          console.log('step', step[currentLevel], 'Very fast as remainder all roaming')
+        }
+        // use normal LevelEnd condition
+      }
+  
+      else if (runMode == CALL_FROM_R10) {
+        // force LevelEnd when sheep in final column Held or give up.
+      }
+  
+      if ( isLevelOver() ) {
         levelEnding();
-        console.log('step', step[currentLevel], 'Level end as none are Send');
       }
-    }
-
-    else if (runMode == SEND_ROAM && !hasteSet) {
-      if (!isAnySending()) {
-        // only on conveyors, go faster
-        haste = 8;
-        console.log('Fast while remainder on conveyor');
-      }
-      if (allRoamGrazeOrDone()) {
-        haste = 100;
-        hasteSet = true;
-        console.log('step', step[currentLevel], 'Very fast as remainder all roaming')
-      }
-      // use normal LevelEnd condition
-    }
-
-    else if (runMode == CALL_FROM_R10) {
-      // force LevelEnd when sheep in final column Held or give up.
-    }
-
-    if (isLevelOver()) {
-      levelEnding();
-    }
-  }
+    } // end of STATE_PLAY  
+  } // end of PLAY or LEVEL_END
 } // end moveAll
 
 
