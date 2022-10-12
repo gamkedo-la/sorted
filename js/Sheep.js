@@ -580,6 +580,8 @@ function sheepClass() {
 
     else if (tileType == TILE_SLOW) {
       if (this.previousTile != TILE_SLOW) {
+        slowTileSound.play();
+        
         if (this.mode == SENT) {
           this.adjustSpeed /= 6;
         }

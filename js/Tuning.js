@@ -49,7 +49,7 @@ const GRAZE_TIME_MAX = Array(NUM_LEVELS);
 var defaultRoamTimeMin = 30;
 var defaultRoamTimeMax = 60;
 var defaultGrazeTimeMin = 120;
-var defaultGrazeTimeMax = 600;
+var defaultGrazeTimeMax = 240;
 
 ROAM_TIME_MIN.fill(defaultRoamTimeMin);
 ROAM_TIME_MAX.fill(defaultRoamTimeMax);

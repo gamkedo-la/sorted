@@ -1,7 +1,7 @@
 // a way to play random sheep sounds
 
 var baaVolume = 1.0; // volume of sheep sfx when entering pen
-const AMBIENT_baaVolume_MAX = 0.05; // quietly
+const AMBIENT_baaVolume_MAX = 0.02; // quietly
 const AMBIENT_baaVolume_MIN = 0.01; // but not too quietly
 const AMBIENT_BAA_CHANCE = 0.025; // rarely
 

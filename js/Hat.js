@@ -142,6 +142,8 @@ function playerClass(id) {
     // arrowkey move now accepts held key
     if (this.keyHeld_left || this.keyHeld_right) {
       this.gotoX = null;
+      hatMoveSound.play();
+
       if (this.keyHeld_left) {
         nextX -= this.speed;
       }
@@ -161,7 +163,8 @@ function playerClass(id) {
     // MOVE left or right using touch or button
     // gotoX set to next column-centre
     if (this.button_left || this.button_right) {
-
+      hatMoveSound.play();
+      
       if (this.button_left) {
         this.gotoX = nextColumnCentre(this.x, -1);
         this.button_left = false;

@@ -533,4 +533,5 @@ function updateMousePos(evt) {
   mouse.x = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX);
   mouse.y = Math.round((evt.clientY - rect.top) / drawScaleY);
   setDebug("Cursor: " + mouse.x + "," + mouse.y, 0);
+
 }
