@@ -50,6 +50,8 @@ sheepClass.prototype = new movingClass();
 function sheepClass() {
   this.x = 0;
   this.y = 0;
+  this.nextX = 0;
+  this.nextY = 0;
   this.gotoX = null;
   this.gotoY = null;
   this.speed = 0;
@@ -135,16 +137,16 @@ function sheepClass() {
   // 4th, tile handling
 
   this.move = function () {
-    var nextX = this.x; // previous location
-    var nextY = this.y;
+    this.nextX = this.x; // previous location
+    this.nextY = this.y;
 
     var tileOccupied;
     var pos; // temporary position
 
     if (this.mode == SELECTED) {
       // selected for manual movement
-      nextX = mouse.x;
-      nextY = mouse.y;
+      this.nextX = mouse.x;
+      this.nextY = mouse.y;
     }
 
     else if (this.levelDone || this.mode == STILL) {
@@ -159,8 +161,8 @@ function sheepClass() {
 
     // attached to player
     else if (this.mode == HELD) {
-      nextX = player.x;
-      nextY = player.y + 24;
+      this.nextX = player.x;
+      this.nextY = player.y + 24;
     }
 
     else if (this.mode == SENT) {
@@ -201,7 +203,7 @@ function sheepClass() {
       this.avoidCollisionTimer--;
     }
     else if (this.mode != CALLED) {
-      this.antennaCheck(nextX, nextY);
+      this.antennaCheck(this.nextX, this.nextY);
     }
 
     if (this.gotoX || this.gotoY) {
@@ -215,18 +217,18 @@ function sheepClass() {
       var normY = deltaY / distanceToGo;
 
       if (distanceToGo > this.speed) {
-        nextX += normX * this.speed;
-        nextY += normY * this.speed;
+        this.nextX += normX * this.speed;
+        this.nextY += normY * this.speed;
         // hack to stop sheep rising above player
-        if (nextY < this.gotoY) { nextY = this.gotoY; }
+        if (this.nextY < this.gotoY) { this.nextY = this.gotoY; }
       }
       else {
-        nextX = this.gotoX;
-        nextY = this.gotoY;
+        this.nextX = this.gotoX;
+        this.nextY = this.gotoY;
 
         // arriving at gotoXY
         if (this.mode == CALLED) {
-          this.calledArrives(nextX, nextY);
+          this.calledArrives(this.nextX, this.nextY);
         }
         else if (this.mode == CONVEYOR) {
           console.log('after conveyor', sheepModeNames[this.previousMode])
@@ -242,8 +244,8 @@ function sheepClass() {
     else if (this.isMovedByFacing(this.mode)) {
       // common to SENT, ROAM, GRAZE, PEEPED
       let tileSpeed = this.speed * this.adjustSpeed;
-      nextX += tileSpeed * Math.cos(this.ang);
-      nextY += tileSpeed * Math.sin(this.ang);
+      this.nextX += tileSpeed * Math.cos(this.ang);
+      this.nextY += tileSpeed * Math.sin(this.ang);
     }
 
     else {
@@ -253,46 +255,47 @@ function sheepClass() {
     }
 
     // screenwrap horizontal
-    if (nextX < 0) {
-      nextX += gameCanvas.width;
-    } else if (nextX >= gameCanvas.width) {
-      nextX -= gameCanvas.width;
+    if (this.nextX < 0) {
+      this.nextX += gameCanvas.width;
+    } else if (this.nextX >= gameCanvas.width) {
+      this.nextX -= gameCanvas.width;
     }
 
     // bounce down from top row if not Called
-    if (nextY < HAT_PATH_SHEEP_EXCLUSION_Y) {
+    if (this.nextY < HAT_PATH_SHEEP_EXCLUSION_Y) {
       if (this.isAllowedTopRow() == false) {
         this.ang = 2 * Math.PI - this.ang;
-        nextY = this.y; // stops oscillation
+        this.nextY = this.y; // stops oscillation
         if (this.mode = PEEPED) {
           this.changeMode(ROAM);
         }
       }
     }
     // bounce up from bottom row if not allowed there
-    if (nextY > 540) {
+    if (this.nextY > 540) {
       if (this.isAllowedBottomRow() == false) {
         this.ang = 2 * Math.PI - this.ang;
-        nextY = this.y; // stops oscillation
+        this.nextY = this.y; // stops oscillation
       }
     }
 
     if (this.mode != SELECTED) {
       // if x,y change inside tileHandling must be returned as object
-      pos = this.tileHandling(nextX, nextY);
+      // pos = this.tileHandling(this.nextX, this.nextY);
+      this.tileHandling();
     }
 
-    if (pos != undefined) {
-      this.x = pos.x;
-      this.y = pos.y;
-    }
-    else {
-      this.x = nextX;
-      this.y = nextY;
-      if (this.mode != SELECTED) {
-        console.log("TileHandling did not set x & y values");
-      }
-    }
+    // if (pos != undefined) {
+    //   this.x = pos.x;
+    //   this.y = pos.y;
+    // }
+    // else {
+      this.x = this.nextX;
+      this.y = this.nextY;
+      // if (this.mode != SELECTED) {
+      //   console.log("TileHandling did not set x & y values");
+      // }
+    // }
 
     if (this.isModeTimed()) {
       this.timer--;
@@ -343,9 +346,9 @@ function sheepClass() {
   }
 
   ////////// TILE HANDLING /////////////
-  this.tileHandling = function (nextX, nextY) {
-    var tileCol = Math.floor(nextX / TILE_W);
-    var tileRow = Math.floor(nextY / TILE_H);
+  this.tileHandling = function () {
+    var tileCol = Math.floor(this.nextX / TILE_W);
+    var tileRow = Math.floor(this.nextY / TILE_H);
     var tileIndexUnder = colRowToIndex(tileCol, tileRow);
     var tileType = getTileTypeAtColRow(tileCol, tileRow);
 
@@ -356,11 +359,11 @@ function sheepClass() {
     if (this.enterPen(tileType)) {
 
       agentGrid[tileIndexUnder] = this.team;
-      nextX = nearestColumnCentre(nextX);
-      nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
+      this.nextX = nearestColumnCentre(this.nextX);
+      this.nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
       this.ang = Math.PI * 1 / 2;
       this.teamOrient();
-      makePenVFX(nextX, nextY, this.team);
+      makePenVFX(this.nextX, this.nextY, this.team);
 
       if (tileType == TILE_PEN_BLUE) {
         console.log("Sheep ID", this.id, "reached a blue pen.");
@@ -372,7 +375,7 @@ function sheepClass() {
         this.orient = Math.PI * 3 / 2;
         this.mode = IN_PEN_RED;
         areaGrid[tileIndexUnder] = FULL_RED;
-        // makePenVFX(nextX, nextY, RED);
+        // makePenVFX(this.nextX, this.nextY, RED);
       }
 
       this.endLevel(tileCol);
@@ -392,8 +395,8 @@ function sheepClass() {
         // if (runMode == 99) {
         // don't stack above pen, instead roam
         this.changeMode(ROAM);
-        nextX = this.x;
-        nextY = this.y;
+        this.nextX = this.x;
+        this.nextY = this.y;
         let flip = randomRangeInt(1, 2);
         let angleAdjust = (flip == 1) ? 9 / 8 : 15 / 8;
         this.ang = angleAdjust * Math.PI;
@@ -408,7 +411,7 @@ function sheepClass() {
 
       else if (runMode == SEND_ONLY || runMode == SEND_ROAM || runMode == ROAM_FROM_R1) {
         // else { // not NORMAL_PLAY
-        nextX = nearestColumnCentre(nextX);
+        this.nextX = nearestColumnCentre(this.nextX);
         tryIndex = tileIndexUnder;
 
         while (agentGrid[tryIndex] != 0) {
@@ -416,9 +419,9 @@ function sheepClass() {
           console.log('tryIndex', tryIndex)
         }
 
-        nextY = yTopFromIndex(tryIndex) + TILE_H * TILE_Y_ADJUST;
+        this.nextY = yTopFromIndex(tryIndex) + TILE_H * TILE_Y_ADJUST;
 
-        console.log("tilehandle full pen: retreat to Y=", nextY, tryIndex);
+        console.log("tilehandle full pen: retreat to Y=", this.nextY, tryIndex);
         agentGrid[tryIndex] = this.team;
         this.speed = 0;
         this.ang = Math.PI * 1 / 2;
@@ -448,8 +451,8 @@ function sheepClass() {
       if (this.mode != IN_DITCH) {
         this.changeMode(IN_DITCH);
         this.endLevel(tileCol);
-        nextX = nearestColumnCentre(nextX);
-        nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
+        this.nextX = nearestColumnCentre(this.nextX);
+        this.nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
         areaGrid[tileIndexUnder] = FULL_DITCH;
         agentGrid[tileIndexUnder] = this.team;
         if (this.team == BLUE) {
@@ -458,7 +461,7 @@ function sheepClass() {
         else if (this.team == RED) {
           this.orient = ORIENT_RED;
         }
-        makeDitchVFX(nextX, nextY);
+        makeDitchVFX(this.nextX, this.nextY);
       }
     }
 
@@ -468,8 +471,8 @@ function sheepClass() {
       if (runMode == NORMAL_PLAY) {
         // don't stack above ditch, instead roam away
         this.changeMode(ROAM);
-        nextX = this.x;
-        nextY = this.y;
+        this.nextX = this.x;
+        this.nextY = this.y;
         let flip = randomRangeInt(1, 2);
         let angleAdjust = (flip == 1) ? 9 / 8 : 15 / 8;
         this.ang = angleAdjust * Math.PI;
@@ -480,16 +483,16 @@ function sheepClass() {
       // else if (runMode == SEND_ONLY || runMode == SEND_ROAM || runMode == ROAM_FROM_R1) {
       else { // not NORMAL_PLAY
 
-        nextX = nearestColumnCentre(nextX);
+        this.nextX = nearestColumnCentre(this.nextX);
         tryIndex = tileIndexUnder;
 
         while (agentGrid[tryIndex] != 0) {
           tryIndex -= TILE_COLS;
           console.log('tryIndex', tryIndex)
         }
-        nextY = yTopFromIndex(tryIndex) + TILE_H * TILE_Y_ADJUST;
+        this.nextY = yTopFromIndex(tryIndex) + TILE_H * TILE_Y_ADJUST;
 
-        console.log("tilehandle full pen: retreat to Y=", nextY);
+        console.log("tilehandle full pen: retreat to Y=", this.nextY);
         agentGrid[tryIndex] = this.team;
         this.speed = 0;
         this.ang = Math.PI * 1 / 2;
@@ -525,29 +528,29 @@ function sheepClass() {
           // if arriving at lake from above
           if (this.ang > 1 / 4 * Math.PI && this.ang < 3 / 4 * Math.PI) {
             var turn = 0;
-            nextY = nearestRowEdge(nextY) - 12;
+            this.nextY = nearestRowEdge(this.nextY) - 12;
           }
           if (this.team == BLUE) {
             turn = LEFT;
             this.ang = Math.PI;
-            nextX -= 4;
+            this.nextX -= 4;
           }
           else if (this.team == RED) {
             turn = RIGHT;
             this.ang = 0;
-            nextX += 4;
+            this.nextX += 4;
           }
           else {
             turn = randomRangeInt(1, 2) == 1 ? LEFT : RIGHT;
             this.ang += turn * Math.PI / 2;
-            nextX += turn > 0 ? -4 : 4;
+            this.nextX += turn > 0 ? -4 : 4;
           }
 
           // time distracted grazing tasty waterside veg
           this.timer = DISTRACTED_TIME[currentLevel];
 
           // move to adjacent column i.e. go around lake
-          this.gotoX = nextX + turn * TILE_W;
+          this.gotoX = this.nextX + turn * TILE_W;
         }
       }
     }
@@ -576,9 +579,9 @@ function sheepClass() {
         this.changeMode(STUCK);
         this.endLevel(tileCol);
         agentGrid[tileIndexUnder] = this.team;
-        nextX = nearestColumnCentre(nextX);
-        nextY = nextRowEdge(nextY, -1) + TILE_Y_ADJUST * TILE_H;
-        makeStuckVFX(nextX, nextY);
+        this.nextX = nearestColumnCentre(this.nextX);
+        this.nextY = nextRowEdge(this.nextY, -1) + TILE_Y_ADJUST * TILE_H;
+        makeStuckVFX(this.nextX, this.nextY);
       }
     }
 
@@ -586,7 +589,7 @@ function sheepClass() {
     else if (tileType == TILE_HALT) {
       if (this.mode != HALTED) {
         if (this.mode == SENT) {
-          nextY = this.y;
+          this.nextY = this.y;
         }
         this.changeMode(HALTED);
       }
@@ -598,23 +601,23 @@ function sheepClass() {
         this.changeMode(CONVEYOR);
 
         if (tileType == TILE_CONVEYOR_UP) {
-          this.gotoY = nextY - TILE_H;
-          this.gotoX = nextX;
+          this.gotoY = this.nextY - TILE_H;
+          this.gotoX = this.nextX;
           this.ang = Math.PI * 3 / 2;
         }
         else if (tileType == TILE_CONVEYOR_DOWN) {
-          this.gotoY = nextY + TILE_H;
-          this.gotoX = nextX;
+          this.gotoY = this.nextY + TILE_H;
+          this.gotoX = this.nextX;
           this.ang = Math.PI * 1 / 2;
         }
         else if (tileType == TILE_CONVEYOR_LEFT) {
-          this.gotoX = nextX - TILE_W;
-          this.gotoY = nextY;
+          this.gotoX = this.nextX - TILE_W;
+          this.gotoY = this.nextY;
           this.ang = Math.PI;
         }
         else if (tileType == TILE_CONVEYOR_RIGHT) {
-          this.gotoX = nextX + TILE_W;
-          this.gotoY = nextY;
+          this.gotoX = this.nextX + TILE_W;
+          this.gotoY = this.nextY;
           this.ang = 0;
           console.log('conveyor', tileType, TILE_NAMES[tileType])
         }
@@ -634,10 +637,10 @@ function sheepClass() {
 
     this.previousTile = tileType;
 
-    return {
-      x: nextX,
-      y: nextY
-    };
+    // return {
+    //   x: this.nextX,
+    //   y: this.nextY
+    // };
   } // end of tileHandling
 
 
@@ -994,7 +997,7 @@ function sheepClass() {
     return offside;
   }
 
-  this.calledArrives = function (nextX, nextY) {
+  this.calledArrives = function () {
     this.changeMode(HELD);
     player.sheepIDcalled = null;
     calledArrivalSound.play();
@@ -1004,7 +1007,7 @@ function sheepClass() {
       var teamSort = this.potentialTeam;
       teamSizeSoFar[teamSort]++;
       this.team = teamSort;
-      makeSortingVFX(nextX, nextY);
+      makeSortingVFX(this.nextX, this.nextY);
 
       if (teamSort == BLUE) {
         this.color = "#66b3ff"; // pale blue
@@ -1049,14 +1052,14 @@ function sheepClass() {
   } // end teamOrient
 
 
-  this.antennaCheck = function(nextX,nextY) {
+  this.antennaCheck = function() {
       // antennae left & right
       var antennaLeftAngle = this.ang - Math.PI / 4;
       var antennaRightAngle = this.ang + Math.PI / 4;
-      this.antennaLeftY = nextY + antennaLength * Math.sin(antennaLeftAngle);
-      this.antennaLeftX = nextX + antennaLength * Math.cos(antennaLeftAngle);
-      this.antennaRightX = nextX + antennaLength * Math.cos(antennaRightAngle);
-      this.antennaRightY = nextY + antennaLength * Math.sin(antennaRightAngle);
+      this.antennaLeftY = this.nextY + antennaLength * Math.sin(antennaLeftAngle);
+      this.antennaLeftX = this.nextX + antennaLength * Math.cos(antennaLeftAngle);
+      this.antennaRightX = this.nextX + antennaLength * Math.cos(antennaRightAngle);
+      this.antennaRightY = this.nextY + antennaLength * Math.sin(antennaRightAngle);
 
       // collision with other sheep
       let leftDetect = this.overlapSheep(this.antennaLeftX, this.antennaLeftY);
@@ -1076,7 +1079,7 @@ function sheepClass() {
         this.avoidCollisionTimer = 10;
         this.changeMode(ROAM);
         console.log(this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
-        // nextX.toFixed(0), nextY.toFixed(0), 
+        // this.nextX.toFixed(0), this.nextY.toFixed(0), 
       }
 
   }
