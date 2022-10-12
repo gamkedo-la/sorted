@@ -15,6 +15,7 @@ const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreb
 function gotoMenu(from) {
   gameState = STATE_MENU;
   menuBackSound.play();
+  gameMusic.loopSong();
   clumpRandom = true;
   report('return via ' + from, 1);
 }

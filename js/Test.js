@@ -2,7 +2,7 @@ var editMode = true;
 
 const NORMAL_PLAY = 0;
 const SEND_ONLY = 1;
-const SEND_SEQ_ONLY = 6;
+const SEND_SEQ_ONLY = 6; 
 const SEND_ROAM = 2;
 const ROAM_FROM_R1 = 3;
 const CALL_FROM_R10 = 4;

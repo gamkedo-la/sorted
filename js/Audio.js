@@ -18,4 +18,4 @@ var rogueSound = new SoundOverlapsClass("sound/woof01");
 var menuChoiceSound = new SoundOverlapsClass("sound/menu_choice");
 var menuBackSound = new SoundOverlapsClass("sound/menuback");
 
-var notgameMusic = new BackgroundMusicClass("sound/pastoral_music")
+var gameMusic = new BackgroundMusicClass("sound/pastoral_music")

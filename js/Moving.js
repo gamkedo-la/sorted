@@ -13,19 +13,15 @@ function movingClass() {
     return otherY - this.y;
   }
   
-  this.overlap = function(x,y) {
-    var overlapping = false;
-    for(var i=0; i<sheepList.length; i++) {
-      if (i == this.id) {
-        // don't sheck self
-      } else {
-        let distTo = sheepList[i].distFrom(x,y);
-        if (distTo < COLLISION_DIST) {
-          // console.log('Distance to sheep id', i, 'is', distTo);
-          overlapping = true;
-        }
+  this.overlapOtherList = function(x, y, list, range) {
+    var overlapID = null;
+    for(var i=0; i < list.length; i++) {
+      let distTo = list[i].distFrom(x,y);
+      if (distTo < range) {
+        // console.log('Distance to id', i, 'is', distTo);
+        overlapID = i;
       }
     }
     return overlapping;
-  } // end overlapSheep
+  } // end overlapOtherList
 }

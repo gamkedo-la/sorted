@@ -82,7 +82,7 @@ function imageLoadingDoneSoStartGame() {
 
   initialHatVFXsetup();
 
-  notgameMusic.loopSong();
+  // gameMusic.loopSong();
 }
 
 
