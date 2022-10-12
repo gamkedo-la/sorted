@@ -13,6 +13,8 @@ function rogueClass() {
     this.pic = whichPic;
     this.x = x;
     this.y = y;
+    this.nextX = x;
+    this.nextY = y;
     this.reset();
   }
 
@@ -27,8 +29,8 @@ function rogueClass() {
   }
 
   this.move = function () {
-    var nextX = this.x; // previous location
-    var nextY = this.y;
+    this.nextX = this.x; // previous location
+    this.nextY = this.y;
 
     this.modeTimer--;
     if (this.modeTimer == 0) {
@@ -36,8 +38,8 @@ function rogueClass() {
       // console.log(this.modeTimer)
     }
 
-    nextX += this.speedX;
-    nextY += this.speedY;
+    this.nextX += this.speedX;
+    this.nextY += this.speedY;
 
     // collision handling
     // detect sheep
@@ -69,20 +71,20 @@ function rogueClass() {
     if (boPeepList != undefined && boPeepList.length > 0) {
       // if boPeep ahead & would collide, dog stops temporarily
 
-      var boNearX = findNearbyXInList(nextX, boPeepList, ROGUE_COLLISION_BOPEEP_X);
+      var boNearX = findNearbyXInList(this.nextX, boPeepList, ROGUE_COLLISION_BOPEEP_X);
       if (boNearX) {
 
         // dog doesn't stop if has already moved past bopeep
-        if (boNearX && boNearX.x > nextX) {
+        if (boNearX && boNearX.x > this.nextX) {
 
           if (this.mode == MOVING) {
 
-            var distY = boNearX.y - nextY;
+            var distY = boNearX.y - this.nextY;
             if (Math.abs(distY) < ROGUE_COLLISION_BOPEEP_Y) {
 
               this.changeMode(STOPPING);
               this.modeTimer = Math.floor(ROGUE_COLLISION_BOPEEP_Y + 1 + distY);
-              console.log('distY', distY, 'boNearX.x', boNearX.x, 'nextX', nextX, 'timer', this.modeTimer)
+              console.log('distY', distY, 'boNearX.x', boNearX.x, 'this.nextX', this.nextX, 'timer', this.modeTimer)
             }
           } // end MOVING
         } else {
@@ -92,19 +94,19 @@ function rogueClass() {
     }
 
     // screenwrap horizontal
-    if (nextX < 0) {
-      nextX += gameCanvas.width;
+    if (this.nextX < 0) {
+      this.nextX += gameCanvas.width;
       // this.ang += Math.PI;
-    } else if (nextX >= gameCanvas.width) {
-      nextX -= gameCanvas.width;
+    } else if (this.nextX >= gameCanvas.width) {
+      this.nextX -= gameCanvas.width;
       // this.ang += Math.PI;
     }
 
     // tileHandling
-    this.tileHandling(nextX, nextY);
+    this.tileHandling(this.nextX, this.nextY);
 
-    this.x = nextX;
-    this.y = nextY;
+    this.x = this.nextX;
+    this.y = this.nextY;
   }
 
   this.draw = function () {

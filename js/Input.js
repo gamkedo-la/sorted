@@ -293,7 +293,8 @@ function menuKeyChoice(key) {
       }
 
       if (key == KEY_S) {
-        gameState = STATE_SCOREBOARD;
+        // gameState = STATE_SCOREBOARD;
+        gotoScore('key S from menu');
       }
 
       if (key == KEY_H) {

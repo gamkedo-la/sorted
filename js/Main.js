@@ -81,8 +81,6 @@ function imageLoadingDoneSoStartGame() {
   setupGame();
 
   initialHatVFXsetup();
-
-  // gameMusic.loopSong();
 }
 
 
