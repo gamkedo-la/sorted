@@ -609,23 +609,27 @@ function sheepClass() {
     else if (this.isTileConveyor(tileType)) {
       if (this.mode != CONVEYOR) {
         this.changeMode(CONVEYOR);
-        console.log('conveyor')
 
         if (tileType == TILE_CONVEYOR_UP) {
           this.gotoY = nextY - TILE_H;
+          this.gotoX = nextX;
           this.ang = Math.PI * 3 / 2;
         }
         else if (tileType == TILE_CONVEYOR_DOWN) {
           this.gotoY = nextY + TILE_H;
+          this.gotoX = nextX;
           this.ang = Math.PI * 1 / 2;
         }
         else if (tileType == TILE_CONVEYOR_LEFT) {
           this.gotoX = nextX - TILE_W;
+          this.gotoY = nextY;
           this.ang = Math.PI;
         }
         else if (tileType == TILE_CONVEYOR_RIGHT) {
           this.gotoX = nextX + TILE_W;
+          this.gotoY = nextY;
           this.ang = 0;
+          console.log('conveyor', tileType, TILE_NAMES[tileType])
         }
       }
     } // end of entering Conveyor mode

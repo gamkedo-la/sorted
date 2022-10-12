@@ -10,10 +10,10 @@ function setupInput() {
 
   drawingCanvas.addEventListener('mouseup', clickOrTouch);
 
-  drawingCanvas.addEventListener( 'contextmenu', e => e.preventDefault() );
+  drawingCanvas.addEventListener('contextmenu', e => e.preventDefault());
 
-	document.addEventListener('keydown', keyPressed);
-	document.addEventListener('keyup', keyReleased);
+  document.addEventListener('keydown', keyPressed);
+  document.addEventListener('keyup', keyReleased);
   player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
 }
 
@@ -21,24 +21,24 @@ function setupInput() {
 //////// from APC5 Htgd ///////////////////
 // mouse object stores mouse information
 var mouse = (function () {
-	//Position
-	var x = 0;
-	var y = 0;
+  //Position
+  var x = 0;
+  var y = 0;
 
-	// Button states
-	var left = 0;
-	var right = 0;
-	var middle = 0;
+  // Button states
+  var left = 0;
+  var right = 0;
+  var middle = 0;
 
-	// Return only public variables/methods
-	return {
-		x: x,
-		y: y,
+  // Return only public variables/methods
+  return {
+    x: x,
+    y: y,
     button: -1 // no mouse-button clicked yet
     // left: left,      // 0
     // middle: middle,  // 1
     // right: right     // 2
-	};
+  };
 })();
 
 var uiPos = {
@@ -48,12 +48,12 @@ var uiPos = {
 
 
 //// from Irenic Htgd //////////////////
-function setMousePosFromXY(x,y) {
-	var rect = drawingCanvas.getBoundingClientRect();
-	var root = document.documentElement;
+function setMousePosFromXY(x, y) {
+  var rect = drawingCanvas.getBoundingClientRect();
+  var root = document.documentElement;
   // account for margins, canvas position on page, scroll amount, etc.
-	let gameX = (x - rect.left - root.scrollLeft) / drawScaleX;
-	let gameY = (y - rect.top - root.scrollTop) / drawScaleY;
+  let gameX = (x - rect.left - root.scrollLeft) / drawScaleX;
+  let gameY = (y - rect.top - root.scrollTop) / drawScaleY;
   // scale X here due to bug in Main.js
   var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
   mouse.x = Math.round(fixScaleX * gameX);
@@ -132,14 +132,15 @@ function field_mousedownHandler() {
 
   if (gameState == STATE_PLAY && editMode == true) {
 
-    if (mouse.button == 0) {0
+    if (mouse.button == 0) {
+      0
       // select a sheep to move manually
       let nearest = findNearestSheep(mouse.x, mouse.y);
       let distance = nearest.distFrom(mouse.x, mouse.y);
       if (distance < SELECT_RANGE) {
         // remove occupancy, ungate pen; if proper play wanted
         // if (nearest.mode == )
-        if ( isInPenOrDitch(nearest.mode) ) {
+        if (isInPenOrDitch(nearest.mode)) {
           console.log("Cannot move a sheep from pen or ditch");
         }
         else {
@@ -201,7 +202,7 @@ function field_mouseupHandler() {
       let sheepXY = { x: nearest.x, y: nearest.y };
       let angle = angleRadiansBetweenPoints(sheepXY, mouse);
       nearest.ang = angle;
-      report("new angle: " + angle.toFixed(2) + " for id " + nearest.id, 2);1
+      report("new angle: " + angle.toFixed(2) + " for id " + nearest.id, 2); 1
     }
   }
 }
@@ -211,19 +212,19 @@ function field_mouseupHandler() {
 function arrowKeySet(evt, whichPlayer, setTo) {
   // this helps press & release functions are identical except for true/false
   if (evt.keyCode == whichPlayer.controlKeyLeft) {
-		whichPlayer.keyHeld_left = setTo;
+    whichPlayer.keyHeld_left = setTo;
     // whichPlayer.button_left = setTo; // key for slide-move
-	}
+  }
   if (evt.keyCode == whichPlayer.controlKeyRight) {
-		whichPlayer.keyHeld_right = setTo;
+    whichPlayer.keyHeld_right = setTo;
     // whichPlayer.button_right = setTo; // key for slide-move
-	}
+  }
   if (evt.keyCode == whichPlayer.controlKeyUp) {
-		whichPlayer.keyHeld_call = setTo;
-	}
+    whichPlayer.keyHeld_call = setTo;
+  }
   if (evt.keyCode == whichPlayer.controlKeyDown) {
-		whichPlayer.keyHeld_send = setTo;
-	}
+    whichPlayer.keyHeld_send = setTo;
+  }
   // console.log("key", player.keyHeld_left, player.keyHeld_right)
 }
 
@@ -269,7 +270,7 @@ function menuKeyChoice(key) {
 
 
     case STATE_MENU:
-      menuSound.play();
+      menuChoiceSound.play();
 
       if (key == KEY_C) {
         gameState = STATE_CREDITS;
@@ -451,7 +452,7 @@ function getFunctionKeys(key) {
   if (key == KEY_F6) {
     if (gameState == STATE_PLAY || gameState == STATE_DESIGN_LEVEL) {
 
-      if ( noGridValuesDisplay() ) {
+      if (noGridValuesDisplay()) {
         showAreaGridValues = true;
         console.log("showAreaGridValues is now", showAreaGridValues);
       }
@@ -490,14 +491,14 @@ function getFunctionKeys(key) {
 
 
   function noGridValuesDisplay() {
-    return ( !showAreaGridValues && !showAgentGridValues && !showGridIndex && ! showColRow )
+    return (!showAreaGridValues && !showAgentGridValues && !showGridIndex && !showColRow)
   }
 } // end getFunctionKeys()
 
 
 function keyPressed(evt) {
 
-  if ( isArrowKey(evt.keyCode) ) {
+  if (isArrowKey(evt.keyCode)) {
     if (gameState == STATE_PLAY) {
       arrowKeySet(evt, player, true);
     }
@@ -506,7 +507,7 @@ function keyPressed(evt) {
     }
   }
 
-  else if ( isFunctionKey(evt.keyCode) ) {
+  else if (isFunctionKey(evt.keyCode)) {
     // toggle Edit mode, design/test tools
     getFunctionKeys(evt.keyCode);
   }
@@ -515,7 +516,7 @@ function keyPressed(evt) {
     menuKeyChoice(evt.keyCode); // play, menu, or credits
   }
 
-	evt.preventDefault();
+  evt.preventDefault();
 } // end keyPressed()
 
 
@@ -529,7 +530,7 @@ function keyReleased(evt) {
 function updateMousePos(evt) {
   var rect = drawingCanvas.getBoundingClientRect();
   var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
-  mouse.x = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX );
-  mouse.y = Math.round( (evt.clientY - rect.top) / drawScaleY);
+  mouse.x = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX);
+  mouse.y = Math.round((evt.clientY - rect.top) / drawScaleY);
   setDebug("Cursor: " + mouse.x + "," + mouse.y, 0);
 }

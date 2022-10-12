@@ -13,5 +13,7 @@ var pennedSound = new SoundOverlapsClass("sound/baa17");
 
 var rogueSound = new SoundOverlapsClass("sound/woof01");
 
-var menuSound = new SoundOverlapsClass("sound/menu_choice");
+var menuChoiceSound = new SoundOverlapsClass("sound/menu_choice");
 var menuBackSound = new SoundOverlapsClass("sound/menuback");
+
+var notgameMusic = new BackgroundMusicClass("sound/pastoral_music")
