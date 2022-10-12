@@ -168,6 +168,12 @@ function sheepClass() {
       // if waggle while Sent, that goes here
     }
 
+    else if (this.mode == HALTED) {
+      if (randomRangeInt(1, 120) == 1) {
+        this.ang += randomRange(-Math.PI / 16, Math.PI / 16)
+      }
+    }
+
     else if (this.mode == GRAZE) {
       // if (randomRangeInt(1, GRAZE_FACING[currentLevel]) == 1) {
       if (randomRangeInt(1, 120) == 1) {
@@ -244,10 +250,11 @@ function sheepClass() {
         nextY = this.gotoY;
 
         // arriving at gotoXY
-        if (this.mode = CALLED) {
+        if (this.mode == CALLED) {
           this.calledArrives(nextX, nextY);
         }
-        else if (this.mode = CONVEYOR) {
+        else if (this.mode == CONVEYOR) {
+          console.log('after conveyor', sheepModeNames[this.previousMode])
           this.changeMode(this.previousMode);
         }
         else if (this.mode == DISTRACTED && this.speed > 0) {
@@ -601,6 +608,9 @@ function sheepClass() {
 
     else if (tileType == TILE_HALT) {
       if (this.mode != HALTED) {
+        if (this.mode == SENT) {
+          nextY = this.y;
+        }
         this.changeMode(HALTED);
       }
     }
