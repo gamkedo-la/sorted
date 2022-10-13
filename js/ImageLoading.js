@@ -69,7 +69,7 @@ function loadImages() {
     {varName: grass3Pic, theFile: "grass3.png"},
     {varName: hoofprintPic, theFile: "hoofprint.png"},
     {varName: BoPeepPic, theFile: "bo_peep.png"},
-    {varName: dogPic, theFile: "dog_normal.png"},
+    {varName: dogPic, theFile: "rogue_normal.png"},
     {varName: dogBodyPic, theFile: "dog_butt.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass_50.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},

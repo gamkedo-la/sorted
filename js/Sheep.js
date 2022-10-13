@@ -28,6 +28,7 @@ const CONVEYOR = 6;
 const STILL = 7;
 const DISTRACTED = 8;
 const HALTED = 9;
+const LICKED = 10;
 const SELECTED = 22; // only while manually edit/testing
 
 // below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
@@ -43,7 +44,7 @@ const STACKED_DITCH = 16;
 const STACKED_BLUE = 17;
 const STACKED_RED = 18;
 
-const sheepModeNames = ['Graze', 'Roam', 'Called', 'Held', 'Sent', 'Conveyor', '', 'Still', 'Distracted', '', '', 'Stuck', 'In_Ditch', 'In_Pen_Blue', 'In_Pen_Red', 'Stacked', 'Stacked_Ditch', 'Stacked_Blue', 'Stacked_Red', 'In_Blue_Lorry', 'In_Red_Lorry', '', 'Selected'];
+const sheepModeNames = ['Graze', 'Roam', 'Called', 'Held', 'Sent', 'Peeped', 'Conveyor', 'Still', 'Distracted', 'Halted', 'Licked', 'Stuck', 'In_Ditch', 'In_Pen_Blue', 'In_Pen_Red', 'Stacked', 'Stacked_Ditch', 'Stacked_Blue', 'Stacked_Red', 'In_Blue_Lorry', 'In_Red_Lorry', '', 'Selected'];
 
 sheepClass.prototype = new movingClass();
 
@@ -156,7 +157,7 @@ function sheepClass() {
 
     else if (this.mode == CALLED) {
       this.gotoX = player.x; // Hat may have moved
-      // tried in Hat.js to avoid lag but no effect 
+      // tried in Hat.js to avoid lag but no effect
     } // end CALLED
 
     // attached to player
@@ -250,7 +251,7 @@ function sheepClass() {
 
     else {
       if (this.mode != SELECTED && this.mode != HELD) {
-        console.log("Neither goto nor guided by prior facing");
+        // console.log("Neither goto nor guided by prior facing");
       }
     }
 
@@ -305,6 +306,9 @@ function sheepClass() {
         }
         else if (this.mode == GRAZE) {
           this.changeMode(ROAM);
+        }
+        else if (this.mode == LICKED) {
+          this.changeMode(this.previousMode);
         }
         // else if (this.mode == DISTRACTED && this.speed > 0) {
         //   changeMode(SENT);
@@ -559,7 +563,7 @@ function sheepClass() {
     else if (tileType == TILE_SLOW) {
       if (this.previousTile != TILE_SLOW) {
         slowTileSound.play();
-        
+
         if (this.mode == SENT) {
           this.adjustSpeed /= 6;
         }
@@ -688,6 +692,13 @@ function sheepClass() {
       this.speed = 0;
     }
 
+    else if (newMode == LICKED) {
+      this.mode = LICKED;
+      // this.orient = 0; // normal upright
+      this.speed = 0.1;
+      this.timer = 60;
+    }
+
     else if (newMode == HALTED) {
       this.mode = HALTED;
       haltedSound.play();
@@ -788,7 +799,7 @@ function sheepClass() {
   }
 
   this.isModeTimed = function () {
-    return this.mode == ROAM || this.mode == GRAZE || this.mode == CALLED || this.mode == SENT || this.mode == DISTRACTED;
+    return this.mode == ROAM || this.mode == GRAZE || this.mode == CALLED || this.mode == SENT || this.mode == LICKED || this.mode == DISTRACTED;
   }
 
   this.modeIsInPen = function () {
@@ -1079,9 +1090,9 @@ function sheepClass() {
         this.avoidCollisionTimer = 10;
         this.changeMode(ROAM);
         console.log(this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
-        // this.nextX.toFixed(0), this.nextY.toFixed(0), 
+        // this.nextX.toFixed(0), this.nextY.toFixed(0),
       }
 
   }
-  
+
 } // end of sheepClass
