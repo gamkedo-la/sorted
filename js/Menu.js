@@ -225,9 +225,9 @@ function drawLevelScore() {
   canvasContext.textAlign = "center";
 
   // border
-  colorRect(canvasContext, +gameCanvas.width/2 -POPUP_W/2 -20, y -20, POPUP_W + 40, 270 + 40, "rgba(0,0,0,0.25)");
+  colorRect(canvasContext, +gameCanvas.width/2 -POPUP_W/2 -20, y -20, POPUP_W + 40, 300 + 40, "rgba(0,0,0,0.25)");
   // bg
-  colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2, y, POPUP_W, 270, "rgba(0,0,0,0.25)");
+  colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2, y, POPUP_W, 300, "rgba(0,0,0,0.25)");
   // sheep
   drawLevelScoreFlock();
 
@@ -238,20 +238,38 @@ function drawLevelScore() {
   colorText(canvasContext, "Level " + currentLevel + " completed", gameCanvas.width / 2, y += 40, "black");
 
   canvasContext.font = "36px Arial";
-  colorText(canvasContext, "Score = " + levelScores[currentLevel], gameCanvas.width / 2, y += 50, "white");
+  colorText(canvasContext, "Score = " + levelScores[currentLevel], gameCanvas.width / 2, y += 55, "white");
 
   canvasContext.font = "16px Arial";
-  colorText(canvasContext, "Max Possible Score = " + levelMaxScores[currentLevel], gameCanvas.width/2, y += 40, "white");
+  colorText(canvasContext, "Max Possible Score = " + levelMaxScores[currentLevel], gameCanvas.width/2, y += 30, "white");
+
+  var success = levelScores[currentLevel] / levelMaxScores[currentLevel];
+  var minForStar = 0.2;
+  if (success >= minForStar) {
+    y += 30;
+  }
+  if ( success >= 0.7) {
+    drawStar(canvasContext, gameCanvas.width/2 -50, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
+    drawStar(canvasContext, gameCanvas.width/2, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
+    drawStar(canvasContext, gameCanvas.width/2 +50, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
+  }
+  else if ( success >= 0.45) {
+    drawStar(canvasContext, gameCanvas.width/2 -25, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
+    drawStar(canvasContext, gameCanvas.width/2 +25, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
+  }
+  else if ( success >= minForStar) {
+    drawStar(canvasContext, gameCanvas.width/2, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
+  }
 
   if (touchDevice) {
-    colorText(canvasContext, "Use buttons (on right) to:", gameCanvas.width/2, y += 36, "white");
+    colorText(canvasContext, "Use buttons (on right) to:", gameCanvas.width/2, y += 40, "white");
     colorText(canvasContext, "Replay level " + currentLevel, gameCanvas.width/2, y += 24, "white");
 
     canvasContext.font = advanceFontSize + "px Arial";
     colorText(canvasContext, "Advance to level " + nextLevel, gameCanvas.width/2, y += 18 + advanceFontSize, "white");
   }
   else {
-    colorText(canvasContext, "Press key M for menu", gameCanvas.width/2, y += 35, "white");
+    colorText(canvasContext, "Press key M for menu", gameCanvas.width/2, y += 40, "white");
     colorText(canvasContext, "key R to replay level " + currentLevel, gameCanvas.width/2, y += 18, "white");
 
     canvasContext.font = advanceFontSize + "px Arial";
@@ -264,7 +282,7 @@ function drawLevelScore() {
   // colorText("H to hide/show this box", canvas.width/2, y+210, "white");
   canvasContext.textAlign = "left";
 
-  // drawStar(canvasContext, gameCanvas.width/2, 200, 5, 20, 25, -18,'yellow','red', 4);
+  // drawStar(canvasContext, gameCanvas.width/2, y, 5, 20, 25, -18,'yellow','red', 4);
 } // end drawLevelScore
 
 
