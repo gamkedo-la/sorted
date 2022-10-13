@@ -696,7 +696,7 @@ function sheepClass() {
       this.mode = LICKED;
       // this.orient = 0; // normal upright
       this.speed = 0.1;
-      this.timer = 60;
+      this.timer = 40;
     }
 
     else if (newMode == HALTED) {
@@ -782,7 +782,7 @@ function sheepClass() {
   }
 
   this.isMovedByFacing = function (mode) {
-    return mode == ROAM || mode == GRAZE || mode == SENT || mode == PEEPED;
+    return mode == ROAM || mode == GRAZE || mode == SENT || mode == PEEPED || mode == LICKED;
   }
 
   this.isAllowedTopRow = function () {

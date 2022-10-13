@@ -72,6 +72,7 @@ function loadImages() {
     {varName: dogPic, theFile: "rogue_normal.png"},
     {varName: dogBodyPic, theFile: "dog_butt.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass_50.png"},
+    {tileType: TILE_RAILS, theFile: "tracks.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},
     {tileType: TILE_DISTRACT, theFile: "tile_lake.png"},
     {tileType: TILE_DITCH, theFile: "tile_ditch.png"},

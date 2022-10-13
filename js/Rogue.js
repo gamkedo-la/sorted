@@ -7,6 +7,7 @@ const ROGUE_RADIUS = 15;
 const MOVING = 1;
 const STOPPING = 2;
 const LICKING = 3;
+const WAITING = 4;
 
 
 rogueClass.prototype = new movingClass();
@@ -66,12 +67,15 @@ function rogueClass() {
     // is close enough to unsort
     if (this.isSheepClose(nearestSheep, ROGUE_UNSORT_RANGE)) {
       if (nearestSheep.team != PLAIN) {
+        this.changeMode(LICKING);
         makeLickVFX(nearestSheep.x, nearestSheep.y, nearestSheep.team);
         nearestSheep.team = PLAIN;
         nearestSheep.color = TEAM_COLOURS[PLAIN];
         nearestSheep.changeMode(LICKED);
-        this.changeMode(LICKING);
-        console.log("Unsort sheep id =", nearestSheep.id);
+        // console.log("Unsort/lick sheep id =", nearestSheep.id);
+      }
+      else {
+        this.changeMode(WAITING);
       }
     }
 
@@ -135,6 +139,7 @@ function rogueClass() {
     this.drawAntennae(ROGUE_RADIUS);
   }
 
+
   this.findNearestSheep = function (x, y) {
     var nearestSheepDist = 999;
     for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
@@ -166,7 +171,11 @@ function rogueClass() {
     else if (newMode == LICKING) {
       this.speedX = 0.1;
       this.orient = Math.PI * 3 / 2;
-      this.modeTimer = 60;
+      this.modeTimer = 80;
+    }
+    else if (newMode == WAITING) {
+      this.speedX = 0.1;
+      this.modeTimer = 20;
     }
     else if (newMode == MOVING) {
       this.speedX = ROGUE_SPEED[currentLevel];

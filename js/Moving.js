@@ -66,7 +66,7 @@ function movingClass() {
       colorCircle(canvasContext, this.antennaLeftX, this.antennaLeftY, FACING_RADIUS, "yellow");
       colorCircle(canvasContext, this.antennaRightX, this.antennaRightY, FACING_RADIUS, "limegreen");
 
-      console.log('antenna via Moving class')
+      // console.log('antenna via Moving class')
     }
   }
 }
