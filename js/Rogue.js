@@ -15,6 +15,10 @@ function rogueClass() {
     this.y = y;
     this.nextX = x;
     this.nextY = y;
+    this.antennaLeftX = null;
+    this.antennaLeftY = null;
+    this.antennaRightX = null;
+    this.antennaRightY = null;
     this.reset();
   }
 
@@ -84,7 +88,7 @@ function rogueClass() {
 
               this.changeMode(STOPPING);
               this.modeTimer = Math.floor(ROGUE_COLLISION_BOPEEP_Y + 1 + distY);
-              console.log('distY', distY, 'boNearX.x', boNearX.x, 'this.nextX', this.nextX, 'timer', this.modeTimer)
+              // console.log('distY', distY, 'boNearX.x', boNearX.x, 'this.nextX', this.nextX, 'timer', this.modeTimer)
             }
           } // end MOVING
         } else {
@@ -123,6 +127,8 @@ function rogueClass() {
       drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x + gameCanvas.width, this.y, this.ang);
       drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width, this.y, this.ang);
     }
+
+    this.drawAntennae(20);
   }
 
   this.findNearestSheep = function (x, y) {
@@ -194,7 +200,7 @@ function setupDogs(whichLevel) {
       var agentHere = agentGrid[arrayIndex];
 
       if (agentHere == ROGUE_DOG) {
-        console.log('agent', agentHere, drawTileX, drawTileY)
+        // console.log('agent', agentHere, drawTileX, drawTileY)
         var spawnDog = new rogueClass();
         spawnDog.init(nDog, dogPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2);
         rogueDogList.push(spawnDog);
