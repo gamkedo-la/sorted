@@ -232,8 +232,14 @@ function sheepClass() {
           this.calledArrives(this.nextX, this.nextY);
         }
         else if (this.mode == CONVEYOR) {
-          console.log('after conveyor', sheepModeNames[this.previousMode])
-          this.changeMode(this.previousMode);
+          console.log('after conveyor', sheepModeNames[this.previousMode]), this.speed;
+          if (this.previousMode == SENT) {
+            this.mode = SENT;
+            this.speed = SEND_SPEED[currentLevel];
+          }
+          else {
+            this.changeMode(ROAM);
+          }
         }
         else if (this.mode == DISTRACTED && this.speed > 0) {
           this.changeMode(this.previousMode);
