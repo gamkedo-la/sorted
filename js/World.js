@@ -158,7 +158,8 @@ function tileTypeHasTransparency(tileType) {
     tileType == TILE_CONVEYOR_UP ||
     tileType == TILE_CONVEYOR_DOWN ||
     tileType == TILE_CONVEYOR_LEFT ||
-    tileType == TILE_CONVEYOR_RIGHT
+    tileType == TILE_CONVEYOR_RIGHT ||
+    tileType == TILE_RAILS
   );
 }
 
