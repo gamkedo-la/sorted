@@ -51,7 +51,7 @@ function drawMenu() {
       textIndent = 150;
       bodyLine("Buttons on right to Play, or", ++line);
       bodyLine("show Scoreboard, Help, Credits", ++line);
-    } 
+    }
     else {
       textIndent = 225;
       headLine("Menu");
@@ -63,7 +63,7 @@ function drawMenu() {
 
       canvasContext.drawImage(controlsPic,550,250); // controls reference gui tutorial popup
     }
-  } 
+  }
   else {
     textIndent = 190;
     headLine("Edit-mode menu");
@@ -258,8 +258,13 @@ function drawLevelScore() {
     colorText(canvasContext, "key L to advance to level " + nextLevel, gameCanvas.width/2, y += 18 + advanceFontSize, "white");
   }
 
+  canvasContext.font = "16px Arial";
+  colorText(canvasContext, "Time in level: " + Math.floor(step[currentLevel] / baseFPS)+1, gameCanvas.width / 2, y += 35, "white");
+
   // colorText("H to hide/show this box", canvas.width/2, y+210, "white");
   canvasContext.textAlign = "left";
+
+  // drawStar(canvasContext, gameCanvas.width/2, 200, 5, 20, 25, -18,'yellow','red', 4);
 } // end drawLevelScore
 
 

@@ -52,3 +52,36 @@ function colorLine(ctx, startX,startY, endX,endY, color) {
   ctx.lineTo(endX,endY);
   ctx.stroke();
 }
+
+
+function drawStar(
+  ctx,
+  centerX,
+  centerY,
+  arms,
+  innerRadius,
+  outerRadius,
+  startAngle,
+  fillStyle,
+  strokeStyle,
+  lineWidth
+) {
+  startAngle = startAngle * Math.PI / 180  || 0;
+  var step = Math.PI / arms,
+      angle = startAngle
+      ,hyp,x,y;
+  ctx.strokeStyle = strokeStyle;
+  ctx.fillStyle = fillStyle;
+  ctx.lineWidth = lineWidth;
+  ctx.beginPath();
+  for (var i =0,len= 2 * arms; i <len; i++) {
+    hyp = i & 1 ? innerRadius : outerRadius;
+    x = centerX + Math.cos(angle) * hyp;
+    y = centerY +Math.sin(angle) * hyp;
+    angle+=step;
+    ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  fillStyle && ctx.fill();
+  strokeStyle && ctx.stroke();
+}

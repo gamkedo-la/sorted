@@ -176,7 +176,7 @@ function moveAll() {
       for (var i = 0; i < rogueDogList.length; i++) {
         rogueDogList[i].barkTimer--;
       }
-  
+
       for (var i = 0; i < sheepList.length; i++) {
         sheepList[i].move();
       }
@@ -187,29 +187,27 @@ function moveAll() {
       for (var i = 0; i < boPeepList.length; i++) {
         boPeepList[i].move();
       }
-  
+
       if (runMode == NORMAL_PLAY) {
-  
         flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
-  
         player.move();
       }
-  
+
       else if (runMode == SEND_ONLY) {
-  
+
         if (!isAnySending()) {
           // only on conveyors, go faster
           haste = 8;
           console.log('step', step[currentLevel], 'Faster while on conveyor');
         }
-  
+
         if (!isAnySendOrConvey()) {
           // none on conveyors, all roaming so force LevelEnd
           levelEnding();
           console.log('step', step[currentLevel], 'Level end as none are Send');
         }
       }
-  
+
       else if (runMode == SEND_ROAM && !hasteSet) {
         if (!isAnySending()) {
           // only on conveyors, go faster
@@ -223,15 +221,15 @@ function moveAll() {
         }
         // use normal LevelEnd condition
       }
-  
+
       else if (runMode == CALL_FROM_R10) {
         // force LevelEnd when sheep in final column Held or give up.
       }
-  
+
       if ( isLevelOver() ) {
         levelEnding();
       }
-    } // end of STATE_PLAY  
+    } // end of STATE_PLAY
   } // end of PLAY or LEVEL_END
 } // end moveAll
 
@@ -256,7 +254,6 @@ function drawAll() {
       particleList[i].draw();
     }
   }
-
 
   else if (gameState == STATE_LEVEL_END) {
     // should call drawField() with parameter play or endLevel
@@ -295,7 +292,6 @@ function drawAll() {
     drawBarButtons(designButtonLabel);
     drawMovables();
   }
-
 
   else if (gameState == STATE_MENU) {
     drawMenuState();
