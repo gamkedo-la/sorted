@@ -15,12 +15,15 @@ function playerClass(id) {
     this.x = TILE_COLS / 2 * TILE_W; // halfway horizontal
     this.y = TILE_H / 2;
     this.gotoX = this.x;
+    this.nextX = null;
+    this.nextY = null;
     this.direction = 0;
     this.speed = HAT_MAX_SPEED[currentLevel]; // was 0
     this.ang = 0;
     this.sheepIDheld = null; // ID of sheep held after calling
     this.sheepIDcalled = null;
     this.callGapTimer = 0;
+    this.moveAsideTimer = 0;
     this.callWhenInPlace = false;
     this.sendWhenInPlace = false;
   }
@@ -42,12 +45,33 @@ function playerClass(id) {
 
 
   this.move = function () {
-    var nextX = this.x;
-    var nextY = this.y;
+    this.nextX = this.x;
+    this.nextY = this.y;
 
-    // if (this.sheepIDheld != null) {
-    //   sheepList[this.sheepIDheld].x = nextX;
-    // }
+    // move aside if Bo Peep approaching in same column
+    if (this.moveAsideTimer > 0) {
+      this.moveAsideTimer--;
+    }
+    else {
+      for (var i=0; i<bopeepList.length; i++) {
+        if (bopeepList[i].y < 100) {
+          var distX = this.x - bopeepList[i].x;
+          if ( Math.abs(distX) < TILE_W +20) {
+            if (distX >= 0) {
+              this.gotoX = this.x + (TILE_W - distX);
+            } else {
+              this.gotoX = this.x - (TILE_W + distX);
+              console.log(this.gotoX, this.x)
+            }
+            this.moveAsideTimer = 120;
+          }
+          // var col = Math.floor(this.x / TILE_W)
+          // if (bopeepList[i].col == col) {
+          //   this.gotoX = this.x + TILE_W;
+        }
+      }
+    }
+
 
     if (this.keyHeld_send) {
 
@@ -59,7 +83,8 @@ function playerClass(id) {
         sheepHere.sentX = Math.round(this.x);
         sheepHere.beginTime = step[currentLevel];
         console.log("Sent sheep id", sheepHere.id);
-      } else {
+      } 
+      else {
         console.log('No sheep sent because clamp empty');
       }
       this.keyHeld_send = false;
@@ -76,13 +101,13 @@ function playerClass(id) {
         console.log('Cannot call a sheep while another being called');
       }
       else {
-        console.log('Call a sheep, try from X=' + nextX);
+        console.log('Call a sheep, try from X=' + this.nextX);
         callSound.play();
 
         // check all sheep to see if any below Hat
         // or select a sheep using mouse like in RTS
 
-        // this.callGapTimer = 30; // disable after feedback
+        // this.callGapTimer = 30; // disable based on playtest feedback
         var aligned = null;
         var nearestWeightDist = 999;
 
@@ -93,8 +118,8 @@ function playerClass(id) {
           var mode = sheepList[i].mode;
           if (isSheepCallable(mode)) {
 
-            var xDist = Math.abs(nextX - sheepList[i].x);
-            var yDist = Math.abs(nextY - sheepList[i].y);
+            var xDist = Math.abs(this.nextX - sheepList[i].x);
+            var yDist = Math.abs(this.nextY - sheepList[i].y);
             var weightedCallDist = (yDist / CALL_X_WEIGHT) + xDist;
             console.log('id:' + i + ' x:' + xDist.toFixed(0) + ' y:' + yDist.toFixed(0) + ' weighted:' + weightedCallDist.toFixed(0));
 
@@ -145,16 +170,16 @@ function playerClass(id) {
       hatMoveSound.play();
 
       if (this.keyHeld_left) {
-        nextX -= this.speed;
+        this.nextX -= this.speed;
       }
       else if (this.keyHeld_right) {
-        nextX += this.speed;
+        this.nextX += this.speed;
       }
-      if (nextX > gameCanvas.width) {
-        nextX -= gameCanvas.width; // offset to mirror image
+      if (this.nextX > gameCanvas.width) {
+        this.nextX -= gameCanvas.width; // offset to mirror image
       }
-      if (nextX < 0) {
-        nextX += gameCanvas.width; // offset to mirror image
+      if (this.nextX < 0) {
+        this.nextX += gameCanvas.width; // offset to mirror image
       }
       // 1console.log(this.x, this.gotoX, player.keyHeld_left, player.keyHeld_right, player.button_left, player.button_right)
     }
@@ -185,15 +210,15 @@ function playerClass(id) {
       if (Math.abs(deltaX) <= moveX) {
         // nearly reached gotoX position
 
-        nextX = this.gotoX;
+        this.nextX = this.gotoX;
         this.direction = 0; // move command completed
 
-        if (nextX > gameCanvas.width) {
-          nextX -= gameCanvas.width; // offset to mirror image
+        if (this.nextX > gameCanvas.width) {
+          this.nextX -= gameCanvas.width; // offset to mirror image
           this.gotoX = TILE_W / 2;
         }
-        if (nextX < 0) {
-          nextX += gameCanvas.width; // offset to mirror image
+        if (this.nextX < 0) {
+          this.nextX += gameCanvas.width; // offset to mirror image
           this.gotoX = gameCanvas.width - TILE_W / 2;
         }
 
@@ -218,15 +243,15 @@ function playerClass(id) {
       } // end some_way_to_go_yet
 
       if (this.direction > 0) {
-        nextX += moveX; // move right
+        this.nextX += moveX; // move right
       }
       else if (this.direction < 0) {
-        nextX -= moveX; // move left
+        this.nextX -= moveX; // move left
       }
     }
 
-    this.x = nextX;
-    this.y = nextY;
+    this.x = this.nextX;
+    this.y = this.nextY;
   } // end move()
 
 
