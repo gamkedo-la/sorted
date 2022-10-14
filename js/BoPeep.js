@@ -3,9 +3,9 @@ const BOPEEP_SPEED = 2.0
 BOPEEP_EARLIEST = 10;
 BOPEEP_LATEST = 10;
 
-BoPeepClass.prototype = new movingClass();
+bopeepClass.prototype = new movingClass();
 
-function BoPeepClass() {
+function bopeepClass() {
   this.init = function (id, whichPic, x, y, col) {
     this.id = id;
     this.pic = whichPic;
@@ -48,9 +48,6 @@ function BoPeepClass() {
 
       console.log('bopeep vanishes because pen in that column is full')
     }
-    // else {
-    //   console.log("empty")
-    // }
 
     if (this.active) {
       var nextX = this.x; // previous location
@@ -142,7 +139,7 @@ function setupBoPeep(whichLevel) {
 
       if (agentHere == BO_PEEP) {
         console.log('Bo Peep', agentHere, drawTileX, drawTileY)
-        var spawnBoPeep = new BoPeepClass();
+        var spawnBoPeep = new bopeepClass();
         spawnBoPeep.init(BoPeep_num, BoPeepPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, eachCol);
         boPeepList.push(spawnBoPeep);
         BoPeep_num++;

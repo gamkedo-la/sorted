@@ -1,15 +1,17 @@
 const LOSTSHEEP_ATTRACT_RANGE = 40;
 const LOSTSHEEP_BAA_RANGE = 40;
 
-function lostSheepClass() {
-  this.init = function(id, whichPic, x, y) {
+lostsheepClass.prototype = new movingClass();
+
+function lostsheepClass() {
+  this.init = function (id, whichPic, x, y) {
     this.pic = whichPic;
     this.x = x;
     this.y = y;
     this.reset();
   }
 
-  this.reset = function() {
+  this.reset = function () {
     // this.x = randomRangeInt(20 + SIDE_MARGIN, gameCanvas.width - SIDE_MARGIN -18);
     // this.y = 425;
     this.ang = 0;
@@ -18,7 +20,7 @@ function lostSheepClass() {
     this.barkTimer = 0;
   }
 
-  this.move = function() {
+  this.move = function () {
     var nextX = this.x; // previous location
     var nextY = this.y;
 
@@ -53,25 +55,25 @@ function lostSheepClass() {
     this.y = nextY;
   }
 
-  this.draw = function() {
-    drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x,this.y, this.ang);
+  this.draw = function () {
+    drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x, this.y, this.ang);
     // dog's head
-    drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x,this.y, this.ang);
+    drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x, this.y, this.ang);
     // when part of image off canvas, draw mirror on other side
-    if (this.x > gameCanvas.width - this.pic.width/2) {
+    if (this.x > gameCanvas.width - this.pic.width / 2) {
       drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x - gameCanvas.width, this.y, this.ang);
-      drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x - gameCanvas.width, this.x,this.y, this.ang);
+      drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x - gameCanvas.width, this.x, this.y, this.ang);
     }
-    else if (this.x < this.pic.width/2) {
+    else if (this.x < this.pic.width / 2) {
       drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x + gameCanvas.width, this.y, this.ang);
-      drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width,this.y, this.ang);
+      drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width, this.y, this.ang);
     }
   }
 
-  this.findNearestSheep = function(x,y) {
+  this.findNearestSheep = function (x, y) {
     var nearestSheepDist = 999;
-    for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-      let distTo = sheepList[i].distFrom(x,y);
+    for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
+      let distTo = sheepList[i].distFrom(x, y);
       if (distTo < nearestSheepDist) {
         nearestSheepDist = distTo;
         nearestSheep = sheepList[i];
@@ -81,7 +83,7 @@ function lostSheepClass() {
     return nearestSheep;
   }
 
-  this.isSheepClose = function(nearestSheep, range) {
+  this.isSheepClose = function (nearestSheep, range) {
     if (nearestSheep.distFrom(this.x, this.y) < range) {
       return true;
     } else {
@@ -92,22 +94,22 @@ function lostSheepClass() {
 } // end of rogue class
 
 
-function setupDogs (whichLevel) {
+function setupDogs(whichLevel) {
   var arrayIndex = 0;
   var drawTileX = 0;
   var drawTileY = 0;
   var nDog = 0;
 
-  for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
-    for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+  for (var eachRow = 0; eachRow < TILE_ROWS; eachRow++) {
+    for (var eachCol = 0; eachCol < TILE_COLS; eachCol++) {
 
       var agentHere = agentGrid[arrayIndex];
 
       if (agentHere == ROGUE_DOG) {
         console.log('agent', agentHere, drawTileX, drawTileY)
-        var spawnDog = new rogueClass();
-        spawnDog.init(nDog, dogPic, drawTileX + TILE_W/2, drawTileY + TILE_H/2);
-        rogueDogList.push(spawnDog);
+        var spawnDog = new roguedogClass();
+        spawnDog.init(nDog, dogPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2);
+        roguedogList.push(spawnDog);
         nDog++;
       }
 

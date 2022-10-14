@@ -1,5 +1,19 @@
 function movingClass() {
 
+  this.init = function (id, whichPic, x, y) {
+    this.id = id;
+    this.pic = whichPic;
+    this.x = x;
+    this.y = y;
+    this.nextX = x;
+    this.nextY = y;
+    this.antennaLeftX = null;
+    this.antennaLeftY = null;
+    this.antennaRightX = null;
+    this.antennaRightY = null;
+    this.reset();
+  }
+
   this.distFrom = function(otherX, otherY) {
     var deltaX = otherX-this.x;
     var deltaY = otherY-this.y;

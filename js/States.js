@@ -37,18 +37,18 @@ function gotoReplay(from) {
 function gotoAdvance(from) {
 
   // if (!levelRunning) {
-    if (currentLevel == LAST_LEVEL) {
-      console.log("No more Levels!");
-      // gameState = STATE_GAME_OVER;
-      gameState = STATE_SCOREBOARD;
-    } else {
-      currentLevel++;
-      levelRunning = true;
-      loadLevel(currentLevel);
-      checkGridMatchColsRows();
-      gameState = STATE_PLAY;
-      console.log("Level number now =" + currentLevel);
-    }
+  if (currentLevel == LAST_LEVEL) {
+    console.log("No more Levels!");
+    // gameState = STATE_GAME_OVER;
+    gameState = STATE_SCOREBOARD;
+  } else {
+    currentLevel++;
+    levelRunning = true;
+    loadLevel(currentLevel);
+    checkGridMatchColsRows();
+    gameState = STATE_PLAY;
+    console.log("Level number now =" + currentLevel);
+  }
   // }
 }
 
@@ -92,7 +92,7 @@ function drawField() {
   drawTiles();
 
   // if a pen is occupied draw a gate
-  for(var i=0; i<TILE_COLS; i++) {
+  for (var i = 0; i < TILE_COLS; i++) {
     var index = i + (TILE_COLS * (TILE_ROWS - 1));
     if (areaGrid[index] == FULL_BLUE) {
       colDrawPenGate(i, BLUE);
@@ -107,7 +107,7 @@ function drawField() {
 
 function drawSheep() {
   // draw sheep, labelled with score
-  for(var i=0; i<sheepList.length; i++) {
+  for (var i = 0; i < sheepList.length; i++) {
     sheepList[i].draw();
 
     if (sheepList[i].levelDone) {
@@ -124,8 +124,8 @@ function drawSheep() {
 function drawMovingNotSheep() {
   player.draw();
 
-  for (var i = 0; i < rogueDogList.length; i++) {
-    rogueDogList[i].draw();
+  for (var i = 0; i < roguedogList.length; i++) {
+    roguedogList[i].draw();
   }
   for (var i = 0; i < lostSheepList.length; i++) {
     lostSheepList[i].draw();
@@ -167,7 +167,7 @@ function drawCalling() {
     // draw line between Hat and called sheep
     let x = sheepList[sheepCalled].x;
     let y = sheepList[sheepCalled].y;
-    colorLine(canvasContext, player.x,player.y, x,y, "yellow")
+    colorLine(canvasContext, player.x, player.y, x, y, "yellow")
   }
 }
 

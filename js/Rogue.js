@@ -10,9 +10,9 @@ const LICKING = 3;
 const WAITING = 4;
 
 
-rogueClass.prototype = new movingClass();
+roguedogClass.prototype = new movingClass();
 
-function rogueClass() {
+function roguedogClass() {
   this.init = function (id, whichPic, x, y) {
     this.pic = whichPic;
     this.x = x;
@@ -214,9 +214,11 @@ function setupDogs(whichLevel) {
 
       if (agentHere == ROGUE_DOG) {
         // console.log('agent', agentHere, drawTileX, drawTileY)
-        var spawnDog = new rogueClass();
+        var spawnDog = new roguedogClass();
+        var spawnMoving = new movingClass();
         spawnDog.init(nDog, dogPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2);
-        rogueDogList.push(spawnDog);
+        spawnMoving.init(nDog, dogPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2);
+        roguedogList.push(spawnDog);
         nDog++;
       }
 

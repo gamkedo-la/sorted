@@ -27,8 +27,8 @@ step.fill(0);
 
 var decals; // grass, flowers, footprints, pebbles, etc
 
-const TEAM_NAMES = ["plain", "blue", "red", "mixed",,,,"white"];
-const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple",,,,"white"];
+const TEAM_NAMES = ["plain", "blue", "red", "mixed", , , , "white"];
+const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple", , , , "white"];
 const NUM_TEAM_TYPES = 3;
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
@@ -38,7 +38,8 @@ const FLOCK_SIZE = [];
 var flockSize = null;
 
 var sheepList = [];
-var rogueDogList = [];
+var movingList = [];
+var roguedogList = [];
 var lostSheepList = [];
 var boPeepList = [];
 
@@ -145,7 +146,7 @@ function updateAll() {
 
 function moveAll() {
 
-  if ( staticScreen() ) { // includes paused
+  if (staticScreen()) { // includes paused
     return;
   }
 
@@ -173,16 +174,16 @@ function moveAll() {
     if (gameState == STATE_PLAY) {
       step[currentLevel]++; // level timesteps
 
-      for (var i = 0; i < rogueDogList.length; i++) {
-        rogueDogList[i].barkTimer--;
+      for (var i = 0; i < roguedogList.length; i++) {
+        roguedogList[i].barkTimer--;
       }
 
       for (var i = 0; i < sheepList.length; i++) {
         sheepList[i].move();
       }
 
-      for (var i = 0; i < rogueDogList.length; i++) {
-        rogueDogList[i].move();
+      for (var i = 0; i < roguedogList.length; i++) {
+        roguedogList[i].move();
       }
       for (var i = 0; i < boPeepList.length; i++) {
         boPeepList[i].move();
@@ -226,7 +227,7 @@ function moveAll() {
         // force LevelEnd when sheep in final column Held or give up.
       }
 
-      if ( isLevelOver() ) {
+      if (isLevelOver()) {
         levelEnding();
       }
     } // end of STATE_PLAY
@@ -366,7 +367,7 @@ function loadLevel(whichLevel) {
   step[whichLevel] = 0; // reset frame counter
 
   sheepList = [];  // fresh set of sheep
-  rogueDogList = [];
+  roguedogList = [];
   boPeepList = [];
 
   setupDogs(whichLevel);
@@ -383,6 +384,9 @@ function loadLevel(whichLevel) {
       spawnSheep.reset(i, team, potential, mode);
       spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
       sheepList.push(spawnSheep);
+
+      // var spawnMoving = new movingClass();
+      // spawnMoving.init(i, "sheep", spawnSheep.x)
     }
 
     bottomMargin = TILE_H;
@@ -434,7 +438,6 @@ function loadLevel(whichLevel) {
   else if (runMode == CALL_FROM_R10) {
     console.log("Test call sheep in level " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
     baaVolume = 0;
-
     flockSize = TILE_COLS;
     testTeam = PLAIN;
 
