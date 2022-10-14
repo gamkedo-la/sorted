@@ -12,6 +12,7 @@ function bopeepClass() {
     this.x = x;
     this.y = gameCanvas.height - TILE_H / 2;
     this.col = col;
+    this.inPlay = true;
     this.reset();
   }
 
@@ -26,17 +27,28 @@ function bopeepClass() {
 
   this.move = function () {
 
+    if (this.inPlay == false) { return };
+
     if (this.timeBeforeActive > 0) {
       this.timeBeforeActive--;
     }
     else {
-      if (this.col == null) {
-        this.col = findColWithEmptyPen();
-        this.x = TILE_W / 2 + this.col * TILE_W;
-        console.log("Bo Peep reappear", this.y, this.col)
-      }
       this.active = true;
       this.speedY = -1 * this.speed;
+
+      if (this.col == null) {
+        let emptyPenCols = findColsEmptyPen();
+        let availableCols = this.findColsLackingBopeep(emptyPenCols);
+        if (availableCols.length > 0) {
+          this.col = availableCols[randomInteger(0, availableCols.length-1)];
+          this.x = TILE_W / 2 + this.col * TILE_W;
+          console.log("Bo Peep reappears", this.y, this.col)
+        }
+        else {
+          this.inPlay = false;
+        }
+      }
+
     }
 
     // test if pen in column is now full
@@ -44,6 +56,8 @@ function bopeepClass() {
     if (isFullPen(areaGrid[bopeepColPenIndex])) {
       this.active = false;
       this.col = null;
+
+      this.y = gameCanvas.height;
       this.timeBeforeActive = randomInteger(BOPEEP_EARLIEST, BOPEEP_LATEST);
 
       console.log('bopeep vanishes because pen in that column is full')
@@ -94,7 +108,7 @@ function bopeepClass() {
 
 
   this.draw = function () {
-    if (this.active) {
+    if (this.active && this.inPlay) {
       drawBitmapCenteredWithRotation(canvasContext, BoPeepPic, this.x, this.y, this.ang);
     }
   }
@@ -123,6 +137,19 @@ function bopeepClass() {
     }
   }
 
+  this.findColsLackingBopeep = function (cols) {
+    for (var i = 0; i < bopeepList.length; i++) {
+      if (this.id != i) {
+        for (var j=0; j < cols.length; j++) {
+          if (bopeepList[i].col == cols[j]) {
+            cols.splice(j, 1);
+          }
+        }
+      }
+    }
+    return cols;
+  }
+
 } // end of BoPeep class
 
 
@@ -141,7 +168,7 @@ function setupBoPeep(whichLevel) {
         console.log('Bo Peep', agentHere, drawTileX, drawTileY)
         var spawnBoPeep = new bopeepClass();
         spawnBoPeep.init(BoPeep_num, BoPeepPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, eachCol);
-        boPeepList.push(spawnBoPeep);
+        bopeepList.push(spawnBoPeep);
         BoPeep_num++;
       }
 
@@ -169,4 +196,20 @@ function findColWithEmptyPen() {
     }
   }
   return col;
+}
+
+// return list of empty columns
+function findColsEmptyPen() {
+  // loop bottom row seek pens with original tile
+  var bottomRowIndex = TILE_COLS * (TILE_ROWS - 1);
+  var cols = []; // if none found
+
+  for (var i = 0; i < TILE_COLS; i++) {
+    let index = bottomRowIndex + i;
+    if (isEmptyPen(areaGrid[index])) {
+      let col = index - bottomRowIndex;
+      cols.push(col);
+    }
+  }
+  return cols;
 }

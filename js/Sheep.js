@@ -297,11 +297,11 @@ function sheepClass() {
     //   this.y = pos.y;
     // }
     // else {
-      this.x = this.nextX;
-      this.y = this.nextY;
-      // if (this.mode != SELECTED) {
-      //   console.log("TileHandling did not set x & y values");
-      // }
+    this.x = this.nextX;
+    this.y = this.nextY;
+    // if (this.mode != SELECTED) {
+    //   console.log("TileHandling did not set x & y values");
+    // }
     // }
 
     if (this.isModeTimed()) {
@@ -747,7 +747,7 @@ function sheepClass() {
       this.mode = PEEPED;
       this.ang = Math.PI * 3 / 2;
       let id = this.bopeepid;
-      this.speed = boPeepList[id].speed * 0.9;
+      this.speed = bopeepList[id].speed * 0.9;
     }
 
     else {
@@ -1069,35 +1069,35 @@ function sheepClass() {
   } // end teamOrient
 
 
-  this.antennaCheck = function() {
-      // antennae left & right
-      var antennaLeftAngle = this.ang - Math.PI / 4;
-      var antennaRightAngle = this.ang + Math.PI / 4;
-      this.antennaLeftY = this.nextY + antennaLength * Math.sin(antennaLeftAngle);
-      this.antennaLeftX = this.nextX + antennaLength * Math.cos(antennaLeftAngle);
-      this.antennaRightX = this.nextX + antennaLength * Math.cos(antennaRightAngle);
-      this.antennaRightY = this.nextY + antennaLength * Math.sin(antennaRightAngle);
+  this.antennaCheck = function () {
+    // antennae left & right
+    var antennaLeftAngle = this.ang - Math.PI / 4;
+    var antennaRightAngle = this.ang + Math.PI / 4;
+    this.antennaLeftY = this.nextY + antennaLength * Math.sin(antennaLeftAngle);
+    this.antennaLeftX = this.nextX + antennaLength * Math.cos(antennaLeftAngle);
+    this.antennaRightX = this.nextX + antennaLength * Math.cos(antennaRightAngle);
+    this.antennaRightY = this.nextY + antennaLength * Math.sin(antennaRightAngle);
 
-      // collision with other sheep
-      let leftDetect = this.overlapSheep(this.antennaLeftX, this.antennaLeftY);
-      let rightDetect = this.overlapSheep(this.antennaRightX, this.antennaRightY);
+    // collision with other sheep
+    let leftDetect = this.overlapSheep(this.antennaLeftX, this.antennaLeftY);
+    let rightDetect = this.overlapSheep(this.antennaRightX, this.antennaRightY);
 
-      if (leftDetect && rightDetect) {
-        this.ang += Math.PI; // turn around
-      }
-      else if (leftDetect) {
-        this.ang += Math.PI / 4;
-      }
-      else if (rightDetect) {
-        this.ang -= Math.PI / 4;
-      }
+    if (leftDetect && rightDetect) {
+      this.ang += Math.PI; // turn around
+    }
+    else if (leftDetect) {
+      this.ang += Math.PI / 4;
+    }
+    else if (rightDetect) {
+      this.ang -= Math.PI / 4;
+    }
 
-      if (leftDetect || rightDetect) {
-        this.avoidCollisionTimer = 10;
-        this.changeMode(ROAM);
-        console.log(this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
-        // this.nextX.toFixed(0), this.nextY.toFixed(0),
-      }
+    if (leftDetect || rightDetect) {
+      this.avoidCollisionTimer = 10;
+      this.changeMode(ROAM);
+      console.log(this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
+      // this.nextX.toFixed(0), this.nextY.toFixed(0),
+    }
 
   }
 

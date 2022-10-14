@@ -80,10 +80,10 @@ function roguedogClass() {
     }
 
     // is boPeep on this Level?
-    if (boPeepList != undefined && boPeepList.length > 0) {
+    if (bopeepList != undefined && bopeepList.length > 0) {
       // if boPeep ahead & would collide, dog stops temporarily
 
-      var boNearX = findNearbyXInList(this.nextX, boPeepList, ROGUE_COLLISION_BOPEEP_X);
+      var boNearX = findNearbyXInList(this.nextX, bopeepList, ROGUE_COLLISION_BOPEEP_X);
       if (boNearX) {
 
         // dog doesn't stop if has already moved past bopeep
@@ -215,11 +215,12 @@ function setupDogs(whichLevel) {
       if (agentHere == ROGUE_DOG) {
         // console.log('agent', agentHere, drawTileX, drawTileY)
         var spawnDog = new roguedogClass();
-        var spawnMoving = new movingClass();
         spawnDog.init(nDog, dogPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2);
-        spawnMoving.init(nDog, dogPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2);
         roguedogList.push(spawnDog);
         nDog++;
+
+        var spawnMoving = new movingClass();
+        spawnMoving.init(nDog, dogPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2);
       }
 
       drawTileX += TILE_W;

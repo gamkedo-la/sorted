@@ -130,8 +130,8 @@ function drawMovingNotSheep() {
   for (var i = 0; i < lostSheepList.length; i++) {
     lostSheepList[i].draw();
   }
-  for (var i = 0; i < boPeepList.length; i++) {
-    boPeepList[i].draw();
+  for (var i = 0; i < bopeepList.length; i++) {
+    bopeepList[i].draw();
   }
 }
 

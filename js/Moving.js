@@ -11,7 +11,6 @@ function movingClass() {
     this.antennaLeftY = null;
     this.antennaRightX = null;
     this.antennaRightY = null;
-    this.reset();
   }
 
   this.distFrom = function(otherX, otherY) {

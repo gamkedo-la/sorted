@@ -41,7 +41,7 @@ var sheepList = [];
 var movingList = [];
 var roguedogList = [];
 var lostSheepList = [];
-var boPeepList = [];
+var bopeepList = [];
 
 
 window.onload = function () {
@@ -185,8 +185,8 @@ function moveAll() {
       for (var i = 0; i < roguedogList.length; i++) {
         roguedogList[i].move();
       }
-      for (var i = 0; i < boPeepList.length; i++) {
-        boPeepList[i].move();
+      for (var i = 0; i < bopeepList.length; i++) {
+        bopeepList[i].move();
       }
 
       if (runMode == NORMAL_PLAY) {
@@ -368,7 +368,7 @@ function loadLevel(whichLevel) {
 
   sheepList = [];  // fresh set of sheep
   roguedogList = [];
-  boPeepList = [];
+  bopeepList = [];
 
   setupDogs(whichLevel);
   setupBoPeep(whichLevel);
