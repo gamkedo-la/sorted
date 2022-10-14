@@ -54,14 +54,12 @@ function gotoAdvance(from) {
 
 function gotoScore(from) {
   gameState = STATE_SCOREBOARD;
-  gameMusic.loopSong("sound/pastoral_music");
   drawBarButtons(offMenuButtonLabel);
   report('Score via ' + from, 1)
 }
 
 function gotoHelp(from) {
   gameState = STATE_HELP;
-  // BAR.innerHTML = '';
   drawBarButtons(offMenuButtonLabel);
   report('Help via' + from, 1)
 }

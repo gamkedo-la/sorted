@@ -1,5 +1,5 @@
 var currentLevel = 0;
-const LAST_LEVEL = 8;
+const LAST_LEVEL = 9;
 
 const TILE_W = 50;
 const TILE_H = 50;

@@ -58,6 +58,7 @@ function drawMenu() {
       bodyLine("Play - key P", ++line);
       bodyLine("Score - key S", ++line);
       bodyLine("Help - key H", ++line);
+      bodyLine("Music - key M", ++line);
       bodyLine("Credits - key C", ++line);
       bodyLine("Edit mode - key F1", ++line);
 
@@ -107,8 +108,11 @@ function drawHelp() {
     smallBodyLine(txtLines[i], ++line, yTop);
   }
 
-  line++; // gap between paragraphs
-  smallBodyLine("Menu: press key M or Esc", ++line, yTop);
+  if (touchDevice == false) {
+    line++; // gap between paragraphs
+    smallBodyLine("Menu: press key M or Esc", ++line, yTop);
+  }
+
   if (editMode) {
     line++; // gap between paragraphs
     smallBodyLine("EditMode: Level 0 is integration test level.", ++line, yTop);
@@ -301,20 +305,32 @@ function drawScoreboard() {
   drawMenuFlock();
 
   canvasContext.font = "24px Arial";
-  colorText(canvasContext, "Scoreboard", 100, 60, "white");
+  var drawX = 100;
+  const topY = 80;
+  var drawY = topY;
+  colorText(canvasContext, "Scoreboard", drawX, drawY, "white");
 
-  for (var i = 1; i < 7; i++) {
+  for (var i = 1; i <= LAST_LEVEL; i++) {
+
+    if (i == 5) {
+      drawX = 450;
+      drawY = topY;
+    }
+    drawY += 60;
 
     canvasContext.font = "24px Arial";
-    colorText(canvasContext, levelScores[i], 100, 60 + i * 60, "white");
+    colorText(canvasContext, levelScores[i], drawX, drawY, "white");
 
     canvasContext.font = "18px Arial";
-    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', 150, 60 + i * 60, "white");
+    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', drawX+50, drawY, "white");
 
   }
 
-  canvasContext.font = "16px Arial";
-  colorText(canvasContext, "Press M or Esc for menu", 100, 500, "white");
+  if (touchDevice == false) {
+    canvasContext.font = "16px Arial";
+    colorText(canvasContext, "Press key M or Esc for menu", 100, 500, "white");
+  }
+
   canvasContext.textAlign = "left";
 } // end drawScoreboard
 

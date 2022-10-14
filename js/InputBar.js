@@ -27,6 +27,10 @@ function ui_mousedownHandler() {
             gotoHelp("canvasButton");
             break;
 
+          case "Music":
+          gameMusic.loopSong("sound/pastoral_music");
+          break;
+
           case "Credits":
             gotoCredits("canvasButton");
             break;

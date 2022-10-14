@@ -1,4 +1,5 @@
 var audioFormat;
+var musicVolume = 0.3;
 
 function setFormat() {
   var audio = new Audio();
@@ -21,6 +22,7 @@ function BackgroundMusicClass() {
     }
     musicSound = new Audio(filenameWithPath+audioFormat);
     musicSound.loop = true;
+    musicSound.volume = musicVolume;
     musicSound.play();
   }
 
