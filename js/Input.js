@@ -299,12 +299,12 @@ function menuKeyChoice(key) {
 
       if (key == KEY_M) {
         gameMusic.loopSong("sound/pastoral_music");
+        musicInitialised = true;
       }
 
       if (key == KEY_H) {
         gameState = STATE_HELP;
       }
-      this.startOrStopMusic
 
       if (editMode) {
         if (key >= KEY_NUM_0 && key <= KEY_NUM_9) {

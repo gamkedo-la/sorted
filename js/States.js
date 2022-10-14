@@ -16,12 +16,18 @@ function gotoMenu(from) {
   gameState = STATE_MENU;
   menuBackSound.play();
   clumpRandom = true;
+  if (musicInitialised) {
+    gameMusic.startMusic();
+  }
   report('return via ' + from, 1);
 }
 
 function gotoPlay(from) {
   gameState = STATE_PLAY;
-  let barTitle = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel];
+  let barTitle = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel]; // ???
+  if (musicInitialised) {
+    gameMusic.stopMusic();
+  }
   report('Play via ' + from, 1)
 }
 
@@ -80,6 +86,9 @@ function gotoDesign(from) {
 
 function togglePause() {
   paused = !paused;
+  if (musicInitialised) {
+    gameMusic.startOrStopMusic();
+  }
 }
 
 

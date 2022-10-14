@@ -28,8 +28,13 @@ function ui_mousedownHandler() {
             break;
 
           case "Music":
-          gameMusic.loopSong("sound/pastoral_music");
-          break;
+            if (musicInitialised) {
+              gameMusic.startOrStopMusic();
+            } else {
+              gameMusic.loopSong("sound/pastoral_music");
+              musicInitialised = true;
+            }
+            break;
 
           case "Credits":
             gotoCredits("canvasButton");

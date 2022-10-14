@@ -33,6 +33,13 @@ function BackgroundMusicClass() {
       musicSound.pause();
     }
   }
+
+  this.stopMusic = function() {
+    musicSound.pause();
+  }
+  this.startMusic = function() {
+    musicSound.play();
+  }
 }
 
 function SoundOverlapsClass(filenameWithPath) {
