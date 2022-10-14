@@ -273,17 +273,21 @@ function drawLevelScore() {
 
   if (touchDevice) {
     colorText(canvasContext, "Use buttons (on right) to:", gameCanvas.width / 2, y += 40, "white");
-    colorText(canvasContext, "Replay level " + currentLevel, gameCanvas.width / 2, y += 24, "white");
+    colorText(canvasContext, "Replay level " + currentLevel, gameCanvas.width / 2, y += 22, "white");
 
     canvasContext.font = advanceFontSize + "px Arial";
-    colorText(canvasContext, "Advance to level " + nextLevel, gameCanvas.width / 2, y += 18 + advanceFontSize, "white");
+    msg = "Advance to level " + nextLevel;
+    if (nextLevel > LAST_LEVEL) { msg = "End & show scoreboard"; }
+    colorText(canvasContext, msg, gameCanvas.width / 2, y += 18 + advanceFontSize, "white");
   }
   else {
     colorText(canvasContext, "Press key M for menu", gameCanvas.width / 2, y += 40, "white");
-    colorText(canvasContext, "key R to replay level " + currentLevel, gameCanvas.width / 2, y += 18, "white");
+    colorText(canvasContext, "key R to replay level " + currentLevel, gameCanvas.width / 2, y += 22, "white");
 
     canvasContext.font = advanceFontSize + "px Arial";
-    colorText(canvasContext, "key L to advance to level " + nextLevel, gameCanvas.width / 2, y += 18 + advanceFontSize, "white");
+    msg = "key L to advance to level " + nextLevel;
+    if (nextLevel > LAST_LEVEL) { msg = "key L show scoreboard"; }
+    colorText(canvasContext, msg, gameCanvas.width / 2, y += 18 + advanceFontSize, "white");
   }
 
   canvasContext.font = "16px Arial";

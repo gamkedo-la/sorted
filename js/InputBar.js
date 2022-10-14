@@ -28,12 +28,7 @@ function ui_mousedownHandler() {
             break;
 
           case "Music":
-            if (musicInitialised) {
-              gameMusic.startOrStopMusic();
-            } else {
-              gameMusic.loopSong("sound/pastoral_music");
-              musicInitialised = true;
-            }
+            musicToggle();
             break;
 
           case "Credits":

@@ -298,8 +298,7 @@ function menuKeyChoice(key) {
       }
 
       if (key == KEY_M) {
-        gameMusic.loopSong("sound/pastoral_music");
-        musicInitialised = true;
+        musicToggle();
       }
 
       if (key == KEY_H) {

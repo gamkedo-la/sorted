@@ -1,7 +1,7 @@
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
 var hatMoveSound = new SoundOverlapsClass("sound/hat_moving_quiet");
 
-var calledArrivalSound = new SoundOverlapsClass("sound/clamp_arrival");
+var calledArrivalSound = new SoundOverlapsClass("sound/clamp_arrival_quiet");
 
 var gateSound = new SoundOverlapsClass("sound/gate_close");
 
@@ -20,3 +20,13 @@ var menuBackSound = new SoundOverlapsClass("sound/menuback");
 
 var gameMusic = new BackgroundMusicClass();
 var musicInitialised = false;
+
+
+function musicToggle() {
+  if (musicInitialised) {
+    gameMusic.startOrStopMusic();
+  } else {
+    gameMusic.loopSong("sound/pastoral_music");
+    musicInitialised = true;
+  }
+}
