@@ -99,7 +99,7 @@ function touchTest() {
   if (touchDevice) {
     report("Touch-device detected", 2);
   } else {
-    report("Not a touch-device", 2);
+    report("Not a touch device", 2);
   }
   TOUCH_TEST = touchDevice ? true : false;
 }

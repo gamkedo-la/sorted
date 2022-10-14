@@ -19,28 +19,28 @@ const POPUP_W = 320;
 
 
 function drawMenuFlock() {
-  for (let x,y,i = 0; i<64; i++) {
-    x = Math.sin(performance.now()*0.00005+i*321) * 900;
-    y = 570 + Math.cos(performance.now()*0.00513+i*234) * 10;
-    r = Math.cos(performance.now()*0.005+i*456) * 0.5;
-    drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic,x,y,r);
+  for (let x, y, i = 0; i < 64; i++) {
+    x = Math.sin(performance.now() * 0.00005 + i * 321) * 900;
+    y = 570 + Math.cos(performance.now() * 0.00513 + i * 234) * 10;
+    r = Math.cos(performance.now() * 0.005 + i * 456) * 0.5;
+    drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, x, y, r);
   }
 }
 
 
 function drawLevelScoreFlock() {
-    for (let x,y,i = 0; i<64; i++) {
-        x = (gameCanvas.width/2/*-POPUP_W/2*/) + Math.sin(performance.now()*0.00005+i*321) * POPUP_W/2;
-        y = 80 + Math.cos(performance.now()*0.00513+i*234) * 10;
-        r = Math.cos(performance.now()*0.005+i*456) * 0.5;
-        drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic,x,y,r);
-    }
+  for (let x, y, i = 0; i < 64; i++) {
+    x = (gameCanvas.width / 2/*-POPUP_W/2*/) + Math.sin(performance.now() * 0.00005 + i * 321) * POPUP_W / 2;
+    y = 80 + Math.cos(performance.now() * 0.00513 + i * 234) * 10;
+    r = Math.cos(performance.now() * 0.005 + i * 456) * 0.5;
+    drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, x, y, r);
+  }
 }
 
 
 function drawMenu() {
-  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
-  canvasContext.drawImage(menuBGPic,0,0);
+  colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "black");
+  canvasContext.drawImage(menuBGPic, 0, 0);
   decals.draw();
   drawMenuFlock();
 
@@ -61,7 +61,7 @@ function drawMenu() {
       bodyLine("Credits - key C", ++line);
       bodyLine("Edit mode - key F1", ++line);
 
-      canvasContext.drawImage(controlsPic,550,250); // controls reference gui tutorial popup
+      canvasContext.drawImage(controlsPic, 550, 250); // controls reference gui tutorial popup
     }
   }
   else {
@@ -80,8 +80,8 @@ function drawHelp() {
   // BAR.innerHTML = '';
   // drawBarButtons(offMenuButtonLabel);
 
-  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
-  canvasContext.drawImage(helpBGPic,0,0);
+  colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "black");
+  canvasContext.drawImage(helpBGPic, 0, 0);
   drawMenuFlock();
 
   textIndent = 120;
@@ -103,7 +103,7 @@ function drawHelp() {
   var txtLines = getLines(canvasContext, txt, 600);
   line++; // gap between paragraphs
 
-  for(var i=0; i<txtLines.length; i++) {
+  for (var i = 0; i < txtLines.length; i++) {
     smallBodyLine(txtLines[i], ++line, yTop);
   }
 
@@ -118,8 +118,8 @@ function drawHelp() {
 
 function drawCredits() {
 
-  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
-  canvasContext.drawImage(creditsBGPic,0,0);
+  colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "black");
+  canvasContext.drawImage(creditsBGPic, 0, 0);
 
   textIndent = CREDITS_INDENT;
   canvasContext.font = HEADER_FONT + "px Verdana";
@@ -137,14 +137,14 @@ function drawCredits() {
 
   var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grassclumps; hoofprints behind sheep; soundfx for sheep, and dog; ambient sounds; baa when sheep enters pen.'
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
-  for(var i=0; i<txtLines.length; i++) {
+  for (var i = 0; i < txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
   }
   paragraph++;
 
   var txt = "Chris DeLeon - sheep-head multi-part image; foundation of classic games code; Photopea help to make tile art.";
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
-  for(var i=0; i<txtLines.length; i++) {
+  for (var i = 0; i < txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
   }
   paragraph++;
@@ -157,21 +157,21 @@ function drawCredits() {
 
   var txt = "H Trayford - maximum possible score; early Hat screenwrap.";
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
-  for(var i=0; i<txtLines.length; i++) {
+  for (var i = 0; i < txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
   }
   paragraph++;
 
   var txt = 'Nicholas Polchies - canvas scaling (for phone screens) code from Hometeam game "Accidental Personal Confusion 5".';
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
-  for(var i=0; i<txtLines.length; i++) {
+  for (var i = 0; i < txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
   }
   paragraph++;
 
   var txt = 'Caspar Dunant - touch event handling code from Hometeam game "Irenic".';
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
-  for(var i=0; i<txtLines.length; i++) {
+  for (var i = 0; i < txtLines.length; i++) {
     paragraphLine(txtLines[i], ++line, paragraph);
   }
 } // end drawCredits
@@ -202,7 +202,7 @@ function smallHeadLine(txt, yTop) {
 }
 
 
-function smallBodyLine(txt, lineNum,startY) {
+function smallBodyLine(txt, lineNum, startY) {
   canvasContext.font = 24 + "px Verdana";
   colorText(canvasContext, txt, textIndent, startY + lineNum * 30 + MENU_TOP_MARGIN, "white");
 }
@@ -212,7 +212,7 @@ function drawLevelScoreTest() {
   var y = 50;
   canvasContext.textAlign = "center";
   canvasContext.font = "24px Arial";
-  colorText(canvasContext, "Level "+ currentLevel + " completed", gameCanvas.width/2, y += 50, "white");
+  colorText(canvasContext, "Level " + currentLevel + " completed", gameCanvas.width / 2, y += 50, "white");
   canvasContext.textAlign = "left";
 } // end drawLevelScoreTest
 
@@ -220,19 +220,19 @@ function drawLevelScoreTest() {
 function drawLevelScore() {
   var y = 50;
   var nextLevel = currentLevel + 1;
-  var advanceFontSize = 12 + Math.sqrt( levelScores[currentLevel] / FLOCK_SIZE[currentLevel] +1 );
+  var advanceFontSize = 12 + Math.sqrt(levelScores[currentLevel] / FLOCK_SIZE[currentLevel] + 1);
 
   canvasContext.textAlign = "center";
 
   // border
-  colorRect(canvasContext, +gameCanvas.width/2 -POPUP_W/2 -20, y -20, POPUP_W + 40, 300 + 40, "rgba(0,0,0,0.25)");
+  colorRect(canvasContext, +gameCanvas.width / 2 - POPUP_W / 2 - 20, y - 20, POPUP_W + 40, 300 + 40, "rgba(0,0,0,0.25)");
   // bg
-  colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2, y, POPUP_W, 300, "rgba(0,0,0,0.25)");
+  colorRect(canvasContext, gameCanvas.width / 2 - POPUP_W / 2, y, POPUP_W, 300, "rgba(0,0,0,0.25)");
   // sheep
   drawLevelScoreFlock();
 
   // small white bar
-  colorRect(canvasContext, gameCanvas.width/2 -POPUP_W/2 + 40, y+10, POPUP_W - 80, 40, "rgba(255,255,255,0.75)");
+  colorRect(canvasContext, gameCanvas.width / 2 - POPUP_W / 2 + 40, y + 10, POPUP_W - 80, 40, "rgba(255,255,255,0.75)");
 
   canvasContext.font = "24px Arial Bold";
   colorText(canvasContext, "Level " + currentLevel + " completed", gameCanvas.width / 2, y += 40, "black");
@@ -241,43 +241,49 @@ function drawLevelScore() {
   colorText(canvasContext, "Score = " + levelScores[currentLevel], gameCanvas.width / 2, y += 55, "white");
 
   canvasContext.font = "16px Arial";
-  colorText(canvasContext, "Max Possible Score = " + levelMaxScores[currentLevel], gameCanvas.width/2, y += 30, "white");
+  colorText(canvasContext, "Max Possible Score = " + levelMaxScores[currentLevel], gameCanvas.width / 2, y += 30, "white");
 
   var success = levelScores[currentLevel] / levelMaxScores[currentLevel];
-  var minForStar = 0.2;
-  if (success >= minForStar) {
-    y += 30;
+
+  var starColour = null;
+  var numStars = 3;
+  var starGap = 50;
+  var starFirstPos = gameCanvas.width / 2 - starGap;
+  var starThreshold = [0, 0.1, 0.4, 0.7];
+
+  y += 30;
+  for (var i = 0; i < numStars; i++) {
+    drawStar(canvasContext, starFirstPos + starGap * i, y, 5, 10, 20, -18, 'black', 'yellow', 1);
   }
-  if ( success >= 0.7) {
-    drawStar(canvasContext, gameCanvas.width/2 -50, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
-    drawStar(canvasContext, gameCanvas.width/2, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
-    drawStar(canvasContext, gameCanvas.width/2 +50, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
+
+  if (success >= starThreshold[1]) {
+    drawStar(canvasContext, starFirstPos, y, 5, 10, 20, -18, 'yellow', 'yellow', 1);
   }
-  else if ( success >= 0.45) {
-    drawStar(canvasContext, gameCanvas.width/2 -25, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
-    drawStar(canvasContext, gameCanvas.width/2 +25, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
+  if (success >= starThreshold[2]) {
+    drawStar(canvasContext, starFirstPos + starGap, y, 5, 10, 20, -18, 'yellow', 'yellow', 1);
   }
-  else if ( success >= minForStar) {
-    drawStar(canvasContext, gameCanvas.width/2, y, 5, 10, 20, -18, 'yellow', 'yellow', 2);
+  if (success >= starThreshold[3]) {
+    drawStar(canvasContext, starFirstPos + starGap * 2, y, 5, 10, 20, -18, 'yellow', 'yellow', 1);
   }
+
 
   if (touchDevice) {
-    colorText(canvasContext, "Use buttons (on right) to:", gameCanvas.width/2, y += 40, "white");
-    colorText(canvasContext, "Replay level " + currentLevel, gameCanvas.width/2, y += 24, "white");
+    colorText(canvasContext, "Use buttons (on right) to:", gameCanvas.width / 2, y += 40, "white");
+    colorText(canvasContext, "Replay level " + currentLevel, gameCanvas.width / 2, y += 24, "white");
 
     canvasContext.font = advanceFontSize + "px Arial";
-    colorText(canvasContext, "Advance to level " + nextLevel, gameCanvas.width/2, y += 18 + advanceFontSize, "white");
+    colorText(canvasContext, "Advance to level " + nextLevel, gameCanvas.width / 2, y += 18 + advanceFontSize, "white");
   }
   else {
-    colorText(canvasContext, "Press key M for menu", gameCanvas.width/2, y += 40, "white");
-    colorText(canvasContext, "key R to replay level " + currentLevel, gameCanvas.width/2, y += 18, "white");
+    colorText(canvasContext, "Press key M for menu", gameCanvas.width / 2, y += 40, "white");
+    colorText(canvasContext, "key R to replay level " + currentLevel, gameCanvas.width / 2, y += 18, "white");
 
     canvasContext.font = advanceFontSize + "px Arial";
-    colorText(canvasContext, "key L to advance to level " + nextLevel, gameCanvas.width/2, y += 18 + advanceFontSize, "white");
+    colorText(canvasContext, "key L to advance to level " + nextLevel, gameCanvas.width / 2, y += 18 + advanceFontSize, "white");
   }
 
   canvasContext.font = "16px Arial";
-  colorText(canvasContext, "Time in level: " + Math.floor(step[currentLevel] / baseFPS)+1, gameCanvas.width / 2, y += 35, "white");
+  colorText(canvasContext, "Time in level: " + Math.floor(step[currentLevel] / baseFPS) + 1, gameCanvas.width / 2, y += 35, "white");
 
   // colorText("H to hide/show this box", canvas.width/2, y+210, "white");
   canvasContext.textAlign = "left";
@@ -297,13 +303,13 @@ function drawScoreboard() {
   canvasContext.font = "24px Arial";
   colorText(canvasContext, "Scoreboard", 100, 60, "white");
 
-  for(var i=1; i<7; i++) {
+  for (var i = 1; i < 7; i++) {
 
     canvasContext.font = "24px Arial";
-    colorText(canvasContext, levelScores[i], 100, 60 + i*60, "white");
+    colorText(canvasContext, levelScores[i], 100, 60 + i * 60, "white");
 
     canvasContext.font = "18px Arial";
-    colorText(canvasContext, "Level " + i +  '  "' + LEVEL_NAMES[i] + '"', 150, 60 + i*60, "white");
+    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', 150, 60 + i * 60, "white");
 
   }
 
@@ -314,8 +320,8 @@ function drawScoreboard() {
 
 
 function drawGameOver() {
-  colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
-  canvasContext.drawImage(creditsBGPic,0,0);
+  colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "black");
+  canvasContext.drawImage(creditsBGPic, 0, 0);
   drawMenuFlock();
 
   textIndent = 200;
