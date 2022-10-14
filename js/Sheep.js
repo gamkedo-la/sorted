@@ -142,7 +142,6 @@ function sheepClass() {
     this.nextY = this.y;
 
     var tileOccupied;
-    var pos; // temporary position
 
     if (this.mode == SELECTED) {
       // selected for manual movement
@@ -161,7 +160,7 @@ function sheepClass() {
     } // end CALLED
 
     // attached to player
-    else if (this.mode == HELD) {
+    else if (this.mode == HELD) { 
       this.nextX = player.x;
       this.nextY = player.y + 24;
     }
@@ -231,16 +230,21 @@ function sheepClass() {
         if (this.mode == CALLED) {
           this.calledArrives(this.nextX, this.nextY);
         }
-        else if (this.mode == CONVEYOR) {
+
+        else if (this.mode == CONVEYOR) {  
+          this.gotoX = null;
+          this.gotoY = null;
+          this.changeMode(this.previousMode);
           console.log('after conveyor', sheepModeNames[this.previousMode]), this.speed;
-          if (this.previousMode == SENT) {
-            this.mode = SENT;
-            this.speed = SEND_SPEED[currentLevel];
-          }
-          else {
-            this.changeMode(ROAM);
-          }
+          // if (this.previousMode == SENT) {
+          //   this.mode = SENT;
+          //   this.speed = SEND_SPEED[currentLevel];
+          // }
+          // else {
+          //   this.changeMode(ROAM);
+          // }
         }
+
         else if (this.mode == DISTRACTED && this.speed > 0) {
           this.changeMode(this.previousMode);
         }
@@ -287,22 +291,11 @@ function sheepClass() {
     }
 
     if (this.mode != SELECTED) {
-      // if x,y change inside tileHandling must be returned as object
-      // pos = this.tileHandling(this.nextX, this.nextY);
       this.tileHandling();
     }
 
-    // if (pos != undefined) {
-    //   this.x = pos.x;
-    //   this.y = pos.y;
-    // }
-    // else {
     this.x = this.nextX;
     this.y = this.nextY;
-    // if (this.mode != SELECTED) {
-    //   console.log("TileHandling did not set x & y values");
-    // }
-    // }
 
     if (this.isModeTimed()) {
       this.timer--;
@@ -354,6 +347,7 @@ function sheepClass() {
   this.hoofPrintModes = function () {
     return this.mode == ROAM || this.mode == SENT || this.mode == CALLED || this.mode == CONVEYOR || this.mode == DISTRACTED
   }
+
 
   ////////// TILE HANDLING /////////////
   this.tileHandling = function () {
@@ -410,12 +404,7 @@ function sheepClass() {
         let flip = randomRangeInt(1, 2);
         let angleAdjust = (flip == 1) ? 9 / 8 : 15 / 8;
         this.ang = angleAdjust * Math.PI;
-        if (this.team == BLUE) {
-          this.orient = ORIENT_BLUE;
-        }
-        else if (this.team == RED) {
-          this.orient = ORIENT_RED;
-        }
+        this.teamOrient();
         console.log("Pen occupied, graze", this.id);
       }
 
@@ -436,13 +425,7 @@ function sheepClass() {
         this.speed = 0;
         this.ang = Math.PI * 1 / 2;
         this.endLevel(tileCol);
-
-        if (this.team == BLUE) {
-          this.orient = Math.PI * 1 / 2;
-        }
-        else if (this.team == RED) {
-          this.orient = Math.PI * 3 / 2;
-        }
+        this.teamOrient();
 
         if (tileType == TILE_PEN_BLUE) {
           this.mode = STACKED_BLUE;
@@ -450,8 +433,6 @@ function sheepClass() {
         else if (tileType == TILE_PEN_RED) {
           this.mode = STACKED_RED;
         }
-
-        // stacking = false; // return to default behaviour
       } // end enter full pen of either colour
     }
 
@@ -465,12 +446,7 @@ function sheepClass() {
         this.nextY = TILE_H * (TILE_ROWS - 1 + TILE_Y_ADJUST);
         areaGrid[tileIndexUnder] = FULL_DITCH;
         agentGrid[tileIndexUnder] = this.team;
-        if (this.team == BLUE) {
-          this.orient = ORIENT_BLUE;
-        }
-        else if (this.team == RED) {
-          this.orient = ORIENT_RED;
-        }
+        this.teamOrient();
         makeDitchVFX(this.nextX, this.nextY);
       }
     }
@@ -508,12 +484,7 @@ function sheepClass() {
         this.ang = Math.PI * 1 / 2;
         this.mode = STACKED_DITCH;
         this.endLevel(tileCol);
-
-        if (this.team == BLUE) {
-          this.orient = Math.PI * 1 / 2;
-        } else {
-          this.orient = Math.PI * 3 / 2;
-        }
+        this.teamOrient();
       }
     } // end full_ditch
 
@@ -609,6 +580,16 @@ function sheepClass() {
     else if (this.isTileConveyor(tileType)) {
       if (this.mode != CONVEYOR) {
         this.changeMode(CONVEYOR);
+
+        // try follow angle of carrots line
+        // var centreTileY = TILE_H/2 + tileRow*TILE_H;
+        // var conveyorY = null;
+        // if (this.gotoY < centreTileY) {
+        //   conveyorY = TILE_H/2;
+        // } else {
+        //   conveyorY = -1*TILE_H/2;
+        // }
+        // this.gotoY = this.nextY + conveyorY;
 
         if (tileType == TILE_CONVEYOR_UP) {
           this.gotoY = this.nextY - TILE_H;
@@ -1098,7 +1079,6 @@ function sheepClass() {
       console.log(this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
       // this.nextX.toFixed(0), this.nextY.toFixed(0),
     }
-
   }
 
 } // end of sheepClass
