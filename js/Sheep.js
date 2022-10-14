@@ -1076,7 +1076,7 @@ function sheepClass() {
     if (leftDetect || rightDetect) {
       this.avoidCollisionTimer = 10;
       this.changeMode(ROAM);
-      console.log(this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
+      // console.log(this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
       // this.nextX.toFixed(0), this.nextY.toFixed(0),
     }
   }

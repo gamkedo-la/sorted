@@ -54,7 +54,7 @@ function gotoAdvance(from) {
 
 function gotoScore(from) {
   gameState = STATE_SCOREBOARD;
-  gameMusic.loopSong();
+  gameMusic.loopSong("sound/pastoral_music");
   drawBarButtons(offMenuButtonLabel);
   report('Score via ' + from, 1)
 }
