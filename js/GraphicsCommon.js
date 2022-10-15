@@ -73,6 +73,7 @@ function drawStar(
   ctx.strokeStyle = strokeStyle;
   ctx.fillStyle = fillStyle;
   ctx.lineWidth = lineWidth;
+  ctx.setLineDash([]);
   ctx.beginPath();
   for (var i =0,len= 2 * arms; i <len; i++) {
     hyp = i & 1 ? innerRadius : outerRadius;

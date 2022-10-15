@@ -85,23 +85,23 @@ function drawHelp() {
   canvasContext.drawImage(helpBGPic, 0, 0);
   drawMenuFlock();
 
-  textIndent = 120;
+  textIndent = 40;
   var line = 0;
 
   // getLines() cutoffs based on canvas font when function called
-  canvasContext.font = 20 + "px Verdana";
+  canvasContext.font = 18 + "px Verdana";
 
-  var yTop = (editMode) ? 55 : 80;
+  var yTop = (editMode) ? 45 : 70;
 
   // if (!editMode) {
   //   smallHeadLine("Sorted! a game with sheep", yTop);
   // }
 
-  smallBodyLine("Aim: get all sheep to bottom row, sorting two groups.", ++line, yTop);
+  smallBodyLine("Aim: get all sheep to bottom row, sorting to blue and red.", ++line, yTop);
 
-  var txt = "How to play: move Hat left or right, call a sheep upward, send a sheep down. Points are gained if a sheep arrives on correct side of the field, and bonus points for reaching a pen rather than falling into ditch.";
+  var txt = "How to play: move the hat (farmer) sideways; when the hat is directly above a sheep you can call it upward; then move again and send held sheep vertically down. If a sheep is going astray (e.g. nearing a bog where it will get stuck) you can call it up again. Points are gained for each sheep reaching the bottom row, on the correct side, with bonus points for reaching a pen rather than the ditch.";
 
-  var txtLines = getLines(canvasContext, txt, 600);
+  var txtLines = getLines(canvasContext, txt, 730);
   line++; // gap between paragraphs
 
   for (var i = 0; i < txtLines.length; i++) {
@@ -229,9 +229,9 @@ function drawLevelScore() {
   canvasContext.textAlign = "center";
 
   // border
-  colorRect(canvasContext, +gameCanvas.width / 2 - POPUP_W / 2 - 20, y - 20, POPUP_W + 40, 300 + 40, "rgba(0,0,0,0.25)");
+  colorRect(canvasContext, +gameCanvas.width / 2 - POPUP_W / 2 - 20, y - 20, POPUP_W + 40, 320 + 40, "rgba(0,0,0,0.25)");
   // bg
-  colorRect(canvasContext, gameCanvas.width / 2 - POPUP_W / 2, y, POPUP_W, 300, "rgba(0,0,0,0.25)");
+  colorRect(canvasContext, gameCanvas.width / 2 - POPUP_W / 2, y, POPUP_W, 320, "rgba(0,0,0,0.3)");
   // sheep
   drawLevelScoreFlock();
 
@@ -308,8 +308,8 @@ function drawScoreboard() {
   decals.draw();
   drawMenuFlock();
 
-  canvasContext.font = "24px Arial";
-  var drawX = 100;
+  canvasContext.font = "28px Arial";
+  var drawX = 60;
   const topY = 80;
   var drawY = topY;
   colorText(canvasContext, "Scoreboard", drawX, drawY, "white");
@@ -322,17 +322,17 @@ function drawScoreboard() {
     }
     drawY += 60;
 
-    canvasContext.font = "24px Arial";
+    canvasContext.font = "28px Arial";
     colorText(canvasContext, levelScores[i], drawX, drawY, "white");
 
-    canvasContext.font = "18px Arial";
+    canvasContext.font = "22px Arial";
     colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', drawX+50, drawY, "white");
 
   }
 
   if (touchDevice == false) {
     canvasContext.font = "16px Arial";
-    colorText(canvasContext, "Press key M or Esc for menu", 100, 500, "white");
+    colorText(canvasContext, "Press key M or Esc for menu", drawX, 500, "white");
   }
 
   canvasContext.textAlign = "left";
