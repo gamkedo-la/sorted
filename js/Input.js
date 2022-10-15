@@ -234,7 +234,7 @@ function menuKeyChoice(key) {
   switch (gameState) {
 
     case STATE_PLAY:
-      if (key == KEY_ESC || key == KEY_M) {
+      if ( (key == KEY_ESC || key == KEY_M) && !paused) {
         gotoMenu("Play, key M or Esc");
         runMode = NORMAL_PLAY; // remove Test settings
         haste = PLAY_SPEED;
@@ -297,7 +297,7 @@ function menuKeyChoice(key) {
         gotoScore('key S from menu');
       }
 
-      if (key == KEY_M) {
+      if (key == KEY_U) {
         musicToggle();
       }
 

@@ -202,7 +202,7 @@ function sheepClass() {
     if (this.avoidCollisionTimer > 0) {
       this.avoidCollisionTimer--;
     }
-    else if (this.mode != CALLED) {
+    else if (this.mode != CALLED && runMode == NORMAL_PLAY) {
       this.antennaCheck(this.nextX, this.nextY);
     }
 

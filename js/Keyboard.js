@@ -9,6 +9,7 @@ const KEY_DOWN_ARROW = 40; // Send
 const KEY_SPACE = 32; // Pause
 
 const KEY_M = 77; // Menu
+const KEY_U = 85; // Music toggle
 const KEY_S = 83; // Scoreboard
 const KEY_H = 72; // Help
 const KEY_C = 67; // Credits
