@@ -270,7 +270,7 @@ function menuKeyChoice(key) {
 
 
     case STATE_MENU:
-      menuChoiceSound.play();
+      menuChoiceSound.play(0.4);
 
       if (key == KEY_C) {
         gameState = STATE_CREDITS;

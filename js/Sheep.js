@@ -387,8 +387,8 @@ function sheepClass() {
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
         // random_baa_sound(baaVolume);
-        gateSound.play();
-        pennedSound.play();
+        gateSound.play(0.5);
+        pennedSound.play(0.3);
       }
     } // end enter empty pen of either colour
 
@@ -539,7 +539,7 @@ function sheepClass() {
 
     else if (tileType == TILE_SLOW) {
       if (this.previousTile != TILE_SLOW) {
-        slowTileSound.play();
+        slowTileSound.play(0.8);
 
         if (this.mode == SENT) {
           this.adjustSpeed /= 6;
@@ -688,7 +688,7 @@ function sheepClass() {
 
     else if (newMode == HALTED) {
       this.mode = HALTED;
-      haltedSound.play();
+      haltedSound.play(0.2);
       // this.orient = 0; // normal upright
       this.speed = 0;
     }
@@ -697,7 +697,7 @@ function sheepClass() {
       this.mode = STUCK;
       this.ang = Math.PI / 2;
       this.teamOrient();
-      stuckSound.play();
+      stuckSound.play(1.0);
       // need endRow, and Stuck is not a scoring result
     }
 
@@ -720,7 +720,7 @@ function sheepClass() {
       this.ang = Math.PI * 1 / 2;
       this.teamOrient();
       this.speed = 0;
-      ditchSound.play();
+      ditchSound.play(1.0);
       this.levelDone = true;
     }
 
@@ -998,7 +998,7 @@ function sheepClass() {
   this.calledArrives = function () {
     this.changeMode(HELD);
     player.sheepIDcalled = null;
-    calledArrivalSound.play();
+    calledArrivalSound.play(0.4);
 
     // if not already Sorted, change
     if (this.team == PLAIN) {
