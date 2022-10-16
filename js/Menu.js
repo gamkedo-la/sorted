@@ -1,5 +1,6 @@
 const MENU_TOP_MARGIN = 110; // room for the logo
 const CREDITS_TOP_MARGIN = 60; // no logo on Credits
+const DROP_SHADOW_DIST = 2; // black underlay for menu text
 
 const HEADER_FONT = 32;
 const BODY_FONT = 22;
@@ -127,6 +128,7 @@ function drawCredits() {
 
   textIndent = CREDITS_INDENT;
   canvasContext.font = HEADER_FONT + "px Verdana";
+  colorText(canvasContext, "Credits", DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + CREDITS_TOP_MARGIN, "black");
   colorText(canvasContext, "Credits", textIndent, CREDITS_TOP_MARGIN, "white");
 
   canvasContext.font = CREDITS_FONT + "px Verdana";
@@ -180,21 +182,23 @@ function drawCredits() {
   }
 } // end drawCredits
 
-
 function headLine(txt) {
   canvasContext.font = HEADER_FONT + "px Verdana";
+  colorText(canvasContext, txt, DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + 100 + MENU_TOP_MARGIN, "black");
   colorText(canvasContext, txt, textIndent, 100 + MENU_TOP_MARGIN, "white");
 }
 
 
 function bodyLine(txt, lineNum) {
   canvasContext.font = BODY_FONT + "px Verdana";
+  colorText(canvasContext, txt, DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + 110 + MENU_TOP_MARGIN + lineNum * LINE_SPACING, "black");
   colorText(canvasContext, txt, textIndent, 110 + MENU_TOP_MARGIN + lineNum * LINE_SPACING, "white");
 }
 
 
 function paragraphLine(txt, lineNum, paragraph) {
   let y = CREDITS_TOP_MARGIN + (paragraph * PARAGRAPH_GAP) + (lineNum * PARAGRAPH_LINE_SPACING);
+  colorText(canvasContext, txt, DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + y, "black");
   colorText(canvasContext, txt, textIndent, y, "white");
   paragraph++;
 }
@@ -202,12 +206,14 @@ function paragraphLine(txt, lineNum, paragraph) {
 
 function smallHeadLine(txt, yTop) {
   canvasContext.font = 32 + "px Verdana";
+  colorText(canvasContext, txt, DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + yTop + MENU_TOP_MARGIN, "black");
   colorText(canvasContext, txt, textIndent, yTop + MENU_TOP_MARGIN, "white");
 }
 
 
 function smallBodyLine(txt, lineNum, startY) {
   canvasContext.font = 24 + "px Verdana";
+  colorText(canvasContext, txt, DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + startY + lineNum * 30 + MENU_TOP_MARGIN, "black");
   colorText(canvasContext, txt, textIndent, startY + lineNum * 30 + MENU_TOP_MARGIN, "white");
 }
 
@@ -312,6 +318,7 @@ function drawScoreboard() {
   var drawX = 60;
   const topY = 80;
   var drawY = topY;
+  colorText(canvasContext, "Scoreboard", DROP_SHADOW_DIST + drawX, DROP_SHADOW_DIST + drawY, "black");
   colorText(canvasContext, "Scoreboard", drawX, drawY, "white");
 
   for (var i = 1; i <= LAST_LEVEL; i++) {
@@ -323,15 +330,18 @@ function drawScoreboard() {
     drawY += 60;
 
     canvasContext.font = "28px Arial";
+    colorText(canvasContext, levelScores[i], DROP_SHADOW_DIST + drawX, DROP_SHADOW_DIST + drawY, "black");
     colorText(canvasContext, levelScores[i], drawX, drawY, "white");
 
     canvasContext.font = "22px Arial";
+    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', DROP_SHADOW_DIST + drawX+50, DROP_SHADOW_DIST + drawY, "black");
     colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', drawX+50, drawY, "white");
 
   }
 
   if (touchDevice == false) {
     canvasContext.font = "16px Arial";
+    colorText(canvasContext, "Press key M or Esc for menu", DROP_SHADOW_DIST + drawX, DROP_SHADOW_DIST + 500, "black");
     colorText(canvasContext, "Press key M or Esc for menu", drawX, 500, "white");
   }
 
