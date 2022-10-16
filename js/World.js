@@ -98,11 +98,7 @@ function drawTiles() {
       //   canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
       // }
 
-      if ( isPen(tileTypeHere) ) {
-        let team = isBluePen(tileTypeHere) ? 1 : 2;
-        xyDrawPenFence(drawTileX, drawTileY, team);
-      }
-      else if ( isDecalClump(tileTypeHere) ) {
+      if ( isDecalClump(tileTypeHere) ) {
         // update decal clump location
         let index = tileTypeHere-20;
         levelClumpXY[currentLevel][index] = { x: drawTileX+TILE_W/2, y: drawTileY+TILE_H/2 };
@@ -111,6 +107,12 @@ function drawTiles() {
       else if (tileTypeHere != TILE_FIELD) {
         var useImg = tilePics[tileTypeHere];
         canvasContext.drawImage(useImg, drawTileX, drawTileY);
+      }
+
+      if ( isPen(tileTypeHere) ) {
+        // canvasContext.drawImage(TILE_GOAL, drawTileX, drawTileY);
+        let team = isBluePen(tileTypeHere) ? 1 : 2;
+        xyDrawPenFence(drawTileX, drawTileY, team);
       }
 
       drawTileX += TILE_W;
