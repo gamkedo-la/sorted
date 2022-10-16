@@ -10,7 +10,7 @@ PLACING_MODE.fill(defaultPlacingMode);
 
 // constraints on initial placement of sheep
 const PLACING_DEPTH = Array(NUM_LEVELS);
-var defaultPlacingLowestY = 300; // halfway down field
+var defaultPlacingLowestY = 200; // halfway down field
 PLACING_DEPTH.fill(defaultPlacingLowestY);
 
 // Hat - farmer's clamp - move speed

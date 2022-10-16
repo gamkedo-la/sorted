@@ -26,16 +26,17 @@ CALL_SPEED[0] = 5;
 ROGUE_SPEED[0] = 4;
 
 // Level 1
-PLACING_DEPTH[3] = 300;
+PLACING_DEPTH[3] = 200;
 
 // Level 2
-PLACING_DEPTH[2] = 300;
+PLACING_DEPTH[2] = 200;
 
 // Level 3
-PLACING_DEPTH[3] = 300; // for demo video
+PLACING_DEPTH[3] = 200;
 ROGUE_SPEED[3] = 4;
 
 // Level 4
+PLACING_DEPTH[3] = 150;
 
 // Level 5
 PLACING_DEPTH[5] = 150;
