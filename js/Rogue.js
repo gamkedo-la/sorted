@@ -1,5 +1,5 @@
 const ROGUE_UNSORT_RANGE = 40;
-const ROGUE_WOOF_RANGE = 70;
+const ROGUE_WOOF_RANGE = 100;
 const ROGUE_COLLISION_BOPEEP_X = 60;
 const ROGUE_COLLISION_BOPEEP_Y = 50;
 const ROGUE_RADIUS = 15;
@@ -54,42 +54,41 @@ function roguedogClass() {
     // detect sheep
     var nearestSheep = findNearestInList(this.x, this.y, sheepList);
 
-    // is close enough to smell a sheep
-    if (this.isSheepClose(nearestSheep, ROGUE_WOOF_RANGE)) {
-      // console.log("Rogue smells sheep id =", nearestSheep.id);
+    // is close enough to bark at sheep, and sheep is visible ahead in way dog facing
+    var distX = this.x - nearestSheep.x;
+    if ( this.isSheepClose(nearestSheep, ROGUE_WOOF_RANGE) && distX < 25) {
+      // console.log("Rogue warns sheep id =", nearestSheep.id);
       if (this.barkTimer < 1) {
         if (runMode == NORMAL_PLAY) {
-          // rogueSound.play();
+          rogueSound.play();
         }
         this.barkTimer = 40;
+      }
+      
+      if (nearestSheep.shyTimer < 1) {
+        var distY = nearestSheep.y - this.y;
+        if (distY < 20 && nearestSheep.team == PLAIN) {
+          nearestSheep.gotoX = nearestSheep.x;
+          nearestSheep.gotoY = nearestSheep.y - (TILE_H + distY);
+          nearestSheep.changeMode(SHY);
+          nearestSheep.shyTimer = 40;
+          console.log(this.id, this.y, nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0));
+        }
+        // Rogue dog doesn't make sheep go down toward pen
+        // nearestSheep.gotoY = nearestSheep.y + (TILE_H - distY);
       }
     }
 
     // is close enough to unsort
-    if (this.isSheepClose(nearestSheep, ROGUE_UNSORT_RANGE) && this.mode != LICKING) {
-      
+    if (this.isSheepClose(nearestSheep, ROGUE_UNSORT_RANGE) && this.mode != LICKING) {      
       if (nearestSheep.team != PLAIN) {
         this.changeMode(LICKING);
         makeLickVFX(nearestSheep.x, nearestSheep.y, nearestSheep.team);
         nearestSheep.team = PLAIN;
         nearestSheep.color = TEAM_COLOURS[PLAIN];
         nearestSheep.changeMode(LICKED);
-        // console.log("Unsort/lick sheep id =", nearestSheep.id);
-      }
-      else if (nearestSheep.shyTimer < 1)
-      {
-        // this.changeMode(WAITING); // old style, dog waits; new style below, sheep shies away
-
-        var distY = nearestSheep.y - this.y;
-        nearestSheep.gotoX = nearestSheep.x;
-        if (distY > 0) {
-          nearestSheep.gotoY = nearestSheep.y + (TILE_H - distY);
-        } else {
-          nearestSheep.gotoY = nearestSheep.y - (TILE_H + distY);
-        }
-        nearestSheep.changeMode(SHY);
         nearestSheep.shyTimer = 40;
-        console.log(this.id, nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0));
+        // console.log("Unsort/lick sheep id =", nearestSheep.id);
       }
     }
 

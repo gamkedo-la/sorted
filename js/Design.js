@@ -165,6 +165,29 @@ function formatDesign() {
   return output;
 }
 
+// refactor to use same function to format area and agent grids
+function formatAgent() {
+  var output = 'const agentLevel_' + designLevel + ' = [\n';
+  var arrayIndex = 0;
+  var space = '';
+
+  for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
+    var line = ' ';
+    for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+      let tile = areaGrid[arrayIndex];
+      getLength(tile) > 1 ? space = ' ' : space = '  ';
+
+      line += space + agentGrid[arrayIndex] + ',';
+      arrayIndex++;
+    }
+    output += line + '\n';
+  }
+  output += '];\n';
+
+  console.log(output);
+  return output;
+}
+
 
 function saveDesign(output) {
   let filename = 'level_' + designLevel + '_design_' + '.txt';

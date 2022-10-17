@@ -250,7 +250,9 @@ function sheepClass() {
         }
 
         else if (this.mode == SHY) {
-          this.changeMode(ROAM);
+          this.changeMode(GRAZE);
+          this.timer = 40;
+          console.log(this.id, 'mode', this.mode)
         }
 
         else if (this.mode == CONVEYOR) {  
@@ -335,8 +337,10 @@ function sheepClass() {
         else if (this.mode == LICKED) {
           this.changeMode(this.previousMode);
         }
-        else if (this.mode == SHY) {
-          this.changeMode(this.previousMode); // or roam?
+        else if (this.mode == SHY) { // No, it ends when goto reached not by timer
+          this.changeMode(GRAZE);
+          this.timer = 40;
+          console.log(this.id, 'mode', this.mode)
         }
         // else if (this.mode == DISTRACTED && this.speed > 0) {
         //   changeMode(SENT);
@@ -723,8 +727,8 @@ function sheepClass() {
 
     else if (newMode == SHY) {
       this.mode = SHY;
-      this.speed = 1;
-      this.timer = 40;
+      this.speed = 3.0;
+      this.timer = 80;
     }
 
     else if (newMode == HALTED) {
