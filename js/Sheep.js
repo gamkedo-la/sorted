@@ -223,7 +223,7 @@ function sheepClass() {
     }
 
     if (this.gotoX || this.gotoY) {
-      // for Called, Conveyor, Distracted? and Tile-centring
+      // for Called, Shy, Conveyor, Tile-centring, Distracted?
 
       var deltaX = this.gotoX - this.x;
       var deltaY = this.gotoY - this.y;
@@ -241,10 +241,16 @@ function sheepClass() {
       else {
         this.nextX = this.gotoX;
         this.nextY = this.gotoY;
+        this.gotoX = null;
+        this.gotoY = null;
 
         // arriving at gotoXY
         if (this.mode == CALLED) {
           this.calledArrives(this.nextX, this.nextY);
+        }
+
+        else if (this.mode == SHY) {
+          this.changeMode(ROAM);
         }
 
         else if (this.mode == CONVEYOR) {  
@@ -316,7 +322,7 @@ function sheepClass() {
     if (this.soundTimer > 0) {
       this.soundTimer--;
     }
-    
+
     if (this.isModeTimed()) {
       this.timer--;
       if (this.timer < 1) {
