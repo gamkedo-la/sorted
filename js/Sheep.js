@@ -75,6 +75,7 @@ function sheepClass() {
   this.antennaLeftY = null;
   this.antennaRightX = null;
   this.antennaRightY = null;
+  this.soundTimer = 0;
   this.avoidCollisionTimer = 0;
   this.shyTimer = 0;
 
@@ -312,6 +313,10 @@ function sheepClass() {
     this.x = this.nextX;
     this.y = this.nextY;
 
+    if (this.soundTimer > 0) {
+      this.soundTimer--;
+    }
+    
     if (this.isModeTimed()) {
       this.timer--;
       if (this.timer < 1) {
@@ -556,9 +561,13 @@ function sheepClass() {
 
 
     else if (tileType == TILE_SLOW) {
-      if (this.previousTile != TILE_SLOW) {
+      if (this.soundTimer < 1) {
+        // when called in previousTile check it only plays at first entry to a block of Slow tiles
         slowTileSound.play(0.8);
+        this.soundTimer = 60;
+      }
 
+      if (this.previousTile != TILE_SLOW) {    
         if (this.mode == SENT) {
           this.adjustSpeed /= 6;
         }

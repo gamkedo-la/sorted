@@ -24,6 +24,7 @@ function playerClass(id) {
     this.sheepIDcalled = null;
     this.callGapTimer = 0;
     this.moveAsideTimer = 0;
+    this.soundTimer = 0;
     this.callWhenInPlace = false;
     this.sendWhenInPlace = false;
   }
@@ -47,6 +48,10 @@ function playerClass(id) {
   this.move = function () {
     this.nextX = this.x;
     this.nextY = this.y;
+
+    if (this.soundTimer > 0) {
+      this.soundTimer--;
+    }
 
     // move aside if Bo Peep approaching in same column
     if (this.moveAsideTimer > 0) {
@@ -167,7 +172,10 @@ function playerClass(id) {
     // arrowkey move now accepts held key
     if (this.keyHeld_left || this.keyHeld_right) {
       this.gotoX = null;
-      hatMoveSound.play();
+      if (this.soundTimer < 1) {
+        hatMoveLongSound.play(0.5);
+        this.soundTimer = 80;
+      }
 
       if (this.keyHeld_left) {
         this.nextX -= this.speed;
@@ -184,11 +192,17 @@ function playerClass(id) {
       // 1console.log(this.x, this.gotoX, player.keyHeld_left, player.keyHeld_right, player.button_left, player.button_right)
     }
 
+    // if (!this.keyHeld_left && !this.keyHeld_right) {
+    //   hatMoveLongSound.pause();
+    //   hatMoveLongSound.currentTime = 0;
+    //   this.soundTimer = 0;
+    // }
+
 
     // MOVE left or right using touch or button
     // gotoX set to next column-centre
     if (this.button_left || this.button_right) {
-      hatMoveSound.play();
+      hatMoveSound.play(1.0);
       
       if (this.button_left) {
         this.gotoX = nextColumnCentre(this.x, -1);
