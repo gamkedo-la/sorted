@@ -133,6 +133,14 @@ function sheepClass() {
     this.y = randomRangeInt(TOP_MARGIN + 10, depth);
     // console.log(this.id, this.x, this.y)
   }
+  this.placeGridRandom = function (depth) {
+    let maxRow = Math.floor(depth / TILE_H) -1;
+    let row = randomRangeInt(1, maxRow);
+    let col = randomRangeInt(0, TILE_COLS-1);
+    this.x = col * TILE_W + TILE_W/2;
+    this.y = row * TILE_H + TILE_H/2;
+    console.log(this.id, col, row, this.x, this.y)
+  }
 
 
   // 1st, mode governs speed

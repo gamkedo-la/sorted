@@ -379,7 +379,8 @@ function loadLevel(whichLevel) {
       var potential = i % 2 == 0 ? BLUE : RED;
       var team = PLAIN;
       spawnSheep.reset(i, team, potential, mode);
-      spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
+      // spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
+      spawnSheep.placeGridRandom(PLACING_DEPTH[whichLevel]);
       sheepList.push(spawnSheep);
 
       // var spawnMoving = new movingClass();
