@@ -33,7 +33,7 @@ const NUM_TEAM_TYPES = 3;
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3];
+const TEAM_SIZE = [5, 3, 3, 3, 3, 3, 3, 3, 3, 3];
 const FLOCK_SIZE = [];
 var flockSize = null;
 
@@ -174,15 +174,12 @@ function moveAll() {
     if (gameState == STATE_PLAY) {
       step[currentLevel]++; // level timesteps
 
-      for (var i = 0; i < roguedogList.length; i++) {
-        roguedogList[i].barkTimer--;
-      }
-
       for (var i = 0; i < sheepList.length; i++) {
         sheepList[i].move();
       }
 
       for (var i = 0; i < roguedogList.length; i++) {
+        roguedogList[i].barkTimer--;
         roguedogList[i].move();
       }
       for (var i = 0; i < bopeepList.length; i++) {

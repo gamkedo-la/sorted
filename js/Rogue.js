@@ -14,6 +14,7 @@ roguedogClass.prototype = new movingClass();
 
 function roguedogClass() {
   this.init = function (id, whichPic, x, y) {
+    this.id = id;
     this.pic = whichPic;
     this.x = x;
     this.y = y;
@@ -65,7 +66,8 @@ function roguedogClass() {
     }
 
     // is close enough to unsort
-    if (this.isSheepClose(nearestSheep, ROGUE_UNSORT_RANGE)) {
+    if (this.isSheepClose(nearestSheep, ROGUE_UNSORT_RANGE) && this.mode != LICKING) {
+      
       if (nearestSheep.team != PLAIN) {
         this.changeMode(LICKING);
         makeLickVFX(nearestSheep.x, nearestSheep.y, nearestSheep.team);
@@ -74,8 +76,20 @@ function roguedogClass() {
         nearestSheep.changeMode(LICKED);
         // console.log("Unsort/lick sheep id =", nearestSheep.id);
       }
-      else {
-        this.changeMode(WAITING);
+      else if (nearestSheep.shyTimer < 1)
+      {
+        // this.changeMode(WAITING); // old style, dog waits; new style below, sheep shies away
+
+        var distY = nearestSheep.y - this.y;
+        nearestSheep.gotoX = nearestSheep.x;
+        if (distY > 0) {
+          nearestSheep.gotoY = nearestSheep.y + (TILE_H - distY);
+        } else {
+          nearestSheep.gotoY = nearestSheep.y - (TILE_H + distY);
+        }
+        nearestSheep.changeMode(SHY);
+        nearestSheep.shyTimer = 40;
+        console.log(this.id, nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0));
       }
     }
 

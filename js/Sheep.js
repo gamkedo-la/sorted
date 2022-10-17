@@ -29,6 +29,8 @@ const STILL = 7;
 const DISTRACTED = 8;
 const HALTED = 9;
 const LICKED = 10;
+
+const SHY = 21;
 const SELECTED = 22; // only while manually edit/testing
 
 // below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
@@ -74,6 +76,7 @@ function sheepClass() {
   this.antennaRightX = null;
   this.antennaRightY = null;
   this.avoidCollisionTimer = 0;
+  this.shyTimer = 0;
 
   this.reset = function (i, team, potential, mode) {
     this.id = i;
@@ -199,6 +202,10 @@ function sheepClass() {
     }
     // end of mode alternatives
 
+    if (this.shyTimer > 0) { // plain sheep shying away from dog
+      this.shyTimer--;
+    }
+
     if (this.avoidCollisionTimer > 0) {
       this.avoidCollisionTimer--;
     }
@@ -308,6 +315,9 @@ function sheepClass() {
         }
         else if (this.mode == LICKED) {
           this.changeMode(this.previousMode);
+        }
+        else if (this.mode == SHY) {
+          this.changeMode(this.previousMode); // or roam?
         }
         // else if (this.mode == DISTRACTED && this.speed > 0) {
         //   changeMode(SENT);
@@ -639,6 +649,8 @@ function sheepClass() {
     // change state, also set direction & speed
     // should not set at start of .move()
     this.previousMode = this.mode;
+    // this.gotoX = null; // should goto be forgotten when changing mode?
+    // this.gotoY = null;
 
     if (newMode == CALLED) {
       this.mode = CALLED;
@@ -683,6 +695,12 @@ function sheepClass() {
       this.mode = LICKED;
       // this.orient = 0; // normal upright
       this.speed = 0.1;
+      this.timer = 40;
+    }
+
+    else if (newMode == SHY) {
+      this.mode = SHY;
+      this.speed = 1;
       this.timer = 40;
     }
 
@@ -757,6 +775,9 @@ function sheepClass() {
     else if (this.mode == CALLED) {
       this.timer = 200;
     }
+    else if (this.mode == SHY) {
+      this.timer = 40;
+    }
   }
 
   this.setSpeed = function () {
@@ -786,7 +807,7 @@ function sheepClass() {
   }
 
   this.isModeTimed = function () {
-    return this.mode == ROAM || this.mode == GRAZE || this.mode == CALLED || this.mode == SENT || this.mode == LICKED || this.mode == DISTRACTED;
+    return this.mode == ROAM || this.mode == GRAZE || this.mode == CALLED || this.mode == SENT || this.mode == LICKED || this.mode == SHY || this.mode == DISTRACTED;
   }
 
   this.modeIsInPen = function () {
@@ -871,6 +892,7 @@ function sheepClass() {
       canvasContext.textAlign = "left";
     }
   } // end of draw
+
 
   this.idLabel = function () {
     var fontSize = 10;

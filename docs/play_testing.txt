@@ -16,3 +16,7 @@ On an iPad click buttons don't respond. When whole canvas clickable iPad respond
 ## Level 4
 
 ## Level 5
+
+28 Sept 2022, KirstenM
+time delay before retry Call is too long
+make X align for Call less sensitive
