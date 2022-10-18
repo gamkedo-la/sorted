@@ -253,9 +253,9 @@ function sheepClass() {
           if (this.previousMode == CALLED) {
             this.changeMode(CALLED);
           }
-          else if (this.previousMode == SENT) {
-            this.changeMode(SENT);
-          }
+          // else if (this.previousMode == SENT) { // No, drops again too soon & has to retreat again
+          //   this.changeMode(SENT);
+          // }
           else {
             this.changeMode(GRAZE);
             this.timer = 40;
@@ -526,10 +526,20 @@ function sheepClass() {
     // deflection applied every loop so how many steps sheep inside tile => amount deflected
     else if (tileType == TILE_BEND_LEFT) {
       this.ang += this.speed * 0.01;
+      console.log(this.soundTimer)
+      if (this.soundTimer < 1 && this.mode == SENT) {
+        bendLeftSound.play(0.7);
+        this.soundTimer = 15;
+      }  
     }
 
     else if (tileType == TILE_BEND_RIGHT) {
       this.ang -= this.speed * 0.01;
+      console.log(this.soundTimer)
+      if (this.soundTimer < 1 && this.mode == SENT) {
+        bendRightSound.play(0.7);
+        this.soundTimer = 15;
+      }  
     }
 
 
@@ -575,7 +585,7 @@ function sheepClass() {
       if (this.soundTimer < 1) {
         // when called in previousTile check it only played at first entry to Slow tile (or block of Slow tiles)
         slowTileSound.play(0.5);
-        this.soundTimer = 60;
+        this.soundTimer = 20;
       }
 
       if (this.previousTile != TILE_SLOW) {    

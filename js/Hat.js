@@ -87,6 +87,7 @@ function playerClass(id) {
         sheepHere.changeMode(SENT);
         sheepHere.sentX = Math.round(this.x);
         sheepHere.beginTime = step[currentLevel];
+        sentSound.play(0.5);
         console.log("Sent sheep id", sheepHere.id);
       } 
       else {
