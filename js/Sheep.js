@@ -62,7 +62,7 @@ function sheepClass() {
   this.orient = 0; // image display angle
   this.score = 0;
   this.timer = 0;
-  this.previousTile = null;
+  this.previousTileType = null;
   this.adjustSpeed = 1.0;
   this.lostApplied = false;
   this.test = "normal";
@@ -78,6 +78,7 @@ function sheepClass() {
   this.soundTimer = 0;
   this.avoidCollisionTimer = 0;
   this.shyTimer = 0;
+  this.enteredNewGridSquare = false;
 
   this.reset = function (i, team, potential, mode) {
     this.id = i;
@@ -134,12 +135,14 @@ function sheepClass() {
     this.y = randomRangeInt(TOP_MARGIN + 10, depth);
     // console.log(this.id, this.x, this.y)
   }
+
   this.placeGridRandom = function (depth) {
-    let maxRow = Math.floor(depth / TILE_H) -1;
+    let maxRow = Math.floor(depth / TILE_H) - 1;
     let row = randomRangeInt(1, maxRow);
-    let col = randomRangeInt(0, TILE_COLS-1);
-    this.x = col * TILE_W + TILE_W/2;
-    this.y = row * TILE_H + TILE_H/2;
+    let col = randomRangeInt(0, TILE_COLS - 1);
+    this.previousIndex = row * TILE_COLS + col;
+    this.x = col * TILE_W + TILE_W / 2;
+    this.y = row * TILE_H + TILE_H / 2;
     console.log(this.id, col, row, this.x, this.y)
   }
 
@@ -172,7 +175,7 @@ function sheepClass() {
     } // end CALLED
 
     // attached to player
-    else if (this.mode == HELD) { 
+    else if (this.mode == HELD) {
       this.nextX = player.x;
       this.nextY = player.y + 24;
     }
@@ -263,7 +266,7 @@ function sheepClass() {
           console.log(this.id, 'mode', this.mode)
         }
 
-        else if (this.mode == CONVEYOR) {  
+        else if (this.mode == CONVEYOR) {
           this.gotoX = null;
           this.gotoY = null;
           this.changeMode(this.previousMode);
@@ -355,32 +358,8 @@ function sheepClass() {
     if (runMode == NORMAL_PLAY) {
       this.leaveHoofprints();
     }
-  }
-
-  // occasionally leave a hoof-print if we've travelled far enough
-  this.leaveHoofprints = function () {
-
-    if (this.hoofPrintModes()) {
-      const mindist = 8;
-      const leftrightoffset = 6;
-      const alpha = HOOFPRINT_OPACITY;
-      const rot = 0;
-
-      if (!this.lastHoofprintPos) this.lastHoofprintPos = { x: -999, y: -999 };
-
-      if ((Math.abs(this.x - this.lastHoofprintPos.x) >= mindist) || (Math.abs(this.y - this.lastHoofprintPos.y) >= mindist)) {
-        // console.log("hoofprint!");
-        this.lastHoofprintPos.x = this.x;
-        this.lastHoofprintPos.y = this.y;
-        if (!this.hoofprintCount) this.hoofprintCount = 1; else this.hoofprintCount++;
-        decals.add(this.x + (this.hoofprintCount % 2 ? 0 : leftrightoffset), this.y + (this.hoofprintCount % 2 ? 0 : leftrightoffset), rot, alpha, hoofprintPic);
-      }
-    }
-  }
-
-  this.hoofPrintModes = function () {
-    return this.mode == ROAM || this.mode == SENT || this.mode == CALLED || this.mode == CONVEYOR || this.mode == DISTRACTED
-  }
+    this.enteredNewGridSquare = false;
+  } // end .move()
 
 
   ////////// TILE HANDLING /////////////
@@ -390,7 +369,13 @@ function sheepClass() {
     var tileIndexUnder = colRowToIndex(tileCol, tileRow);
     var tileType = getTileTypeAtColRow(tileCol, tileRow);
 
-    if (this.previousTile == TILE_SLOW && tileType != TILE_SLOW) {
+    // first entering a grid square
+    if (tileIndexUnder != this.previousIndex) {
+      this.enteredNewGridSquare = true;
+      this.previousIndex = tileIndexUnder;
+    }
+
+    if (this.previousTileType == TILE_SLOW && tileType != TILE_SLOW) {
       this.adjustSpeed = 1.0;
     }
 
@@ -526,20 +511,26 @@ function sheepClass() {
     // deflection applied every loop so how many steps sheep inside tile => amount deflected
     else if (tileType == TILE_BEND_LEFT) {
       this.ang += this.speed * 0.01;
-      console.log(this.soundTimer)
-      if (this.soundTimer < 1 && this.mode == SENT) {
+      if (this.enteredNewGridSquare && this.mode == SENT) {
         bendLeftSound.play(0.7);
-        this.soundTimer = 15;
-      }  
+      }
+      // console.log(this.soundTimer)
+      // if (this.soundTimer < 1 && this.mode == SENT) {
+      //   bendLeftSound.play(0.7);
+      //   this.soundTimer = 15;
+      // }
     }
 
     else if (tileType == TILE_BEND_RIGHT) {
       this.ang -= this.speed * 0.01;
-      console.log(this.soundTimer)
-      if (this.soundTimer < 1 && this.mode == SENT) {
+      if (this.enteredNewGridSquare && this.mode == SENT) {
         bendRightSound.play(0.7);
-        this.soundTimer = 15;
-      }  
+      }
+      // console.log(this.soundTimer)
+      // if (this.soundTimer < 1 && this.mode == SENT) {
+      //   bendRightSound.play(0.7);
+      //   this.soundTimer = 15;
+      // }
     }
 
 
@@ -582,13 +573,16 @@ function sheepClass() {
 
 
     else if (tileType == TILE_SLOW) {
-      if (this.soundTimer < 1) {
-        // when called in previousTile check it only played at first entry to Slow tile (or block of Slow tiles)
+      if (this.enteredNewGridSquare) {
         slowTileSound.play(0.5);
-        this.soundTimer = 20;
       }
+      // if (this.soundTimer < 1) {
+      //   // when called in previousTile check it only played at first entry to Slow tile (or block of Slow tiles)
+      //   slowTileSound.play(0.5);
+      //   this.soundTimer = 20;
+      // }
 
-      if (this.previousTile != TILE_SLOW) {    
+      if (this.previousTileType != TILE_SLOW) {
         if (this.mode == SENT) {
           this.adjustSpeed /= 6;
         }
@@ -674,7 +668,7 @@ function sheepClass() {
     else if (tileType == RED_FLOWER) {
     }
 
-    this.previousTile = tileType;
+    this.previousTileType = tileType;
 
     // return {
     //   x: this.nextX,
@@ -1139,6 +1133,31 @@ function sheepClass() {
       // console.log(this.ang.toFixed(2), this.antennaLeftX.toFixed(0), this.antennaLeftY.toFixed(0), this.antennaRightX.toFixed(0), this.antennaRightY.toFixed(0));
       // this.nextX.toFixed(0), this.nextY.toFixed(0),
     }
+  }
+
+  // occasionally leave a hoof-print if we've travelled far enough
+  this.leaveHoofprints = function () {
+
+    if (this.hoofPrintModes()) {
+      const mindist = 8;
+      const leftrightoffset = 6;
+      const alpha = HOOFPRINT_OPACITY;
+      const rot = 0;
+
+      if (!this.lastHoofprintPos) this.lastHoofprintPos = { x: -999, y: -999 };
+
+      if ((Math.abs(this.x - this.lastHoofprintPos.x) >= mindist) || (Math.abs(this.y - this.lastHoofprintPos.y) >= mindist)) {
+        // console.log("hoofprint!");
+        this.lastHoofprintPos.x = this.x;
+        this.lastHoofprintPos.y = this.y;
+        if (!this.hoofprintCount) this.hoofprintCount = 1; else this.hoofprintCount++;
+        decals.add(this.x + (this.hoofprintCount % 2 ? 0 : leftrightoffset), this.y + (this.hoofprintCount % 2 ? 0 : leftrightoffset), rot, alpha, hoofprintPic);
+      }
+    }
+  }
+
+  this.hoofPrintModes = function () {
+    return this.mode == ROAM || this.mode == SENT || this.mode == CALLED || this.mode == CONVEYOR || this.mode == DISTRACTED
   }
 
 } // end of sheepClass

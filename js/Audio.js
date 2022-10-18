@@ -13,7 +13,7 @@ var ditchSound = new SoundOverlapsClass("sound/baa08");
 var bendLeftSound = new SoundOverlapsClass("sound/bend_left");
 var bendRightSound = new SoundOverlapsClass("sound/bend_right");
 
-var haltedSound = new SoundOverlapsClass("sound/baa12");
+var haltedSound = new SoundOverlapsClass("sound/duck_quack");
 var slowTileSound = new SoundOverlapsClass("sound/woods_quiet_419052");
 
 var pennedSound = new SoundOverlapsClass("sound/baa17");

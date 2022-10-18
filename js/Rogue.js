@@ -1,6 +1,6 @@
 const ROGUE_UNSORT_RANGE = 40;
 const ROGUE_RETREAT_RANGE = 70;
-const ROGUE_WOOF_RANGE = 100;
+const ROGUE_WOOF_RANGE = 70;
 const ROGUE_COLLISION_BOPEEP_X = 60;
 const ROGUE_COLLISION_BOPEEP_Y = 50;
 const ROGUE_RADIUS = 15;
@@ -62,7 +62,7 @@ function roguedogClass() {
       // console.log("Rogue warns sheep id =", nearestSheep.id);
       if (this.barkTimer < 1) {
         if (runMode == NORMAL_PLAY) {
-          rogueSound.play();
+          rogueSound.play(0.4);
         }
         this.barkTimer = 40;
       }
