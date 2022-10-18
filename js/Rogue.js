@@ -1,4 +1,5 @@
 const ROGUE_UNSORT_RANGE = 40;
+const ROGUE_RETREAT_RANGE = 70;
 const ROGUE_WOOF_RANGE = 100;
 const ROGUE_COLLISION_BOPEEP_X = 60;
 const ROGUE_COLLISION_BOPEEP_Y = 50;
@@ -67,7 +68,7 @@ function roguedogClass() {
       }
     }
 
-    if ( this.isSheepClose(nearestSheep, ROGUE_WOOF_RANGE) && distX < 25) {
+    if ( this.isSheepClose(nearestSheep, ROGUE_RETREAT_RANGE) && distX < 25) {
       if (nearestSheep.shyTimer < 1) {
         var distY = nearestSheep.y - this.y;
         if (distY < 20 && nearestSheep.team == PLAIN) {

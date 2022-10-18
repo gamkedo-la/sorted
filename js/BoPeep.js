@@ -83,6 +83,10 @@ function bopeepClass() {
         else {
           nearestSheep.bopeepid = this.id;
           nearestSheep.changeMode(PEEPED);
+          if (nearestSheep.team != PLAIN) {
+            makeMagicVFX(nearestSheep.x, nearestSheep.y, PLAIN);
+            nearestSheep.team = PLAIN;
+          }
           console.log("BoPeep attracts sheep id =", nearestSheep.id);
         }
       }

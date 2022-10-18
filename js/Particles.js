@@ -103,6 +103,15 @@ function makeLickVFX(centreX, centreY, team) {
   addParticles(NUM_SORTING_PARTICLES, centreX, centreY, [TEAM_COLOURS[team]], size, life, shapeX, shapeY);
 }
 
+function makeMagicVFX(centreX, centreY, team) {
+  console.log('Magic VFX')
+  let size = 1;
+  let life = 20;
+  let shapeX = 40;
+  let shapeY = 40;
+  addParticles(NUM_SORTING_PARTICLES, centreX, centreY, [TEAM_COLOURS[team]], size, life, shapeX, shapeY);
+}
+
 
 function removeFromUnordered(arr, i) {
   if (i <= 0 || i >= arr.length) {
