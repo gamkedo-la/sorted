@@ -244,9 +244,10 @@ function menuKeyChoice(key) {
       }
       break;
 
-      case STATE_TUTOR:
+    case STATE_TUTOR:
       if ( (key == KEY_ESC || key == KEY_M) && !paused) {
         gotoMenu("Play, key M or Esc");
+        currentLevel = 0;
         runMode = NORMAL_PLAY; // remove Test settings
         haste = PLAY_SPEED;
       }

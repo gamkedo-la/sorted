@@ -57,10 +57,10 @@ function drawMenu() {
       textIndent = 225;
       headLine("Menu");
       bodyLine("Play - key P", ++line);
-      bodyLine("Score - key S", ++line);
       bodyLine("Help - key H", ++line);
-      bodyLine("Tutorial - key T", ++line);
+      // bodyLine("Tutorial - key T", ++line);
       bodyLine("Music - key U", ++line);
+      bodyLine("Score - key S", ++line);
       bodyLine("Credits - key C", ++line);
       bodyLine("Edit mode - key F1", ++line);
 

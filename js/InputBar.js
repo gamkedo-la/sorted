@@ -19,7 +19,14 @@ function ui_mousedownHandler() {
             gotoPlay("canvasButton");
             break;
 
-          case "Score":
+          case "Tutorial":
+            gameState = STATE_TUTOR;
+            currentLevel = 10;
+            loadLevel(currentLevel);
+            levelRunning = true;
+            break;
+
+            case "Score":
             gotoScore("canvasButton");
             break;
 
