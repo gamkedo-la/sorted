@@ -162,7 +162,22 @@ const agentLevel_9 = [
   0,  9,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  9,  0,
 ];
 
-var agentLevelList = [agentLevel_0, agentLevel_1, agentLevel_2, agentLevel_3, agentLevel_4, agentLevel_5, agentLevel_6, agentLevel_7, agentLevel_8, agentLevel_9];
+const agentLevel_10 = [
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  0,  0,  0,  0,  0,  8,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  8,  0,  0,  0,
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  0,  9,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  9,  0,
+];
+
+var agentLevelList = [agentLevel_0, agentLevel_1, agentLevel_2, agentLevel_3, agentLevel_4, agentLevel_5, agentLevel_6, agentLevel_7, agentLevel_8, agentLevel_9, agentLevel_10];
 
 
 function makeEmptyAgentGrid() {

@@ -32,7 +32,7 @@ var areaGrid = [];
 var saveGrid = [];
 
 // level 0 scratchpad for asset integration testing
-const LEVEL_NAMES =["Testing", "Call and send", "Bends in field", "Dogs lick paint", "Bo Peep leads up", "Bends and dogs", "Western woods", "Eastern woods", "Carrots tempting", "Final challenge"];
+const LEVEL_NAMES =["Testing", "Call and send", "Bends in field", "Dogs lick paint", "Bo Peep leads up", "Bends and dogs", "Western woods", "Eastern woods", "Carrots tempting", "Final challenge", "Tutorial"];
 
 var levelTitleWidth = 200;
 // = Array(NUM_LEVELS);
@@ -191,5 +191,21 @@ const level_9 = [
   10, 11, 10, 10, 11, 10, 10, 11, 12, 10, 10, 12, 10, 10, 12, 10,
 ];
 
+// for Tutorial
+const level_10 = [
+  25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+   5,  0,  4,  4,  0,  4,  4,  0,  0,  5,  5,  0,  5,  5,  0,  5,
+   0,  6,  0,  0,  6,  0,  0,  0,  0,  0,  0,  7,  0,  0,  7,  0,
+   0,  0,  1,  1,  0,  1,  1,  3,  3,  1,  1,  0,  1,  1,  0,  0,
+   0,  5,  5,  0,  5,  5,  0,  0,  0,  0,  4,  4,  0,  4,  4,  0,
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  10, 11, 10, 10, 11, 10, 10, 11, 12, 10, 10, 12, 10, 10, 12, 10,
+];
+
 // level number 0 bad for UI, and shifting +1 everywhere was awkward
-var levelList = [level_0, level_1, level_2, level_3, level_4, level_5, level_6, level_7, level_8, level_9];
+var levelList = [level_0, level_1, level_2, level_3, level_4, level_5, level_6, level_7, level_8, level_9, level_10];

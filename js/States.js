@@ -7,8 +7,11 @@ const STATE_LEVEL_END = 4;
 const STATE_DESIGN_LEVEL = 8;
 const STATE_GAME_OVER = 7;
 const STATE_SCOREBOARD = 5;
+const STATE_TUTOR = 9;
 
-const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over'];
+const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over', 'Designing', 'Tutorial'];
+
+var tutorStep = 1;
 
 // called when gameState changed, from Input.js
 

@@ -107,6 +107,18 @@ function outlineSelectedTile(index) {
   canvasContext.strokeRect(topLeftX,topLeftY, TILE_W,TILE_H);
 }
 
+// not in use
+function outlineTileSet(arr) {
+  let col = indexToCol(index);
+  let row = indexToRow(index);
+  let topLeftX = col * TILE_W;
+  let topLeftY = row * TILE_H;
+  canvasContext.lineWidth = 2;
+  canvasContext.setLineDash([]);
+  canvasContext.strokeStyle = "yellow";
+  canvasContext.strokeRect(topLeftX,topLeftY, TILE_W,TILE_H);
+}
+
 
 function outlineRow(row) {
   let topLeftX = 0;

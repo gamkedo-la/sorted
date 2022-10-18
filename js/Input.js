@@ -244,6 +244,17 @@ function menuKeyChoice(key) {
       }
       break;
 
+      case STATE_TUTOR:
+      if ( (key == KEY_ESC || key == KEY_M) && !paused) {
+        gotoMenu("Play, key M or Esc");
+        runMode = NORMAL_PLAY; // remove Test settings
+        haste = PLAY_SPEED;
+      }
+      else if (key == KEY_SPACE) {
+        togglePause();
+      }
+      break;
+
 
     case STATE_LEVEL_END:
 
@@ -303,6 +314,13 @@ function menuKeyChoice(key) {
 
       if (key == KEY_H) {
         gameState = STATE_HELP;
+      }
+
+      if (key == KEY_T) {
+        gameState = STATE_TUTOR;
+        currentLevel = 10;
+        loadLevel(currentLevel);
+        levelRunning = true;
       }
 
       if (editMode) {

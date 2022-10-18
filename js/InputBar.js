@@ -49,7 +49,7 @@ function ui_mousedownHandler() {
     }
   }
 
-  else if (gameState == STATE_PLAY) {
+  else if (gameState == STATE_PLAY || gameState == STATE_TUTOR) {
 
     if (paused) {
       for (var i = 0; i < pauseButtonLabel.length; i++) {

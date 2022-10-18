@@ -59,6 +59,7 @@ function drawMenu() {
       bodyLine("Play - key P", ++line);
       bodyLine("Score - key S", ++line);
       bodyLine("Help - key H", ++line);
+      bodyLine("Tutorial - key T", ++line);
       bodyLine("Music - key U", ++line);
       bodyLine("Credits - key C", ++line);
       bodyLine("Edit mode - key F1", ++line);
@@ -334,8 +335,8 @@ function drawScoreboard() {
     colorText(canvasContext, levelScores[i], drawX, drawY, "white");
 
     canvasContext.font = "22px Arial";
-    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', DROP_SHADOW_DIST + drawX+50, DROP_SHADOW_DIST + drawY, "black");
-    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', drawX+50, drawY, "white");
+    colorText(canvasContext, "Level " + i + '  "' + AMES[i] + '"', DROP_SHADOW_DIST + drawX + 50, DROP_SHADOW_DIST + drawY, "black");
+    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', drawX + 50, drawY, "white");
 
   }
 

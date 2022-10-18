@@ -33,7 +33,7 @@ const NUM_TEAM_TYPES = 3;
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // 9 levels initial values, should Level Editor be able to change these?
-const TEAM_SIZE = [5, 3, 3, 3, 3, 3, 3, 3, 3, 3];
+const TEAM_SIZE = [5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3];
 const FLOCK_SIZE = [];
 var flockSize = null;
 
@@ -150,6 +150,12 @@ function moveAll() {
     return;
   }
 
+  else if (gameState == STATE_TUTOR) {
+    if (tutorStep == 1) {
+
+    }
+  }
+
   else if (gameState == STATE_DESIGN_LEVEL) {
     if (designTileReady) {
       console.log('main (move) design', gridIndex, tileType);
@@ -159,7 +165,7 @@ function moveAll() {
     }
   }
 
-  else if (gameState == STATE_PLAY || gameState == STATE_LEVEL_END) {
+  else if (gameState == STATE_PLAY || gameState == STATE_LEVEL_END) { //  || gameState == STATE_TUTOR
 
     for (var i = 0; i < particleList.length; i++) {
       // object decrements life
@@ -237,13 +243,26 @@ function drawAll() {
   colorRect(drawingContext, 0, 0, drawingCanvas.width, drawingCanvas.height, "white");
   colorRect(uiContext, 0, 0, uiCanvas.width, uiCanvas.height, UI_COLOR);
 
-  if (editMode) {
-    showDebugText();
-  }
+  // if (editMode) { // not showing debug after 18 Oct 2022
+  //   showDebugText();
+  // }
 
   if (paused) {
     drawBarButtons(pauseButtonLabel);
     // previous frame's field & sheep & NPCs are left on screen
+  }
+
+  else if (gameState == STATE_TUTOR) {
+    drawPlay();
+    if (tutorStep == 1) {
+      canvasContext.lineWidth = 2;
+      canvasContext.setLineDash([]);
+      canvasContext.strokeStyle = "yellow";
+      canvasContext.strokeRect(player.x-TILE_W/2, 0, TILE_W,TILE_H);
+    }
+    else if (tutorStep == 2) {
+      outlineRow(0);
+    }
   }
 
   else if (gameState == STATE_PLAY) {
