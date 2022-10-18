@@ -128,7 +128,6 @@ function updateAll() {
   for (var i = 0; i < haste; i++) {
     moveAll();
   }
-
   drawAll();
 
   drawingContext.save();
@@ -243,9 +242,9 @@ function drawAll() {
   colorRect(drawingContext, 0, 0, drawingCanvas.width, drawingCanvas.height, "white");
   colorRect(uiContext, 0, 0, uiCanvas.width, uiCanvas.height, UI_COLOR);
 
-  // if (editMode) { // not showing debug after 18 Oct 2022
-  //   showDebugText();
-  // }
+  if (editMode) { 
+    showDebugText();
+  }
 
   if (paused) {
     drawBarButtons(pauseButtonLabel);

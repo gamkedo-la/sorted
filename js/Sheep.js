@@ -392,20 +392,24 @@ function sheepClass() {
         console.log("Sheep ID", this.id, "reached a blue pen.");
         this.mode = IN_PEN_BLUE;
         areaGrid[tileIndexUnder] = FULL_BLUE;
+        if (this.team == RED) {
+          wrongpenSound.play(0.5);
+        }
       }
       else if (tileType == TILE_PEN_RED) {
         console.log("Sheep ID", this.id, "reached a red pen.");
         this.orient = Math.PI * 3 / 2;
         this.mode = IN_PEN_RED;
         areaGrid[tileIndexUnder] = FULL_RED;
-        // makePenVFX(this.nextX, this.nextY, RED);
+        if (this.team == BLUE) {
+          wrongpenSound.play(0.5);
+        }
       }
 
       this.endLevel(tileCol);
 
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
-        // random_baa_sound(baaVolume);
         gateSound.play(0.5);
         pennedSound.play(0.3);
       }

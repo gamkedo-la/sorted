@@ -10,7 +10,7 @@ const offMenuButtonLabel = ["Menu"];
 const editmodeButtonLabel = ["Test", "Team", "Player"];
 const designButtonLabel = []; // need bar for tile/agent info
 
-var buttonsTop = 80;
+var buttonsTop = 50;
 var buttonsLeft = 10;
 const buttonWidth = 60;
 const buttonHeight = 60;

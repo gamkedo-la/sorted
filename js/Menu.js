@@ -334,8 +334,8 @@ function drawScoreboard() {
     colorText(canvasContext, levelScores[i], DROP_SHADOW_DIST + drawX, DROP_SHADOW_DIST + drawY, "black");
     colorText(canvasContext, levelScores[i], drawX, drawY, "white");
 
-    canvasContext.font = "22px Arial";
-    colorText(canvasContext, "Level " + i + '  "' + AMES[i] + '"', DROP_SHADOW_DIST + drawX + 50, DROP_SHADOW_DIST + drawY, "black");
+    canvasContext.font = "20px Arial";
+    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', DROP_SHADOW_DIST + drawX + 50, DROP_SHADOW_DIST + drawY, "black");
     colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', drawX + 50, drawY, "white");
 
   }
