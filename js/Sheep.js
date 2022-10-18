@@ -250,8 +250,16 @@ function sheepClass() {
         }
 
         else if (this.mode == SHY) {
-          this.changeMode(GRAZE);
-          this.timer = 40;
+          if (this.previousMode == CALLED) {
+            this.changeMode(CALLED);
+          }
+          else if (this.previousMode == SENT) {
+            this.changeMode(SENT);
+          }
+          else {
+            this.changeMode(GRAZE);
+            this.timer = 40;
+          }
           console.log(this.id, 'mode', this.mode)
         }
 
@@ -260,13 +268,6 @@ function sheepClass() {
           this.gotoY = null;
           this.changeMode(this.previousMode);
           console.log('after conveyor', sheepModeNames[this.previousMode]), this.speed;
-          // if (this.previousMode == SENT) {
-          //   this.mode = SENT;
-          //   this.speed = SEND_SPEED[currentLevel];
-          // }
-          // else {
-          //   this.changeMode(ROAM);
-          // }
         }
 
         else if (this.mode == DISTRACTED && this.speed > 0) {
@@ -314,7 +315,7 @@ function sheepClass() {
       }
     }
 
-    if (this.mode != SELECTED) {
+    if (this.mode != SELECTED || this.shyTimer > 0) {
       this.tileHandling();
     }
 
@@ -572,8 +573,8 @@ function sheepClass() {
 
     else if (tileType == TILE_SLOW) {
       if (this.soundTimer < 1) {
-        // when called in previousTile check it only plays at first entry to a block of Slow tiles
-        slowTileSound.play(0.8);
+        // when called in previousTile check it only played at first entry to Slow tile (or block of Slow tiles)
+        slowTileSound.play(0.5);
         this.soundTimer = 60;
       }
 
@@ -734,7 +735,7 @@ function sheepClass() {
     else if (newMode == HALTED) {
       this.mode = HALTED;
       haltedSound.play(0.2);
-      // this.orient = 0; // normal upright
+      this.orient = 0; // normal upright
       this.speed = 0;
     }
 

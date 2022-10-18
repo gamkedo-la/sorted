@@ -56,7 +56,8 @@ function roguedogClass() {
 
     // is close enough to bark at sheep, and sheep is visible ahead in way dog facing
     var distX = this.x - nearestSheep.x;
-    if ( this.isSheepClose(nearestSheep, ROGUE_WOOF_RANGE) && distX < 25) {
+
+    if ( this.isSheepClose(nearestSheep, ROGUE_WOOF_RANGE) && distX < 0) {
       // console.log("Rogue warns sheep id =", nearestSheep.id);
       if (this.barkTimer < 1) {
         if (runMode == NORMAL_PLAY) {
@@ -64,7 +65,9 @@ function roguedogClass() {
         }
         this.barkTimer = 40;
       }
-      
+    }
+
+    if ( this.isSheepClose(nearestSheep, ROGUE_WOOF_RANGE) && distX < 25) {
       if (nearestSheep.shyTimer < 1) {
         var distY = nearestSheep.y - this.y;
         if (distY < 20 && nearestSheep.team == PLAIN) {

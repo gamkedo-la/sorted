@@ -54,17 +54,7 @@ function colorLine(ctx, startX,startY, endX,endY, color) {
 }
 
 
-function drawStar(
-  ctx,
-  centerX,
-  centerY,
-  arms,
-  innerRadius,
-  outerRadius,
-  startAngle,
-  fillStyle,
-  strokeStyle,
-  lineWidth
+function drawStar(ctx, centerX, centerY, arms, innerRadius, outerRadius, startAngle, fillStyle, strokeStyle, lineWidth
 ) {
   startAngle = startAngle * Math.PI / 180  || 0;
   var step = Math.PI / arms,
