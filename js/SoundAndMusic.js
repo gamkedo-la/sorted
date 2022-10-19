@@ -40,6 +40,10 @@ function BackgroundMusicClass() {
   this.startMusic = function() {
     musicSound.play();
   }
+
+  this.changeVolume = function(newVolume) {
+    musicSound.volume = newVolume;
+  }
 }
 
 function SoundOverlapsClass(filenameWithPath) {

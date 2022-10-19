@@ -17,7 +17,6 @@ var tutorStep = 1;
 
 function gotoMenu(from) {
   if (gameState == STATE_GUIDE) {
-    // currentLevel = 0;
     currentLevel = levelBeforeGuide;
     levelRunning = false;
   }
@@ -26,6 +25,7 @@ function gotoMenu(from) {
   clumpRandom = true;
   if (musicInitialised) {
     gameMusic.startMusic();
+    gameMusic.changeVolume(0.5);
   }
   report('return via ' + from, 1);
 }
@@ -50,9 +50,8 @@ function gotoPlay(from) {
   gameState = STATE_PLAY;
   let barTitle = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel];
   if (musicInitialised) {
-    gameMusic.stopMusic();
-    gameMusic.volume = 0.05;
-    musicVolume = 0.05;
+    // gameMusic.stopMusic();
+    gameMusic.changeVolume(0.05);
     console.log('Music volume try to reduce.');
   }
   report('Play via ' + from, 1);

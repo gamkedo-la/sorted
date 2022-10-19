@@ -35,6 +35,7 @@ function musicToggle() {
     musicInitialised = false;
   } else {
     gameMusic.loopSong("sound/pastoral_music");
+    gameMusic.changeVolume(0.5);
     musicInitialised = true;
   }
 }
