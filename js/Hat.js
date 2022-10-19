@@ -152,7 +152,6 @@ function playerClass(id) {
         }
         else {
           console.log("Called sheep id =", sheepList[aligned].id);
-          // sheepList[aligned].mode = CALLED;
           sheepList[aligned].changeMode(CALLED);
           // could do lines below also in changeMode
           sheepList[aligned].timer = 0;
@@ -238,7 +237,7 @@ function playerClass(id) {
           this.nextX -= gameCanvas.width; // offset to mirror image
           this.gotoX = TILE_W / 2;
         }
-        
+
         if (this.nextX < 0) {
           this.nextX += gameCanvas.width; // offset to mirror image
           this.gotoX = gameCanvas.width - TILE_W / 2;

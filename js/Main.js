@@ -151,6 +151,9 @@ function moveAll() {
 
   else if (gameState == STATE_GUIDE) {
     player.move();
+    for (var i = 0; i < sheepList.length; i++) {
+      sheepList[i].move();
+    }
   }
 
   else if (gameState == STATE_DESIGN_LEVEL) {
@@ -333,8 +336,7 @@ function drawKeyTutorial() {
   if (!tutorial_start_time) tutorial_start_time = now;
   if (now < tutorial_start_time + tutorial_timespan) {
     canvasContext.globalAlpha = 1 - ((now - tutorial_start_time) / tutorial_timespan);
-    canvasContext.drawImage(controlsPic, 320, 75);
-    canvasContext.globalAlpha = 1;
+    canvasContext.drawImage(controlsPic, 400, 50);
   }
 }
 

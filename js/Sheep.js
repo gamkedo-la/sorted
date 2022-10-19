@@ -137,8 +137,12 @@ function sheepClass() {
   }
 
   this.placeGridRandom = function (depth) {
+    let startRow = 1;
+    if (gameState == STATE_GUIDE) {
+      startRow = 4;
+    }
     let maxRow = Math.floor(depth / TILE_H) - 1;
-    let row = randomRangeInt(1, maxRow);
+    let row = randomRangeInt(startRow, maxRow);
     let col = randomRangeInt(0, TILE_COLS - 1);
     this.previousIndex = row * TILE_COLS + col;
     this.x = col * TILE_W + TILE_W / 2;
@@ -1072,6 +1076,9 @@ function sheepClass() {
       }
     }
     // this.gotoX, deltaX.toFixed(2), deltaY.toFixed(2), normX.toFixed(2), normY.toFixed(2));
+    if (gameState == STATE_GUIDE && tutorStep == 4) {
+      tutorStep = 5;
+    }
   }
 
 

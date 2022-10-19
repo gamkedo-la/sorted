@@ -210,7 +210,7 @@ function field_mouseupHandler() {
 
 // handles in-game-level keyboard input
 function arrowKeySet(evt, whichPlayer, setTo) {
-  // this helps press & release functions are identical except for true/false
+  // press & release functions are identical except for true/false
   if (evt.keyCode == whichPlayer.controlKeyLeft) {
     whichPlayer.keyHeld_left = setTo;
     // whichPlayer.button_left = setTo; // key for slide-move

@@ -54,3 +54,6 @@ SEND_SPEED[6] = 10;
 // Level 8
 
 // Level 9
+
+// Guide
+PLACING_DEPTH[10] = 300;
