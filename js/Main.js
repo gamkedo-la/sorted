@@ -183,16 +183,18 @@ function moveAll() {
         sheepList[i].move();
       }
 
-      for (var i = 0; i < roguedogList.length; i++) {
-        roguedogList[i].barkTimer--;
-        roguedogList[i].move();
-      }
-      for (var i = 0; i < bopeepList.length; i++) {
-        bopeepList[i].move();
-      }
-
       if (runMode == NORMAL_PLAY) {
         flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
+
+        for (var i = 0; i < roguedogList.length; i++) {
+          roguedogList[i].barkTimer--;
+          roguedogList[i].move();
+        }
+
+        for (var i = 0; i < bopeepList.length; i++) {
+          bopeepList[i].move();
+        }
+
         player.move();
       }
 
@@ -242,7 +244,7 @@ function drawAll() {
   colorRect(drawingContext, 0, 0, drawingCanvas.width, drawingCanvas.height, "white");
   colorRect(uiContext, 0, 0, uiCanvas.width, uiCanvas.height, UI_COLOR);
 
-  if (editMode) { 
+  if (editMode) {
     showDebugText();
   }
 
@@ -257,7 +259,7 @@ function drawAll() {
       canvasContext.lineWidth = 2;
       canvasContext.setLineDash([]);
       canvasContext.strokeStyle = "yellow";
-      canvasContext.strokeRect(player.x-TILE_W/2, 0, TILE_W,TILE_H);
+      canvasContext.strokeRect(player.x - TILE_W / 2, 0, TILE_W, TILE_H);
     }
     else if (tutorStep == 2) {
       outlineRow(0);
@@ -266,39 +268,22 @@ function drawAll() {
 
   else if (gameState == STATE_PLAY) {
     drawPlay();
-    for (var i = 0; i < particleList.length; i++) {
-      particleList[i].draw();
-    }
   }
 
   else if (gameState == STATE_LEVEL_END) {
     // should call drawField() with parameter play or endLevel
     drawLevelOver();
 
-    // do once per level-ending
+    // once per level-ending
     if (editMode && testWrite) {
-      if (levelTestDataReady) {
-        levelTestDataReady = false;
-        var filename = "level_" + currentLevel + "_";
-        // sheep outcome data file downloads automatically
-
-        if (runMode == NORMAL_PLAY) {
-          levelData = playResult();
-          filename += "play.tsv";
-          downloader(filename, levelData);
-          console.log("Results of play downloaded to " + filename);
-        }
-        else {
-          levelData = testResult();
-          filename += "test.tsv";
-          downloader(filename, levelData);
-          console.log("Results of test downloaded to " + filename);
-          console.log("Level " + currentLevel + " completed. Score " + levelScore);
-        }
-      }// end levelTestDataReady, run once when level completed
-    } //if editMode
+      writeTestResult();
+    } // if testWrite
   } // end of Level_Over
 
+  else if (runMode == GAME_OVER) {
+    drawBarButtons(gameoverButtonLabel);
+    // drawGameOver();
+  }
 
   else if (gameState == STATE_DESIGN_LEVEL) {
     drawFieldFromGrid(areaGrid);
@@ -321,11 +306,6 @@ function drawAll() {
     drawScoreboard();
   }
 
-  else if (gameState == STATE_GAME_OVER) {
-    drawScoreboard();
-    // drawGameOver();
-  }
-
   else if (gameState == STATE_HELP) {
     drawHelp();
   }
@@ -334,7 +314,7 @@ function drawAll() {
   }
 
   if (requireButtonGotoMenu()) {
-    drawBarButtons(offMenuButtonLabel);
+    drawBarButtons(offmenuButtonLabel);
   }
 
   // state design must be handled differently from states play & levelEnd

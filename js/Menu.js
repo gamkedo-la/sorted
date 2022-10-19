@@ -81,7 +81,7 @@ function drawMenu() {
 
 function drawHelp() {
   // BAR.innerHTML = '';
-  // drawBarButtons(offMenuButtonLabel);
+  // drawBarButtons(offmenuButtonLabel);
 
   colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "black");
   canvasContext.drawImage(helpBGPic, 0, 0);

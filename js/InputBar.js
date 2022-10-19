@@ -1,7 +1,42 @@
 // when click/tap UI bar on right side of display
 function ui_mousedownHandler() {
 
-  if (gameState == STATE_MENU) {
+  if (runMode == GAME_OVER) {
+    for (var i = 0; i < gameoverButtonLabel.length; i++) {
+      if (xyIsInRect(uiPos, buttonRects[i])) {
+
+        switch (gameoverButtonLabel[i]) {
+          case "Score":
+            gotoScore("canvasButton");
+            break;
+
+          case "Help":
+            gotoHelp("canvasButton");
+            break;
+
+          case "Music":
+            musicToggle();
+            break;
+
+          case "Credits":
+            gotoCredits("canvasButton");
+            break;
+
+          case "Quit":
+            window.close();
+            break;
+        }
+      }
+    }
+  }
+
+  else if (gameState == STATE_MENU) {
+
+    if (currentLevel > LAST_LEVEL) {
+      menuButtonLabel = ["Help", "Music", "Score", "Credits", "Quit"];
+      console.log('No more levels!');
+      return;
+    }
 
     for (var i = 0; i < menuButtonLabel.length; i++) {
       // report( buttonRects[i] );
@@ -26,7 +61,7 @@ function ui_mousedownHandler() {
             levelRunning = true;
             break;
 
-            case "Score":
+          case "Score":
             gotoScore("canvasButton");
             break;
 
@@ -42,9 +77,7 @@ function ui_mousedownHandler() {
             gotoCredits("canvasButton");
             break;
 
-          // not working yet
           case "Quit":
-            console.log('Sorry not working yet');
             window.close();
             break;
 
@@ -120,12 +153,12 @@ function ui_mousedownHandler() {
   // currently only button is return to Menu, but will need
   // extra buttons for Replay and Adavance to next level.
   else if (gameState == STATE_LEVEL_END) {
-    for (var i = 0; i < levelEndButtonLabel.length; i++) {
+    for (var i = 0; i < levelendButtonLabel.length; i++) {
       if (xyIsInRect(uiPos, buttonRects[i])) {
         if (TOUCH_TEST) {
-          report("Clicked inside rect", levelEndButtonLabel[i], 1);
+          report("Clicked inside rect", levelendButtonLabel[i], 1);
         }
-        switch (levelEndButtonLabel[i]) {
+        switch (levelendButtonLabel[i]) {
 
           case "Menu":
             gotoMenu("LevelEnd's canvasButton Menu");

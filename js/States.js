@@ -5,7 +5,6 @@ const STATE_MENU = 2;
 const STATE_PLAY = 1;
 const STATE_LEVEL_END = 4;
 const STATE_DESIGN_LEVEL = 8;
-const STATE_GAME_OVER = 7;
 const STATE_SCOREBOARD = 5;
 const STATE_TUTOR = 9;
 
@@ -44,11 +43,10 @@ function gotoReplay(from) {
 }
 
 function gotoAdvance(from) {
-
   // if (!levelRunning) {
   if (currentLevel == LAST_LEVEL) {
     console.log("No more Levels!");
-    // gameState = STATE_GAME_OVER;
+    runMode = GAME_OVER;
     gameState = STATE_SCOREBOARD;
   } else {
     currentLevel++;
@@ -63,13 +61,13 @@ function gotoAdvance(from) {
 
 function gotoScore(from) {
   gameState = STATE_SCOREBOARD;
-  drawBarButtons(offMenuButtonLabel);
+  drawBarButtons(offmenuButtonLabel);
   report('Score via ' + from, 1)
 }
 
 function gotoHelp(from) {
   gameState = STATE_HELP;
-  drawBarButtons(offMenuButtonLabel);
+  drawBarButtons(offmenuButtonLabel);
   report('Help via' + from, 1)
 }
 
@@ -156,7 +154,7 @@ function drawUI() {
   }
   else {
     drawBarTitle("Level " + currentLevel + " Test", 20);
-    drawBarButtons(offMenuButtonLabel);
+    drawBarButtons(offmenuButtonLabel);
   }
 
   if (editMode) {
@@ -181,12 +179,21 @@ function drawCalling() {
   }
 }
 
+function drawVisualFX() {
+  for (var i = 0; i < particleList.length; i++) {
+    particleList[i].draw();
+  }
+}
+
 // called every interval, from Main.js
 function drawPlay() {
   drawField(); // common to Play and LevelOver
   drawCalling();
   drawSheep();
-  drawMovingNotSheep();
+  if (runMode == NORMAL_PLAY) {
+    drawMovingNotSheep();
+    drawVisualFX();
+  }
   drawUI();
 } // end drawPlay
 
@@ -199,11 +206,11 @@ function drawLevelOver() {
   if (runMode == NORMAL_PLAY) {
     drawLevelScore();
     drawBarTitle("Level " + currentLevel, 20);
-    drawBarButtons(levelEndButtonLabel);
+    drawBarButtons(levelendButtonLabel);
   }
   else {
     drawLevelScoreTest();
-    drawBarButtons(offMenuButtonLabel);
+    drawBarButtons(offmenuButtonLabel);
     drawBarTitle("Level " + currentLevel + " Test", 20);
   }
 }
@@ -218,5 +225,5 @@ function drawMenuState() {
 
 function drawCreditState() {
   drawCredits();
-  drawBarButtons(offMenuButtonLabel);
+  drawBarButtons(offmenuButtonLabel);
 }

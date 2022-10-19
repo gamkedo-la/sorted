@@ -261,7 +261,8 @@ function menuKeyChoice(key) {
 
       if (key == KEY_ESC || key == KEY_M) {
         if (currentLevel == LAST_LEVEL) {
-          gameState = STATE_GAME_OVER;
+          runMode = GAME_OVER;
+          gameState = STATE_SCOREBOARD;
           console.log("Game Over!");
         } else {
           // duplicate of code in case STATE_PLAY
@@ -289,6 +290,12 @@ function menuKeyChoice(key) {
       }
 
       if (key == KEY_P) {
+
+        if (currentLevel > LAST_LEVEL) {
+          console.log('No more levels!')
+          return;
+        }
+
         if (!levelRunning) { // otherwise return mid-level
           // this condition should be caught by levelEnd handling
           if (currentLevel == LAST_LEVEL) {

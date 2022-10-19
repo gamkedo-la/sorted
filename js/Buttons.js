@@ -1,12 +1,12 @@
 var barButtonInactive = null;
 
 // const menuButtonLabel = ["Play", "Help", "Tutorial", "Music", "Score", "Credits", "Quit"];
-const menuButtonLabel = ["Play", "Help", "Music", "Score", "Credits", "Quit"];
+var menuButtonLabel = ["Play", "Help", "Music", "Score", "Credits", "Quit"];
 const playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "End", "Menu"];
 const pauseButtonLabel = ["Resume"];
-const levelEndButtonLabel = ["Replay", "Advance", "Menu"];
-const gameOverButtonLabel = ["Restart", "Menu", "Quit"];
-const offMenuButtonLabel = ["Menu"];
+const levelendButtonLabel = ["Replay", "Advance", "Menu"];
+const gameoverButtonLabel = ["Score", "Credits", "Music", "Quit"]; // "Restart"
+const offmenuButtonLabel = ["Menu"];
 const editmodeButtonLabel = ["Test", "Team", "Player"];
 const designButtonLabel = []; // need bar for tile/agent info
 

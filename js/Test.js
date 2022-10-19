@@ -7,9 +7,9 @@ const SEND_ROAM = 2;
 const ROAM_FROM_R1 = 3;
 const CALL_FROM_R10 = 4;
 const AI_PLAY_MIDFIELD = 5;
+const GAME_OVER = 9;
 var runMode = NORMAL_PLAY;
 var testWrite = false;
-// var runMode = ROAM_FROM_R1;
 
 // number of Test types currently usable
 const NUM_TEST_TYPES = 3;
@@ -268,4 +268,27 @@ function allRoamGrazeOrDone() {
   } else {
     return false;
   }
+}
+
+
+function writeTestResult() {
+  if (levelTestDataReady) {
+    levelTestDataReady = false;
+    var filename = "level_" + currentLevel + "_";
+    // sheep outcome data file downloads automatically
+
+    if (runMode == NORMAL_PLAY) {
+      levelData = playResult();
+      filename += "play.tsv";
+      downloader(filename, levelData);
+      console.log("Results of play downloaded to " + filename);
+    }
+    else {
+      levelData = testResult();
+      filename += "test.tsv";
+      downloader(filename, levelData);
+      console.log("Results of test downloaded to " + filename);
+      console.log("Level " + currentLevel + " completed. Score " + levelScore);
+    }
+  }// end levelTestDataReady, run once when level completed
 }

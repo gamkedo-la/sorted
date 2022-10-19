@@ -398,7 +398,6 @@ function sheepClass() {
       }
       else if (tileType == TILE_PEN_RED) {
         console.log("Sheep ID", this.id, "reached a red pen.");
-        this.orient = Math.PI * 3 / 2;
         this.mode = IN_PEN_RED;
         areaGrid[tileIndexUnder] = FULL_RED;
         if (this.team == BLUE) {
