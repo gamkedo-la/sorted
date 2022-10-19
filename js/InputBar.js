@@ -125,7 +125,7 @@ function ui_mousedownHandler() {
               break;
 
             case "Menu":
-              if (gameState = STATE_GUIDE) {
+              if (gameState == STATE_GUIDE) {
                 levelRunning = false;
                 gotoMenu("Guide's button Menu");
               }

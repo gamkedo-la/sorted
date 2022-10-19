@@ -58,7 +58,7 @@ function drawMenu() {
       headLine("Menu");
       bodyLine("Play - key P", ++line);
       bodyLine("Help - key H", ++line);
-      // bodyLine("Tutorial - key T", ++line);
+      bodyLine("Guide - key G (not done)", ++line);
       bodyLine("Music - key U", ++line);
       bodyLine("Score - key S", ++line);
       bodyLine("Credits - key C", ++line);

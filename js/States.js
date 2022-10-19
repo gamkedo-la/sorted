@@ -7,6 +7,7 @@ const STATE_LEVEL_END = 4;
 const STATE_DESIGN_LEVEL = 8;
 const STATE_SCOREBOARD = 5;
 const STATE_GUIDE = 9;
+var levelBeforeGuide = 0;
 
 const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over', 'Designing', 'Tutorial'];
 
@@ -15,6 +16,11 @@ var tutorStep = 1;
 // called when gameState changed, from Input.js
 
 function gotoMenu(from) {
+  if (gameState == STATE_GUIDE) {
+    // currentLevel = 0;
+    currentLevel = levelBeforeGuide;
+    levelRunning = false;
+  }
   gameState = STATE_MENU;
   menuBackSound.play();
   clumpRandom = true;
@@ -26,7 +32,8 @@ function gotoMenu(from) {
 
 function gotoGuide(from) {
   gameState = STATE_GUIDE;
-  currentLevel = 0;
+  levelBeforeGuide = currentLevel;
+  currentLevel = 10;
   loadLevel(currentLevel);
   levelRunning = true;
 }

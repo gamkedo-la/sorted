@@ -250,7 +250,6 @@ function menuKeyChoice(key) {
     case STATE_GUIDE:
       
       if ((key == KEY_ESC || key == KEY_M) && !paused) {
-        levelRunning = false;
         gotoMenu("Guide key M or Esc");
       }
 
