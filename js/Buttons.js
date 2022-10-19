@@ -1,7 +1,6 @@
 var barButtonInactive = null;
 
-// const menuButtonLabel = ["Play", "Help", "Tutorial", "Music", "Score", "Credits", "Quit"];
-var menuButtonLabel = ["Play", "Help", "Music", "Score", "Credits", "Quit"];
+var menuButtonLabel = ["Play", "Help", "Guide", "Music", "Score", "Credits", "Quit"];
 const playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "End", "Menu"];
 const pauseButtonLabel = ["Resume"];
 const levelendButtonLabel = ["Replay", "Advance", "Menu"];
@@ -67,66 +66,4 @@ function requireButtonGotoMenu() {
     gameState == STATE_HELP ||
     gameState == STATE_SCOREBOARD
   );
-}
-
-function touchstartPlayHandler() {
-  if (!levelRunning) {
-    levelRunning = true;
-    currentLevel++;
-    loadLevel(currentLevel);
-    checkGridMatchColsRows();
-  }
-  gotoPlay("bar touchstart Play");
-}
-
-function touchstartScoreHandler() {
-  gotoScore("bar touchstart Score");
-}
-
-function touchstartHelpHandler() {
-  gotoHelp("bar touchstart Help");
-}
-
-function touchstartCreditsHandler() {
-  gotoCredits("bar touchstart Credits");
-}
-
-function touchstartQuitHandler() {
-  window.close();
-}
-
-// handle touchstarts on Play screen
-function touchstartLeftHandler() {
-  player.keyHeld_left = true;
-}
-
-function touchstartRightHandler() {
-  player.keyHeld_right = true;
-}
-function touchstartCallHandler() {
-  player.keyHeld_call = true;
-}
-function touchstartSendHandler() {
-  player.keyHeld_send = true;
-}
-
-// touchend - try to false keyHeld
-function touchendLeftHandler() {
-  player.keyHeld_left = false;
-}
-function touchendLeftHandler() {
-  player.keyHeld_right = false;
-}
-function touchendCallHandler() {
-  player.keyHeld_call = false;
-}
-function touchendSendHandler() {
-  player.keyHeld_send = false;
-}
-
-function touchstartMenuHandler() {
-  gotoMenu("bar touchstart Menu");
-}
-function touchstartPauseHandler() {
-  togglePause();
 }

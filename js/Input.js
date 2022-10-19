@@ -234,23 +234,26 @@ function menuKeyChoice(key) {
   switch (gameState) {
 
     case STATE_PLAY:
-      if ( (key == KEY_ESC || key == KEY_M) && !paused) {
+
+      if ((key == KEY_ESC || key == KEY_M) && !paused) {
         gotoMenu("Play, key M or Esc");
         runMode = NORMAL_PLAY; // remove Test settings
         haste = PLAY_SPEED;
       }
+
       else if (key == KEY_SPACE) {
         togglePause();
       }
       break;
 
-    case STATE_TUTOR:
-      if ( (key == KEY_ESC || key == KEY_M) && !paused) {
-        gotoMenu("Play, key M or Esc");
-        currentLevel = 0;
-        runMode = NORMAL_PLAY; // remove Test settings
-        haste = PLAY_SPEED;
+
+    case STATE_GUIDE:
+      
+      if ((key == KEY_ESC || key == KEY_M) && !paused) {
+        levelRunning = false;
+        gotoMenu("Guide key M or Esc");
       }
+
       else if (key == KEY_SPACE) {
         togglePause();
       }
@@ -290,29 +293,10 @@ function menuKeyChoice(key) {
       }
 
       if (key == KEY_P) {
-
-        if (currentLevel > LAST_LEVEL) {
-          console.log('No more levels!')
-          return;
-        }
-
-        if (!levelRunning) { // otherwise return mid-level
-          // this condition should be caught by levelEnd handling
-          if (currentLevel == LAST_LEVEL) {
-            console.log("No more Levels!");
-          } else {
-            levelRunning = true;
-            currentLevel++;
-            console.log("Level number now =" + currentLevel);
-            loadLevel(currentLevel);
-            checkGridMatchColsRows();
-          }
-        }
         gotoPlay("key P");
       }
 
       if (key == KEY_S) {
-        // gameState = STATE_SCOREBOARD;
         gotoScore('key S from menu');
       }
 
@@ -324,11 +308,8 @@ function menuKeyChoice(key) {
         gameState = STATE_HELP;
       }
 
-      if (key == KEY_T) {
-        gameState = STATE_TUTOR;
-        currentLevel = 10;
-        loadLevel(currentLevel);
-        levelRunning = true;
+      if (key == KEY_G) {
+        gotoGuide('menu key G')
       }
 
       if (editMode) {

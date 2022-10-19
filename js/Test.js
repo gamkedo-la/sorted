@@ -9,7 +9,7 @@ const CALL_FROM_R10 = 4;
 const AI_PLAY_MIDFIELD = 5;
 const GAME_OVER = 9;
 var runMode = NORMAL_PLAY;
-var testWrite = false;
+var testWrite = false; // not saving test report files
 
 // number of Test types currently usable
 const NUM_TEST_TYPES = 3;

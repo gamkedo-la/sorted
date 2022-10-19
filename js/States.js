@@ -6,7 +6,7 @@ const STATE_PLAY = 1;
 const STATE_LEVEL_END = 4;
 const STATE_DESIGN_LEVEL = 8;
 const STATE_SCOREBOARD = 5;
-const STATE_TUTOR = 9;
+const STATE_GUIDE = 9;
 
 const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over', 'Designing', 'Tutorial'];
 
@@ -24,14 +24,33 @@ function gotoMenu(from) {
   report('return via ' + from, 1);
 }
 
+function gotoGuide(from) {
+  gameState = STATE_GUIDE;
+  currentLevel = 0;
+  loadLevel(currentLevel);
+  levelRunning = true;
+}
+
 function gotoPlay(from) {
+  // start next level or resume mid-level
+  if (!levelRunning) {
+    currentLevel++;
+    levelRunning = true;
+    console.log("Level number now =" + currentLevel);
+    loadLevel(currentLevel);
+    checkGridMatchColsRows();
+  }
   gameState = STATE_PLAY;
-  let barTitle = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel]; // ???
+  let barTitle = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel];
   if (musicInitialised) {
     gameMusic.stopMusic();
+    gameMusic.volume = 0.05;
+    musicVolume = 0.05;
+    console.log('Music volume try to reduce.');
   }
-  report('Play via ' + from, 1)
+  report('Play via ' + from, 1);
 }
+
 
 function gotoReplay(from) {
   gameState = STATE_PLAY;

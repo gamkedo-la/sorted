@@ -30,7 +30,9 @@ var musicInitialised = false;
 
 function musicToggle() {
   if (musicInitialised) {
-    gameMusic.startOrStopMusic();
+    gameMusic.stopMusic();
+    gameMusic = null;
+    musicInitialised = false;
   } else {
     gameMusic.loopSong("sound/pastoral_music");
     musicInitialised = true;

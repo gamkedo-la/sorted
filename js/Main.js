@@ -149,7 +149,7 @@ function moveAll() {
     return;
   }
 
-  else if (gameState == STATE_TUTOR) {
+  else if (gameState == STATE_GUIDE) {
     if (tutorStep == 1) {
 
     }
@@ -164,7 +164,7 @@ function moveAll() {
     }
   }
 
-  else if (gameState == STATE_PLAY || gameState == STATE_LEVEL_END) { //  || gameState == STATE_TUTOR
+  else if (gameState == STATE_PLAY || gameState == STATE_LEVEL_END) { //  || gameState == STATE_GUIDE
 
     for (var i = 0; i < particleList.length; i++) {
       // object decrements life
@@ -253,7 +253,7 @@ function drawAll() {
     // previous frame's field & sheep & NPCs are left on screen
   }
 
-  else if (gameState == STATE_TUTOR) {
+  else if (gameState == STATE_GUIDE) {
     drawPlay();
     if (tutorStep == 1) {
       canvasContext.lineWidth = 2;

@@ -45,20 +45,11 @@ function ui_mousedownHandler() {
 
         switch (menuButtonLabel[i]) {
           case "Play":
-            if (!levelRunning) { // otherwise return to level mid-play
-              levelRunning = true;
-              currentLevel++;
-              loadLevel(currentLevel);
-              checkGridMatchColsRows();
-            }
             gotoPlay("canvasButton");
             break;
 
-          case "Tutorial":
-            gameState = STATE_TUTOR;
-            currentLevel = 10;
-            loadLevel(currentLevel);
-            levelRunning = true;
+          case "Guide":
+            gotoGuide("button Guide(Tutorial)")
             break;
 
           case "Score":
@@ -89,7 +80,7 @@ function ui_mousedownHandler() {
     }
   }
 
-  else if (gameState == STATE_PLAY || gameState == STATE_TUTOR) {
+  else if (gameState == STATE_PLAY || gameState == STATE_GUIDE) {
 
     if (paused) {
       for (var i = 0; i < pauseButtonLabel.length; i++) {
@@ -100,8 +91,9 @@ function ui_mousedownHandler() {
           }
         }
       }
-
-    } else { // not Paused
+    } 
+    
+    else { // not Paused
       for (var i = 0; i < playButtonLabel.length; i++) {
         if (xyIsInRect(uiPos, buttonRects[i])) {
 
@@ -133,7 +125,11 @@ function ui_mousedownHandler() {
               break;
 
             case "Menu":
-              gotoMenu("Play's CanvasButton Menu");
+              if (gameState = STATE_GUIDE) {
+                levelRunning = false;
+                gotoMenu("Guide's button Menu");
+              }
+              gotoMenu("Play's button Menu");
               break;
 
             case "Pause":
