@@ -194,8 +194,6 @@ function drawUI() {
       drawGridValues(areaGrid, fontSize, "white");
     }
   }
-
-  drawTutorial();
 }
 
 function drawCalling() {
@@ -224,6 +222,7 @@ function drawPlay() {
     drawVisualFX();
   }
   drawUI();
+  drawKeyTutorial();
 } // end drawPlay
 
 

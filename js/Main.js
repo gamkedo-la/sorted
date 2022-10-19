@@ -253,7 +253,6 @@ function drawAll() {
 
   else if (gameState == STATE_GUIDE) {
     drawGuide();
-    player.draw();
   }
 
   else if (gameState == STATE_PLAY) {
@@ -327,7 +326,7 @@ function drawAll() {
 
 var tutorial_start_time = 0;
 var tutorial_timespan = 5000; // ms
-function drawTutorial() {
+function drawKeyTutorial() {
   // display the controls reference gui tutorial popup
   // for a few seconds, then fade it out
   let now = performance.now();

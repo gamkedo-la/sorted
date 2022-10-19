@@ -105,20 +105,16 @@ function ui_mousedownHandler() {
             case "Left":
               player.button_left = true;
 
-              if (gameState == STATE_GUIDE) {
-                if (tutorStep == 1) {
-                    tutorStep++;
-                }
+              if (gameState == STATE_GUIDE && tutorStep == 1) {
+                tutorStep = 2;
               }
               break;
 
             case "Right":
               player.button_right = true;
 
-              if (gameState == STATE_GUIDE) {
-                if (tutorStep == 1) {
-                    tutorStep++;
-                }
+              if (gameState == STATE_GUIDE && tutorStep == 1) {
+                tutorStep = 2;
               }
               break;
 

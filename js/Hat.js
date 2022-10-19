@@ -228,10 +228,17 @@ function playerClass(id) {
         this.nextX = this.gotoX;
         this.direction = 0; // move command completed
 
+        if (this.nextX < 0 || this.nextX > gameCanvas.width) {
+          if (gameState == STATE_GUIDE && tutorStep == 2) {
+            tutorStep = 3;
+          }
+        }
+
         if (this.nextX > gameCanvas.width) {
           this.nextX -= gameCanvas.width; // offset to mirror image
           this.gotoX = TILE_W / 2;
         }
+        
         if (this.nextX < 0) {
           this.nextX += gameCanvas.width; // offset to mirror image
           this.gotoX = gameCanvas.width - TILE_W / 2;

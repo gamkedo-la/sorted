@@ -1,6 +1,6 @@
 // Level tuning
 
-const NUM_LEVELS = 10;
+const NUM_LEVELS = 11;
 
 // how are sheep initially located
 const PLACING_NAMES = ["Random scatter", "Random flock", "Manual scatter", "Manual flock"];

@@ -77,12 +77,16 @@ function drawLevelName() {
   canvasContext.fillStyle = "white";
   canvasContext.textAlign = "left";
   let txt = "Level " + currentLevel  + ': "'  + LEVEL_NAMES[currentLevel] + '"';
+  var xLoc = 10;
+  var yLoc = TILE_H/2;
   if (currentLevel==10) { 
-    txt = LEVEL_NAMES[currentLevel];
+    txt = LEVEL_NAMES[currentLevel] + " step " + tutorStep;
     canvasContext.font = "20px Verdana";
+    xLoc += 10;
+    yLoc += 10;
   }
   levelTitleWidth = canvasContext.measureText(txt).width;
-  canvasContext.fillText(txt, 10, TILE_H/2);
+  canvasContext.fillText(txt, xLoc, yLoc);
   canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
 
