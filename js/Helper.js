@@ -66,7 +66,6 @@ function UI_level_number() {
   canvasContext.font = "18px Verdana";
   canvasContext.fillStyle = "white";
   let heading = "Level " + currentLevel  + ': "'  + LEVEL_NAMES[currentLevel] + '"';
-  if (currentLevel==10) { heading = 'Tutorial'; }
   canvasContext.fillText(heading, 10, gameCanvas.height-11);
   canvasContext.textAlign = "left"; // avoid messing up the Menu
   console.log(currentLevel, heading)
@@ -79,7 +78,7 @@ function drawLevelName() {
   canvasContext.textAlign = "left";
   let txt = "Level " + currentLevel  + ': "'  + LEVEL_NAMES[currentLevel] + '"';
   if (currentLevel==10) { 
-    txt = 'Tutorial';
+    txt = LEVEL_NAMES[currentLevel];
     canvasContext.font = "20px Verdana";
   }
   levelTitleWidth = canvasContext.measureText(txt).width;

@@ -150,9 +150,7 @@ function moveAll() {
   }
 
   else if (gameState == STATE_GUIDE) {
-    if (tutorStep == 1) {
-
-    }
+    player.move();
   }
 
   else if (gameState == STATE_DESIGN_LEVEL) {
@@ -254,16 +252,8 @@ function drawAll() {
   }
 
   else if (gameState == STATE_GUIDE) {
-    drawPlay();
-    if (tutorStep == 1) {
-      canvasContext.lineWidth = 2;
-      canvasContext.setLineDash([]);
-      canvasContext.strokeStyle = "yellow";
-      canvasContext.strokeRect(player.x - TILE_W / 2, 0, TILE_W, TILE_H);
-    }
-    else if (tutorStep == 2) {
-      outlineRow(0);
-    }
+    drawGuide();
+    player.draw();
   }
 
   else if (gameState == STATE_PLAY) {

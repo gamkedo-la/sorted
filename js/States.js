@@ -174,7 +174,11 @@ function drawUI() {
     drawLevelName();
   }
   if (runMode == NORMAL_PLAY) {
-    drawBarTitle("Level " + currentLevel, 20);
+    if (gameState == STATE_GUIDE) {
+      drawBarTitle('"Bar"', 18);
+    } else {
+      drawBarTitle("Level " + currentLevel, 20);
+    }
     drawBarButtons(playButtonLabel);
   }
   else {

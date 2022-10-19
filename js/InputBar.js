@@ -104,16 +104,22 @@ function ui_mousedownHandler() {
           switch (playButtonLabel[i]) {
             case "Left":
               player.button_left = true;
-              // console.log('button left')
-              // player.direction = -1; // left
-              // player.keyHeld_left = true;
+
+              if (gameState == STATE_GUIDE) {
+                if (tutorStep == 1) {
+                    tutorStep++;
+                }
+              }
               break;
 
             case "Right":
               player.button_right = true;
-              // player.keyHeld_right = true;
-              // console.log('button right')
-              // player.direction = +1; // right
+
+              if (gameState == STATE_GUIDE) {
+                if (tutorStep == 1) {
+                    tutorStep++;
+                }
+              }
               break;
 
             case "Call":
