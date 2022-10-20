@@ -177,7 +177,20 @@ function field_mousedownHandler() {
       gotoMenu('Design, button');
     }
   } // End of Design-Level mousedown handling
-}
+
+
+  else if (gameState ==  STATE_GUIDE) {
+    if (mouse.y > gameCanvas.height-TILE_H) {
+      if (tutorStep == 3) {
+        tutorStep = 4;
+      }
+      else if (tutorStep == 6) {
+        tutorStep = 7;
+      }
+    }
+  }
+  
+} // end mousedown handler on field
 
 
 function field_mouseupHandler() {

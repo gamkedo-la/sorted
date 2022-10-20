@@ -1001,6 +1001,7 @@ function sheepClass() {
     canvasContext.font = fontSize + "px Verdana";
     // draw score above sheep
     colorText(canvasContext, this.score, this.x, this.y - TILE_H + 5, "white");
+    canvasContext.textAlign = "left";
   } // end of drawScore
 
 

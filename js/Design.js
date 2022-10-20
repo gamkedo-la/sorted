@@ -94,14 +94,14 @@ function levelDesignerTitle() {
 }
 
 
-function outlineSelectedTile(index) {
+function outlineSelectedTile(index, width) {
   // get row col from index
   let col = indexToCol(index);
   let row = indexToRow(index);
   let topLeftX = col * TILE_W;
   let topLeftY = row * TILE_H;
   // console.log("index,col,row", index, col, row, topLeftX, topLeftY);
-  canvasContext.lineWidth = 2;
+  canvasContext.lineWidth = width;
   canvasContext.setLineDash([]);
   canvasContext.strokeStyle = "yellow";
   canvasContext.strokeRect(topLeftX,topLeftY, TILE_W,TILE_H);

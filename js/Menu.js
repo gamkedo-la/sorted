@@ -64,7 +64,7 @@ function drawMenu() {
       canvasContext.font = BODY_FONT + "px Verdana";
       bodyLine("Play - key P", ++line);
       bodyLine("Help - key H", ++line);
-      bodyLine("Tutorial - key T (not done)", ++line);
+      bodyLine("Tutorial - key T", ++line);
       bodyLine("Music - key U", ++line);
       bodyLine("Score - key S", ++line);
       bodyLine("Credits - key C", ++line);

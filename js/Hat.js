@@ -89,6 +89,9 @@ function playerClass(id) {
         sheepHere.beginTime = step[currentLevel];
         sentSound.play(0.5);
         console.log("Sent sheep id", sheepHere.id);
+        if (gameState == STATE_GUIDE && tutorStep == 5) {
+          tutorStep = 6;
+        }
       } 
       else {
         console.log('No sheep sent because clamp empty');
@@ -151,6 +154,7 @@ function playerClass(id) {
           console.log("Most likely target sheep is id " + aligned + " but Hat is not positioned above." + " callAlignLimitX=" + callAlignLimitX.toFixed(0));
         }
         else {
+          var calledSheep = sheepList[aligned];
           console.log("Called sheep id =", sheepList[aligned].id);
           sheepList[aligned].changeMode(CALLED);
           // could do lines below also in changeMode
@@ -164,6 +168,7 @@ function playerClass(id) {
             sheepList[aligned].orient = Math.PI * 7 / 4;
           }
           this.sheepIDcalled = sheepList[aligned].id;
+
         } // end check if any sheep is callable
       } // end of else (Hat can call)
     } // end of CALL

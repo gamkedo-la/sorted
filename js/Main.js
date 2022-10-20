@@ -149,10 +149,7 @@ function moveAll() {
   }
 
   else if (gameState == STATE_GUIDE) {
-    player.move();
-    for (var i = 0; i < sheepList.length; i++) {
-      sheepList[i].move();
-    }
+    moveGuide();
   }
 
   else if (gameState == STATE_DESIGN_LEVEL) {
@@ -279,7 +276,7 @@ function drawAll() {
   else if (gameState == STATE_DESIGN_LEVEL) {
     drawFieldFromGrid(areaGrid);
     levelDesignerTitle();
-    outlineSelectedTile(gridIndex);
+    outlineSelectedTile(gridIndex, 2);
     drawBarText();
     drawBarButtons(designButtonLabel);
     drawMovables();
