@@ -7,10 +7,10 @@ function randomRangeInt(min, max) {
 }
 
 
-function distance(x1,y1, x2,y2) {
+function distance(x1, y1, x2, y2) {
   var deltaX = x1 - x2;
   var deltaY = y1 - y2;
-  return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+  return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 }
 
 // function distance(v1, v2) {
@@ -34,7 +34,7 @@ function rowFromIndex(index) {
 
 function countPennedSheep() {
   var count = 0;
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+  for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
     if (sheepList[i].mode == IN_PEN_BLUE && sheepList[i].team == 1) {
       count++;
     }
@@ -65,8 +65,8 @@ function update_debug_report() {
 function UI_level_number() {
   canvasContext.font = "18px Verdana";
   canvasContext.fillStyle = "white";
-  let heading = "Level " + currentLevel  + ': "'  + LEVEL_NAMES[currentLevel] + '"';
-  canvasContext.fillText(heading, 10, gameCanvas.height-11);
+  let heading = "Level " + currentLevel + ': "' + LEVEL_NAMES[currentLevel] + '"';
+  canvasContext.fillText(heading, 10, gameCanvas.height - 11);
   canvasContext.textAlign = "left"; // avoid messing up the Menu
   console.log(currentLevel, heading)
 }
@@ -76,16 +76,33 @@ function drawLevelName() {
   canvasContext.font = "16px Verdana";
   canvasContext.fillStyle = "white";
   canvasContext.textAlign = "left";
-  let txt = "Level " + currentLevel  + ': "'  + LEVEL_NAMES[currentLevel] + '"';
+  let txt = "Level " + currentLevel + ': "' + LEVEL_NAMES[currentLevel] + '"';
   var xLoc = 10;
-  var yLoc = TILE_H/2;
-  if (currentLevel==10) { 
+  var yLoc = TILE_H / 2;
+  if (currentLevel == 10) {
     txt = LEVEL_NAMES[currentLevel] + " step " + tutorStep;
     canvasContext.font = "20px Verdana";
     xLoc += 10;
     yLoc += 10;
   }
   levelTitleWidth = canvasContext.measureText(txt).width;
+  canvasContext.fillText(txt, xLoc, yLoc);
+  canvasContext.textAlign = "left"; // avoid messing up the Menu
+}
+function drawLevelNameRight() {
+  canvasContext.font = "16px Verdana";
+  canvasContext.fillStyle = "white";
+  canvasContext.textAlign = "left";
+  var yLoc = TILE_H / 2;
+
+  let txt = "Level " + currentLevel + ': "' + LEVEL_NAMES[currentLevel] + '"';
+  if (currentLevel == 10) {
+    txt = LEVEL_NAMES[currentLevel] + " step " + tutorStep;
+    canvasContext.font = "20px Verdana";
+  }
+  levelTitleWidth = canvasContext.measureText(txt).width;
+
+  var xLoc = gameCanvas.width - levelTitleWidth - 20;
   canvasContext.fillText(txt, xLoc, yLoc);
   canvasContext.textAlign = "left"; // avoid messing up the Menu
 }
@@ -97,14 +114,14 @@ function getLines(ctx, text, maxWidth) {
   var currentLine = words[0];
 
   for (var i = 1; i < words.length; i++) {
-      var word = words[i];
-      var width = ctx.measureText(currentLine + " " + word).width;
-      if (width < maxWidth) {
-          currentLine += " " + word;
-      } else {
-          lines.push(currentLine);
-          currentLine = word;
-      }
+    var word = words[i];
+    var width = ctx.measureText(currentLine + " " + word).width;
+    if (width < maxWidth) {
+      currentLine += " " + word;
+    } else {
+      lines.push(currentLine);
+      currentLine = word;
+    }
   }
   lines.push(currentLine);
   return lines;
@@ -116,8 +133,8 @@ function drawAgentGridValues() {
   var drawTileX = 0;
   var drawTileY = 0;
 
-	for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
-		for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+  for (var eachRow = 0; eachRow < TILE_ROWS; eachRow++) {
+    for (var eachCol = 0; eachCol < TILE_COLS; eachCol++) {
       var agent = agentGrid[arrayIndex];
       // var x = colRowToCentreX(col, row);
       //canvasContext.font
@@ -125,19 +142,19 @@ function drawAgentGridValues() {
       fontSize = (agent > 0) ? 24 : 12;
       canvasContext.font = fontSize + "px Arial";
       canvasContext.textAlign = "center";
-      colorText(canvasContext, agent, drawTileX + TILE_W/2, drawTileY + TILE_H/2, fontColor);
+      colorText(canvasContext, agent, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, fontColor);
 
       drawTileX += TILE_W;
       arrayIndex++;
-		} // end of for each col
+    } // end of for each col
     drawTileX = 0;
     drawTileY += TILE_H;
-	} // end of for each row
+  } // end of for each row
 } // end of drawAgentGridValues
 
 
 function normaliseRadian(ang) {
-  while(ang < 0) {
+  while (ang < 0) {
     ang += 2 * Math.PI;
   }
   if (ang > 2 * Math.PI) {
@@ -148,33 +165,33 @@ function normaliseRadian(ang) {
 
 
 function roundToNearest(number, multiple) {
-  var half = multiple/2;
-  return number+half - (number+half) % multiple;
+  var half = multiple / 2;
+  return number + half - (number + half) % multiple;
 }
 
 function isAtColumnEdge(x) {
-  return ( x % TILE_W == 0 );
+  return (x % TILE_W == 0);
 }
 
 function isAtColumnCentre(x) {
-  return ( x % TILE_W == TILE_W / 2 );
+  return (x % TILE_W == TILE_W / 2);
 }
 
 function nearestColumnCentre(x) {
-  return TILE_W/2 + (Math.round((x - TILE_W/2) / TILE_W) * TILE_W);
+  return TILE_W / 2 + (Math.round((x - TILE_W / 2) / TILE_W) * TILE_W);
 }
 
 
 function nextColumnCentre(x, direction) {
   // already at centre
-  if ( isAtColumnCentre(x) ) {
+  if (isAtColumnCentre(x)) {
     return x + (TILE_W * direction);
   }
-  else if ( isAtColumnEdge(x) ) {
-    return x + (TILE_W/2 * direction);
+  else if (isAtColumnEdge(x)) {
+    return x + (TILE_W / 2 * direction);
   }
   else { // neither central nor edge
-    var centre = Math.floor(x/TILE_W) * TILE_W - (TILE_W/2);
+    var centre = Math.floor(x / TILE_W) * TILE_W - (TILE_W / 2);
     if (direction > -1) {
       centre += TILE_W;
     }
@@ -205,12 +222,12 @@ function nearestRowEdge(y) {
 
 // check if a point is inside a rectangle
 function xyIsInRect(pos, rect) {
-  return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
+  return pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.height && pos.y > rect.y
 }
 
 function UIxyIsInRect(pos, rect) {
   let x = pos.x - gameCanvas.width;
-  return x > rect.x && x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y
+  return x > rect.x && x < rect.x + rect.width && pos.y < rect.y + rect.height && pos.y > rect.y
 }
 
 
@@ -227,10 +244,10 @@ function downloader(filename, text) {
 }
 
 
-function findNearestSheep(x,y) {
+function findNearestSheep(x, y) {
   var nearestSheepDist = 999;
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    let distTo = sheepList[i].distFrom(x,y);
+  for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
+    let distTo = sheepList[i].distFrom(x, y);
     if (distTo < nearestSheepDist) {
       nearestSheepDist = distTo;
       nearestSheep = sheepList[i];
@@ -240,11 +257,11 @@ function findNearestSheep(x,y) {
 }
 
 
-function findNearestInList(x,y, list) {
+function findNearestInList(x, y, list) {
   var nearestDist = 999; // arbitrarily wider than game area
   var nearest = null;
-  for(var i=0; i<list.length; i++) {
-    let distTo = list[i].distFrom(x,y);
+  for (var i = 0; i < list.length; i++) {
+    let distTo = list[i].distFrom(x, y);
     if (distTo < nearestDist) {
       nearestDist = distTo;
       nearest = list[i];
@@ -255,7 +272,7 @@ function findNearestInList(x,y, list) {
 
 
 function findNearbyXInList(movingX, list, range) {
-  for(var i=0; i<list.length; i++) {
+  for (var i = 0; i < list.length; i++) {
     let distX = list[i].x - movingX;
     if (distX < range) {
       nearby = list[i];
@@ -266,8 +283,8 @@ function findNearbyXInList(movingX, list, range) {
 }
 
 function findSheepMeanY() {
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
-    let distTo = sheepList[i].distFrom(x,y);
+  for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
+    let distTo = sheepList[i].distFrom(x, y);
     if (distTo < nearestSheepDist) {
       nearestSheepDist = distTo;
       nearestSheep = sheepList[i];

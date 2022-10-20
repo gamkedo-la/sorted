@@ -1,8 +1,8 @@
-var editMode = false;
+var editMode = true;
 
 const NORMAL_PLAY = 0;
 const SEND_ONLY = 1;
-const SEND_SEQ_ONLY = 6; 
+const SEND_SEQ_ONLY = 6;
 const SEND_ROAM = 2;
 const ROAM_FROM_R1 = 3;
 const CALL_FROM_R10 = 4;
@@ -89,9 +89,9 @@ const SEPARATOR = "\t"; // ", "
 
 
 function isTouchDevice() {
-  return ( 'ontouchstart' in window ) ||
-         ( navigator.maxTouchPoints > 0 ) ||
-         ( navigator.msMaxTouchPoints > 0 );
+  return ('ontouchstart' in window) ||
+    (navigator.maxTouchPoints > 0) ||
+    (navigator.msMaxTouchPoints > 0);
 }
 
 function touchTest() {
@@ -132,7 +132,7 @@ function testResult() {
   output += "sentX" + SEPARATOR + "endCol" + SEPARATOR + "state" + SEPARATOR + "endTime\n";
   var txtLine;
 
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+  for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
     // nice idea but sheep object contains functions as well as properties
     // txtLine = Object.values(sheepList[i]).join(',');
     txtLine = "";
@@ -148,9 +148,9 @@ function testResult() {
 
 function playResult() {
   var output = "Level " + currentLevel + " - play result\n";
-  output += "ID" + SEPARATOR + "team" + SEPARATOR + "sentX" + SEPARATOR + "col" + SEPARATOR + "state" + SEPARATOR + "score" + SEPARATOR + "begin"  + SEPARATOR + "endTime\n";
+  output += "ID" + SEPARATOR + "team" + SEPARATOR + "sentX" + SEPARATOR + "col" + SEPARATOR + "state" + SEPARATOR + "score" + SEPARATOR + "begin" + SEPARATOR + "endTime\n";
   var txtLine;
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+  for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
     // nice idea but sheep object contains functions as well as properties
     // txtLine = Object.values(sheepList[i]).join(',');
     txtLine = "";
@@ -233,7 +233,7 @@ function setDebug(msg, debugN) {
 }
 
 const debugLevelTransition = false;
-function drawLevelDebug() {
+function drawDebug() {
   debugTextLine[1] = "currentLevel=" + currentLevel;
   debugTextLine[2] = "levelRunning=" + levelRunning;
 }

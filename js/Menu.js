@@ -3,6 +3,7 @@ const DROP_SHADOW_DIST = 2; // black underlay for menu text
 
 var HEADER_FONT = 36;
 var SUBHEAD_FONT = 30;
+var MENU_FONT = 26;
 var BODY_FONT = 22;
 const CREDITS_FONT = 18;
 
@@ -58,17 +59,18 @@ function drawMenu() {
     }
     else {
       indentX = 225;
-      topY = 200;
-      canvasContext.font = SUBHEAD_FONT + "px Verdana";
-      headLine("Menu");
-      canvasContext.font = BODY_FONT + "px Verdana";
+      topY = 170;
+      LINE_SPACING = 50;
+      // canvasContext.font = SUBHEAD_FONT + "px Verdana";
+      // headLine("Menu");
+      canvasContext.font = MENU_FONT + "px Verdana";
       bodyLine("Play - key P", ++line);
       bodyLine("Help - key H", ++line);
       bodyLine("Tutorial - key T", ++line);
       bodyLine("Music - key U", ++line);
       bodyLine("Score - key S", ++line);
       bodyLine("Credits - key C", ++line);
-      bodyLine("Edit mode - key F1", ++line);
+      // bodyLine("Edit mode - key F1", ++line);
 
       canvasContext.drawImage(controlsPic, 550, 250); // controls reference gui tutorial popup
     }
@@ -78,7 +80,6 @@ function drawMenu() {
     topY = 200;
     canvasContext.font = SUBHEAD_FONT + "px Verdana";
     headLine("Edit-mode menu");
-    topY = 210;
     canvasContext.font = BODY_FONT + "px Verdana";
     bodyLine("Level select - key 0-9", ++line);
     bodyLine("Design level - key D", ++line);

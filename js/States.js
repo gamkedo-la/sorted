@@ -176,13 +176,18 @@ function drawUI() {
   if (player.x > levelTitleWidth + 10) {
     drawLevelName();
   }
+  else {
+    drawLevelNameRight();
+  }
+
   if (runMode == NORMAL_PLAY) {
     if (gameState == STATE_GUIDE) {
       drawBarTitle('"Bar"', 18);
+      drawBarButtons(tutorialButtonLabel);
     } else {
       drawBarTitle("Level " + currentLevel, 20);
+      drawBarButtons(playButtonLabel);
     }
-    drawBarButtons(playButtonLabel);
   }
   else {
     drawBarTitle("Level " + currentLevel + " Test", 20);

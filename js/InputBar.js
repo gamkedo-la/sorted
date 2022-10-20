@@ -48,7 +48,7 @@ function ui_mousedownHandler() {
             gotoPlay("canvasButton");
             break;
 
-          case "Guide":
+          case "Tutorial":
             gotoGuide("button Guide(Tutorial)")
             break;
 
@@ -80,7 +80,7 @@ function ui_mousedownHandler() {
     }
   }
 
-  else if (gameState == STATE_PLAY || gameState == STATE_GUIDE) {
+  else if (gameState == STATE_PLAY) {
 
     if (paused) {
       for (var i = 0; i < pauseButtonLabel.length; i++) {
@@ -141,6 +141,65 @@ function ui_mousedownHandler() {
             case "End":
               levelEnding();
               // gotoMenu("Play's CanvasButton Quit");
+              break;
+          }
+        }
+      }
+    }
+  }
+  else if (gameState == STATE_GUIDE) {
+
+    if (paused) {
+      for (var i = 0; i < pauseButtonLabel.length; i++) {
+        if (xyIsInRect(uiPos, buttonRects[i])) {
+          switch (pauseButtonLabel[i]) {
+            case "Resume":
+              togglePause();
+          }
+        }
+      }
+    } 
+    
+    else { // not Paused
+      for (var i = 0; i < tutorialButtonLabel.length; i++) {
+        if (xyIsInRect(uiPos, buttonRects[i])) {
+
+          if (TOUCH_TEST) {
+            report("Clicked inside rect " + tutorialButtonLabel[i], 2);
+          }
+
+          switch (tutorialButtonLabel[i]) {
+            case "Left":
+              player.button_left = true;
+
+              if (gameState == STATE_GUIDE && tutorStep == 1) {
+                tutorStep = 2;
+              }
+              break;
+
+            case "Right":
+              player.button_right = true;
+
+              if (gameState == STATE_GUIDE && tutorStep == 1) {
+                tutorStep = 2;
+              }
+              break;
+
+            case "Call":
+              player.keyHeld_call = true;
+              break;
+
+            case "Send":
+              player.keyHeld_send = true;
+              break;
+
+            case "Menu":
+                levelRunning = false;
+                gotoMenu("Guide's button Menu");
+              break;
+
+            case "Pause":
+              togglePause();
               break;
           }
         }

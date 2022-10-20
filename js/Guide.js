@@ -38,7 +38,7 @@ function drawGuide() {
 
   else if (tutorStep == 2) {
     drawField();
-    let txt = "When the hat moves beyond either the left or right side of the field it screenwraps to the opposite side. Move the hat beyond an edge now. It sounds like a clamp trundling on rails.";
+    let txt = "When the hat moves beyond either the left or right side of the field it screenwraps to the opposite side. Sheep also wrap sideways. Move the hat beyond an edge now.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       bodyLine(txtLines[i], ++line);
@@ -51,7 +51,7 @@ function drawGuide() {
   // bottom row correct side
   else if (tutorStep == 3) {
     drawField();
-    let txt = "The aim is to get sheep to the bottom row on the correct side: blue sheep belong on the left, and red sheep belong on the right. Click one or other side of the bottom row to continue.";
+    let txt = "The aim is to get sheep to the bottom row on the correct side: blue sheep belong on the left, and red sheep belong on the right. Click one side of the bottom row to continue.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       bodyLine(txtLines[i], ++line);
@@ -120,7 +120,7 @@ function drawGuide() {
     drawSheep();
     player.draw();
 
-    let txt = "Sheep can collide with other sheep and are affected by terrain types and by NPCs, so they may stray from the vertical sending. When a sheep reaches the bottom row a score is displayed.";
+    let txt = "Sheep collide with other sheep and are affected by terrain and NPCs, so they may stray from the vertical sending. When a sheep reaches the bottom row a score is displayed.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       blockLine(txtLines[i], ++line, 1);
@@ -139,7 +139,7 @@ function drawGuide() {
     let block = 1;
     if (!touchDevice) {
       canvasContext.drawImage(controlsPic, 320, 250);
-      let txt = "Alternatively you can use keyboard controls: left and right arrow keys move the hat, up arrow Calls, and down arrow Sends a sheep.";
+      let txt = "Alternatively you can use keyboard controls: left and right arrow keys move the hat; the up arrow key Calls a sheep, and the down arrow key Sends.";
       let txtLines = getLines(canvasContext, txt, textWidth);
       for (var i = 0; i < txtLines.length; i++) {
         blockLine(txtLines[i], ++line, block);
