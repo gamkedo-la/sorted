@@ -12,7 +12,6 @@ const fieldY = 600;
 const UI_COLOR = "#222222";
 var bottomRowHeight = 0; // a margin where no flowers or grass grows - see scatterDecals() - now not needed as decalsCanvas height reduced so it doesn't cover bottom row (to stop clustered flowers growing in pens)
 
-var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; //
 var paused = false;
 var sortingVFX = false;
 
@@ -338,6 +337,7 @@ function drawKeyTutorial() {
     canvasContext.globalAlpha = 1 - ((now - tutorial_start_time) / tutorial_timespan);
     canvasContext.drawImage(controlsPic, 400, 50);
   }
+  canvasContext.globalAlpha = 1.0;
 }
 
 

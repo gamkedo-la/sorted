@@ -83,7 +83,7 @@ function drawMenu() {
     bodyLine("Level select - key 0-9", ++line);
     bodyLine("Design level - key D", ++line);
     bodyLine("Automate test - key A", ++line);
-    bodyLine("Batch paint test - key B", ++line);
+    bodyLine("Team test select - key X", ++line);
     bodyLine("Edit mode toggle - key F1", ++line);
     bodyLine("Keys P, H, T, U, S, C also as on menu", ++line);
   }
