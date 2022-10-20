@@ -307,8 +307,8 @@ function menuKeyChoice(key) {
         gameState = STATE_HELP;
       }
 
-      if (key == KEY_G) {
-        gotoGuide('menu key G')
+      if (key == KEY_T) {
+        gotoGuide('menu key')
       }
 
       if (editMode) {
@@ -354,7 +354,7 @@ function menuKeyChoice(key) {
           }
         }
 
-        if (key == KEY_T) {
+        if (key == KEY_X) {
           testTeam++;
           if (testTeam > NUM_TEAM_TYPES) {
             testTeam = 0;

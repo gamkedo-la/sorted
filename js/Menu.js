@@ -1,22 +1,25 @@
 const MENU_TOP_MARGIN = 110; // room for the logo
-const CREDITS_TOP_MARGIN = 60; // no logo on Credits
 const DROP_SHADOW_DIST = 2; // black underlay for menu text
 
-const HEADER_FONT = 32;
-const BODY_FONT = 22;
+var HEADER_FONT = 36;
+var SUBHEAD_FONT = 30;
+var BODY_FONT = 22;
 const CREDITS_FONT = 18;
 
-var textIndent = 200;
-const LINE_SPACING = 40;
-const PARAGRAPH_LINE_SPACING = 25;
-const PARAGRAPH_GAP = 20;
+var indentX = 200;
+var LINE_SPACING = 40;
+var BLOCK_LINE_SPACING = 25;
+var BLOCK_GAP = 20;
 
-const CREDITS_INDENT = 35;
+const CREDITS_X = 35;
+const CREDITS_Y = 60; // no logo on Credits
 const CREDITS_WIDTH = 720;
 
 var barTitle = "barTitle undefined";
 var barIndent = 10;
 const POPUP_W = 320;
+var topY = 100;
+var indentX = 100;
 
 
 function drawMenuFlock() {
@@ -49,16 +52,19 @@ function drawMenu() {
   var line = 0;
   if (!editMode) {
     if (touchDevice) {
-      textIndent = 150;
-      bodyLine("Buttons on right to Play, or", ++line);
+      indentX = 150;
+      ("Buttons on right to Play, or", ++line);
       bodyLine("show Scoreboard, Help, Credits", ++line);
     }
     else {
-      textIndent = 225;
+      indentX = 225;
+      topY = 200;
+      canvasContext.font = SUBHEAD_FONT + "px Verdana";
       headLine("Menu");
+      canvasContext.font = BODY_FONT + "px Verdana";
       bodyLine("Play - key P", ++line);
       bodyLine("Help - key H", ++line);
-      bodyLine("Guide - key G (not done)", ++line);
+      bodyLine("Tutorial - key T (not done)", ++line);
       bodyLine("Music - key U", ++line);
       bodyLine("Score - key S", ++line);
       bodyLine("Credits - key C", ++line);
@@ -68,57 +74,56 @@ function drawMenu() {
     }
   }
   else {
-    textIndent = 190;
+    indentX = 190;
+    topY = 200;
+    canvasContext.font = SUBHEAD_FONT + "px Verdana";
     headLine("Edit-mode menu");
+    topY = 210;
+    canvasContext.font = BODY_FONT + "px Verdana";
     bodyLine("Level select - key 0-9", ++line);
     bodyLine("Design level - key D", ++line);
     bodyLine("Automate test - key A", ++line);
-    bodyLine("Team paint test - key T", ++line);
-    bodyLine("toggle Edit mode - key F1", ++line);
+    bodyLine("Batch paint test - key B", ++line);
+    bodyLine("Edit mode toggle - key F1", ++line);
+    bodyLine("Keys P, H, T, U, S, C also as on menu", ++line);
   }
 }
 
 
 function drawHelp() {
-  // BAR.innerHTML = '';
-  // drawBarButtons(offmenuButtonLabel);
 
   colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "black");
   canvasContext.drawImage(helpBGPic, 0, 0);
   drawMenuFlock();
 
-  textIndent = 40;
   var line = 0;
+  var block = 0;
+  indentX = 60;
+  topY = 135;
+  BLOCK_LINE_SPACING = 35;
+  canvasContext.font = 22 + "px Verdana";
 
-  // getLines() cutoffs based on canvas font when function called
-  canvasContext.font = 18 + "px Verdana";
-
-  var yTop = (editMode) ? 45 : 70;
-
-  // if (!editMode) {
-  //   smallHeadLine("Sorted! a game with sheep", yTop);
-  // }
-
-  smallBodyLine("Aim: get all sheep to bottom row, sorting to blue and red.", ++line, yTop);
-
-  var txt = "How to play: move the hat (farmer) sideways; when the hat is directly above a sheep you can call it upward; then move again and send held sheep vertically down. If a sheep is going astray (e.g. nearing a bog where it will get stuck) you can call it up again. Points are gained for each sheep reaching the bottom row, on the correct side, with bonus points for reaching a pen rather than the ditch.";
-
-  var txtLines = getLines(canvasContext, txt, 730);
-  line++; // gap between paragraphs
+  var txt = "Aim: get each sheep to bottom row, preferably in a pen matching the colour (blue or red) of that sheep."
+  var txtLines = getLines(canvasContext, txt, 700);
+  line++; // gap between blocks
 
   for (var i = 0; i < txtLines.length; i++) {
-    smallBodyLine(txtLines[i], ++line, yTop);
+    blockLine(txtLines[i], ++line, block);
   }
 
-  if (touchDevice == false) {
-    line++; // gap between paragraphs
-    smallBodyLine("Menu: press key M or Esc", ++line, yTop);
+  txt = "How to play: move the hat sideways; when the hat is directly above a sheep then it can be Called upward; then move hat again and Send the sheep vertically down. If a sheep is going astray (e.g. nearing a bog where it will get stuck) you can call it up again. Points are gained for each sheep reaching the bottom row, on the correct side, with bonus points for reaching a pen rather than the ditch.";
+
+  txtLines = getLines(canvasContext, txt, 700);
+  block++; // gap between blocks
+
+  for (var i = 0; i < txtLines.length; i++) {
+    blockLine(txtLines[i], ++line, block);
   }
 
-  if (editMode) {
-    line++; // gap between paragraphs
-    smallBodyLine("EditMode: Level 0 is integration test level.", ++line, yTop);
-  }
+  // if (touchDevice == false) {
+  //   line++; // gap between blocks
+  //   bodyLine("Menu: press key M or Esc", ++line, yTop);
+  // }
 }
 
 
@@ -127,96 +132,63 @@ function drawCredits() {
   colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "black");
   canvasContext.drawImage(creditsBGPic, 0, 0);
 
-  textIndent = CREDITS_INDENT;
-  canvasContext.font = HEADER_FONT + "px Verdana";
-  colorText(canvasContext, "Credits", DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + CREDITS_TOP_MARGIN, "black");
-  colorText(canvasContext, "Credits", textIndent, CREDITS_TOP_MARGIN, "white");
+  indentX = CREDITS_X;
 
-  canvasContext.font = CREDITS_FONT + "px Verdana";
+  canvasContext.font = SUBHEAD_FONT + "px Verdana";
+  headLine("Credits")
+  
   var line = 0;
-  var paragraph = 1;
+  var block = 1;
+  indentX = CREDITS_X;
+  topY = CREDITS_Y;
+  canvasContext.font = CREDITS_FONT + "px Verdana";
 
-  paragraphLine("No more updates to Credits: will be compiled by Chris.", ++line, paragraph);
-  paragraph++;
+  blockLine("No more updates to Credits: will be compiled by Chris.", ++line, block);
+  block++;
 
-  paragraphLine("Patrick McKeown - programming, design.", ++line, paragraph);
-  paragraph++;
+  blockLine("Patrick McKeown - programming, design.", ++line, block);
+  block++;
 
   var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grassclumps; hoofprints behind sheep; soundfx for sheep, and dog; ambient sounds; baa when sheep enters pen.'
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
   for (var i = 0; i < txtLines.length; i++) {
-    paragraphLine(txtLines[i], ++line, paragraph);
+    blockLine(txtLines[i], ++line, block);
   }
-  paragraph++;
+  block++;
 
   var txt = "Chris DeLeon - sheep-head multi-part image; foundation of classic games code; Photopea help to make tile art.";
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
   for (var i = 0; i < txtLines.length; i++) {
-    paragraphLine(txtLines[i], ++line, paragraph);
+    blockLine(txtLines[i], ++line, block);
   }
-  paragraph++;
+  block++;
 
-  paragraphLine("Gonzalo Delgado - rogue dog (head) concept art and sprite.", ++line, paragraph);
-  paragraph++;
+  blockLine("Gonzalo Delgado - rogue dog (head) concept art and sprite.", ++line, block);
+  block++;
 
-  paragraphLine("Tim Waskett - verbal algorithm for sheep roaming.", ++line, paragraph);
-  paragraph++;
+  blockLine("Tim Waskett - verbal algorithm for sheep roaming.", ++line, block);
+  block++;
 
   var txt = "H Trayford - maximum possible score; early Hat screenwrap.";
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
   for (var i = 0; i < txtLines.length; i++) {
-    paragraphLine(txtLines[i], ++line, paragraph);
+    blockLine(txtLines[i], ++line, block);
   }
-  paragraph++;
+  block++;
 
   var txt = 'Nicholas Polchies - canvas scaling (for phone screens) code from Hometeam game "Accidental Personal Confusion 5".';
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
   for (var i = 0; i < txtLines.length; i++) {
-    paragraphLine(txtLines[i], ++line, paragraph);
+    blockLine(txtLines[i], ++line, block);
   }
-  paragraph++;
+  block++;
 
   var txt = 'Caspar Dunant - touch event handling code from Hometeam game "Irenic".';
   var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
   for (var i = 0; i < txtLines.length; i++) {
-    paragraphLine(txtLines[i], ++line, paragraph);
+    blockLine(txtLines[i], ++line, block);
   }
 } // end drawCredits
-
-function headLine(txt) {
-  canvasContext.font = HEADER_FONT + "px Verdana";
-  colorText(canvasContext, txt, DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + 100 + MENU_TOP_MARGIN, "black");
-  colorText(canvasContext, txt, textIndent, 100 + MENU_TOP_MARGIN, "white");
-}
-
-
-function bodyLine(txt, lineNum) {
-  canvasContext.font = BODY_FONT + "px Verdana";
-  colorText(canvasContext, txt, DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + 110 + MENU_TOP_MARGIN + lineNum * LINE_SPACING, "black");
-  colorText(canvasContext, txt, textIndent, 110 + MENU_TOP_MARGIN + lineNum * LINE_SPACING, "white");
-}
-
-
-function paragraphLine(txt, lineNum, paragraph) {
-  let y = CREDITS_TOP_MARGIN + (paragraph * PARAGRAPH_GAP) + (lineNum * PARAGRAPH_LINE_SPACING);
-  colorText(canvasContext, txt, DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + y, "black");
-  colorText(canvasContext, txt, textIndent, y, "white");
-  paragraph++;
-}
-
-
-function smallHeadLine(txt, yTop) {
-  canvasContext.font = 32 + "px Verdana";
-  colorText(canvasContext, txt, DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + yTop + MENU_TOP_MARGIN, "black");
-  colorText(canvasContext, txt, textIndent, yTop + MENU_TOP_MARGIN, "white");
-}
-
-
-function smallBodyLine(txt, lineNum, startY) {
-  canvasContext.font = 24 + "px Verdana";
-  colorText(canvasContext, txt, DROP_SHADOW_DIST + textIndent, DROP_SHADOW_DIST + startY + lineNum * 30 + MENU_TOP_MARGIN, "black");
-  colorText(canvasContext, txt, textIndent, startY + lineNum * 30 + MENU_TOP_MARGIN, "white");
-}
 
 
 function drawLevelScoreTest() {
@@ -355,7 +327,7 @@ function drawGameOver() {
   canvasContext.drawImage(creditsBGPic, 0, 0);
   drawMenuFlock();
 
-  textIndent = 200;
+  indentX = 200;
   headLine("Game Over!");
 } // end drawGameOver
 
