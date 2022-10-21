@@ -1,5 +1,6 @@
 const ROGUE_UNSORT_RANGE = 40;
 const ROGUE_RETREAT_RANGE = 70;
+const SLIGHTLY_BELOW_RETREAT_UP = 20;
 const ROGUE_WOOF_RANGE = 70;
 const ROGUE_COLLISION_BOPEEP_X = 60;
 const ROGUE_COLLISION_BOPEEP_Y = 50;
@@ -52,10 +53,9 @@ function roguedogClass() {
     this.nextY += this.speedY;
 
     // collision handling
-    // detect sheep
     var nearestSheep = findNearestInList(this.x, this.y, sheepList);
 
-    // is close enough to bark at sheep, and sheep is visible ahead in way dog facing
+    // is close enough to bark at sheep, and sheep visible ahead way dog facing
     var distX = this.x - nearestSheep.x;
 
     if ( this.isSheepClose(nearestSheep, ROGUE_WOOF_RANGE) && distX < 0) {
@@ -71,15 +71,21 @@ function roguedogClass() {
     if ( this.isSheepClose(nearestSheep, ROGUE_RETREAT_RANGE) && distX < 25) {
       if (nearestSheep.shyTimer < 1) {
         var distY = nearestSheep.y - this.y;
-        if (distY < 20 && nearestSheep.team == PLAIN) {
+        // painted sheep mustn't retreat or won't get Licked
+        if (nearestSheep.team == PLAIN) {
           nearestSheep.gotoX = nearestSheep.x;
-          nearestSheep.gotoY = nearestSheep.y - (TILE_H + distY);
+          if (distY < SLIGHTLY_BELOW_RETREAT_UP) {
+          // sheep above dog retreat upward
+            nearestSheep.gotoY = nearestSheep.y - (TILE_H + distY);
+          }
+          else {
+          // Rogue making sheep go down toward pen seems against rogue aim
+            nearestSheep.gotoY = nearestSheep.y + (TILE_H - distY);
+          }
           nearestSheep.changeMode(SHY);
           nearestSheep.shyTimer = 40;
           console.log(this.id, this.y, nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0));
         }
-        // Rogue dog doesn't make sheep go down toward pen
-        // nearestSheep.gotoY = nearestSheep.y + (TILE_H - distY);
       }
     }
 
@@ -91,7 +97,7 @@ function roguedogClass() {
         nearestSheep.team = PLAIN;
         nearestSheep.color = TEAM_COLOURS[PLAIN];
         nearestSheep.changeMode(LICKED);
-        nearestSheep.shyTimer = 40;
+        nearestSheep.shyTimer = 100; // this isn't stopping retreat
         // console.log("Unsort/lick sheep id =", nearestSheep.id);
       }
     }

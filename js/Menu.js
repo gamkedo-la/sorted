@@ -104,7 +104,7 @@ function drawHelp() {
   BLOCK_LINE_SPACING = 35;
   canvasContext.font = 22 + "px Verdana";
 
-  var txt = "Aim: get each sheep to bottom row, preferably in a pen matching the colour (blue or red) of that sheep."
+  var txt = "Aim: get sheep to the bottom row on the correct side: blue sheep on left, red sheep on right."
   var txtLines = getLines(canvasContext, txt, 700);
   line++; // gap between blocks
 
@@ -112,7 +112,7 @@ function drawHelp() {
     blockLine(txtLines[i], ++line, block);
   }
 
-  txt = "How to play: move the hat sideways; when the hat is directly above a sheep then it can be Called upward; then move hat again and Send the sheep vertically down. If a sheep is going astray (e.g. nearing a bog where it will get stuck) you can call it up again. Points are gained for each sheep reaching the bottom row, on the correct side, with bonus points for reaching a pen rather than the ditch.";
+  txt = "How to play: move the hat sideways; when the hat is directly above a sheep it can be Called upward; then move hat again and Send the sheep vertically downward. If a sheep is going astray (e.g. nearing a bog where it will get stuck) you should Call it up again. Points gained for each sheep reaching the bottom row on the correct side, with bonus points for reaching a pen rather than the ditch.";
 
   txtLines = getLines(canvasContext, txt, 700);
   block++; // gap between blocks
