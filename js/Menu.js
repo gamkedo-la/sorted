@@ -52,10 +52,16 @@ function drawMenu() {
   canvasContext.textAlign = "left";
   var line = 0;
   if (!editMode) {
+    canvasContext.font = MENU_FONT + "px Verdana";
     if (touchDevice) {
       indentX = 150;
-      ("Buttons on right to Play, or", ++line);
-      bodyLine("show Scoreboard, Help, Credits", ++line);
+      topY = 180;
+      LINE_SPACING = 50;
+      bodyLine("Click buttons on the rightbar to", ++line);
+      bodyLine("play or resume the game,", ++line);
+      bodyLine("show Help or Tutorial,", ++line);
+      bodyLine("show Scoreboard or Credits,", ++line);
+      bodyLine("start or stop music.", ++line);
     }
     else {
       indentX = 225;

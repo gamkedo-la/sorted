@@ -176,10 +176,6 @@ function moveAll() {
     if (gameState == STATE_PLAY) {
       step[currentLevel]++; // level timesteps
 
-      for (var i = 0; i < sheepList.length; i++) {
-        sheepList[i].move();
-      }
-
       if (runMode == NORMAL_PLAY) {
         flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
 
@@ -226,6 +222,10 @@ function moveAll() {
 
       else if (runMode == CALL_FROM_R10) {
         // force LevelEnd when sheep in final column Held or give up.
+      }
+
+      for (var i = 0; i < sheepList.length; i++) {
+        sheepList[i].move();
       }
 
       if (isLevelOver()) {

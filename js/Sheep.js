@@ -150,7 +150,6 @@ function sheepClass() {
     console.log(this.id, col, row, this.x, this.y)
   }
 
-
   // 1st, mode governs speed
   // 2nd, check screenwrap X and bounce Y
   // 3rd, test if tile occupied
