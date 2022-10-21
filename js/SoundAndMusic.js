@@ -10,6 +10,7 @@ function setFormat() {
   }
 }
 
+
 function BackgroundMusicClass() {
   var musicSound = null;
 
@@ -46,6 +47,7 @@ function BackgroundMusicClass() {
   }
 }
 
+
 function SoundOverlapsClass(filenameWithPath) {
 
   setFormat(); // calling this to ensure that audioFormat is set before needed
@@ -66,6 +68,11 @@ function SoundOverlapsClass(filenameWithPath) {
       mainSound.play();
     }
     altSoundTurn = !altSoundTurn; // toggle between true and false
+  }
+
+  this.stop = function() {
+    mainSound.pause();
+    mainSound.currentTime = 0;
   }
 
 }

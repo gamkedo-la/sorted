@@ -128,7 +128,7 @@ function ui_mousedownHandler() {
 
             case "Menu":
               if (gameState == STATE_GUIDE) {
-                levelRunning = false;
+                // levelRunning = false;
                 gotoMenu("Guide's button Menu");
               }
               gotoMenu("Play's button Menu");
@@ -147,6 +147,7 @@ function ui_mousedownHandler() {
       }
     }
   }
+
   else if (gameState == STATE_GUIDE) {
 
     if (paused) {
@@ -194,7 +195,7 @@ function ui_mousedownHandler() {
               break;
 
             case "Menu":
-                levelRunning = false;
+                // levelRunning = false;
                 gotoMenu("Guide's button Menu");
               break;
 

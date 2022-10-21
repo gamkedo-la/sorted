@@ -19,7 +19,7 @@ var tutorStep = 1;
 function gotoMenu(from) {
   if (gameState == STATE_GUIDE) {
     currentLevel = levelBeforeGuide;
-    levelRunning = false;
+    // levelRunning = false;
   }
   gameState = STATE_MENU;
   menuBackSound.play();
@@ -36,7 +36,7 @@ function gotoGuide(from) {
   levelBeforeGuide = currentLevel;
   currentLevel = 10;
   loadLevel(currentLevel);
-  levelRunning = true;
+  // levelRunning = true;
   editMode = false;
   tutorStep = 1;
 }
@@ -71,7 +71,6 @@ function gotoReplay(from) {
 }
 
 function gotoAdvance(from) {
-  // if (!levelRunning) {
   if (currentLevel == LAST_LEVEL) {
     console.log("No more Levels!");
     runMode = GAME_OVER;

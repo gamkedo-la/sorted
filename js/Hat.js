@@ -58,10 +58,10 @@ function playerClass(id) {
       this.moveAsideTimer--;
     }
     else {
-      for (var i=0; i<bopeepList.length; i++) {
+      for (var i = 0; i < bopeepList.length; i++) {
         if (bopeepList[i].y < 100) {
           var distX = this.x - bopeepList[i].x;
-          if ( Math.abs(distX) < TILE_W +20) {
+          if (Math.abs(distX) < TILE_W + 20) {
             if (distX >= 0) {
               this.gotoX = this.x + (TILE_W - distX);
             } else {
@@ -70,9 +70,6 @@ function playerClass(id) {
             }
             this.moveAsideTimer = 120;
           }
-          // var col = Math.floor(this.x / TILE_W)
-          // if (bopeepList[i].col == col) {
-          //   this.gotoX = this.x + TILE_W;
         }
       }
     }
@@ -92,7 +89,7 @@ function playerClass(id) {
         if (gameState == STATE_GUIDE && tutorStep == 5) {
           tutorStep = 6;
         }
-      } 
+      }
       else {
         console.log('No sheep sent because clamp empty');
       }
@@ -178,8 +175,8 @@ function playerClass(id) {
     if (this.keyHeld_left || this.keyHeld_right) {
       this.gotoX = null;
       if (this.soundTimer < 1) {
-        hatMoveLongSound.play(0.5);
-        this.soundTimer = 80;
+        hatMoveLongSound.play(0.4);
+        this.soundTimer = 75;
       }
 
       if (this.keyHeld_left) {
@@ -194,21 +191,15 @@ function playerClass(id) {
       if (this.nextX < 0) {
         this.nextX += gameCanvas.width; // offset to mirror image
       }
-      // 1console.log(this.x, this.gotoX, player.keyHeld_left, player.keyHeld_right, player.button_left, player.button_right)
+      // console.log(this.x, this.gotoX, player.keyHeld_left, player.keyHeld_right, player.button_left, player.button_right)
     }
-
-    // if (!this.keyHeld_left && !this.keyHeld_right) {
-    //   hatMoveLongSound.pause();
-    //   hatMoveLongSound.currentTime = 0;
-    //   this.soundTimer = 0;
-    // }
 
 
     // MOVE left or right using touch or button
     // gotoX set to next column-centre
     if (this.button_left || this.button_right) {
-      hatMoveSound.play(1.0);
-      
+      hatMoveShortSound.play(0.5);
+
       if (this.button_left) {
         this.gotoX = nextColumnCentre(this.x, -1);
         this.button_left = false;
@@ -296,7 +287,7 @@ function playerClass(id) {
 
 
 function isSheepCallable(location) {
-  callable = ( location != IN_PEN_BLUE && location != IN_PEN_RED && location != IN_DITCH && location != STUCK && location != STACKED );
+  callable = (location != IN_PEN_BLUE && location != IN_PEN_RED && location != IN_DITCH && location != STUCK && location != STACKED);
   return callable;
 }
 

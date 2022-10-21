@@ -1,5 +1,6 @@
 var callSound = new SoundOverlapsClass("sound/call_1_quiet");
-var hatMoveSound = new SoundOverlapsClass("sound/hat_moving_quiet");
+var hatMoveShortSound = new SoundOverlapsClass("sound/hat_moving_short");
+// var hatMoveLongSound = new SoundOverlapsClass("sound/hat_moving_short");
 var hatMoveLongSound = new SoundOverlapsClass("sound/hat_clamp_moving");
 
 var calledArrivalSound = new SoundOverlapsClass("sound/clamp_arrival_quiet");
