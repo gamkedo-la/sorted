@@ -377,7 +377,7 @@ function loadLevel(whichLevel) {
     // clumpRandom = false;
     setupDecals(bottomMargin);
 
-    console.log("Level loaded: " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
+    // console.log("Level loaded: " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
   }
 
 

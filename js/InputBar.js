@@ -101,9 +101,12 @@ function ui_mousedownHandler() {
             report("Clicked inside rect " + playButtonLabel[i], 2);
           }
 
+          buttonHeld = playButtonLabel[i];
+
           switch (playButtonLabel[i]) {
             case "Left":
               player.button_left = true;
+              
 
               if (gameState == STATE_GUIDE && tutorStep == 1) {
                 tutorStep = 2;
@@ -112,6 +115,7 @@ function ui_mousedownHandler() {
 
             case "Right":
               player.button_right = true;
+              hatMoveShortSound.play(0.5);
 
               if (gameState == STATE_GUIDE && tutorStep == 1) {
                 tutorStep = 2;
@@ -247,13 +251,14 @@ function ui_mousedownHandler() {
 function ui_mouseupHandler(evt) {
   // var mousePos = getMousePos(evt);
   if (gameState == STATE_PLAY) {
-    for (var i = 0; i < playButtonLabel.length; i++) {
-      if (xyIsInRect(mouse, buttonRects[i])) {
+    // for (var i = 0; i < playButtonLabel.length; i++) {
+    //   if (xyIsInRect(mouse, buttonRects[i])) {
 
-        switch (playButtonLabel[i]) {
+        // switch (playButtonLabel[i]) {
+        switch (buttonHeld) {
 
           case "Left":
-            player.button_left = true;
+            player.button_left = false;
             break;
 
           case "Right":
@@ -276,6 +281,6 @@ function ui_mouseupHandler(evt) {
             break;
         }
       }
-    }
-  }
+  //   }
+  // }
 }

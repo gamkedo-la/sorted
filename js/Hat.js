@@ -127,7 +127,7 @@ function playerClass(id) {
             var xDist = Math.abs(this.nextX - sheepList[i].x);
             var yDist = Math.abs(this.nextY - sheepList[i].y);
             var weightedCallDist = (yDist / CALL_X_WEIGHT) + xDist;
-            console.log('id:' + i + ' x:' + xDist.toFixed(0) + ' y:' + yDist.toFixed(0) + ' weighted:' + weightedCallDist.toFixed(0));
+            // console.log('id:' + i + ' x:' + xDist.toFixed(0) + ' y:' + yDist.toFixed(0) + ' weighted:' + weightedCallDist.toFixed(0));
 
             if (weightedCallDist < nearestWeightDist) {
               aligned = i;
@@ -137,7 +137,7 @@ function playerClass(id) {
               if (yDist > CALL_Y_TOLERANCE) {
                 callAlignLimitX *= yDist / CALL_Y_TOLERANCE;
               }
-              console.log('id:' + i + ' callAlignLimitX:' + callAlignLimitX.toFixed(0))
+              // console.log('id:' + i + ' callAlignLimitX:' + callAlignLimitX.toFixed(0))
             }
           } else {
             console.log('Sheep ' + i + ' cannot be called because mode ' + sheepModeNames[mode]);
@@ -198,16 +198,8 @@ function playerClass(id) {
     // MOVE left or right using touch or button
     // gotoX set to next column-centre
     if (this.button_left || this.button_right) {
-      hatMoveShortSound.play(0.5);
 
-      if (this.button_left) {
-        this.gotoX = nextColumnCentre(this.x, -1);
-        this.button_left = false;
-      }
-      else if (this.button_right) {
-        this.gotoX = nextColumnCentre(this.x, 1);
-        this.button_right = false;
-      }
+   
       console.log("From " + this.x + " gotoX " + this.gotoX);
     } // end button set gotoX
 
@@ -264,6 +256,17 @@ function playerClass(id) {
       }
       else if (this.direction < 0) {
         this.nextX -= moveX; // move left
+      }
+    }
+    else {
+      if (this.button_left) {
+        this.gotoX = nextColumnCentre(this.x, -1);
+        hatMoveShortSound.play(0.5);
+        // this.button_left = false;
+      }
+      else if (this.button_right) {
+        this.gotoX = nextColumnCentre(this.x, 1);
+        // this.button_right = false;
       }
     }
 

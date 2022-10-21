@@ -84,7 +84,7 @@ function roguedogClass() {
           }
           nearestSheep.changeMode(SHY);
           nearestSheep.shyTimer = 40;
-          console.log(this.id, this.y, nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0));
+          // console.log(this.id, this.y, nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0));
         }
       }
     }

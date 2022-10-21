@@ -87,7 +87,7 @@ function bopeepClass() {
             makeMagicVFX(nearestSheep.x, nearestSheep.y, PLAIN);
             nearestSheep.team = PLAIN;
           }
-          console.log("BoPeep attracts sheep id =", nearestSheep.id);
+          // console.log("BoPeep attracts sheep id =", nearestSheep.id);
         }
       }
 
@@ -169,7 +169,7 @@ function setupBoPeep(whichLevel) {
       var agentHere = agentGrid[arrayIndex];
 
       if (agentHere == BO_PEEP) {
-        console.log('Bo Peep', agentHere, drawTileX, drawTileY)
+        // console.log('Bo Peep', agentHere, drawTileX, drawTileY)
         var spawnBoPeep = new bopeepClass();
         spawnBoPeep.init(BoPeep_num, BoPeepPic, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, eachCol);
         bopeepList.push(spawnBoPeep);

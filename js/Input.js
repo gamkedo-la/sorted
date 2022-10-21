@@ -1,3 +1,5 @@
+var buttonHeld = null;
+
 function setupInput() {
 
   initButtonRects(); // set coords of right bar buttons
@@ -547,7 +549,7 @@ function keyPressed(evt) {
 // only relevant to arrowKeys, not Menu or Fn keys
 function keyReleased(evt) {
   arrowKeySet(evt, player, false);
-  
+
   if (hatMoveSoundTest) {
     if (!player.keyHeld_left && !player.keyHeld_right) {
       hatMoveLongSound.stop();

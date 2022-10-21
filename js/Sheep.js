@@ -147,7 +147,7 @@ function sheepClass() {
     this.previousIndex = row * TILE_COLS + col;
     this.x = col * TILE_W + TILE_W / 2;
     this.y = row * TILE_H + TILE_H / 2;
-    console.log(this.id, col, row, this.x, this.y)
+    // console.log(this.id, col, row, this.x, this.y)
   }
 
   // 1st, mode governs speed
@@ -266,7 +266,7 @@ function sheepClass() {
             this.changeMode(GRAZE);
             this.timer = 40;
           }
-          console.log(this.id, 'mode', this.mode)
+          // console.log(this.id, 'mode', this.mode)
         }
 
         else if (this.mode == CONVEYOR) {
