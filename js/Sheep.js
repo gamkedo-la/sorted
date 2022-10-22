@@ -321,7 +321,7 @@ function sheepClass() {
       }
     }
 
-    if (this.mode != SELECTED || this.shyTimer > 0) {
+    if ( this.doTileHandling() ) {
       this.tileHandling();
     }
 
@@ -864,8 +864,17 @@ function sheepClass() {
     return tileType == TILE_CONVEYOR_UP || tileType == TILE_CONVEYOR_DOWN || tileType == TILE_CONVEYOR_LEFT || tileType == TILE_CONVEYOR_RIGHT
   }
 
+  this.doTileHandling = function() {
+    console.log(this.mode)
+    return this.mode != CALLED && this.mode != SELECTED && this.shyTimer < 1
+  }
+
 
   this.draw = function () {
+
+    if (this.mode == CALLED) {
+      colorCircle(canvasContext, this.x, this.y+5, 23, "rgba(0,0,0,0.7)");
+    }
 
     // tail shows facing by being in opposite direction
     if (this.team == PLAIN) {
