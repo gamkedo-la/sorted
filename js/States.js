@@ -46,7 +46,7 @@ function gotoPlay(from) {
   if (!levelRunning) {
     currentLevel++;
     levelRunning = true;
-    console.log("Level number now =" + currentLevel);
+    console.log("Level number now = " + currentLevel);
     loadLevel(currentLevel);
     checkGridMatchColsRows();
   }
@@ -209,7 +209,8 @@ function drawCalling() {
     // draw line between Hat and called sheep
     let x = sheepList[sheepCalled].x;
     let y = sheepList[sheepCalled].y;
-    colorLine(canvasContext, player.x, player.y, x, y, "yellow")
+    canvasContext.lineWidth = 5;
+    colorDashLine(canvasContext, player.x, player.y, x, y, "yellow")
   }
 }
 

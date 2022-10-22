@@ -41,7 +41,7 @@ function ui_mousedownHandler() {
     for (var i = 0; i < menuButtonLabel.length; i++) {
       // report( buttonRects[i] );
       if (xyIsInRect(uiPos, buttonRects[i])) {
-        report('Button down ' + i + ' ' + menuButtonLabel[i], 2)
+        // report('Button down ' + i + ' ' + menuButtonLabel[i], 2)
 
         switch (menuButtonLabel[i]) {
           case "Play":
@@ -106,20 +106,11 @@ function ui_mousedownHandler() {
           switch (playButtonLabel[i]) {
             case "Left":
               player.button_left = true;
-              
-
-              if (gameState == STATE_GUIDE && tutorStep == 1) {
-                tutorStep = 2;
-              }
               break;
 
             case "Right":
               player.button_right = true;
               hatMoveShortSound.play(0.5);
-
-              if (gameState == STATE_GUIDE && tutorStep == 1) {
-                tutorStep = 2;
-              }
               break;
 
             case "Call":
@@ -179,6 +170,7 @@ function ui_mousedownHandler() {
 
               if (gameState == STATE_GUIDE && tutorStep == 1) {
                 tutorStep = 2;
+                flashTimer = 20;
               }
               break;
 
@@ -187,6 +179,7 @@ function ui_mousedownHandler() {
 
               if (gameState == STATE_GUIDE && tutorStep == 1) {
                 tutorStep = 2;
+                flashTimer = 20;
               }
               break;
 
@@ -250,7 +243,7 @@ function ui_mousedownHandler() {
 ///////////////////////////////////////////
 function ui_mouseupHandler(evt) {
   // var mousePos = getMousePos(evt);
-  console.log('ui_mouseupHandler')
+  // console.log('ui_mouseupHandler')
   if (gameState == STATE_PLAY) {
     // for (var i = 0; i < playButtonLabel.length; i++) {
     //   if (xyIsInRect(mouse, buttonRects[i])) {

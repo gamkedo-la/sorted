@@ -15,7 +15,7 @@ function colorRectBorder(ctx, topLeftX, topLeftY, boxWidth, boxHeight, fillColor
   ctx.fillStyle = fillColor;
   ctx.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
   ctx.lineWidth = lineWidth;
-  ctx.setLineDash([]); // colorLine set this
+  ctx.setLineDash([]); // colorDashLine set this
   ctx.strokeStyle = strokeColor;
   ctx.strokeRect(topLeftX, topLeftY, boxWidth, boxHeight);
 }
@@ -33,7 +33,7 @@ function colorCircleBorder(ctx, centerX, centerY, radius, fillColor, strokeColor
   ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
   ctx.fill();
   ctx.lineWidth = 1;
-  ctx.setLineDash([]); // colorLine set this
+  ctx.setLineDash([]); // colorDashLine set this
   ctx.strokeStyle = strokeColor;
   ctx.stroke();
 }
@@ -43,11 +43,13 @@ function colorText(ctx, showWords, textX, textY, fillColor) {
   ctx.fillText(showWords, textX, textY);
 }
 
+function colorDashLine(ctx, startX, startY, endX, endY, color) {
+  ctx.setLineDash([5, 5]);
+  colorLine(ctx, startX, startY, endX, endY, color)
+}
 function colorLine(ctx, startX, startY, endX, endY, color) {
   ctx.beginPath();
   ctx.strokeStyle = color;
-  ctx.lineWidth = 5;
-  ctx.setLineDash([5, 5]);
   ctx.moveTo(startX, startY);
   ctx.lineTo(endX, endY);
   ctx.stroke();

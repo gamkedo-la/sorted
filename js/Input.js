@@ -76,22 +76,21 @@ function clickOrTouch(event) {
     let tapY = event.targetTouches[0].pageY;
     x = tapX.toFixed(0);
     y = tapY.toFixed(0);
-    report('tapX ' + tapX + ' ' + event.type, 4);
+    // report('tapX ' + tapX + ' ' + event.type, 4);
   }
   else if (event.type == 'touchend') {
     // x = event.touches[0].pageX;
     // y = event.touches[0].pageY;
-    report('ipad ' + event + ' ' + event.type, 4);
-    console.log(event)
+    // report('ipad ' + event + ' ' + event.type, 4);
   }
   else {
     x = event.clientX;
     y = event.clientY;
-    report('no tT ' + event.clientX + ' ' + event.type, 4);
+    // report('no tT ' + event.clientX + ' ' + event.type, 4);
   }
 
-  report("Tap client: " +  event.type + ' ' + event.clientX + "," + event.clientY, 0);
-  report("M/T x,y: " +  x + "," + y, 1);
+  // report("Tap client: " +  event.type + ' ' + event.clientX + "," + event.clientY, 0);
+  // report("M/T x,y: " +  x + "," + y, 1);
 
   if ((event.type == 'touchstart' || event.type == 'touchend')) {
     // left click emulate
@@ -103,7 +102,7 @@ function clickOrTouch(event) {
   }
 
   setMousePosFromXY(x, y); // adapted from Irenic
-  report("clicktouch: " +  mouse.x + "," + mouse.y, 2);
+  // report("clicktouch: " +  mouse.x + "," + mouse.y, 2);
 
   if (mouse.x > gameCanvas.width) {
     uiPos.x = mouse.x - gameCanvas.width;
@@ -202,11 +201,10 @@ function field_mousedownHandler() {
 
   else if (gameState ==  STATE_GUIDE) {
     if (mouse.y > gameCanvas.height-TILE_H) {
-      if (tutorStep == 3) {
-        tutorStep = 4;
-      }
-      else if (tutorStep == 6) {
+
+      if (tutorStep == 6) {
         tutorStep = 7;
+        flashTimer = 20;
       }
     }
   }
@@ -219,7 +217,7 @@ function field_mouseupHandler() {
   if (gameState == STATE_PLAY) {
 
     if (mouse.y < TILE_H) {
-      report('top row mouseup', 3);
+      // report('top row mouseup', 3);
        player.button_left = false;
        player.button_right = false;
     }

@@ -86,8 +86,14 @@ function playerClass(id) {
         sheepHere.beginTime = step[currentLevel];
         sentSound.play(0.5);
         console.log("Sent sheep id", sheepHere.id);
-        if (gameState == STATE_GUIDE && tutorStep == 5) {
-          tutorStep = 6;
+
+        if (gameState == STATE_GUIDE) {
+          if (tutorStep == 4) {
+            tutorStep = 5;
+          }
+          if (tutorStep == 5) {
+            tutorStep = 6;
+          }
         }
       }
       else {
@@ -198,8 +204,6 @@ function playerClass(id) {
     // MOVE left or right using touch or button
     // gotoX set to next column-centre
     if (this.button_left || this.button_right) {
-
-   
       console.log("From " + this.x + " gotoX " + this.gotoX);
     } // end button set gotoX
 
@@ -218,6 +222,7 @@ function playerClass(id) {
         if (this.nextX < 0 || this.nextX > gameCanvas.width) {
           if (gameState == STATE_GUIDE && tutorStep == 2) {
             tutorStep = 3;
+            flashTimer = 20;
           }
         }
 
@@ -257,18 +262,19 @@ function playerClass(id) {
       else if (this.direction < 0) {
         this.nextX -= moveX; // move left
       }
-    }
+    } // gotoX set and differs from x
+
     else {
       if (this.button_left) {
         this.gotoX = nextColumnCentre(this.x, -1);
         hatMoveShortSound.play(0.5);
-        if (touchDevice) {
+        if (touchDevice || gameState == STATE_GUIDE) {
           this.button_left = false;
         }
       }
       else if (this.button_right) {
         this.gotoX = nextColumnCentre(this.x, 1);
-        if (touchDevice) {
+        if (touchDevice || gameState == STATE_GUIDE) {
           this.button_right = false;
         }
       }

@@ -836,7 +836,12 @@ function sheepClass() {
   }
 
   this.isAllowedBottomRow = function () {
-    if (plainSheepCanFinish) {
+    if (gameState == STATE_GUIDE) {
+      if (this.mode = SENT) {
+        return true;
+      }
+    }
+    else if (plainSheepCanFinish) {
       return true;
     }
     else if (this.team != PLAIN) {
@@ -865,7 +870,6 @@ function sheepClass() {
   }
 
   this.doTileHandling = function() {
-    console.log(this.mode)
     return this.mode != CALLED && this.mode != PEEPED && this.mode != SELECTED && this.shyTimer < 1
   }
 
@@ -1085,8 +1089,14 @@ function sheepClass() {
       }
     }
     // this.gotoX, deltaX.toFixed(2), deltaY.toFixed(2), normX.toFixed(2), normY.toFixed(2));
-    if (gameState == STATE_GUIDE && tutorStep == 4) {
-      tutorStep = 5;
+    if (gameState == STATE_GUIDE) {
+      if (tutorStep == 3) {
+        tutorStep = 4;
+        flashTimer = 20;
+        for (var i=0; i < sheepList.length; i++) {
+          sheepList[i].team = sheepList[i].potentialTeam;
+        }
+      }
     }
   }
 
