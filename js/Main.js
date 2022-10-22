@@ -14,6 +14,7 @@ var bottomRowHeight = 0; // a margin where no flowers or grass grows - see scatt
 
 var paused = false;
 var sortingVFX = false;
+var creditsFrameCount = 0;
 
 var levelLoaded = null;
 var levelRunning = false;

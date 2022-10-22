@@ -327,6 +327,7 @@ function menuKeyChoice(key) {
       menuChoiceSound.play(0.3);
 
       if (key == KEY_C) {
+        creditsFrameCount = 0;
         gameState = STATE_CREDITS;
       }
 

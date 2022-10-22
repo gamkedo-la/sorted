@@ -135,6 +135,7 @@ function drawHelp() {
 
 
 function drawCredits() {
+  creditsFrameCount++;
 
   colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "black");
   canvasContext.drawImage(creditsBGPic, 0, 0);
@@ -147,53 +148,16 @@ function drawCredits() {
   var line = 0;
   var block = 1;
   indentX = CREDITS_X;
-  topY = CREDITS_Y;
+  topY = CREDITS_Y - creditsFrameCount;
   canvasContext.font = CREDITS_FONT + "px Verdana";
 
-  blockLine("No more updates to Credits: will be compiled by Chris.", ++line, block);
-  block++;
+  for (const creditText of creditsText) {
+    const txtLines = getLines(canvasContext, creditText, CREDITS_WIDTH);
+    for (const txt of txtLines) {
+      blockLine(txt, ++line, block);
+    }
 
-  blockLine("Patrick McKeown - programming, design.", ++line, block);
-  block++;
-
-  var txt = 'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grassclumps; hoofprints behind sheep; soundfx for sheep, and dog; ambient sounds; baa when sheep enters pen.'
-  var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
-  for (var i = 0; i < txtLines.length; i++) {
-    blockLine(txtLines[i], ++line, block);
-  }
-  block++;
-
-  var txt = "Chris DeLeon - sheep-head multi-part image; foundation of classic games code; Photopea help to make tile art.";
-  var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
-  for (var i = 0; i < txtLines.length; i++) {
-    blockLine(txtLines[i], ++line, block);
-  }
-  block++;
-
-  blockLine("Gonzalo Delgado - rogue dog (head) concept art and sprite.", ++line, block);
-  block++;
-
-  blockLine("Tim Waskett - verbal algorithm for sheep roaming.", ++line, block);
-  block++;
-
-  var txt = "H Trayford - maximum possible score; early Hat screenwrap.";
-  var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
-  for (var i = 0; i < txtLines.length; i++) {
-    blockLine(txtLines[i], ++line, block);
-  }
-  block++;
-
-  var txt = 'Nicholas Polchies - canvas scaling (for phone screens) code from Hometeam game "Accidental Personal Confusion 5".';
-  var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
-  for (var i = 0; i < txtLines.length; i++) {
-    blockLine(txtLines[i], ++line, block);
-  }
-  block++;
-
-  var txt = 'Caspar Dunant - touch event handling code from Hometeam game "Irenic".';
-  var txtLines = getLines(canvasContext, txt, CREDITS_WIDTH);
-  for (var i = 0; i < txtLines.length; i++) {
-    blockLine(txtLines[i], ++line, block);
+    block++;
   }
 } // end drawCredits
 
