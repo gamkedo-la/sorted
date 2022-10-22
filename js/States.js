@@ -99,6 +99,7 @@ function gotoHelp(from) {
 }
 
 function gotoCredits(from) {
+  creditsFrameCount = 0;
   gameState = STATE_CREDITS;
   report('Credits via ' + from, 1)
 }
