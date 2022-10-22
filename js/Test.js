@@ -1,4 +1,4 @@
-var editMode = true;
+var editMode = false;
 var hatMoveSoundTest = false;
 
 const NORMAL_PLAY = 0;

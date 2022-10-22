@@ -10,6 +10,10 @@ const offmenuButtonLabel = ["Menu"];
 const editmodeButtonLabel = ["Test", "Team", "Player"];
 const designButtonLabel = []; // need bar for tile/agent info
 
+// when needing space to see debug text lines, one less button
+// var menuButtonLabel = ["Play", "Help", "Tutorial", "Music", "Score", "Credits"];
+// var playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "Menu"];
+
 var buttonsTop = 50;
 var buttonsLeft = 10;
 const buttonWidth = 60;

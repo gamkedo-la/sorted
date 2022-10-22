@@ -64,6 +64,13 @@ window.onload = function () {
   resizeWindow();
   loadImages();
   refocus();
+
+  isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  if (isIOS) {
+    report('IOS device', 4);
+  } else {
+    report('Not an IOS device', 4);
+  }
 }
 
 

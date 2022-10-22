@@ -250,6 +250,7 @@ function ui_mousedownHandler() {
 ///////////////////////////////////////////
 function ui_mouseupHandler(evt) {
   // var mousePos = getMousePos(evt);
+  console.log('ui_mouseupHandler')
   if (gameState == STATE_PLAY) {
     // for (var i = 0; i < playButtonLabel.length; i++) {
     //   if (xyIsInRect(mouse, buttonRects[i])) {

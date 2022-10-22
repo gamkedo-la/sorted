@@ -1,4 +1,5 @@
 var buttonHeld = null;
+var isIOS = null;
 
 function setupInput() {
 
@@ -10,6 +11,9 @@ function setupInput() {
   drawingCanvas.addEventListener('touchstart', clickOrTouch);
   drawingCanvas.addEventListener('mousedown', clickOrTouch);
 
+  // if (!isIOS) {
+  //   drawingCanvas.addEventListener('touchend', clickOrTouch);
+  // }
   drawingCanvas.addEventListener('mouseup', clickOrTouch);
 
   drawingCanvas.addEventListener('contextmenu', e => e.preventDefault());
@@ -72,16 +76,24 @@ function clickOrTouch(event) {
     let tapY = event.targetTouches[0].pageY;
     x = tapX.toFixed(0);
     y = tapY.toFixed(0);
+    report('tapX ' + tapX + ' ' + event.type, 4);
+  }
+  else if (event.type == 'touchend') {
+    // x = event.touches[0].pageX;
+    // y = event.touches[0].pageY;
+    report('ipad ' + event + ' ' + event.type, 4);
+    console.log(event)
   }
   else {
     x = event.clientX;
     y = event.clientY;
+    report('no tT ' + event.clientX + ' ' + event.type, 4);
   }
 
-  // report("Tap client: " +  event.clientX + "," + event.clientY, 1);
-  // report("M/T x,y: " +  x + "," + y, 2);
+  report("Tap client: " +  event.type + ' ' + event.clientX + "," + event.clientY, 0);
+  report("M/T x,y: " +  x + "," + y, 1);
 
-  if ((event.type == 'touchstart')) {
+  if ((event.type == 'touchstart' || event.type == 'touchend')) {
     // left click emulate
     mouse.button = 0;
   }
@@ -90,9 +102,8 @@ function clickOrTouch(event) {
     mouse.button = event.button;
   }
 
-
   setMousePosFromXY(x, y); // adapted from Irenic
-  // report("scaled: " +  mouse.x + "," + mouse.y, 3);
+  report("clicktouch: " +  mouse.x + "," + mouse.y, 2);
 
   if (mouse.x > gameCanvas.width) {
     uiPos.x = mouse.x - gameCanvas.width;
@@ -100,7 +111,6 @@ function clickOrTouch(event) {
     if (event.type == 'mousedown' || event.type == 'touchstart') {
       ui_mousedownHandler();
       let msg = "ui mousedown: " + mouse.x + ", " + mouse.y;
-      // console.log(msg);
       setDebug(msg, 3);
     }
     else if (event.type == 'mouseup' || event.type == 'touchend') {
@@ -112,8 +122,7 @@ function clickOrTouch(event) {
     if (event.type == 'mousedown' || event.type == 'touchstart') {
       field_mousedownHandler();
       let msg = "mousedown: " + mouse.x + ", " + mouse.y;
-      // console.log(msg);
-      setDebug(msg, 3);
+      setDebug(msg, 4);
     }
     else if (event.type == 'mouseup' || event.type == 'touchend') {
       field_mouseupHandler();
@@ -196,6 +205,7 @@ function field_mousedownHandler() {
 
 
 function field_mouseupHandler() {
+  console.log('field_mouseupHandler', mouse)
   if (gameState == STATE_PLAY) {
 
     if (mouse.button == 0) {

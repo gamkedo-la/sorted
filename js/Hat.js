@@ -262,11 +262,15 @@ function playerClass(id) {
       if (this.button_left) {
         this.gotoX = nextColumnCentre(this.x, -1);
         hatMoveShortSound.play(0.5);
-        // this.button_left = false;
+        if (touchDevice) {
+          this.button_left = false;
+        }
       }
       else if (this.button_right) {
         this.gotoX = nextColumnCentre(this.x, 1);
-        // this.button_right = false;
+        if (touchDevice) {
+          this.button_right = false;
+        }
       }
     }
 
