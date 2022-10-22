@@ -143,8 +143,18 @@ function field_mousedownHandler() {
 
   if (gameState == STATE_PLAY && editMode == true) {
 
-    if (mouse.button == 0) {
-      0
+    var distX = mouse.x - player.x;
+    if (mouse.y < TILE_H && Math.abs(distX<TILE_W)) {
+      report('hat click top row', 3);
+      if (distX <= 0) {
+        player.button_left = true;
+      } else {
+        player.button_right = true;
+      }
+    }
+
+    else if (mouse.button == 0) {
+      
       // select a sheep to move manually
       let nearest = findNearestSheep(mouse.x, mouse.y);
       let distance = nearest.distFrom(mouse.x, mouse.y);
@@ -166,7 +176,7 @@ function field_mousedownHandler() {
 
     // context-menu has been prevented
     else if (mouse.button == 2) {
-
+      // done in mouseup
     }
   } // end STATE_PLAY
 
@@ -208,7 +218,13 @@ function field_mouseupHandler() {
   console.log('field_mouseupHandler', mouse)
   if (gameState == STATE_PLAY) {
 
-    if (mouse.button == 0) {
+    if (mouse.y < TILE_H) {
+      report('top row mouseup', 3);
+       player.button_left = false;
+       player.button_right = false;
+    }
+
+    else if (mouse.button == 0) {
       // release a sheep from manual control
       let nearest = findNearestSheep(mouse.x, mouse.y);
       if (nearest.mode == SELECTED) {
