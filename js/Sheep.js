@@ -202,8 +202,10 @@ function sheepClass() {
     }
 
     else if (this.mode == ROAM) {
-      // if (randomRangeInt(1, ROAM_FACING[currentLevel]) == 1) {
-      if (randomRangeInt(1, 30) == 1) {
+      if (gameState == STATE_GUIDE && tutorStep == 2) {
+        // no turning
+      }
+      else if (randomRangeInt(1, 30) == 1) {
         this.ang += randomRange(-Math.PI / 8, Math.PI / 8)
       }
     }
@@ -1090,12 +1092,16 @@ function sheepClass() {
     }
     // this.gotoX, deltaX.toFixed(2), deltaY.toFixed(2), normX.toFixed(2), normY.toFixed(2));
     if (gameState == STATE_GUIDE) {
+      if (tutorStep == 6) {
+        tutorStep = 7;
+      }
       if (tutorStep == 3) {
         tutorStep = 4;
         flashTimer = 20;
-        for (var i=0; i < sheepList.length; i++) {
-          sheepList[i].team = sheepList[i].potentialTeam;
-        }
+        // Not colouring all as it it isn't logical and too sudden
+        // for (var i=0; i < sheepList.length; i++) {
+        //   sheepList[i].team = sheepList[i].potentialTeam;
+        // }
       }
     }
   }

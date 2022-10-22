@@ -12,7 +12,7 @@ function moveGuide() {
 
   player.move();
   
-  if (tutorStep > 2 && tutorStep < 7) {
+  if (tutorStep > 1 && tutorStep < 7) {
     for (var i = 0; i < sheepList.length; i++) {
       sheepList[i].move();
     }
@@ -63,12 +63,13 @@ function drawGuide() {
 
   else if (tutorStep == 2) {
     drawField();
-    let txt = "When the hat moves beyond either the left or right side of the field it screenwraps to the opposite side. Sheep also wrap sideways. Move the hat beyond an edge now.";
+    let txt = "When the hat moves beyond either the left or right side of the field it wraps to the opposite side. Sheep also wrap sideways. Move the hat beyond an edge now.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       bodyLine(txtLines[i], ++line);
     }
     player.draw();
+    drawSheep();
 
     drawUI();
     outlineRow(0);
@@ -92,7 +93,7 @@ function drawGuide() {
     drawSheep();
     player.draw();
 
-    let txt = "Move the hat directly above a sheep, then click the 'Call' button. A sheep called to the hat is then 'sorted' into one of two teams and painted with a team's colour.";
+    let txt = "Move the hat directly above a sheep, then click the 'Call' button. A sheep called to the hat is then 'sorted' into one of two teams (blue or red) and painted appropriately.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       bodyLine(txtLines[i], ++line);
@@ -165,7 +166,7 @@ function drawGuide() {
     drawSheep();
     player.draw();
 
-    let txt = "Sheep collide and are affected by terrain, so they can stray from the vertical sending. When a sheep reaches the bottom a score is displayed. Send another sheep.";
+    let txt = "Sheep collide and are affected by terrain, so they can stray from the vertical sending. When a sheep reaches the bottom a score is displayed. Call another sheep to advance.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       blockLine(txtLines[i], ++line, 1);
@@ -199,3 +200,60 @@ function drawGuide() {
   }
 
 } // end of drawGuide()
+
+
+function whenTutorialStep2() {
+  if (gameState == STATE_GUIDE && tutorStep == 1) {
+    tutorStep = 2;
+    flashTimer = 20;
+
+    // for step 2 create sheep that move sideways
+    sheepList = [];
+    whichLevel = currentLevel;
+    flockSize = FLOCK_SIZE[whichLevel];
+    var team = PLAIN;
+    for (var i = 0; i < flockSize; i++) {
+      var spawnSheep = new sheepClass();
+      var mode = ROAM;
+      var potential = i % 2 == 0 ? BLUE : RED;
+      var team = PLAIN;
+      spawnSheep.reset(i, team, potential, mode);
+      placeDifferentRows(spawnSheep, i);
+      // spawnSheep.placeGridRandom(PLACING_DEPTH[whichLevel]);
+      spawnSheep.timer = 999999;
+      spawnSheep.ang = potential == 1 ? 0 : Math.PI;
+      sheepList.push(spawnSheep);
+    }
+  }  
+}
+
+function whenTutorialStep3() {
+  if (gameState == STATE_GUIDE && tutorStep == 2) {
+    tutorStep = 3;
+    flashTimer = 20;
+    setupDecals();
+
+    // for step 3 create normal sheep 
+    sheepList = [];
+    whichLevel = currentLevel;
+    flockSize = FLOCK_SIZE[whichLevel];
+    var team = PLAIN;
+    for (var i = 0; i < flockSize; i++) {
+      var spawnSheep = new sheepClass();
+      var mode = i % 2 == 0 ? ROAM : GRAZE;
+      var potential = i % 2 == 0 ? BLUE : RED;
+      var team = PLAIN;
+      spawnSheep.reset(i, team, potential, mode);
+      spawnSheep.placeGridRandom(PLACING_DEPTH[whichLevel]);
+      sheepList.push(spawnSheep);
+    }
+  }  
+}
+
+
+placeDifferentRows = function (obj, i) {
+  let row = i + 3;
+  let col = randomRangeInt(0, TILE_COLS - 1);
+  obj.x = col * TILE_W + TILE_W / 2;
+  obj.y = row * TILE_H + TILE_H / 2;
+}

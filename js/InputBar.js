@@ -168,19 +168,13 @@ function ui_mousedownHandler() {
             case "Left":
               player.button_left = true;
 
-              if (gameState == STATE_GUIDE && tutorStep == 1) {
-                tutorStep = 2;
-                flashTimer = 20;
-              }
+              whenTutorialStep2();
               break;
 
             case "Right":
               player.button_right = true;
 
-              if (gameState == STATE_GUIDE && tutorStep == 1) {
-                tutorStep = 2;
-                flashTimer = 20;
-              }
+              whenTutorialStep2();
               break;
 
             case "Call":
@@ -278,3 +272,6 @@ function ui_mouseupHandler(evt) {
   //   }
   // }
 }
+
+
+

@@ -57,3 +57,4 @@ SEND_SPEED[6] = 10;
 
 // Guide
 PLACING_DEPTH[10] = 400;
+ROAM_SPEED[10] = 2.0;

@@ -88,11 +88,11 @@ function playerClass(id) {
         console.log("Sent sheep id", sheepHere.id);
 
         if (gameState == STATE_GUIDE) {
-          if (tutorStep == 4) {
-            tutorStep = 5;
-          }
           if (tutorStep == 5) {
             tutorStep = 6;
+          }
+          if (tutorStep == 4) {
+            tutorStep = 5;
           }
         }
       }
@@ -221,8 +221,7 @@ function playerClass(id) {
 
         if (this.nextX < 0 || this.nextX > gameCanvas.width) {
           if (gameState == STATE_GUIDE && tutorStep == 2) {
-            tutorStep = 3;
-            flashTimer = 20;
+            whenTutorialStep3();
           }
         }
 
