@@ -839,8 +839,11 @@ function sheepClass() {
 
   this.isAllowedBottomRow = function () {
     if (gameState == STATE_GUIDE) {
-      if (this.mode = SENT) {
+      console.log('allowed Guide')
+      if (this.mode == SENT) {
         return true;
+      } else {
+        return false;
       }
     }
     else if (plainSheepCanFinish) {

@@ -140,7 +140,7 @@ function clickOrTouch(event) {
 // click or tap in field
 function field_mousedownHandler() {
 
-  if (gameState == STATE_PLAY && editMode == true) {
+  if ((gameState == STATE_PLAY || gameState == STATE_GUIDE) && editMode == true) {
 
     var distX = mouse.x - player.x;
     if (mouse.y < TILE_H && Math.abs(distX<TILE_W)) {

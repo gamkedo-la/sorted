@@ -37,7 +37,7 @@ function gotoGuide(from) {
   currentLevel = 10;
   loadLevel(currentLevel);
   // levelRunning = true;
-  editMode = false;
+  // editMode = false;
   tutorStep = 1;
 }
 

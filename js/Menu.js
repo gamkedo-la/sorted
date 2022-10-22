@@ -5,7 +5,7 @@ var HEADER_FONT = 36;
 var SUBHEAD_FONT = 30;
 var MENU_FONT = 26;
 var BODY_FONT = 22;
-const CREDITS_FONT = 18;
+const CREDITS_FONT = 24;
 
 var indentX = 200;
 var LINE_SPACING = 40;
@@ -141,7 +141,8 @@ function drawCredits() {
   canvasContext.drawImage(creditsBGPic, 0, 0);
 
   indentX = CREDITS_X;
-
+  BLOCK_GAP = 40;
+  BLOCK_LINE_SPACING = 35;
   canvasContext.font = SUBHEAD_FONT + "px Verdana";
   headLine("Credits")
   
