@@ -6,13 +6,17 @@ function setStyleUI() {
   uiContext.setLineDash([]);
   uiContext.strokeStyle = "orange";
 }
-
+function setStyleOutline() {
+  canvasContext.lineWidth = 2;
+  canvasContext.setLineDash([]);
+  canvasContext.strokeStyle = "yellow";
+}
 
 function moveGuide() {
 
   player.move();
   
-  if (tutorStep > 1 && tutorStep < 7) {
+  if (tutorStep > 1) {
     for (var i = 0; i < sheepList.length; i++) {
       sheepList[i].move();
     }
@@ -28,22 +32,10 @@ function moveGuide() {
 }
 
 function drawGuide() {
-  indentX = 50;
-  topY = 100;
-  var line = 0;
-  var textWidth = 700;
-  LINE_SPACING = 30;
-  // needed by getLines before calling bodyLine
-  var fontSize = 22;
-  canvasContext.font = fontSize + "px Verdana";
-  canvasContext.textAlign = "left";
-
-  canvasContext.lineWidth = 2;
-  canvasContext.setLineDash([]);
-  canvasContext.strokeStyle = "yellow";
 
   if (tutorStep == 1) {
     drawField();
+    contextSettingsTutorial();
     let txt = "The player controls a hat (at top of the field) which represents a farmer's sheep-clamp. It only moves horizontally. Move it now by clicking (in side bar) button Left or Right.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
@@ -58,11 +50,13 @@ function drawGuide() {
     player.draw();
 
     // outline Hat
+    setStyleOutline();
     canvasContext.strokeRect(player.x - TILE_W / 2, 0, TILE_W, TILE_H);
   }
 
   else if (tutorStep == 2) {
     drawField();
+    contextSettingsTutorial();
     let txt = "When the hat moves beyond either the left or right side of the field it wraps to the opposite side. Sheep also wrap sideways. Move the hat beyond an edge now.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
@@ -72,6 +66,7 @@ function drawGuide() {
     drawSheep();
 
     drawUI();
+    setStyleOutline();
     outlineRow(0);
     if (flashing) {
       canvasContext.lineWidth = 20;
@@ -92,7 +87,7 @@ function drawGuide() {
     drawCalling();
     drawSheep();
     player.draw();
-
+    contextSettingsTutorial();
     let txt = "Move the hat directly above a sheep, then click the 'Call' button. A sheep called to the hat is then 'sorted' into one of two teams (blue or red) and painted appropriately.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
@@ -109,6 +104,7 @@ function drawGuide() {
   // bottom row correct side
   else if (tutorStep == 4) {
     drawField();
+    contextSettingsTutorial();
     let txt = "The aim is to get sheep to the bottom row on the correct side: blue sheep belong on the left, and red sheep on the right. Move the hat and click the 'Send' button.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
@@ -118,6 +114,7 @@ function drawGuide() {
     drawCalling();
     drawSheep();
     player.draw();
+    setStyleOutline();
     outlineRow(11);
 
     if (flashing) {
@@ -144,8 +141,8 @@ function drawGuide() {
     drawCalling();
     drawSheep();
     player.draw();
-
-    let txt = "Ideally a sheep should go in a pen (outlined) but going in the ditch on the correct side is better than going in a pen on the wrong side. Move the hat, first Call and then Send.";
+    contextSettingsTutorial();
+    let txt = "Ideally a sheep should go in a pen (outlined) but going in a ditch on the correct side is better than going in a pen on the wrong side. Again, move the hat, then Call and Send.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       bodyLine(txtLines[i], ++line);
@@ -165,15 +162,12 @@ function drawGuide() {
     drawCalling();
     drawSheep();
     player.draw();
-
-    let txt = "Sheep collide and are affected by terrain, so they can stray from the vertical sending. When a sheep reaches the bottom a score is displayed. Call another sheep to advance.";
+    contextSettingsTutorial();
+    let txt = "Sheep collide and are affected by terrain, so they can stray from the vertical sending. When a sheep reaches the bottom a score is displayed. To finish, call another sheep.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       blockLine(txtLines[i], ++line, 1);
     }
-
-    txt = "When ready to continue, click the bottom row."
-    blockLine(txt, ++line, 2);
   }
 
   // keys to move
@@ -183,16 +177,18 @@ function drawGuide() {
     drawSheep();
     player.draw();
     let block = 1;
+    contextSettingsTutorial();
     if (!touchDevice) {
       canvasContext.drawImage(controlsPic, 320, 250);
-      let txt = "Alternatively you can use keyboard controls: left and right arrow keys move the hat; the up arrow key Calls a sheep, and the down arrow key Sends.";
+
+      let txt = "Alternatively you can use keyboard controls: Left and Right arrow keys move the hat; the up arrow key Calls a sheep, and the down arrow key Sends.";
       let txtLines = getLines(canvasContext, txt, textWidth);
       for (var i = 0; i < txtLines.length; i++) {
         blockLine(txtLines[i], ++line, block);
       }
       block++;
     }
-    txt = "The tutorial is complete. To continue click the 'Menu' button.";
+    txt = "Click the 'Menu' button to return to the game.";
     txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       blockLine(txtLines[i], ++line, block);
@@ -256,4 +252,16 @@ placeDifferentRows = function (obj, i) {
   let col = randomRangeInt(0, TILE_COLS - 1);
   obj.x = col * TILE_W + TILE_W / 2;
   obj.y = row * TILE_H + TILE_H / 2;
+}
+
+function contextSettingsTutorial() {
+  indentX = 50;
+  topY = 100;
+  line = 0;
+  textWidth = 700;
+  LINE_SPACING = 30;
+  // needed by getLines before calling bodyLine
+  fontSize = 22;
+  canvasContext.font = fontSize + "px Verdana";
+  canvasContext.textAlign = "left";
 }

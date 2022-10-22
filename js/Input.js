@@ -198,16 +198,16 @@ function field_mousedownHandler() {
     }
   } // End of Design-Level mousedown handling
 
+// now Call or Send advances
+  // else if (gameState ==  STATE_GUIDE) {
+  //   if (mouse.y > gameCanvas.height-TILE_H) {
 
-  else if (gameState ==  STATE_GUIDE) {
-    if (mouse.y > gameCanvas.height-TILE_H) {
-
-      if (tutorStep == 6) {
-        tutorStep = 7;
-        flashTimer = 20;
-      }
-    }
-  }
+  //     if (tutorStep == 6) {
+  //       tutorStep = 7;
+  //       flashTimer = 20;
+  //     }
+  //   }
+  // }
   
 } // end mousedown handler on field
 
@@ -549,7 +549,7 @@ function getFunctionKeys(key) {
 function keyPressed(evt) {
 
   if (isArrowKey(evt.keyCode)) {
-    if (gameState == STATE_PLAY) {
+    if (gameState == STATE_PLAY || gameState == STATE_GUIDE) {
       arrowKeySet(evt, player, true);
     }
     else if (gameState == STATE_DESIGN_LEVEL) {

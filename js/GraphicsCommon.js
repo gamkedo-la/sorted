@@ -1,3 +1,5 @@
+var line = 0;
+
 function drawBitmapCenteredWithRotation(ctx, useBitmap, atX, atY, withAng) {
   ctx.save();
   ctx.translate(atX, atY);
