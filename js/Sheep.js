@@ -866,7 +866,7 @@ function sheepClass() {
 
   this.doTileHandling = function() {
     console.log(this.mode)
-    return this.mode != CALLED && this.mode != SELECTED && this.shyTimer < 1
+    return this.mode != CALLED && this.mode != PEEPED && this.mode != SELECTED && this.shyTimer < 1
   }
 
 

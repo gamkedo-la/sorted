@@ -26,7 +26,7 @@ function gotoMenu(from) {
   clumpRandom = true;
   if (musicInitialised) {
     gameMusic.startMusic();
-    gameMusic.changeVolume(0.5);
+    gameMusic.alterVolume(0.5);
   }
   report('return via ' + from, 1);
 }
@@ -54,7 +54,7 @@ function gotoPlay(from) {
   let barTitle = "Level " + currentLevel + ": " + LEVEL_NAMES[currentLevel];
   if (musicInitialised) {
     // gameMusic.stopMusic();
-    gameMusic.changeVolume(0.05);
+    gameMusic.alterVolume(0.05);
     console.log('Music volume try to reduce.');
   }
   report('Play via ' + from, 1);
