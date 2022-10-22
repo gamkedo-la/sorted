@@ -1,4 +1,5 @@
 var playerHatPic = document.createElement("img");
+var oldHatPic = document.createElement("img");
 var sheepNormalPic = document.createElement("img");
 var sheepKnotBluePic = document.createElement("img");
 var sheepKnotRedPic = document.createElement("img");
@@ -47,8 +48,8 @@ function loadImageForTileCode(tileCode, fileName) {
 
 function loadImages() {
 	var imageList = [
-		// {varName: playerHatPic, theFile: "player_hat.png"},
-		{varName: playerHatPic, theFile: "placeholder_hat.png"},
+		{varName: oldHatPic, theFile: "placeholder_hat.png"},
+		{varName: playerHatPic, theFile: "player_hat2.png"},
 		{varName: sheepNormalPic, theFile: "sheep_normal.png"},
 		{varName: sheepKnotBluePic, theFile: "sheep_topknot_blue.png"},
 		{varName: sheepKnotRedPic, theFile: "sheep_topknot_red.png"},

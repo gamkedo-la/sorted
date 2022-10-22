@@ -261,7 +261,7 @@ function playerClass(id) {
       else if (this.direction < 0) {
         this.nextX -= moveX; // move left
       }
-    } // gotoX set and differs from x
+    } // end of gotoX is set and differs from x
 
     else {
       if (this.button_left) {
@@ -285,14 +285,45 @@ function playerClass(id) {
 
 
   this.draw = function () {
-    drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x, this.y, this.ang);
-    // when part of image off canvas, draw mirror on other side
-    if (this.x > gameCanvas.width - this.pic.width / 2) {
-      drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x - gameCanvas.width, this.y, this.ang);
+
+    if (gameState == STATE_PLAY) {
+      if (this.x < gameCanvas.width/2) {
+        canvasContext.drawImage(this.pic, 0,0, 39,39, this.x-20,this.y-20, 39,39);
+      } else {
+        canvasContext.drawImage(this.pic, 40,0, 39,39, this.x-20,this.y-20, 39,39);
+      }
     }
-    if (this.x < this.pic.width / 2) {
-      drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width, this.y, this.ang);
+
+    if (gameState == STATE_GUIDE) {
+      drawBitmapCenteredWithRotation(canvasContext, oldHatPic, this.x, this.y, this.ang);
+
+      //when part of image off canvas, draw mirror on other side
+      if (this.x > gameCanvas.width - this.pic.width / 2) {
+        drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x - gameCanvas.width, this.y, this.ang);
+      }
+      if (this.x < this.pic.width / 2) {
+        drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width, this.y, this.ang);
+      }
     }
+ 
+    // swap Hat sprite based on direction of movement
+    // gotoX only set if using Buttons, keep direction instead
+    // if (this.direction = -1) {
+    //   canvasContext.drawImage(this.pic, 0,0, 39,39, this.x-20,this.y-20, 39,39);
+    // } 
+    // else if (this.direction = 1) {
+    //   canvasContext.drawImage(this.pic, 40,0, 79,39, this.x-20,this.y-20, 39,39);
+    // }
+    // else {
+    //   if (this.x < gameCanvas.width/2) {
+    //     canvasContext.drawImage(this.pic, 0,0, 39,39, this.x-20, this.y-20, 39,39);
+    //   } else {
+    //     canvasContext.drawImage(this.pic, 40,0, 79,39, this.x-20, this.y-20, 39,39);
+    //   }
+    // }
+
+
+    
   } // end draw()
 
 } // end playerClass

@@ -106,10 +106,13 @@ function ui_mousedownHandler() {
           switch (playButtonLabel[i]) {
             case "Left":
               player.button_left = true;
+              player.direction = -1;
+              hatMoveShortSound.play(0.5);
               break;
 
             case "Right":
               player.button_right = true;
+              player.direction = 1;
               hatMoveShortSound.play(0.5);
               break;
 
@@ -167,12 +170,14 @@ function ui_mousedownHandler() {
           switch (tutorialButtonLabel[i]) {
             case "Left":
               player.button_left = true;
+              player.direction = -1;
 
               whenTutorialStep2();
               break;
 
             case "Right":
               player.button_right = true;
+              player.direction = 1;
 
               whenTutorialStep2();
               break;
