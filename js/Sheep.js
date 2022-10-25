@@ -309,7 +309,9 @@ function sheepClass() {
     if (this.nextY < HAT_PATH_SHEEP_EXCLUSION_Y) {
       if (this.isAllowedTopRow() == false) {
         this.ang = 2 * Math.PI - this.ang;
-        this.nextY = this.y; // stops oscillation
+        this.gotoY = this.y + TILE_H/4;
+        // this.nextY = this.y; // stops oscillation
+        this.gotoX = this.x;
         if (this.mode = PEEPED) {
           this.changeMode(ROAM);
         }
