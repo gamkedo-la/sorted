@@ -414,7 +414,7 @@ function sheepClass() {
 
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
-        gateSound.play(0.5);
+        gateSound.play(0.4);
         pennedSound.play(0.3);
       }
     } // end enter empty pen of either colour
@@ -1083,7 +1083,7 @@ function sheepClass() {
   this.calledArrives = function () {
     this.changeMode(HELD);
     player.sheepIDcalled = null;
-    calledArrivalSound.play(0.4);
+    calledArrivalSound.play(0.2);
 
     // if not already Sorted, change
     if (this.team == PLAIN) {

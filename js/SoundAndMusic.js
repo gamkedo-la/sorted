@@ -72,7 +72,9 @@ function SoundOverlapsClass(filenameWithPath) {
 
   this.stop = function () {
     mainSound.pause();
-    mainSound.currentTime = 0;
+    // mainSound.currentTime = 0;
+    altSound.pause();
+    // altSound.currentTime = 0;
   }
 
   this.alterVolume = function (newVolume = 0) {

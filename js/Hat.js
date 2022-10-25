@@ -84,7 +84,7 @@ function playerClass(id) {
         sheepHere.changeMode(SENT);
         sheepHere.sentX = Math.round(this.x);
         sheepHere.beginTime = step[currentLevel];
-        sentSound.play(0.5);
+        sentSound.play(0.05);
         console.log("Sent sheep id", sheepHere.id);
 
         if (gameState == STATE_GUIDE) {
@@ -114,7 +114,7 @@ function playerClass(id) {
       }
       else {
         console.log('Call a sheep, try from X=' + this.nextX);
-        callSound.play(1.0);
+        callSound.play(0.5);
 
         // check all sheep to see if any below Hat
         // or select a sheep using mouse like in RTS
@@ -180,10 +180,10 @@ function playerClass(id) {
     // arrowkey move now accepts held key
     if (this.keyHeld_left || this.keyHeld_right) {
       this.gotoX = null;
-      if (this.soundTimer < 1) {
-        hatMoveLongSound.play(0.4);
-        this.soundTimer = 75;
-      }
+      // if (this.soundTimer < 1) {
+      //   hatMoveLongSound.play(0.3);
+      //   this.soundTimer = 75;
+      // }
 
       if (this.keyHeld_left) {
         this.nextX -= this.speed;
@@ -266,7 +266,6 @@ function playerClass(id) {
     else {
       if (this.button_left) {
         this.gotoX = nextColumnCentre(this.x, -1);
-        hatMoveShortSound.play(0.5);
         if (touchDevice || gameState == STATE_GUIDE) {
           this.button_left = false;
         }

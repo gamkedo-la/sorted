@@ -107,13 +107,13 @@ function ui_mousedownHandler() {
             case "Left":
               player.button_left = true;
               player.direction = -1;
-              hatMoveShortSound.play(0.5);
+              hatMoveLongSound.play(0.3);
               break;
 
             case "Right":
               player.button_right = true;
               player.direction = 1;
-              hatMoveShortSound.play(0.5);
+              hatMoveLongSound.play(0.3);
               break;
 
             case "Call":
@@ -252,10 +252,12 @@ function ui_mouseupHandler(evt) {
 
           case "Left":
             player.button_left = false;
+            // hatMoveLongSound.stop();
             break;
 
           case "Right":
             player.button_right = false;
+            // hatMoveLongSound.stop();
             break;
 
           case "Call":

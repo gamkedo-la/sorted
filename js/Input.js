@@ -556,6 +556,7 @@ function keyPressed(evt) {
   if (isArrowKey(evt.keyCode)) {
     if (gameState == STATE_PLAY || gameState == STATE_GUIDE) {
       arrowKeySet(evt, player, true);
+      hatMoveLongSound.play(0.3);
     }
     else if (gameState == STATE_DESIGN_LEVEL) {
       arrowKeyDesign(evt);
@@ -578,12 +579,6 @@ function keyPressed(evt) {
 // only relevant to arrowKeys, not Menu or Fn keys
 function keyReleased(evt) {
   arrowKeySet(evt, player, false);
-
-  if (hatMoveSoundTest) {
-    if (!player.keyHeld_left && !player.keyHeld_right) {
-      hatMoveLongSound.stop();
-    }
-  }
 }
 
 
