@@ -875,7 +875,13 @@ function sheepClass() {
   }
 
   this.doTileHandling = function() {
-    return this.mode != CALLED && this.mode != PEEPED && this.mode != SELECTED && this.shyTimer < 1
+    if (this.mode == SENT) {
+      return true;
+    }
+    if (this.mode == CALLED || this.mode == PEEPED || this.mode == SELECTED || this.shyTimer > 0) {
+      return false;
+    }
+    return true;
   }
 
 
