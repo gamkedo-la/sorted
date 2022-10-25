@@ -26,7 +26,10 @@ var menuChoiceSound = new SoundOverlapsClass("sound/menu_choice_2");
 var menuBackSound = new SoundOverlapsClass("sound/menuback");
 
 var gameMusic = new BackgroundMusicClass();
+
 var musicInitialised = false;
+var musicMenuVolume = 0.5;
+var musicGameVolume = 0.05;
 
 
 function musicToggle() {
@@ -34,9 +37,10 @@ function musicToggle() {
     gameMusic.stopMusic();
     gameMusic = null;
     musicInitialised = false;
-  } else {
+  } 
+  else {
     gameMusic.loopSong("sound/pastoral_music");
-    gameMusic.alterVolume(0.5);
+    gameMusic.alterVolume(musicMenuVolume);
     musicInitialised = true;
   }
 }
