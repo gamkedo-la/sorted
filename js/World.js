@@ -104,6 +104,14 @@ function drawTiles() {
         levelClumpXY[currentLevel][index] = { x: drawTileX+TILE_W/2, y: drawTileY+TILE_H/2 };
         // console.log('levelClumpXY', currentLevel, index)
       }
+
+      else if (tileTypeHere == TILE_HALT) {
+        var useImg = tilePics[tileTypeHere];
+        let rotator = (eachRow * 3 + eachCol) % 4;
+        let tileAngle = rotator * Math.PI/2;
+        drawBitmapCenteredWithRotation(canvasContext, useImg, drawTileX+TILE_W/2, drawTileY+TILE_H/2, tileAngle);
+      }
+
       else if (tileTypeHere != TILE_FIELD) {
         var useImg = tilePics[tileTypeHere];
         canvasContext.drawImage(useImg, drawTileX, drawTileY);

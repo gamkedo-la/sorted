@@ -77,7 +77,7 @@ function roguedogClass() {
           if (distY < SLIGHTLY_BELOW_RETREAT_UP) {
           // sheep above dog retreat upward
             nearestSheep.gotoY = nearestSheep.y - (TILE_H + distY);
-            console.log(this.id, this.y, nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0), 'retreat');
+            // console.log(this.id, this.y, nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0), 'retreat');
             nearestSheep.changeMode(SHY);
             nearestSheep.shyTimer = 20;
           }
