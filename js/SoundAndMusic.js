@@ -61,11 +61,19 @@ function SoundOverlapsClass(filenameWithPath) {
     if (altSoundTurn) { // no "this." prefix since "var" is local/private
       altSound.volume = volume;
       altSound.currentTime = 0;
-      altSound.play();
+      if (altSound.src != undefined && altSound.src != "") {
+        altSound.play();
+      } else {
+        console.log("error: trying to lay a sound with no .src");
+      }
     } else {
       mainSound.volume = volume;
       mainSound.currentTime = 0;
-      mainSound.play();
+      if (mainSound.src != undefined && mainSound.src != "") {
+        mainSound.play();
+      } else {
+        console.log("error: trying to lay a sound with no .src");
+      }
     }
     altSoundTurn = !altSoundTurn; // toggle between true and false
   }
