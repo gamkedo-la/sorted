@@ -73,10 +73,10 @@ function roguedogClass() {
         var distY = nearestSheep.y - this.y;
         // painted sheep mustn't retreat or won't get Licked
         if (nearestSheep.team == PLAIN) {
-          nearestSheep.gotoX = nearestSheep.x;
           if (distY < SLIGHTLY_BELOW_RETREAT_UP) {
           // sheep above dog retreat upward
             nearestSheep.gotoY = nearestSheep.y - (TILE_H + distY);
+            nearestSheep.gotoX = nearestSheep.x;
             // console.log(this.id, this.y, nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0), 'retreat');
             nearestSheep.changeMode(SHY);
             nearestSheep.shyTimer = 20;

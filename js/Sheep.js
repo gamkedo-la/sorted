@@ -33,8 +33,7 @@ const LICKED = 10;
 const SHY = 21;
 const SELECTED = 22; // only while manually edit/testing
 
-// below are positional not moods, but mostly exclusive e.g. cannot be in-pen/in-lorry and roam; but can be fenced and graze/roam
-// on-road and fenced were orig created for end-of-level calculation
+// below 4 are positional/out-of-play, not true modes
 const STUCK = 11;
 const IN_DITCH = 12;
 const IN_PEN_BLUE = 13;
@@ -142,9 +141,12 @@ function sheepClass() {
       startRow = 4;
     }
     let maxRow = Math.floor(depth / TILE_H) - 1;
-    let row = randomRangeInt(startRow, maxRow);
-    let col = randomRangeInt(0, TILE_COLS - 1);
-    this.previousIndex = row * TILE_COLS + col;
+
+    var row = randomRangeInt(startRow, maxRow);
+    var col = randomRangeInt(0, TILE_COLS - 1);
+    var index = row * TILE_COLS + col;
+    
+    this.previousIndex = index;
     this.x = col * TILE_W + TILE_W / 2;
     this.y = row * TILE_H + TILE_H / 2;
     // console.log(this.id, col, row, this.x, this.y)
@@ -317,6 +319,7 @@ function sheepClass() {
         }
       }
     }
+
     // bounce up from bottom row if not allowed there
     if (this.nextY > 540) {
       if (this.isAllowedBottomRow() == false) {
@@ -400,7 +403,7 @@ function sheepClass() {
         this.mode = IN_PEN_BLUE;
         areaGrid[tileIndexUnder] = FULL_BLUE;
         if (this.team == RED) {
-          wrongpenSound.play(0.5);
+          wrongpenSound.play(0.6);
         }
       }
       else if (tileType == TILE_PEN_RED) {
@@ -408,7 +411,7 @@ function sheepClass() {
         this.mode = IN_PEN_RED;
         areaGrid[tileIndexUnder] = FULL_RED;
         if (this.team == BLUE) {
-          wrongpenSound.play(0.5);
+          wrongpenSound.play(0.6);
         }
       }
 

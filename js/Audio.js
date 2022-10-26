@@ -1,4 +1,5 @@
-var callSound = new SoundOverlapsClass("sound/call_1_quiet");
+// var callSound = new SoundOverlapsClass("sound/call_1_quiet");
+var callSound = new SoundOverlapsClass("sound/dog_whistle_66546");
 var hatMoveShortSound = new SoundOverlapsClass("sound/hat_moving_short");
 // var hatMoveLongSound = new SoundOverlapsClass("sound/hat_moving_short");
 var hatMoveLongSound = new SoundOverlapsClass("sound/hat_clamp_moving");
