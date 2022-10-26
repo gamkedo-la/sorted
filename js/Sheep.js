@@ -245,8 +245,9 @@ function sheepClass() {
       if (distanceToGo > this.speed) {
         this.nextX += normX * this.speed;
         this.nextY += normY * this.speed;
+
         // hack to stop sheep rising above player
-        if (this.nextY < this.gotoY) { this.nextY = this.gotoY; }
+        // if (this.nextY < this.gotoY) { this.nextY = this.gotoY; }
       }
       else {
         this.nextX = this.gotoX;
@@ -428,11 +429,11 @@ function sheepClass() {
     else if (this.enterOccupiedPen(tileType)) {
 
       if (runMode == NORMAL_PLAY) {
-        // if (runMode == 99) {
-        // don't stack above pen, instead roam
         this.changeMode(ROAM);
         this.nextX = this.x;
         this.nextY = this.y;
+        this.gotoY = this.y - TILE_H;
+        this.gotoX = this.x;
         let flip = randomRangeInt(1, 2);
         let angleAdjust = (flip == 1) ? 9 / 8 : 15 / 8;
         this.ang = angleAdjust * Math.PI;
@@ -491,6 +492,8 @@ function sheepClass() {
         this.changeMode(ROAM);
         this.nextX = this.x;
         this.nextY = this.y;
+        this.gotoY = this.y - TILE_H;
+        this.gotoX = this.x;
         let flip = randomRangeInt(1, 2);
         let angleAdjust = (flip == 1) ? 9 / 8 : 15 / 8;
         this.ang = angleAdjust * Math.PI;

@@ -77,13 +77,16 @@ function roguedogClass() {
           // sheep above dog retreat upward
             nearestSheep.gotoY = nearestSheep.y - (TILE_H + distY);
             nearestSheep.gotoX = nearestSheep.x;
-            // console.log(this.id, this.y, nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0), 'retreat');
             nearestSheep.changeMode(SHY);
             nearestSheep.shyTimer = 20;
           }
           else {
           // Rogue making sheep go down toward pen seems against rogue aim
-            // nearestSheep.gotoY = nearestSheep.y + (TILE_H - distY);
+            nearestSheep.gotoY = nearestSheep.y + (TILE_H - distY);
+            nearestSheep.gotoX = nearestSheep.x;
+            nearestSheep.changeMode(SHY);
+            nearestSheep.shyTimer = 20;
+            console.log(nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0), this.id, this.y, 'retreat');
           }
         }
       }
