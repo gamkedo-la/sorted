@@ -27,6 +27,7 @@ function playerClass(id) {
     this.soundTimer = 0;
     this.callWhenInPlace = false;
     this.sendWhenInPlace = false;
+    this.spriteDirection = 1;
   }
 
 
@@ -286,10 +287,31 @@ function playerClass(id) {
   this.draw = function () {
 
     if (gameState == STATE_PLAY) {
-      if (this.x < gameCanvas.width/2) {
+      // if (this.x < gameCanvas.width/2) {
+      //   canvasContext.drawImage(this.pic, 0,0, 39,39, this.x-20,this.y-20, 39,39);
+      // } else {
+      //   canvasContext.drawImage(this.pic, 40,0, 39,39, this.x-20,this.y-20, 39,39);
+      // }
+      // swap Hat sprite based on direction of movement
+      // .gotoX only set if using Buttons so use .direction instead
+      if (this.spriteDirection == 1) {
         canvasContext.drawImage(this.pic, 0,0, 39,39, this.x-20,this.y-20, 39,39);
-      } else {
+        //when part of image off canvas, draw mirror on other side
+        if (this.x > gameCanvas.width - this.pic.width / 2) {
+          canvasContext.drawImage(this.pic, 0,0, 39,39, this.x-gameCanvas.width, this.y-20, 39,39);
+        }
+        if (this.x < this.pic.width / 2) {
+          canvasContext.drawImage(this.pic, 0,0, 39,39, this.x+gameCanvas.width, this.y-20, 39,39);
+        }
+      } 
+      else if (this.spriteDirection == -1) {
         canvasContext.drawImage(this.pic, 40,0, 39,39, this.x-20,this.y-20, 39,39);
+        if (this.x > gameCanvas.width - this.pic.width / 2) {
+          canvasContext.drawImage(this.pic, 40,0, 39,39, this.x-gameCanvas.width, this.y-20, 39,39);
+        }
+        if (this.x < this.pic.width / 2) {
+          canvasContext.drawImage(this.pic, 40,0, 39,39, this.x+gameCanvas.width, this.y-20, 39,39);
+        }
       }
     }
 
@@ -305,14 +327,7 @@ function playerClass(id) {
       }
     }
  
-    // swap Hat sprite based on direction of movement
-    // gotoX only set if using Buttons, keep direction instead
-    // if (this.direction = -1) {
-    //   canvasContext.drawImage(this.pic, 0,0, 39,39, this.x-20,this.y-20, 39,39);
-    // } 
-    // else if (this.direction = 1) {
-    //   canvasContext.drawImage(this.pic, 40,0, 79,39, this.x-20,this.y-20, 39,39);
-    // }
+
     // else {
     //   if (this.x < gameCanvas.width/2) {
     //     canvasContext.drawImage(this.pic, 0,0, 39,39, this.x-20, this.y-20, 39,39);

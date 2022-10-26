@@ -147,10 +147,10 @@ function field_mousedownHandler() {
       report('hat click top row', 3);
       if (distX <= 0) {
         player.button_left = true;
-        player.direction = -1;
+        hatDirection(-1);
       } else {
         player.button_right = true;
-        player.direction = 1;
+        hatDirection(1);
       }
     }
 
@@ -254,12 +254,12 @@ function arrowKeySet(evt, whichPlayer, setTo) {
   // press & release functions are identical except for true/false
   if (evt.keyCode == whichPlayer.controlKeyLeft) {
     whichPlayer.keyHeld_left = setTo;
-    player.direction = -1;
+    hatDirection(-1);
     // whichPlayer.button_left = setTo; // key for slide-move
   }
   if (evt.keyCode == whichPlayer.controlKeyRight) {
     whichPlayer.keyHeld_right = setTo;
-    player.direction = 1;
+    hatDirection(1);
     // whichPlayer.button_right = setTo; // key for slide-move
   }
   if (evt.keyCode == whichPlayer.controlKeyUp) {

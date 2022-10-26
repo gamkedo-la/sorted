@@ -301,3 +301,10 @@ function angleRadiansBetweenPoints(p1, p2) {
 function isOdd(num) {
   return num % 2;
 }
+
+
+function hatDirection(dir) {
+  player.direction = dir;
+  player.spriteDirection = dir;
+  console.log(player.spriteDirection)
+}
