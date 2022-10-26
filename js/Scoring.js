@@ -1,5 +1,5 @@
 var outOfPlay = 0;
-
+var VICTORY_MUSIC_VOLUME = 0.2; // it's a rather loud recording
 var PEN_SCORE = 100;
 var DITCH_SCORE = 40;
 const SCORE_DISPLAY_TIME = 50;
@@ -57,7 +57,7 @@ function levelEnding() {
   levelRunning = false;
 
   // play some happy music!
-  victory_music.play();
+  victory_music.play(VICTORY_MUSIC_VOLUME);
 
 
   // console.log("Level " + currentLevel + " over");
