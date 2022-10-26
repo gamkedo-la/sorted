@@ -204,9 +204,9 @@ function playerClass(id) {
 
     // MOVE left or right using touch or button
     // gotoX set to next column-centre
-    if (this.button_left || this.button_right) {
-      console.log("From " + this.x + " gotoX " + this.gotoX);
-    } // end button set gotoX
+    // if (this.button_left || this.button_right) {
+    //   console.log("From " + this.x + " gotoX " + this.gotoX);
+    // } // end button set gotoX
 
 
     if (this.gotoX != this.x && this.gotoX != null) {
@@ -287,11 +287,6 @@ function playerClass(id) {
   this.draw = function () {
 
     if (gameState == STATE_PLAY) {
-      // if (this.x < gameCanvas.width/2) {
-      //   canvasContext.drawImage(this.pic, 0,0, 39,39, this.x-20,this.y-20, 39,39);
-      // } else {
-      //   canvasContext.drawImage(this.pic, 40,0, 39,39, this.x-20,this.y-20, 39,39);
-      // }
       // swap Hat sprite based on direction of movement
       // .gotoX only set if using Buttons so use .direction instead
       if (this.spriteDirection == 1) {

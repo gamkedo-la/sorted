@@ -216,7 +216,7 @@ function drawCalling() {
     let x = sheepList[sheepCalled].x;
     let y = sheepList[sheepCalled].y;
     canvasContext.lineWidth = 5;
-    colorDashLine(canvasContext, player.x, player.y, x, y, "yellow")
+    colorDashLine(canvasContext, player.x, player.y+20, x, y, "yellow")
   }
 }
 
