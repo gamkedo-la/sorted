@@ -56,6 +56,10 @@ function levelEnding() {
   levelTestDataReady = true;
   levelRunning = false;
 
+  // play some happy music!
+  victory_music.play();
+
+
   // console.log("Level " + currentLevel + " over");
 }
 

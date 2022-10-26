@@ -28,6 +28,8 @@ var menuBackSound = new SoundOverlapsClass("sound/menuback");
 
 var gameMusic = new BackgroundMusicClass();
 
+var victory_music = new SoundOverlapsClass("sound/victory_music");
+
 var musicInitialised = false;
 var musicMenuVolume = 0.5;
 var musicGameVolume = 0.05;
