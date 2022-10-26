@@ -64,7 +64,7 @@ function SoundOverlapsClass(filenameWithPath) {
       if (altSound.src != undefined && altSound.src != "") {
         altSound.play();
       } else {
-        console.log("error: trying to lay a sound with no .src");
+        console.log("error: trying to play a sound with no .src");
       }
     } else {
       mainSound.volume = volume;
@@ -72,7 +72,7 @@ function SoundOverlapsClass(filenameWithPath) {
       if (mainSound.src != undefined && mainSound.src != "") {
         mainSound.play();
       } else {
-        console.log("error: trying to lay a sound with no .src");
+        console.log("error: trying to play a sound with no .src");
       }
     }
     altSoundTurn = !altSoundTurn; // toggle between true and false
