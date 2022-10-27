@@ -49,6 +49,10 @@ function roguedogClass() {
       // console.log(this.modeTimer)
     }
 
+    if (this.barkTimer > 0) {
+      this.barkTimer--;
+    }
+
     this.nextX += this.speedX;
     this.nextY += this.speedY;
 

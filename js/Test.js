@@ -1,5 +1,4 @@
 var editMode = true;
-var hatMoveSoundTest = false;
 
 const NORMAL_PLAY = 0;
 const SEND_ONLY = 1;

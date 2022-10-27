@@ -268,6 +268,19 @@ function arrowKeySet(evt, whichPlayer, setTo) {
   if (evt.keyCode == whichPlayer.controlKeyDown) {
     whichPlayer.keyHeld_send = setTo;
   }
+
+  if (evt.keyCode == whichPlayer.controlKeyLeft || evt.keyCode == whichPlayer.controlKeyRight) {
+    if (setTo == true) {
+      if (player.soundTimer < 1) {
+        // if (runMode == NORMAL_PLAY) {
+        hatMoveLongSound.play(0.3);
+        player.soundTimer = 10;
+      }
+    }
+    else {
+      hatMoveLongSound.stop();
+    }
+  }
   // console.log("key", player.keyHeld_left, player.keyHeld_right)
 }
 
@@ -556,7 +569,6 @@ function keyPressed(evt) {
   if (isArrowKey(evt.keyCode)) {
     if (gameState == STATE_PLAY || gameState == STATE_GUIDE) {
       arrowKeySet(evt, player, true);
-      hatMoveLongSound.play(0.3);
     }
     else if (gameState == STATE_DESIGN_LEVEL) {
       arrowKeyDesign(evt);

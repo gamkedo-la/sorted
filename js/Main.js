@@ -188,7 +188,7 @@ function moveAll() {
         flock_ambient_sounds(); // occasionally play a BAA mp3 quietly
 
         for (var i = 0; i < roguedogList.length; i++) {
-          roguedogList[i].barkTimer--;
+          // roguedogList[i].barkTimer--; // done in rogue.move()
           roguedogList[i].move();
         }
 
