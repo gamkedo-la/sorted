@@ -23,6 +23,7 @@ var grass2Pic = document.createElement("img");
 var grass3Pic = document.createElement("img");
 var hoofprintPic = document.createElement("img");
 var dogPic = document.createElement("img");
+var testButtonPic = document.createElement("img");
 
 var tilePics = [];
 
@@ -73,6 +74,7 @@ function loadImages() {
     {varName: BoPeepPic, theFile: "bo_peep.png"},
     {varName: dogPic, theFile: "rogue_normal.png"},
     {varName: dogBodyPic, theFile: "dog_butt.png"},
+    {varName: testButtonPic, theFile: "test_btn_change.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass_50.png"},
     {tileType: TILE_RAILS, theFile: "tile_tracks_3.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},

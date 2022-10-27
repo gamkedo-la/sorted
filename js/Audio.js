@@ -38,12 +38,13 @@ var musicGameVolume = 0.05;
 function musicToggle() {
   if (musicInitialised) {
     gameMusic.stopMusic();
-    // gameMusic = null;
     musicInitialised = false;
+    buttonDown = null;
   } 
   else {
     gameMusic.loopSong("sound/pastoral_music");
     gameMusic.alterVolume(musicMenuVolume);
     musicInitialised = true;
+    buttonDown = 3;
   }
 }

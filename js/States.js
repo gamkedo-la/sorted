@@ -14,9 +14,10 @@ const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreb
 var levelBeforeGuide = 0;
 var tutorStep = 1;
 
-// called when gameState changed, from Input.js
 
+// called when gameState changed, from Input.js
 function gotoMenu(from) {
+  buttonDown = null;
   if (gameState == STATE_GUIDE) {
     currentLevel = levelBeforeGuide;
     // levelRunning = false;
@@ -31,7 +32,9 @@ function gotoMenu(from) {
   report('return via ' + from, 1);
 }
 
+
 function gotoGuide(from) {
+  buttonDown = null;
   gameState = STATE_GUIDE;
   levelBeforeGuide = currentLevel;
   currentLevel = 10;
@@ -41,7 +44,9 @@ function gotoGuide(from) {
   tutorStep = 1;
 }
 
+
 function gotoPlay(from) {
+  buttonDown = null;
   // start next level or resume mid-level
   if (!levelRunning) {
     currentLevel++;
@@ -62,6 +67,7 @@ function gotoPlay(from) {
 
 
 function gotoReplay(from) {
+  buttonDown = null;
   gameState = STATE_PLAY;
   if (!levelRunning) {
     levelRunning = true;
@@ -70,7 +76,9 @@ function gotoReplay(from) {
   }
 }
 
+
 function gotoAdvance(from) {
+  buttonDown = null;
   victory_music.stop();
   if (currentLevel == LAST_LEVEL) {
     console.log("No more Levels!");
@@ -87,23 +95,30 @@ function gotoAdvance(from) {
   // }
 }
 
+
 function gotoScore(from) {
+  buttonDown = null;
   gameState = STATE_SCOREBOARD;
   drawBarButtons(offmenuButtonLabel);
   report('Score via ' + from, 1)
 }
 
+
 function gotoHelp(from) {
+  buttonDown = null;
   gameState = STATE_HELP;
   drawBarButtons(offmenuButtonLabel);
   report('Help via' + from, 1)
 }
 
+
 function gotoCredits(from) {
+  buttonDown = null;
   creditsFrameCount = 0;
   gameState = STATE_CREDITS;
   report('Credits via ' + from, 1)
 }
+
 
 function gotoDesign(from) {
   gameState = STATE_DESIGN_LEVEL;
@@ -117,6 +132,13 @@ function gotoDesign(from) {
 
 function togglePause() {
   paused = !paused;
+
+  if (paused) {
+    buttonDown = 4;
+  } else {
+    buttonDown = null;
+  }
+
   if (musicInitialised) {
     if (paused) {
       gameMusic.alterVolume(musicMenuVolume);

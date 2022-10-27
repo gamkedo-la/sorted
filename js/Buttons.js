@@ -3,7 +3,8 @@ var barButtonInactive = null;
 var menuButtonLabel = ["Play", "Help", "Tutorial", "Music", "Score", "Credits", "Quit"];
 const playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "End", "Menu"];
 var tutorialButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "Menu"];
-const pauseButtonLabel = ["Resume"];
+// const pauseButtonLabel = ["Resume"];
+const pauseButtonLabel = [,,,,"Resume"];
 const levelendButtonLabel = ["Replay", "Advance", "Menu"];
 const gameoverButtonLabel = ["Music", "Close"]; // "Restart"
 const offmenuButtonLabel = ["Menu"];
@@ -20,6 +21,8 @@ const buttonWidth = 60;
 const buttonHeight = 60;
 const buttonGap = 10;
 const buttonRects = [];
+var buttonDown = null;
+
 
 function initButtonRects() {
   // max num rect/buttons are in play state
@@ -33,35 +36,48 @@ function initButtonRects() {
   }
 }
 
+
 function drawBarTitle(txt, fontSize) {
   uiContext.font = fontSize + "px Arial";
   colorText(uiContext, txt, buttonsLeft, 30, "white");
 }
 
+
 function drawBarButtons(btnList) {
   var lineWidth = 1;
   uiContext.lineWidth = lineWidth;
   for (var i = 0; i < btnList.length; i++) {
-    colorRectBorder(
-      uiContext,
-      buttonRects[i].x,
-      buttonRects[i].y,
-      buttonRects[i].width,
-      buttonRects[i].height,
-      "white",
-      "red",
-      lineWidth
-    );
-    uiContext.textAlign = "left";
-    uiContext.font = "14px Arial";
-    // magic numbers position text on button
-    colorText(
-      uiContext,
-      btnList[i],
-      5 + buttonRects[i].x,
-      25 + buttonRects[i].y,
-      "black"
-    );
+
+    if (btnList[i] != undefined && btnList[i] != '') {
+
+      colorRectBorder(
+        uiContext,
+        buttonRects[i].x,
+        buttonRects[i].y,
+        buttonRects[i].width,
+        buttonRects[i].height,
+        "white",
+        "red",
+        lineWidth
+      );
+  
+      if (buttonDown == i) {
+        uiContext.drawImage(testButtonPic, 60,0,60,60, buttonRects[i].x, buttonRects[i].y, 60,60);
+      } else {
+        uiContext.drawImage(testButtonPic, 0,0,60,60, buttonRects[i].x, buttonRects[i].y, 60,60);
+      }
+  
+      uiContext.textAlign = "left";
+      uiContext.font = "14px Arial";
+      // magic numbers position text on button
+      colorText(
+        uiContext,
+        btnList[i],
+        5 + buttonRects[i].x,
+        25 + buttonRects[i].y,
+        "black"
+      );
+    } // button slot filled
   }
 }
 

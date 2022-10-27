@@ -290,7 +290,7 @@ function drawScoreboard() {
   colorText(canvasContext, "Scoreboard", DROP_SHADOW_DIST + drawX, DROP_SHADOW_DIST + drawY, "black");
   colorText(canvasContext, "Scoreboard", drawX, drawY, "white");
 
-  drawLevelScores(topY, drawY. drawX);
+  drawLevelScores(topY, drawY, drawX);
 
   if (touchDevice == false) {
     canvasContext.font = "16px Arial";

@@ -5,6 +5,8 @@ function ui_mousedownHandler() {
     for (var i = 0; i < gameoverButtonLabel.length; i++) {
       if (xyIsInRect(uiPos, buttonRects[i])) {
 
+        buttonDown = i;
+
         switch (gameoverButtonLabel[i]) {
 
           case "Credits":
@@ -34,6 +36,7 @@ function ui_mousedownHandler() {
     for (var i = 0; i < menuButtonLabel.length; i++) {
       // report( buttonRects[i] );
       if (xyIsInRect(uiPos, buttonRects[i])) {
+        buttonDown = i;
         // report('Button down ' + i + ' ' + menuButtonLabel[i], 2)
 
         switch (menuButtonLabel[i]) {
@@ -78,6 +81,7 @@ function ui_mousedownHandler() {
     if (paused) {
       for (var i = 0; i < pauseButtonLabel.length; i++) {
         if (xyIsInRect(uiPos, buttonRects[i])) {
+          // buttonDown = i;
           switch (pauseButtonLabel[i]) {
             case "Resume":
               togglePause();
@@ -89,7 +93,7 @@ function ui_mousedownHandler() {
     else { // not Paused
       for (var i = 0; i < playButtonLabel.length; i++) {
         if (xyIsInRect(uiPos, buttonRects[i])) {
-
+          buttonDown = i;
           if (TOUCH_TEST) {
             report("Clicked inside rect " + playButtonLabel[i], 2);
           }
@@ -144,6 +148,7 @@ function ui_mousedownHandler() {
     if (paused) {
       for (var i = 0; i < pauseButtonLabel.length; i++) {
         if (xyIsInRect(uiPos, buttonRects[i])) {
+          buttonDown = i;
           switch (pauseButtonLabel[i]) {
             case "Resume":
               togglePause();
@@ -155,7 +160,7 @@ function ui_mousedownHandler() {
     else { // not Paused
       for (var i = 0; i < tutorialButtonLabel.length; i++) {
         if (xyIsInRect(uiPos, buttonRects[i])) {
-
+          buttonDown = i;
           if (TOUCH_TEST) {
             report("Clicked inside rect " + tutorialButtonLabel[i], 2);
           }
@@ -202,6 +207,7 @@ function ui_mousedownHandler() {
   else if (gameState == STATE_LEVEL_END) {
     for (var i = 0; i < levelendButtonLabel.length; i++) {
       if (xyIsInRect(uiPos, buttonRects[i])) {
+        // buttonDown = i;
         if (TOUCH_TEST) {
           report("Clicked inside rect", levelendButtonLabel[i], 1);
         }
@@ -226,6 +232,7 @@ function ui_mousedownHandler() {
   else if (requireButtonGotoMenu()) {
     // could set Menu button at slot [4] or elsewhere
     if (xyIsInRect(uiPos, buttonRects[0])) {
+      // buttonDown = i;
       gotoMenu("button");
     }
   }
