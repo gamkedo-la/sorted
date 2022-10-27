@@ -51,6 +51,7 @@ function loadImages() {
 	var imageList = [
 		{varName: oldHatPic, theFile: "placeholder_hat.png"},
 		{varName: playerHatPic, theFile: "player_hat2.png"},
+		// {varName: playerHatPic, theFile: "player_hat_brighter.png"},
 		{varName: sheepNormalPic, theFile: "sheep_normal.png"},
 		{varName: sheepKnotBluePic, theFile: "sheep_topknot_blue.png"},
 		{varName: sheepKnotRedPic, theFile: "sheep_topknot_red.png"},

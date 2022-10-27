@@ -64,7 +64,7 @@ function roguedogClass() {
         if (runMode == NORMAL_PLAY) {
           rogueSound.play(0.4);
         }
-        this.barkTimer = 40;
+        this.barkTimer = 30;
       }
     }
 
@@ -163,6 +163,13 @@ function roguedogClass() {
     }
 
     this.drawAntennae(ROGUE_RADIUS);
+
+    if (this.barkTimer %2 == 1) {
+      canvasContext.lineWidth = 2;
+      colorLine(canvasContext, this.x+12, this.y+6, this.x+17, this.y, "yellow");
+      colorLine(canvasContext, this.x+12, this.y+10, this.x+20, this.y+10, "yellow");
+      colorLine(canvasContext, this.x+12, this.y+14, this.x+17, this.y+20, "yellow");
+    }
   }
 
 
