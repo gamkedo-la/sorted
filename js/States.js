@@ -71,6 +71,7 @@ function gotoReplay(from) {
 }
 
 function gotoAdvance(from) {
+  victory_music.stop();
   if (currentLevel == LAST_LEVEL) {
     console.log("No more Levels!");
     runMode = GAME_OVER;

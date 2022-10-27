@@ -1069,7 +1069,6 @@ function sheepClass() {
 
       this.score = score;
       levelScore += score;
-      this.scoreDisplayTimer = SCORE_DISPLAY_TIME;
       return score;
       // console.log(sheepList[i].id, x, team, mode, offSide, done)
     }

@@ -85,6 +85,7 @@ function drawStar(ctx, centerX, centerY, arms, innerRadius, outerRadius, startAn
 function headLine(txt) {
   colorText(canvasContext, txt, DROP_SHADOW_DIST + indentX, DROP_SHADOW_DIST + topY, "black");
   colorText(canvasContext, txt, indentX, topY, "white");
+  // console.log('topY', topY)
 }
 
 function blockLine(txt, lineNum, blockNum) {

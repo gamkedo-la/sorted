@@ -2,7 +2,6 @@ var outOfPlay = 0;
 var VICTORY_MUSIC_VOLUME = 0.2; // it's a rather loud recording
 var PEN_SCORE = 100;
 var DITCH_SCORE = 40;
-const SCORE_DISPLAY_TIME = 50;
 var levelScore = 0;
 
 // var levelScores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -16,10 +15,6 @@ levelMaxScores.fill(0);
 // var penQuantity = 6;
 var penQuantity = Array(NUM_LEVELS);
 penQuantity.fill(6);
-
-
-function countPens() {
-}
 
 
 function calcMaximumScore(whichLevel) {
@@ -46,8 +41,9 @@ function setAllMaxScores() {
 
 function isLevelOver() {
   // if all sheep out-of-play and particle fx completed
-  return ( sheepInPlay < 1 && particleList.length < 2 )
+  return ( sheepInPlay < 1 && particleList.length < 5 )
 }
+
 
 function levelEnding() {
   gameState = STATE_LEVEL_END;
@@ -56,9 +52,10 @@ function levelEnding() {
   levelTestDataReady = true;
   levelRunning = false;
 
+  if (editMode == false) {
   // play some happy music!
   victory_music.play(VICTORY_MUSIC_VOLUME);
-
+  }
 
   // console.log("Level " + currentLevel + " over");
 }

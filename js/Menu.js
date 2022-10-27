@@ -250,22 +250,14 @@ function drawLevelScore() {
   // drawStar(canvasContext, gameCanvas.width/2, y, 5, 20, 25, -18,'yellow','red', 4);
 } // end drawLevelScore
 
-
-function drawScoreboard() {
-  // colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
-  // canvasContext.drawImage(menuBGPic,0,0);
+function drawBackground() {
   blankGrid = getEmptyField();
   drawFieldFromGrid(blankGrid);
   decals.draw();
   drawMenuFlock();
+}
 
-  canvasContext.font = "28px Arial";
-  var drawX = 60;
-  const topY = 80;
-  var drawY = topY;
-  colorText(canvasContext, "Scoreboard", DROP_SHADOW_DIST + drawX, DROP_SHADOW_DIST + drawY, "black");
-  colorText(canvasContext, "Scoreboard", drawX, drawY, "white");
-
+function drawLevelScores(topY, drawY, drawX) {
   for (var i = 1; i <= LAST_LEVEL; i++) {
 
     if (i == 5) {
@@ -279,10 +271,26 @@ function drawScoreboard() {
     colorText(canvasContext, levelScores[i], drawX, drawY, "white");
 
     canvasContext.font = "20px Arial";
-    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', DROP_SHADOW_DIST + drawX + 50, DROP_SHADOW_DIST + drawY, "black");
-    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', drawX + 50, drawY, "white");
+    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', DROP_SHADOW_DIST + drawX + 70, DROP_SHADOW_DIST + drawY, "black");
+    colorText(canvasContext, "Level " + i + '  "' + LEVEL_NAMES[i] + '"', drawX + 70, drawY, "white");
 
   }
+}
+
+
+function drawScoreboard() {
+  // colorRect(canvasContext, 0,0, gameCanvas.width,gameCanvas.height, "black");
+  // canvasContext.drawImage(menuBGPic,0,0);
+  drawBackground();
+
+  canvasContext.font = "28px Arial";
+  var drawX = 60;
+  const topY = 80;
+  var drawY = topY;
+  colorText(canvasContext, "Scoreboard", DROP_SHADOW_DIST + drawX, DROP_SHADOW_DIST + drawY, "black");
+  colorText(canvasContext, "Scoreboard", drawX, drawY, "white");
+
+  drawLevelScores(topY, drawY. drawX);
 
   if (touchDevice == false) {
     canvasContext.font = "16px Arial";
@@ -295,12 +303,18 @@ function drawScoreboard() {
 
 
 function drawGameOver() {
-  colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "black");
-  canvasContext.drawImage(creditsBGPic, 0, 0);
-  drawMenuFlock();
-
+  drawBackground();
+  topY = 100;
   indentX = 200;
+  canvasContext.font = "42px Verdana";
   headLine("Game Over!");
+  canvasContext.font = "28px Arial";
+  var drawX = 60;
+  topY = 140;
+  var drawY = topY;
+  drawLevelScores(topY, drawY, drawX);
+  // console.log('menu drawgameover')
+
 } // end drawGameOver
 
 

@@ -115,7 +115,7 @@ function playerClass(id) {
       }
       else {
         console.log('Call a sheep, try from X=' + this.nextX);
-        callSound.play(0.5);
+        callSound.play(0.15);
 
         // check all sheep to see if any below Hat
         // or select a sheep using mouse like in RTS

@@ -38,7 +38,7 @@ var musicGameVolume = 0.05;
 function musicToggle() {
   if (musicInitialised) {
     gameMusic.stopMusic();
-    gameMusic = null;
+    // gameMusic = null;
     musicInitialised = false;
   } 
   else {

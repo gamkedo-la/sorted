@@ -258,6 +258,12 @@ function drawAll() {
     // previous frame's field & sheep & NPCs are left on screen
   }
 
+  else if (runMode == GAME_OVER) {
+    drawBarButtons(gameoverButtonLabel);
+    drawGameOver();
+    // console.log('main gameover')
+  }
+
   else if (gameState == STATE_GUIDE) {
     drawGuide();
   }
@@ -275,11 +281,6 @@ function drawAll() {
       writeTestResult();
     } // if testWrite
   } // end of Level_Over
-
-  else if (runMode == GAME_OVER) {
-    drawBarButtons(gameoverButtonLabel);
-    // drawGameOver();
-  }
 
   else if (gameState == STATE_DESIGN_LEVEL) {
     drawFieldFromGrid(areaGrid);
@@ -309,7 +310,7 @@ function drawAll() {
     console.log("Game in unknown state.");
   }
 
-  if (requireButtonGotoMenu()) {
+  if (requireButtonGotoMenu() && runMode != GAME_OVER) {
     drawBarButtons(offmenuButtonLabel);
   }
 

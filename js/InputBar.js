@@ -6,23 +6,16 @@ function ui_mousedownHandler() {
       if (xyIsInRect(uiPos, buttonRects[i])) {
 
         switch (gameoverButtonLabel[i]) {
-          case "Score":
-            gotoScore("canvasButton");
-            break;
 
-          case "Help":
-            gotoHelp("canvasButton");
+          case "Credits":
+            gotoCredits("canvasButton");
             break;
 
           case "Music":
             musicToggle();
             break;
 
-          case "Credits":
-            gotoCredits("canvasButton");
-            break;
-
-          case "Quit":
+          case "Close":
             window.close();
             break;
         }

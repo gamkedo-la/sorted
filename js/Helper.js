@@ -306,5 +306,4 @@ function isOdd(num) {
 function hatDirection(dir) {
   player.direction = dir;
   player.spriteDirection = dir;
-  console.log(player.spriteDirection)
 }
