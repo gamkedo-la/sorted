@@ -311,17 +311,18 @@ function sheepClass() {
     // bounce down from top row if not Called
     if (this.nextY < HAT_PATH_SHEEP_EXCLUSION_Y) {
       if (this.isAllowedTopRow() == false) {
-        this.ang = 2 * Math.PI - this.ang;
+        this.ang = this.ang - Math.PI;
         this.gotoY = this.y + TILE_H/4;
         // this.nextY = this.y; // stops oscillation
         this.gotoX = this.x;
         if (this.mode = PEEPED) {
           this.changeMode(ROAM);
+          this.timer = 120;
           let rand = randomRangeInt(1,2);
           if (rand == 1) {
-            this.ang = 3 * Math.PI/4;
+            this.ang = 7 * Math.PI/8;
           } else {
-            this.ang = Math.PI/4;
+            this.ang = Math.PI/8;
           }
         }
       }
@@ -534,25 +535,15 @@ function sheepClass() {
     else if (tileType == TILE_BEND_LEFT) {
       this.ang += this.speed * 0.01;
       if (this.enteredNewGridSquare && this.mode == SENT) {
-        bendLeftSound.play(0.7);
+        bendLeftSound.play(0.5);
       }
-      // console.log(this.soundTimer)
-      // if (this.soundTimer < 1 && this.mode == SENT) {
-      //   bendLeftSound.play(0.7);
-      //   this.soundTimer = 15;
-      // }
     }
 
     else if (tileType == TILE_BEND_RIGHT) {
       this.ang -= this.speed * 0.01;
       if (this.enteredNewGridSquare && this.mode == SENT) {
-        bendRightSound.play(0.7);
+        bendRightSound.play(0.5);
       }
-      // console.log(this.soundTimer)
-      // if (this.soundTimer < 1 && this.mode == SENT) {
-      //   bendRightSound.play(0.7);
-      //   this.soundTimer = 15;
-      // }
     }
 
 
