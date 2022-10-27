@@ -317,6 +317,12 @@ function sheepClass() {
         this.gotoX = this.x;
         if (this.mode = PEEPED) {
           this.changeMode(ROAM);
+          let rand = randomRangeInt(1,2);
+          if (rand == 1) {
+            this.ang = 3 * Math.PI/4;
+          } else {
+            this.ang = Math.PI/4;
+          }
         }
       }
     }

@@ -31,7 +31,7 @@ HAT_MAX_SPEED.fill(defaultHatMaxSpeed);
 // Call a sheep
 // const CALL_X_ALIGN = 20; // tractor not exactly above sheep
 const CALL_SPEED = Array(NUM_LEVELS); // speed of sheep moving up
-var defaultCallSpeed = 5;
+var defaultCallSpeed = 7;
 CALL_SPEED.fill(defaultCallSpeed);
 
 // Send a sheep
@@ -48,8 +48,8 @@ const GRAZE_TIME_MAX = Array(NUM_LEVELS);
 
 var defaultRoamTimeMin = 30;
 var defaultRoamTimeMax = 60;
-var defaultGrazeTimeMin = 120;
-var defaultGrazeTimeMax = 240;
+var defaultGrazeTimeMin = 90;
+var defaultGrazeTimeMax = 150;
 
 ROAM_TIME_MIN.fill(defaultRoamTimeMin);
 ROAM_TIME_MAX.fill(defaultRoamTimeMax);

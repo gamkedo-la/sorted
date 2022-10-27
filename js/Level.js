@@ -27,9 +27,11 @@ ROGUE_SPEED[0] = 4;
 
 // Level 1
 PLACING_DEPTH[3] = 200;
+CALL_SPEED[1] = 5;
 
 // Level 2
 PLACING_DEPTH[2] = 200;
+CALL_SPEED[2] = 6;
 
 // Level 3
 PLACING_DEPTH[3] = 200;
@@ -46,7 +48,6 @@ SEND_SPEED[5] = 10;
 
 // Level 6
 PLACING_DEPTH[6] = 100;
-HAT_POWER[6] = 1.0; // slow Hat
 SEND_SPEED[6] = 10;
 
 // Level 7
@@ -54,6 +55,7 @@ SEND_SPEED[6] = 10;
 // Level 8
 
 // Level 9
+CALL_SPEED[9] = 8;
 
 // Guide
 PLACING_DEPTH[10] = 400;
