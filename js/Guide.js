@@ -254,10 +254,10 @@ function contextSettingsTutorial() {
   topY = 100;
   line = 0;
   textWidth = 700;
-  LINE_SPACING = 30;
-  BLOCK_LINE_SPACING = 30;
+  LINE_SPACING = 38;
+  BLOCK_LINE_SPACING = 38;
   // needed by getLines before calling bodyLine
-  fontSize = 22;
+  fontSize = 27;
   canvasContext.font = fontSize + "px Verdana";
   canvasContext.textAlign = "left";
 }

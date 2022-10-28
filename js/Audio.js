@@ -1,8 +1,10 @@
+var hatVolume = 1.0;
+
 // var callSound = new SoundOverlapsClass("sound/call_1_quiet");
 var callSound = new SoundOverlapsClass("sound/dog_whistle_66546");
 var hatMoveShortSound = new SoundOverlapsClass("sound/hat_moving_short");
-// var hatMoveLongSound = new SoundOverlapsClass("sound/hat_moving_short");
-var hatMoveLongSound = new SoundOverlapsClass("sound/hat_clamp_moving");
+var hatMoveLongSound = new SoundOverlapsClass("sound/hat_moving_long");
+// var hatMoveLongSound = new SoundOverlapsClass("sound/hat_clamp_moving");
 
 var calledArrivalSound = new SoundOverlapsClass("sound/clamp_arrival_quiet");
 var sentSound = new SoundOverlapsClass("sound/send_short");

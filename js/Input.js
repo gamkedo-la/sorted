@@ -273,7 +273,7 @@ function arrowKeySet(evt, whichPlayer, setTo) {
     if (setTo == true) {
       if (player.soundTimer < 1) {
         // if (runMode == NORMAL_PLAY) {
-        hatMoveLongSound.play(0.3);
+        hatMoveLongSound.play(hatVolume);
         player.soundTimer = 10;
       }
     }

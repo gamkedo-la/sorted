@@ -105,13 +105,13 @@ function ui_mousedownHandler() {
             case "Left":
               player.button_left = true;
               hatDirection(-1);
-              hatMoveLongSound.play(0.3);
+              hatMoveLongSound.play(hatVolume);
               break;
 
             case "Right":
               player.button_right = true;
               hatDirection(1);
-              hatMoveLongSound.play(0.3);
+              hatMoveLongSound.play(hatVolume);
               break;
 
             case "Call":
@@ -171,7 +171,7 @@ function ui_mousedownHandler() {
             case "Left":
               player.button_left = true;
               hatDirection(-1);
-              hatMoveLongSound.play(0.3);
+              hatMoveLongSound.play(hatVolume);
 
               whenTutorialStep2();
               break;
@@ -179,7 +179,7 @@ function ui_mousedownHandler() {
             case "Right":
               player.button_right = true;
               hatDirection(1);
-              hatMoveLongSound.play(0.3);
+              hatMoveLongSound.play(hatVolume);
 
               whenTutorialStep2();
               break;

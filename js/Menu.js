@@ -3,7 +3,7 @@ const DROP_SHADOW_DIST = 2; // black underlay for menu text
 
 var HEADER_FONT = 36;
 var SUBHEAD_FONT = 30;
-var MENU_FONT = 26;
+var MENU_FONT = 28;
 var BODY_FONT = 22;
 const CREDITS_FONT = 24;
 
