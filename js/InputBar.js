@@ -76,6 +76,7 @@ function ui_mousedownHandler() {
     }
   }
 
+  // else if (gameState == STATE_PLAY || gameState == STATE_GUIDE) {
   else if (gameState == STATE_PLAY) {
 
     if (paused) {

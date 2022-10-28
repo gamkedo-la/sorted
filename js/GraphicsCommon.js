@@ -98,3 +98,48 @@ function bodyLine(txt, lineNum) {
   colorText(canvasContext, txt, DROP_SHADOW_DIST + indentX, DROP_SHADOW_DIST + topY + lineNum * LINE_SPACING, "black");
   colorText(canvasContext, txt, indentX, topY + lineNum * LINE_SPACING, "white");
 }
+
+
+function canvas_arrow(ctx, fromx, fromy, tox, toy, r, color){
+  ctx.lineJoin = 'butt';
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 4;
+  ctx.setLineDash([]);
+
+	var x_center = tox;
+	var y_center = toy;
+	
+	var angle;
+	var x;
+	var y;
+	
+  ctx.beginPath();
+  ctx.moveTo(fromx, fromy);
+  ctx.lineTo(tox, toy);
+  ctx.stroke();
+
+  ctx.fillStyle = color;
+	ctx.beginPath();
+	
+	angle = Math.atan2(toy-fromy,tox-fromx)
+	x = r*Math.cos(angle) + x_center;
+	y = r*Math.sin(angle) + y_center;
+
+	ctx.moveTo(x, y);
+	
+	angle += (1/3)*(2*Math.PI)
+	x = r*Math.cos(angle) + x_center;
+	y = r*Math.sin(angle) + y_center;
+	
+	ctx.lineTo(x, y);
+	
+	angle += (1/3)*(2*Math.PI)
+	x = r*Math.cos(angle) + x_center;
+	y = r*Math.sin(angle) + y_center;
+	
+	ctx.lineTo(x, y);
+	
+	ctx.closePath();
+	
+	ctx.fill();
+}

@@ -129,6 +129,7 @@ function drawTiles() {
     drawTileX = 0;
     drawTileY += TILE_H;
 	} // end of for each row
+
 } // end of drawTiles
 
 

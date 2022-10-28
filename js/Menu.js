@@ -84,6 +84,7 @@ function drawMenu() {
   else {
     indentX = 190;
     topY = 200;
+    LINE_SPACING = 45;
     canvasContext.font = SUBHEAD_FONT + "px Verdana";
     headLine("Edit-mode menu");
     canvasContext.font = BODY_FONT + "px Verdana";

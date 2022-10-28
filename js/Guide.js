@@ -52,6 +52,8 @@ function drawGuide() {
     // outline Hat
     setStyleOutline();
     canvasContext.strokeRect(player.x - TILE_W / 2, 0, TILE_W, TILE_H);
+    canvas_arrow(canvasContext, 750, 80, 790, 80, 10, 'yellow');
+    canvas_arrow(canvasContext, 750, 150, 790, 150, 10, 'yellow');
   }
 
   else if (tutorStep == 2) {
@@ -97,6 +99,7 @@ function drawGuide() {
     // if (flashing) {
       setStyleUI();
       uiContext.strokeRect(buttonRects[2].x, buttonRects[2].y, buttonRects[2].width, buttonRects[2].height);
+      canvas_arrow(canvasContext, 750, 220, 790, 220, 10, 'yellow');
     // }
   }
 
@@ -130,6 +133,9 @@ function drawGuide() {
       topLeftX = boxWidth+2;
       canvasContext.strokeStyle = TEAM_COLOURS[2];
       canvasContext.strokeRect(topLeftX,topLeftY, boxWidth-4,TILE_H-2);
+
+      canvas_arrow(canvasContext, 200, 500, 200, 540, 10, TEAM_COLOURS[1]);
+      canvas_arrow(canvasContext, 600, 500, 600, 540, 10, TEAM_COLOURS[2]);
     }
   }
 
@@ -142,17 +148,19 @@ function drawGuide() {
     drawSheep();
     player.draw();
     contextSettingsTutorial();
-    let txt = "Ideally a sheep should go in a pen (outlined) but going in a ditch on the correct side is better than going in a pen on the wrong side. Again, move the hat, then Call and Send.";
+    let txt = "Ideally a sheep should go in a pen (indicated) but going in a ditch on the correct side is better than going in a pen on the wrong side. Again, move the hat, then Call and Send.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       bodyLine(txtLines[i], ++line);
     }
-    outlineSelectedTile(177, 1);
-    outlineSelectedTile(180, 1);
-    outlineSelectedTile(183, 1);
-    outlineSelectedTile(184, 1);
-    outlineSelectedTile(187, 1);
-    outlineSelectedTile(190, 1);
+
+    var penCentre = [75, 225, 375, 425, 575, 725];
+    var color = TEAM_COLOURS[1];
+    for(var i=0; i<penCentre.length; i++) {
+      if (i>=3) { color = TEAM_COLOURS[2]; }
+      canvas_arrow(canvasContext, penCentre[i], 525, penCentre[i], 560, 10, color);
+    }
+    canvasContext.lineJoin = 'miter'; // restore default
   }
 
   // tiles affect sheep
@@ -166,7 +174,7 @@ function drawGuide() {
     let txt = "Sheep collide and are affected by terrain, so they can stray from the vertical sending. When a sheep reaches the bottom a score is displayed. To finish, call another sheep.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
-      blockLine(txtLines[i], ++line, 1);
+      bodyLine(txtLines[i], ++line, 1);
     }
   }
 
@@ -260,6 +268,7 @@ function contextSettingsTutorial() {
   line = 0;
   textWidth = 700;
   LINE_SPACING = 30;
+  BLOCK_LINE_SPACING = 30;
   // needed by getLines before calling bodyLine
   fontSize = 22;
   canvasContext.font = fontSize + "px Verdana";
