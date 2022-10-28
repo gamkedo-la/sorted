@@ -1,4 +1,4 @@
-var hatVolume = 1.0;
+var hatVolume = 0.6;
 
 // var callSound = new SoundOverlapsClass("sound/call_1_quiet");
 var callSound = new SoundOverlapsClass("sound/dog_whistle_66546");
@@ -30,7 +30,9 @@ var menuBackSound = new SoundOverlapsClass("sound/menuback");
 
 var gameMusic = new BackgroundMusicClass();
 
-var victory_music = new SoundOverlapsClass("sound/victory_music");
+// on iPad javascript HTML5 doesn't control volume, always plays Maximum 1.0
+var victory_music = new SoundOverlapsClass("sound/victory_music_ipad");
+// var victory_music = new SoundOverlapsClass("sound/victory_music");
 
 var musicInitialised = false;
 var musicMenuVolume = 0.5;
