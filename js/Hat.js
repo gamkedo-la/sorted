@@ -286,7 +286,7 @@ function playerClass(id) {
 
   this.draw = function () {
 
-    if (gameState == STATE_PLAY) {
+    if (gameState == STATE_PLAY || gameState == STATE_GUIDE) {
       // swap Hat sprite based on direction of movement
       // .gotoX only set if using Buttons so use .direction instead
       if (this.spriteDirection == 1) {
@@ -310,17 +310,17 @@ function playerClass(id) {
       }
     }
 
-    if (gameState == STATE_GUIDE) {
-      drawBitmapCenteredWithRotation(canvasContext, oldHatPic, this.x, this.y, this.ang);
+    // if (gameState == STATE_GUIDE) {
+    //   drawBitmapCenteredWithRotation(canvasContext, oldHatPic, this.x, this.y, this.ang);
 
-      //when part of image off canvas, draw mirror on other side
-      if (this.x > gameCanvas.width - this.pic.width / 2) {
-        drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x - gameCanvas.width, this.y, this.ang);
-      }
-      if (this.x < this.pic.width / 2) {
-        drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width, this.y, this.ang);
-      }
-    }
+    //   //when part of image off canvas, draw mirror on other side
+    //   if (this.x > gameCanvas.width - this.pic.width / 2) {
+    //     drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x - gameCanvas.width, this.y, this.ang);
+    //   }
+    //   if (this.x < this.pic.width / 2) {
+    //     drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width, this.y, this.ang);
+    //   }
+    // }
  
 
     // else {
