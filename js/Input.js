@@ -487,16 +487,16 @@ function menuKeyChoice(key) {
 // detect Fn key, usable from any gameState
 function getFunctionKeys(key) {
 
-  if (key == KEY_F1) {
+  if (key == KEY_F1 && releaseVersion == false) {
     editMode = !editMode; // toggle
   }
 
-  if (key == KEY_F2) {
+  if (key == KEY_F2 && editMode) {
     timerLabel = !timerLabel; // toggle
     console.log("Timer label is", timerLabel)
   }
 
-  if (key == KEY_F3) {
+  if (key == KEY_F3 && editMode) {
     modeLabel = !modeLabel; // toggle
     console.log("Mode label is", modeLabel)
   }
@@ -507,7 +507,7 @@ function getFunctionKeys(key) {
     }
   }
 
-  if (key == KEY_F5) {
+  if (key == KEY_F5 && editMode) {
     endLevelShowID = !endLevelShowID; // toggle
     if (endLevelShowID) {
       console.log("At end of Level show sheep ID for debugging.")
@@ -567,7 +567,8 @@ function getFunctionKeys(key) {
 function keyPressed(evt) {
 
   if (isArrowKey(evt.keyCode)) {
-    if (gameState == STATE_PLAY || gameState == STATE_GUIDE) {
+
+    if (gameState == STATE_PLAY || gameState == STATE_GUIDE && tutorStep == 7) {
       arrowKeySet(evt, player, true);
     }
     else if (gameState == STATE_DESIGN_LEVEL) {

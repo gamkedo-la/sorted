@@ -1,4 +1,10 @@
-var editMode = true;
+const releaseVersion = true;
+var editMode;
+if (releaseVersion) {
+  editMode = false;
+} else {
+  editMode = true;
+}
 
 const NORMAL_PLAY = 0;
 const SEND_ONLY = 1;

@@ -1108,13 +1108,10 @@ function sheepClass() {
       if (tutorStep == 6) {
         tutorStep = 7;
       }
-      if (tutorStep == 3) {
+      else if (tutorStep == 3) {
         tutorStep = 4;
         flashTimer = 20;
         // Not colouring all as it it isn't logical and too sudden
-        // for (var i=0; i < sheepList.length; i++) {
-        //   sheepList[i].team = sheepList[i].potentialTeam;
-        // }
       }
     }
   }
