@@ -120,9 +120,6 @@ function drawGuide() {
       topLeftX = boxWidth+2;
       canvasContext.strokeStyle = TEAM_COLOURS[2];
       canvasContext.strokeRect(topLeftX,topLeftY, boxWidth-4,TILE_H-2);
-
-      canvas_arrow(canvasContext, 200, 500, 200, 540, 10, TEAM_COLOURS[1]);
-      canvas_arrow(canvasContext, 600, 500, 600, 540, 10, TEAM_COLOURS[2]);
     }
   }
 
@@ -140,7 +137,7 @@ function drawGuide() {
     var color = TEAM_COLOURS[1];
     for(var i=0; i<penCentre.length; i++) {
       if (i>=3) { color = TEAM_COLOURS[2]; }
-      canvas_arrow(canvasContext, penCentre[i], 525, penCentre[i], 560, 10, color);
+      canvas_arrow(canvasContext, penCentre[i], 515, penCentre[i], 540, 10, color);
     }
     canvasContext.lineJoin = 'miter'; // restore default
   }

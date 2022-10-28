@@ -574,7 +574,7 @@ function keyPressed(evt) {
 
   if (isArrowKey(evt.keyCode)) {
 
-    if (gameState == STATE_PLAY || gameState == STATE_GUIDE && tutorStep == 7) {
+    if (gameState == STATE_PLAY || gameState == STATE_GUIDE && tutorStep > 6) {
       arrowKeySet(evt, player, true);
     }
     else if (gameState == STATE_DESIGN_LEVEL) {

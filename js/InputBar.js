@@ -171,6 +171,7 @@ function ui_mousedownHandler() {
             case "Left":
               player.button_left = true;
               hatDirection(-1);
+              hatMoveLongSound.play(0.3);
 
               whenTutorialStep2();
               break;
@@ -178,6 +179,7 @@ function ui_mousedownHandler() {
             case "Right":
               player.button_right = true;
               hatDirection(1);
+              hatMoveLongSound.play(0.3);
 
               whenTutorialStep2();
               break;
@@ -252,41 +254,36 @@ function ui_mousedownHandler() {
 function ui_mouseupHandler(evt) {
   // var mousePos = getMousePos(evt);
   // console.log('ui_mouseupHandler')
-  if (gameState == STATE_PLAY) {
-    // for (var i = 0; i < playButtonLabel.length; i++) {
-    //   if (xyIsInRect(mouse, buttonRects[i])) {
+  if (gameState == STATE_PLAY || gameState == STATE_GUIDE) {
 
-        // switch (playButtonLabel[i]) {
-        switch (buttonHeld) {
+    switch (buttonHeld) {
 
-          case "Left":
-            player.button_left = false;
-            // hatMoveLongSound.stop();
-            break;
+      case "Left":
+        player.button_left = false;
+        // hatMoveLongSound.stop();
+        break;
 
-          case "Right":
-            player.button_right = false;
-            // hatMoveLongSound.stop();
-            break;
+      case "Right":
+        player.button_right = false;
+        // hatMoveLongSound.stop();
+        break;
 
-          case "Call":
-            player.keyHeld_call = false;
-            // not needed if there is a timer before next Call allowed
-            break;
+      case "Call":
+        player.keyHeld_call = false;
+        // not needed if there is a timer before next Call allowed
+        break;
 
-          case "Send":
-            // code inefficient without setting false, but works
-            if (TOUCH_TEST) {
-              report("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately", 1);
-            } else {
-              player.keyHeld_send = false;
-              // report("keyHeld_send = false because not Touch device", 1 );
-            }
-            break;
+      case "Send":
+        // code inefficient without setting false, but works
+        if (TOUCH_TEST) {
+          report("Avoid setting false keyHeld_send via mouseup, because (on Touch devices) true from mousedown gets negated immediately", 1);
+        } else {
+          player.keyHeld_send = false;
+          // report("keyHeld_send = false because not Touch device", 1 );
         }
-      }
-  //   }
-  // }
+        break;
+    }
+  }
 }
 
 

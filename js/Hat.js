@@ -181,10 +181,6 @@ function playerClass(id) {
     // arrowkey move now accepts held key
     if (this.keyHeld_left || this.keyHeld_right) {
       this.gotoX = null;
-      // if (this.soundTimer < 1) {
-      //   hatMoveLongSound.play(0.3);
-      //   this.soundTimer = 75;
-      // }
 
       if (this.keyHeld_left) {
         this.nextX -= this.speed;
@@ -200,13 +196,6 @@ function playerClass(id) {
       }
       // console.log(this.x, this.gotoX, player.keyHeld_left, player.keyHeld_right, player.button_left, player.button_right)
     }
-
-
-    // MOVE left or right using touch or button
-    // gotoX set to next column-centre
-    // if (this.button_left || this.button_right) {
-    //   console.log("From " + this.x + " gotoX " + this.gotoX);
-    // } // end button set gotoX
 
 
     if (this.gotoX != this.x && this.gotoX != null) {
@@ -267,6 +256,7 @@ function playerClass(id) {
     else {
       if (this.button_left) {
         this.gotoX = nextColumnCentre(this.x, -1);
+        // if (touchDevice || gameState == STATE_GUIDE && tutorStep == 1) {
         if (touchDevice || gameState == STATE_GUIDE) {
           this.button_left = false;
         }

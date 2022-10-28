@@ -909,6 +909,12 @@ function sheepClass() {
     // head should be drawn above body
     drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x, this.y, this.orient);
 
+    if (this.team == BLUE) {
+      drawBitmapCenteredWithRotation(canvasContext, sheepKnotBluePic, this.x, this.y, this.orient);
+    } else if (this.team == RED) {
+      drawBitmapCenteredWithRotation(canvasContext, sheepKnotRedPic, this.x, this.y, this.orient);
+    }
+
     if (this.x > gameCanvas.width - sheepNormalPic.width / 2 - 8) {
       if (this.team == PLAIN) {
         drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x - gameCanvas.width, this.y, this.ang);
