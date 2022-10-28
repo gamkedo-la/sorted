@@ -122,3 +122,16 @@ function removeFromUnordered(arr, i) {
   }
   arr.length -= 1;
 }
+
+
+function moveParticles() {
+  for (var i = 0; i < particleList.length; i++) {
+    // object decrements life
+    if (particleList[i].life < 1) {
+      removeFromUnordered(particleList, i);
+    }
+    else {
+      particleList[i].move();
+    }
+  }
+}

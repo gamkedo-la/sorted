@@ -171,15 +171,7 @@ function moveAll() {
 
   else if (gameState == STATE_PLAY || gameState == STATE_LEVEL_END) { //  || gameState == STATE_GUIDE
 
-    for (var i = 0; i < particleList.length; i++) {
-      // object decrements life
-      if (particleList[i].life < 1) {
-        removeFromUnordered(particleList, i);
-      }
-      else {
-        particleList[i].move();
-      }
-    }
+    moveParticles();
 
     if (gameState == STATE_PLAY) {
       step[currentLevel]++; // level timesteps
