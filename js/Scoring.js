@@ -53,11 +53,20 @@ function levelEnding() {
   levelRunning = false;
 
   if (editMode == false) {
-  // play some happy music!
-  victory_music.play(VICTORY_MUSIC_VOLUME);
+    // play some happy music!
+    victory_music.play(VICTORY_MUSIC_VOLUME);
   }
-
   // console.log("Level " + currentLevel + " over");
+}
+
+function levelEndTutorial() {
+  gameState = STATE_LEVEL_END;
+  levelScores[currentLevel] = levelScore;
+  checkScore(levelScore);
+  levelTestDataReady = true;
+  levelRunning = false;
+    // play some happy music!
+    victory_music.play(VICTORY_MUSIC_VOLUME);
 }
 
 

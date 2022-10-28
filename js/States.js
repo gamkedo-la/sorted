@@ -211,7 +211,11 @@ function drawUI() {
   if (runMode == NORMAL_PLAY) {
     if (gameState == STATE_GUIDE) {
       drawBarTitle('"Bar"', 18);
-      drawBarButtons(tutorialButtonLabel);
+      if (tutorStep == 7 || tutorStep == 8) {
+        drawBarButtons(playButtonLabel);
+      } else {
+        drawBarButtons(tutorialButtonLabel);
+      }
     } else {
       drawBarTitle("Level " + currentLevel, 20);
       drawBarButtons(playButtonLabel);

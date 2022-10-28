@@ -135,8 +135,9 @@ function ui_mousedownHandler() {
               break;
 
             case "End":
-              levelEnding();
-              // gotoMenu("Play's CanvasButton Quit");
+              if (gameState == STATE_PLAY) {
+                levelEnding();
+              }
               break;
           }
         }
@@ -159,14 +160,14 @@ function ui_mousedownHandler() {
     } 
     
     else { // not Paused
-      for (var i = 0; i < tutorialButtonLabel.length; i++) {
+      for (var i = 0; i < playButtonLabel.length; i++) {
         if (xyIsInRect(uiPos, buttonRects[i])) {
           buttonDown = i;
           if (TOUCH_TEST) {
             report("Clicked inside rect " + tutorialButtonLabel[i], 2);
           }
 
-          switch (tutorialButtonLabel[i]) {
+          switch (playButtonLabel[i]) {
             case "Left":
               player.button_left = true;
               hatDirection(-1);
@@ -196,6 +197,13 @@ function ui_mousedownHandler() {
 
             case "Pause":
               togglePause();
+              break;
+
+            case "End":
+              if (tutorStep == 7) {
+                  tutorStep = 8;
+                  // levelEndTutorial();
+              }
               break;
           }
         }

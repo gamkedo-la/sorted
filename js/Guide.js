@@ -130,7 +130,7 @@ function drawGuide() {
   // move held sheep and Send downward
   else if (tutorStep == 5) {
     drawTutorial();
-    let txt = "Ideally a sheep should go in a pen (indicated) but going in a ditch on the correct side is better than going in a pen on the wrong side. Again move the hat, then Call and Send.";
+    let txt = "Ideally a sheep should go in a pen (indicated) but going on the correct side in a ditch is better than going in a pen on the wrong side. Try call and send again.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       bodyLine(txtLines[i], ++line);
@@ -148,22 +148,37 @@ function drawGuide() {
   // tiles affect sheep
   else if (tutorStep == 6) {
     drawTutorial();
-    let txt = "Sheep collide and are affected by terrain, so they can stray from the vertical sending. When a sheep reaches the bottom a score is displayed. Call another sheep now.";
+    let txt = "Sheep collide and are affected by terrain so they can stray from the vertical sending. When a sheep reaches the bottom a score is displayed. Call another sheep now.";
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       bodyLine(txtLines[i], ++line, 1);
     }
   }
 
-  // keys to move
+  // End a level
   else if (tutorStep == 7) {
+    drawTutorial();
+    var txt = 'You can suspend the game with the "Pause" button or Spacebar key. It is also possible to end a Level early using the "End" button or F4 function key, but here in the tutorial that will only go to the final step; try it now.';
+    if (touchDevice) {
+      let txt = 'You can "Pause" the game; try that button, and then "Resume". It is also possible to end a Level early by using the "End" button, but here in the tutorial that will only go to the final step; click "End" now.';
+    }
+    let txtLines = getLines(canvasContext, txt, textWidth);
+    for (var i = 0; i < txtLines.length; i++) {
+      bodyLine(txtLines[i], ++line, 1);
+    }
+    uiContext.strokeRect(buttonRects[5].x, buttonRects[5].y, buttonRects[2].width, buttonRects[2].height);
+    canvas_arrow(canvasContext, 750, 430, 790, 430, 10, 'yellow');
+  }
+
+  // keys to move
+  else if (tutorStep == 8) {
     drawTutorial();
     let block = 1;
     contextSettingsTutorial();
+
     if (!touchDevice) {
       canvasContext.drawImage(controlsPic, 320, 250);
-
-      let txt = "You can also use keyboard controls: Left and Right arrow keys move the hat; the up arrow key Calls a sheep, and the down arrow Sends. The spacebar pauses, and Function key F4 ends a level early. Try them now.";
+      let txt = "You can use keyboard controls: Left and Right arrow keys move the hat; the up arrow key Calls a sheep, and the down arrow Sends. Try those now.";
       let txtLines = getLines(canvasContext, txt, textWidth);
       for (var i = 0; i < txtLines.length; i++) {
         blockLine(txtLines[i], ++line, block);

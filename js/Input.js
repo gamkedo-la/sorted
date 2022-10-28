@@ -505,6 +505,12 @@ function getFunctionKeys(key) {
     if (gameState == STATE_PLAY) {
       levelEnding();
     }
+    else if (gameState == STATE_GUIDE) {
+      if (tutorStep == 7) {
+        tutorStep = 8;
+        // levelEndTutorial();
+      }
+    }
   }
 
   if (key == KEY_F5 && editMode) {

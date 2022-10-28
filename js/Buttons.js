@@ -2,7 +2,7 @@ var barButtonInactive = null;
 
 var menuButtonLabel = ["Play", "Help", "Tutorial", "Music", "Score", "Credits", "Quit"];
 const playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "End", "Menu"];
-var tutorialButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "Menu"];
+var tutorialButtonLabel = ["Left", "Right", "Call", "Send", "Pause", , "Menu"];
 // const pauseButtonLabel = ["Resume"];
 const pauseButtonLabel = [,,,,"Resume"];
 const levelendButtonLabel = ["Replay", "Advance", "Menu"];
