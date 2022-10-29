@@ -45,40 +45,32 @@ function drawBarTitle(txt, fontSize) {
 
 function drawBarButtons(btnList) {
   var lineWidth = 1;
+  const oldConfig = {align: uiContext.textAlign, lineWidth: uiContext.lineWidth, font: uiContext.font};
   uiContext.lineWidth = lineWidth;
+  uiContext.textAlign = "center";
+  uiContext.font = "12px Arial";
   for (var i = 0; i < btnList.length; i++) {
 
     if (btnList[i] != undefined && btnList[i] != '') {
-
-      colorRectBorder(
-        uiContext,
-        buttonRects[i].x,
-        buttonRects[i].y,
-        buttonRects[i].width,
-        buttonRects[i].height,
-        "white",
-        "red",
-        lineWidth
-      );
   
       if (buttonDown == i) {
-        uiContext.drawImage(testButtonPic, 60,0,60,60, buttonRects[i].x, buttonRects[i].y, 60,60);
+        uiContext.drawImage(buttonPic, 51, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 50, 52);
       } else {
-        uiContext.drawImage(testButtonPic, 0,0,60,60, buttonRects[i].x, buttonRects[i].y, 60,60);
+        uiContext.drawImage(buttonPic, 0, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 50, 52);
       }
-  
-      uiContext.textAlign = "left";
-      uiContext.font = "14px Arial";
       // magic numbers position text on button
       colorText(
         uiContext,
         btnList[i],
-        5 + buttonRects[i].x,
+        buttonPic.width/4 + buttonRects[i].x,
         25 + buttonRects[i].y,
         "black"
       );
     } // button slot filled
   }
+  uiContext.lineWidth = oldConfig.lineWidth;
+  uiContext.textAlign = oldConfig.align;
+  uiContext.font = oldConfig.font;
 }
 
 function requireButtonGotoMenu() {
