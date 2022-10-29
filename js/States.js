@@ -213,12 +213,14 @@ function drawUI() {
       drawBarTitle('"Bar"', 18);
       if (tutorStep == 7 || tutorStep == 8) {
         drawBarButtons(playButtonLabel);
+        drawTime();
       } else {
         drawBarButtons(tutorialButtonLabel);
       }
     } else {
       drawBarTitle("Level " + currentLevel, 20);
       drawBarButtons(playButtonLabel);
+      drawTime();
     }
   }
   else {

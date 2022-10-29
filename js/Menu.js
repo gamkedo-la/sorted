@@ -251,7 +251,7 @@ function drawLevelScore() {
   }
 
   canvasContext.font = "16px Arial";
-  colorText(canvasContext, "Time in level: " + Math.floor(step[currentLevel] / baseFPS) + 1, gameCanvas.width / 2, y += 35, "white");
+  colorText(canvasContext, "Time in level: " + Math.floor(step[currentLevel] / baseFPS), gameCanvas.width / 2, y += 35, "white");
 
   // colorText("H to hide/show this box", canvas.width/2, y+210, "white");
   canvasContext.textAlign = "left";

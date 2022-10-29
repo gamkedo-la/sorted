@@ -42,6 +42,12 @@ function drawBarTitle(txt, fontSize) {
   colorText(uiContext, txt, buttonsLeft, 30, "white");
 }
 
+function drawTime(){
+  uiContext.font = 12 + "px Arial";
+  let txt = "Time in level: " + Math.floor(step[currentLevel] / baseFPS);
+  colorText(uiContext, txt, buttonsLeft, 45, "white");
+}
+
 
 function drawBarButtons(btnList) {
   var lineWidth = 1;
