@@ -303,6 +303,7 @@ function ui_mouseupHandler(evt) {
         break;
     }
   }
+  buttonDown = null;
 }
 
 
