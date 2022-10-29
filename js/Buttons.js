@@ -17,7 +17,7 @@ const designButtonLabel = []; // need bar for tile/agent info
 
 var buttonsTop = 50;
 var buttonsLeft = 10;
-const buttonWidth = 60;
+const buttonWidth = 70;
 const buttonHeight = 60;
 const buttonGap = 10;
 const buttonRects = [];
@@ -58,18 +58,20 @@ function drawBarButtons(btnList) {
   for (var i = 0; i < btnList.length; i++) {
 
     if (btnList[i] != undefined && btnList[i] != '') {
-	  let textY = buttonPic.height/2 + buttonRects[i].y - 2;
+	  let textY = buttonPic.height/2 + buttonRects[i].y + 5;
       if (buttonDown == i) {
-        uiContext.drawImage(buttonPic, 51, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 50, 52);
+        // uiContext.drawImage(buttonPic, 51, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 50, 52);
+        uiContext.drawImage(buttonPic, 51, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 70, 70);
 		textY += 4;
       } else {
-        uiContext.drawImage(buttonPic, 0, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 50, 52);
+        // uiContext.drawImage(buttonPic, 0, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 50, 52);
+        uiContext.drawImage(buttonPic, 0, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 70, 70);
       }
       // magic numbers position text on button
       colorText(
         uiContext,
         btnList[i],
-        buttonPic.width/4 + buttonRects[i].x,
+        buttonPic.width/4 + buttonRects[i].x +10,
         textY,
         "black"
       );
