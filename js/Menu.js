@@ -13,7 +13,7 @@ var BLOCK_LINE_SPACING = 25;
 var BLOCK_GAP = 20;
 
 const CREDITS_X = 35;
-const CREDITS_Y = 60; // no logo on Credits
+const CREDITS_Y = 200; // since scrolling restore Logo on Credits
 const CREDITS_WIDTH = 720;
 
 var barTitle = "barTitle undefined";
@@ -131,10 +131,14 @@ function drawHelp() {
 
 
 function drawCredits() {
-  creditsFrameCount++;
+  
+  if (!paused) {
+    creditsFrameCount++;
+  }
 
   colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "black");
-  canvasContext.drawImage(creditsBGPic, 0, 0);
+  // canvasContext.drawImage(creditsBGPic, 0, 0);
+  canvasContext.drawImage(menuBGPic, 0, 0);
 
   indentX = CREDITS_X;
   BLOCK_GAP = 40;

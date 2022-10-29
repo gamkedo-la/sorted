@@ -294,5 +294,6 @@ function drawMenuState() {
 
 function drawCreditState() {
   drawCredits();
-  drawBarButtons(offmenuButtonLabel);
+  drawBarButtons(creditsButtonLabel);
+  // drawBarButtons(offmenuButtonLabel);
 }

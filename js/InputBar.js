@@ -240,6 +240,25 @@ function ui_mousedownHandler() {
     }
   }
 
+  else if (gameState == STATE_CREDITS) {
+    for (var i = 0; i < creditsButtonLabel.length; i++) {
+      if (xyIsInRect(uiPos, buttonRects[i])) {
+
+        switch (creditsButtonLabel[i]) {
+
+          case "Menu":
+            paused = false; 
+            gotoMenu("button");
+            break;
+          
+          case "Pause":
+            togglePause();
+            break;
+        }
+      }
+    }
+  }
+
   else if (requireButtonGotoMenu()) {
     // could set Menu button at slot [4] or elsewhere
     if (xyIsInRect(uiPos, buttonRects[0])) {

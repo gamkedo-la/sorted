@@ -440,6 +440,9 @@ function menuKeyChoice(key) {
       if (key == KEY_ESC || key == KEY_M) {
         gotoMenu("Credits, key M or Esc");
       }
+      else if (key == KEY_SPACE) {
+        togglePause();
+      }
       if (key == KEY_P) {
         gameState = STATE_PLAY;
       }
