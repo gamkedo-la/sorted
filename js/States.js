@@ -150,13 +150,48 @@ function togglePause() {
 
 
 function moveLorries() {
-  for (var i=0; i<lorryList.length; i++) {
+  for (var i = 0; i < lorryList.length; i++) {
     lorryList[i].move();
+
+    // distance to centre pen / lorry speed = first stop
+    var firstStop = Math.floor((gameCanvas.width/2-TILE_W/2) / lorrySpeed);
+    if (afterLevelTimeStep == firstStop) {
+      lorryList[i].speedX = 0;
+    }
+
+    else if (afterLevelTimeStep == firstStop + 20) {
+      lorryRestart(i);
+    }
+
+    else if (afterLevelTimeStep == firstStop + 39) {
+      lorryList[i].speedX = 0; 
+    }
+
+    else if (afterLevelTimeStep == firstStop + 49) {
+      lorryRestart(i);
+    }
+
+    else if (afterLevelTimeStep == firstStop + 67) {
+      lorryList[i].speedX = 0; 
+    }
+
+    else if (afterLevelTimeStep == firstStop + 77) {
+      lorryRestart(i);
+    }
   }
 }
 
+function lorryRestart(i) {
+  if (i == 0) {
+    lorryList[i].speedX = lorrySpeed * -1;
+  } else {
+    lorryList[i].speedX = lorrySpeed;
+  }
+}
+
+
 function drawLorries() {
-  for (var i=0; i<lorryList.length; i++) {
+  for (var i = 0; i < lorryList.length; i++) {
     lorryList[i].draw();
   }
 }
@@ -258,7 +293,7 @@ function drawCalling() {
     let x = sheepList[sheepCalled].x;
     let y = sheepList[sheepCalled].y;
     canvasContext.lineWidth = 5;
-    colorDashLine(canvasContext, player.x, player.y+20, x, y, "yellow")
+    colorDashLine(canvasContext, player.x, player.y + 20, x, y, "yellow")
   }
 }
 
@@ -314,20 +349,24 @@ function drawCreditState() {
 }
 
 
-function scrollRoad() {
+function setupRoadLorries() {
+
   // remove top row from field
   areaGrid = areaGrid.slice(TILE_COLS);
   areaGrid = areaGrid.concat(ROAD_ROW);
-  for (var i=0; i<sheepList.length; i++) {
+  for (var i = 0; i < sheepList.length; i++) {
     sheepList[i].y -= TILE_H;
   }
+  
+  // create Lorries
   var spawnLorry = new lorryClass();
   spawnLorry.init(1, lorryBluePic, -50, 1);
   lorryList.push(spawnLorry);
 
   var spawnLorry = new lorryClass();
-  spawnLorry.init(2, lorryRedPic, 850, -1);
+  spawnLorry.init(2, lorryRedPic, 849, -1);
   lorryList.push(spawnLorry);
 
+  afterLevelTimeStep = 0;
   // console.log(areaGrid);
 }

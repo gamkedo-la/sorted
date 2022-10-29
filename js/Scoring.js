@@ -32,7 +32,7 @@ function calcMaximumScore(whichLevel) {
 
 
 function setAllMaxScores() {
-  for (var i=0; i < NUM_LEVELS; i++) {
+  for (var i = 0; i < NUM_LEVELS; i++) {
     levelMaxScores[i] = calcMaximumScore(i);
     // console.log('Level ' + i + ' maximum score: ' + levelMaxScores[i]);
   }
@@ -41,7 +41,7 @@ function setAllMaxScores() {
 
 function isLevelOver() {
   // if all sheep out-of-play and particle fx completed
-  return ( sheepInPlay < 1 && particleList.length < 5 )
+  return (sheepInPlay < 1 && particleList.length < 5)
 }
 
 
@@ -57,7 +57,7 @@ function levelEnding() {
     victory_music.play(VICTORY_MUSIC_VOLUME);
   }
 
-  scrollRoad();
+  setupRoadLorries();
   // console.log("Level " + currentLevel + " over");
 }
 
@@ -73,7 +73,7 @@ function isInPenOrDitch(mode) {
 // scores are calculated immediately and recorded for sheep
 function checkScore() {
   var sheepScoreSum = 0;
-  for(var i=0; i<FLOCK_SIZE[currentLevel]; i++) {
+  for (var i = 0; i < FLOCK_SIZE[currentLevel]; i++) {
     sheepScoreSum += sheepList[i].score;
   }
   if (sheepScoreSum == levelScore) {

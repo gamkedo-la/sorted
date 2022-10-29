@@ -280,13 +280,14 @@ function drawAll() {
   else if (gameState == STATE_LEVEL_END) {
     // should call drawField() with parameter play or endLevel
     drawLevelOver();
-    
+
     drawLorries();
+    afterLevelTimeStep++;
 
     // once per level-ending
     if (editMode && testWrite) {
       writeTestResult();
-    } // if testWrite
+    } 
   } // end of Level_Over
 
   else if (gameState == STATE_DESIGN_LEVEL) {
@@ -472,10 +473,12 @@ function refocus() {
 }
 
 function lostFocus() {
+  // if (gameState == STATE_PLAY)
   paused = true;
   previousRunMode = runMode;
   runMode = LOST_FOCUS;
 }
+
 function gainFocus() {
   paused = false;
   runMode = previousRunMode;

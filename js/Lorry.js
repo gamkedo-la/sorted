@@ -1,4 +1,5 @@
 lorryList = [];
+var lorrySpeed = 8;
 
 lorryClass.prototype = new movingClass();
 
@@ -8,7 +9,7 @@ function lorryClass() {
     this.x = x;
     this.y = gameCanvas.height - TILE_H/2;
     this.ang = 0;
-    this.speedX = 8 * direction;
+    this.speedX = lorrySpeed * direction;
   }
 
   this.reset = function () {
@@ -16,11 +17,11 @@ function lorryClass() {
 
   this.move = function () {
     var nextX = this.x; // previous location
-    var distanceToCentre = Math.abs(gameCanvas.width/2 - nextX);
-    if (distanceToCentre < this.pic.width/2) {
-      console.log(this.pic.width)
-      this.speedX *= -1;
-    }
+    // var distanceToCentre = Math.abs(gameCanvas.width/2 - nextX);
+    // if (distanceToCentre < this.pic.width/2 + 20) {
+    //   console.log(this.pic.width)
+    //   this.speedX *= -1;
+    // }
     nextX += this.speedX;
     this.x = nextX;
   }
