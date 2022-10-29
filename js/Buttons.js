@@ -52,9 +52,10 @@ function drawBarButtons(btnList) {
   for (var i = 0; i < btnList.length; i++) {
 
     if (btnList[i] != undefined && btnList[i] != '') {
-  
+	  let textY = buttonPic.height/2 + buttonRects[i].y - 2;
       if (buttonDown == i) {
         uiContext.drawImage(buttonPic, 51, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 50, 52);
+		textY += 4;
       } else {
         uiContext.drawImage(buttonPic, 0, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 50, 52);
       }
@@ -63,7 +64,7 @@ function drawBarButtons(btnList) {
         uiContext,
         btnList[i],
         buttonPic.width/4 + buttonRects[i].x,
-        25 + buttonRects[i].y,
+        textY,
         "black"
       );
     } // button slot filled
