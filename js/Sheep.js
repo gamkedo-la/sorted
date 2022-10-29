@@ -425,6 +425,8 @@ function sheepClass() {
 
       this.endLevel(tileCol);
 
+      bottomRowID[tileCol] = this.id;
+
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
         gateSound.play(0.4);

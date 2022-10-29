@@ -8,6 +8,8 @@ const TILE_ROWS = 12;
 
 var bottomMargin = 0;
 
+const bottomRowID = Array(TILE_COLS);
+
 const POST_SIZE = 5;
 const POST_THICK = 4;
 const POST_GAP = 10;
