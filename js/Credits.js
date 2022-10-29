@@ -1,12 +1,13 @@
 const creditsText = [
-  "No more updates to Credits: will be compiled by Chris.",
-  "Patrick McKeown - programming, design.",
-  'Christer "McFunkypants" Kaitila - title and animation on menu/help/credits; decal system with flowers and grassclumps; hoofprints behind sheep; soundfx for sheep, and dog; ambient sounds; baa when sheep enters pen.',
-  "Chris DeLeon - sheep-head multi-part image; foundation of classic games code; Photopea help to make tile art.",
-  "Gonzalo Delgado - rogue dog (head) concept art and sprite.",
-  "Tim Waskett - verbal algorithm for sheep roaming.",
-  "H Trayford - maximum possible score; early Hat screenwrap.",
-  'Nicholas Polchies - canvas scaling (for phone screens) code from Hometeam game "Accidental Personal Confusion 5".',
-  'Caspar Dunant - touch event handling code from Hometeam game "Irenic".',
+"Patrick McKeown: Project lead, core gameplay, custom level editor, collisions, slow tiles, UI, main tile art including grass and pens, call effects, tutorial, obstacles and characters, level design, scoring, mobile/tablet support, menus, automated tests, game event feedback effects, many bug fixes, additional sounds",
+"Christer \"McFunkypants\" Kaitila: Animated menu backgrounds, decals (flowers, grass, hoof prints), ground decoration, call/send tutorial tooltips, baa and woof sounds with ambient and pen hookups, tile art (forest, lake, bend, conveyor), main menu drop shadow, victory music for end of level",
+"H Trayford: Wrap screen fix, debug level skip, max score calculation, credits scroll",
+"Vince McKeown: Hat art",
+"Gonzalo Delgado: Rogue dog sprite",
+  "Tim Waskett: Explained algorithm for sheep roaming",
+"Chris DeLeon: Sheep face, menu return sound, muddy tile",
+  'Nicholas Polchies: Canvas scaling (for phone screens) code from HomeTeam game "Accidental Personal Confusion 5"',
+  'Caspar \"SpadXIII\" Dunant: Touch event handling code from HomeTeam game "Irenic"',
+  "Playtesting: Klaim (A. Joel Lamotte), Rodrigo Bonzerr Lopez"
   
 ];
