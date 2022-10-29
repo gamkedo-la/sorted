@@ -18,6 +18,8 @@ var bendLeftSound = new SoundOverlapsClass("sound/bend_left");
 var bendRightSound = new SoundOverlapsClass("sound/bend_right");
 
 var haltedSound = new SoundOverlapsClass("sound/duck_quack");
+var haltedSound2 = new SoundOverlapsClass("sound/goose_1");
+
 var slowTileSound = new SoundOverlapsClass("sound/woods_quiet_419052");
 
 var pennedSound = new SoundOverlapsClass("sound/baa17");

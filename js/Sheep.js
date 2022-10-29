@@ -751,7 +751,13 @@ function sheepClass() {
 
     else if (newMode == HALTED) {
       this.mode = HALTED;
-      haltedSound.play(0.2);
+      var waterfowl = randomInteger(1,2);
+      if (waterfowl == 1) {
+        haltedSound.play(0.2);
+      } else {
+        haltedSound2.play(0.3);   
+      }
+      
       this.orient = 0; // normal upright
       this.speed = 0;
     }

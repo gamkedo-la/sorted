@@ -45,7 +45,7 @@ function drawBarTitle(txt, fontSize) {
 function drawTime(){
   uiContext.font = 12 + "px Arial";
   let txt = "Time in level: " + Math.floor(step[currentLevel] / baseFPS);
-  colorText(uiContext, txt, buttonsLeft, 45, "white");
+  colorText(uiContext, txt, buttonsLeft, 580, "white");
 }
 
 
