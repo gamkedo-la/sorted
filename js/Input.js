@@ -5,8 +5,10 @@ function setupInput() {
 
   initButtonRects(); // set coords of right bar buttons
 
-  drawingCanvas.addEventListener("focusout", lostFocus);
-  drawingCanvas.addEventListener("focusin", gainFocus);
+  if (!touchDevice) {
+    drawingCanvas.addEventListener("focusout", lostFocus);
+    drawingCanvas.addEventListener("focusin", gainFocus);
+  }
 
   drawingCanvas.addEventListener('mousemove', updateMousePos);
   //drawingCanvas.addEventListener('touchmove', updateTouchPos);

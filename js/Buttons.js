@@ -1,6 +1,10 @@
 var barButtonInactive = null;
 
-var menuButtonLabel = ["Play", "Help", "Tutor", "Music", "Score", "Credits", "Quit"];
+if (touchDevice) {
+  var menuButtonLabel = ["Play", "Help", "Tutor", "Music", "Score", "Credits"];
+} else {
+  var menuButtonLabel = ["Play", "Help", "Tutor", "Music", "Score", "Credits", "Quit"];
+}
 const playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "End", "Menu"];
 var tutorialButtonLabel = ["Left", "Right", "Call", "Send", "Pause", , "Menu"];
 const pauseButtonLabel = [,,,,"Go"];
