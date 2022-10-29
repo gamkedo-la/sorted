@@ -127,11 +127,6 @@ function drawHelp() {
   for (var i = 0; i < txtLines.length; i++) {
     blockLine(txtLines[i], ++line, block);
   }
-
-  // if (touchDevice == false) {
-  //   line++; // gap between blocks
-  //   bodyLine("Menu: press key M or Esc", ++line, yTop);
-  // }
 }
 
 
@@ -165,10 +160,10 @@ function drawCredits() {
 
 
 function drawLostFocus() {
-  colorRect(canvasContext, 150, 100, 500, 160, "rgba(0,0,0,0.25)");
-  colorText(canvasContext, "Window lost focus, game paused", 200, 150, "white");
+  colorRect(canvasContext, 120, 100, 560, 160, "rgba(0,0,0,0.25)");
+  colorText(canvasContext, "Window lost focus, game paused", 170, 160, "white");
   if (!touchDevice) {
-    colorText(canvasContext, "Not receiving keyboard input", 200, 200, "white");
+    colorText(canvasContext, "Not receiving keyboard input", 170, 210, "white");
   } 
 }
 

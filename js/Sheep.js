@@ -1056,13 +1056,13 @@ function sheepClass() {
     if (this.team != PLAIN) {
 
       if (this.mode == IN_DITCH) {
-        score = DITCH_SCORE;
+        score = Math.floor(DITCH_SCORE * Math.sqrt(currentLevel));
       }
       else if (this.mode == IN_PEN_BLUE) {
-        score = PEN_SCORE;
+        score = Math.floor(PEN_SCORE * Math.sqrt(currentLevel));
       }
       else if (this.mode == IN_PEN_RED) {
-        score = PEN_SCORE;
+        score = Math.floor(PEN_SCORE * Math.sqrt(currentLevel));
       }
 
       if (this.isOffside()) {
