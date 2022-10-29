@@ -12,6 +12,7 @@ const POST_SIZE = 5;
 const POST_THICK = 4;
 const POST_GAP = 10;
 
+const ROAD_ROW = [18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18];
 
 function getTileIndexAtXY(x, y) {
   if (x < 0 || x > gameCanvas.width || y < 0 || y > gameCanvas.height) {
@@ -112,6 +113,7 @@ function drawTiles() {
 
       else if (tileTypeHere != TILE_FIELD) {
         var useImg = tilePics[tileTypeHere];
+        // console.log(eachCol, eachRow, step[currentLevel], useImg)
         canvasContext.drawImage(useImg, drawTileX, drawTileY);
       }
 

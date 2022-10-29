@@ -18,6 +18,8 @@ const FULL_DITCH = 15;
 
 const TILE_DISTRACT = 16;
 const TILE_UNSORT = 17;
+const TILE_ROAD = 18;
+const TILE_RAILS = 25;
 
 const TILE_NAMES = ['Field', 'Slow', 'Stuck', 'Halt', 'Bend left', 'Bend right', 'Conveyor left', 'Conveyor right', 'Conveyor up', 'Conveyor down', 'Ditch', 'Pen blue', 'Pen red', 'Full pen blue', 'Full pen red', 'Full ditch', 'Distract', 'Unsort', 'Road', 'Centre', 'Yellow flower', 'Blue flower', 'Red flower', 'Bright forbs'];
 
@@ -25,8 +27,6 @@ const YELLOW_FLOWER = 20;
 const BLUE_FLOWER = 21;
 const RED_FLOWER = 22;
 const BRIGHT_GRASS = 23;
-
-const TILE_RAILS = 25;
 
 var areaGrid = [];
 var saveGrid = [];
@@ -43,7 +43,7 @@ var levelTitleWidth = 200;
 
 const level_0 = [
   25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
-   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  18,
    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
    0,  0,  3,  0,  0,  3,  0,  0,  3,  0,  0,  3,  0,  0,  0,  0,
    0,  0, 20,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,

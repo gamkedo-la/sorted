@@ -299,3 +299,14 @@ function drawCreditState() {
   drawBarButtons(creditsButtonLabel);
   // drawBarButtons(offmenuButtonLabel);
 }
+
+
+function scrollRoad() {
+  // remove top row from field
+  areaGrid = areaGrid.slice(TILE_COLS);
+  areaGrid = areaGrid.concat(ROAD_ROW);
+  for (var i=0; i<sheepList.length; i++) {
+    sheepList[i].y -= TILE_H;
+  }
+  // console.log(areaGrid);
+}
