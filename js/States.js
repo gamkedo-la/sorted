@@ -149,6 +149,19 @@ function togglePause() {
 }
 
 
+function moveLorries() {
+  for (var i=0; i<lorryList.length; i++) {
+    lorryList[i].move();
+  }
+}
+
+function drawLorries() {
+  for (var i=0; i<lorryList.length; i++) {
+    lorryList[i].draw();
+  }
+}
+
+
 // called by drawPlay & drawLevelOver
 function drawField() {
   drawGrass();
@@ -308,5 +321,13 @@ function scrollRoad() {
   for (var i=0; i<sheepList.length; i++) {
     sheepList[i].y -= TILE_H;
   }
+  var spawnLorry = new lorryClass();
+  spawnLorry.init(1, lorryBluePic, -50, 1);
+  lorryList.push(spawnLorry);
+
+  var spawnLorry = new lorryClass();
+  spawnLorry.init(2, lorryRedPic, 850, -1);
+  lorryList.push(spawnLorry);
+
   // console.log(areaGrid);
 }

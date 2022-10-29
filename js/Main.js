@@ -173,7 +173,13 @@ function moveAll() {
     }
   }
 
-  else if (gameState == STATE_PLAY || gameState == STATE_LEVEL_END) { //  || gameState == STATE_GUIDE
+
+  else if (gameState == STATE_LEVEL_END) {
+    moveLorries();
+  }
+
+
+  else if (gameState == STATE_PLAY) { //  || gameState == STATE_GUIDE
 
     moveParticles();
 
@@ -274,6 +280,8 @@ function drawAll() {
   else if (gameState == STATE_LEVEL_END) {
     // should call drawField() with parameter play or endLevel
     drawLevelOver();
+    
+    drawLorries();
 
     // once per level-ending
     if (editMode && testWrite) {
