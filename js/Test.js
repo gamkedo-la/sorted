@@ -13,8 +13,11 @@ const SEND_ROAM = 2;
 const ROAM_FROM_R1 = 3;
 const CALL_FROM_R10 = 4;
 const AI_PLAY_MIDFIELD = 5;
+const LOST_FOCUS = 8;
 const GAME_OVER = 9;
 var runMode = NORMAL_PLAY;
+var previousRunMode = runMode;
+
 var testWrite = false; // not saving test report files
 
 // number of Test types currently usable

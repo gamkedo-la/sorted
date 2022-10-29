@@ -250,6 +250,9 @@ function drawAll() {
   if (paused) {
     drawBarButtons(pauseButtonLabel);
     // previous frame's field & sheep & NPCs are left on screen
+    if (runMode == LOST_FOCUS) {
+      drawLostFocus();
+    }
   }
 
   else if (runMode == GAME_OVER) {
@@ -456,4 +459,14 @@ function staticScreen() {
 function refocus() {
   drawingCanvas.setAttribute('tabindex', '0');
   drawingCanvas.focus();
+}
+
+function lostFocus() {
+  paused = true;
+  previousRunMode = runMode;
+  runMode = LOST_FOCUS;
+}
+function gainFocus() {
+  paused = false;
+  runMode = previousRunMode;
 }

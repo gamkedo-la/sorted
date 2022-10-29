@@ -164,6 +164,15 @@ function drawCredits() {
 } // end drawCredits
 
 
+function drawLostFocus() {
+  colorRect(canvasContext, 150, 100, 500, 160, "rgba(0,0,0,0.25)");
+  colorText(canvasContext, "Window lost focus, game paused", 200, 150, "white");
+  if (!touchDevice) {
+    colorText(canvasContext, "Not receiving keyboard input", 200, 200, "white");
+  } 
+}
+
+
 function drawLevelScoreTest() {
   var y = 50;
   canvasContext.textAlign = "center";
@@ -250,6 +259,7 @@ function drawLevelScore() {
 
   // drawStar(canvasContext, gameCanvas.width/2, y, 5, 20, 25, -18,'yellow','red', 4);
 } // end drawLevelScore
+
 
 function drawBackground() {
   blankGrid = getEmptyField();
