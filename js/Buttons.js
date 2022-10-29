@@ -1,9 +1,9 @@
 var barButtonInactive = null;
 
-var menuButtonLabel = ["Play", "Help", "Tutorial", "Music", "Score", "Credits", "Quit"];
+var menuButtonLabel = ["Play", "Help", "Tutor", "Music", "Score", "Credits", "Quit"];
 const playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "End", "Menu"];
 var tutorialButtonLabel = ["Left", "Right", "Call", "Send", "Pause", , "Menu"];
-const pauseButtonLabel = [,,,,"Resume"];
+const pauseButtonLabel = [,,,,"Go"];
 const levelendButtonLabel = ["Replay", "Advance", "Menu"];
 const gameoverButtonLabel = ["Music", "Close"]; // "Restart"
 const creditsButtonLabel = ["Menu", , , , "Pause"];
@@ -45,7 +45,7 @@ function drawBarTitle(txt, fontSize) {
 function drawTime(){
   uiContext.font = 12 + "px Arial";
   let txt = "Time in level: " + Math.floor(step[currentLevel] / baseFPS);
-  colorText(uiContext, txt, buttonsLeft, 580, "white");
+  colorText(uiContext, txt, buttonsLeft-3, 580, "white");
 }
 
 
@@ -54,7 +54,7 @@ function drawBarButtons(btnList) {
   const oldConfig = {align: uiContext.textAlign, lineWidth: uiContext.lineWidth, font: uiContext.font};
   uiContext.lineWidth = lineWidth;
   uiContext.textAlign = "center";
-  uiContext.font = "12px Arial";
+  uiContext.font = "14px Arial";
   for (var i = 0; i < btnList.length; i++) {
 
     if (btnList[i] != undefined && btnList[i] != '') {

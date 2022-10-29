@@ -15,7 +15,7 @@ function setStyleOutline() {
 function moveGuide() {
 
   player.move();
-  
+
   if (tutorStep > 1) {
     for (var i = 0; i < sheepList.length; i++) {
       sheepList[i].move();
@@ -55,7 +55,7 @@ function drawGuide() {
     // indicate buttons left/right
     canvas_arrow(canvasContext, 750, 80, 790, 80, 10, 'yellow');
     canvas_arrow(canvasContext, 750, 150, 790, 150, 10, 'yellow');
-    
+
   }
 
   else if (tutorStep == 2) {
@@ -89,13 +89,13 @@ function drawGuide() {
     }
     // highlight Call button 
     // if (flashing) {
-      setStyleUI();
-      uiContext.strokeRect(buttonRects[2].x, buttonRects[2].y, buttonRects[2].width, buttonRects[2].height);
-      canvas_arrow(canvasContext, 750, 220, 790, 220, 10, 'yellow');
+    setStyleUI();
+    uiContext.strokeRect(buttonRects[2].x, buttonRects[2].y, buttonRects[2].width, buttonRects[2].height);
+    canvas_arrow(canvasContext, 750, 220, 790, 220, 10, 'yellow');
     // }
   }
 
-// Click one side of the bottom row to continue
+  // Click one side of the bottom row to continue
   // bottom row correct side
   else if (tutorStep == 4) {
     drawTutorial();
@@ -110,16 +110,16 @@ function drawGuide() {
     if (flashing) {
       canvasContext.lineWidth = 4;
       canvasContext.setLineDash([]);
-      let boxWidth = TILE_W * TILE_COLS/2;
+      let boxWidth = TILE_W * TILE_COLS / 2;
       let topLeftY = gameCanvas.height - TILE_H;
 
       let topLeftX = 2;
       canvasContext.strokeStyle = TEAM_COLOURS[1];
-      canvasContext.strokeRect(topLeftX,topLeftY, boxWidth-4,TILE_H-2);
+      canvasContext.strokeRect(topLeftX, topLeftY, boxWidth - 4, TILE_H - 2);
 
-      topLeftX = boxWidth+2;
+      topLeftX = boxWidth + 2;
       canvasContext.strokeStyle = TEAM_COLOURS[2];
-      canvasContext.strokeRect(topLeftX,topLeftY, boxWidth-4,TILE_H-2);
+      canvasContext.strokeRect(topLeftX, topLeftY, boxWidth - 4, TILE_H - 2);
     }
   }
 
@@ -135,8 +135,8 @@ function drawGuide() {
 
     var penCentre = [75, 225, 375, 425, 575, 725];
     var color = TEAM_COLOURS[1];
-    for(var i=0; i<penCentre.length; i++) {
-      if (i>=3) { color = TEAM_COLOURS[2]; }
+    for (var i = 0; i < penCentre.length; i++) {
+      if (i >= 3) { color = TEAM_COLOURS[2]; }
       canvas_arrow(canvasContext, penCentre[i], 515, penCentre[i], 540, 10, color);
     }
     canvasContext.lineJoin = 'miter'; // restore default
@@ -157,7 +157,7 @@ function drawGuide() {
     drawTutorial();
     var txt = 'You can suspend the game with the "Pause" button or Spacebar key. It is also possible to end a Level early using the "End" button or F4 function key, but here in the tutorial that will only go to the final step; try it now.';
     if (touchDevice) {
-      let txt = 'You can "Pause" the game; try that button, and then "Resume". It is also possible to end a Level early by using the "End" button, but here in the tutorial that will only go to the final step; click "End" now.';
+      let txt = 'You can "Pause" the game; try that button, and then "Go". It is also possible to end a Level early by using the "End" button, but here in the tutorial that will only go to the final step; click "End" now.';
     }
     let txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
@@ -214,7 +214,7 @@ function whenTutorialStep2() {
       spawnSheep.ang = potential == 1 ? 0 : Math.PI;
       sheepList.push(spawnSheep);
     }
-  }  
+  }
 }
 
 function whenTutorialStep3() {
@@ -237,7 +237,7 @@ function whenTutorialStep3() {
       spawnSheep.placeGridRandom(PLACING_DEPTH[whichLevel]);
       sheepList.push(spawnSheep);
     }
-  }  
+  }
 }
 
 

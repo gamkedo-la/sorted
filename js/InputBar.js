@@ -44,7 +44,7 @@ function ui_mousedownHandler() {
             gotoPlay("canvasButton");
             break;
 
-          case "Tutorial":
+          case "Tutor":
             gotoGuide("button Guide(Tutorial)")
             break;
 
@@ -84,13 +84,13 @@ function ui_mousedownHandler() {
         if (xyIsInRect(uiPos, buttonRects[i])) {
           // buttonDown = i;
           switch (pauseButtonLabel[i]) {
-            case "Resume":
+            case "Go":
               togglePause();
           }
         }
       }
-    } 
-    
+    }
+
     else { // not Paused
       for (var i = 0; i < playButtonLabel.length; i++) {
         if (xyIsInRect(uiPos, buttonRects[i])) {
@@ -152,13 +152,13 @@ function ui_mousedownHandler() {
         if (xyIsInRect(uiPos, buttonRects[i])) {
           buttonDown = i;
           switch (pauseButtonLabel[i]) {
-            case "Resume":
+            case "Go":
               togglePause();
           }
         }
       }
-    } 
-    
+    }
+
     else { // not Paused
       for (var i = 0; i < playButtonLabel.length; i++) {
         if (xyIsInRect(uiPos, buttonRects[i])) {
@@ -193,8 +193,8 @@ function ui_mousedownHandler() {
               break;
 
             case "Menu":
-                // levelRunning = false;
-                gotoMenu("Guide's button Menu");
+              // levelRunning = false;
+              gotoMenu("Guide's button Menu");
               break;
 
             case "Pause":
@@ -203,8 +203,8 @@ function ui_mousedownHandler() {
 
             case "End":
               if (tutorStep == 7) {
-                  tutorStep = 8;
-                  // levelEndTutorial();
+                tutorStep = 8;
+                // levelEndTutorial();
               }
               break;
           }
@@ -247,10 +247,10 @@ function ui_mousedownHandler() {
         switch (creditsButtonLabel[i]) {
 
           case "Menu":
-            paused = false; 
+            paused = false;
             gotoMenu("button");
             break;
-          
+
           case "Pause":
             togglePause();
             break;
