@@ -154,7 +154,7 @@ function moveLorries() {
     lorryList[i].move();
 
     // distance to centre pen / lorry speed = first stop
-    var firstStop = Math.floor((gameCanvas.width/2-TILE_W/2) / lorrySpeed);
+    var firstStop = Math.floor((gameCanvas.width/2-TILE_W/2) / lorrySpeed) +2;
     if (afterLevelTimeStep == firstStop) {
       lorryList[i].speedX = 0;
       collectBlueSheep(7);
@@ -190,7 +190,8 @@ function moveLorries() {
 function lorryRestart(i) {
   if (i == 0) {
     lorryList[i].speedX = lorrySpeed * -1;
-  } else {
+  }
+  else if (i == 1) {
     lorryList[i].speedX = lorrySpeed;
   }
 }
@@ -198,13 +199,14 @@ function lorryRestart(i) {
 function collectBlueSheep(col) {
   var bluePenID = bottomRowID[col];
   if (bluePenID != null) {
-    sheepList[bluePenID].y = 999;
+    sheepList[bluePenID].visible = false;
   }
 }
+
 function collectRedSheep(col) {
   var redPenID = bottomRowID[col];
   if (redPenID != null) {
-    sheepList[redPenID].y = 999;
+    sheepList[redPenID].visible = false;
   }
 }
 

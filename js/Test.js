@@ -1,4 +1,4 @@
-const releaseVersion = false;
+const releaseVersion = true;
 var editMode;
 if (releaseVersion) {
   editMode = false;

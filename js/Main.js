@@ -369,6 +369,7 @@ function loadLevel(whichLevel) {
   sheepList = [];  // fresh set of sheep
   roguedogList = [];
   bopeepList = [];
+  lorryList = [];
   
   bottomRowID.fill(null);
 

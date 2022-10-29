@@ -78,6 +78,7 @@ function sheepClass() {
   this.avoidCollisionTimer = 0;
   this.shyTimer = 0;
   this.enteredNewGridSquare = false;
+  this.visible = true;
 
   this.reset = function (i, team, potential, mode) {
     this.id = i;
@@ -904,50 +905,52 @@ function sheepClass() {
       colorCircle(canvasContext, this.x, this.y+5, 23, "rgba(0,0,0,0.7)");
     }
 
-    // tail shows facing by being in opposite direction
-    if (this.team == PLAIN) {
-      drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x, this.y, this.ang);
-    }
-    else if (this.team == BLUE) {
-      drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x, this.y, this.ang);
-    }
-    else if (this.team == RED) {
-      drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x, this.y, this.ang);
-    }
-    // head should be drawn above body
-    drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x, this.y, this.orient);
-
-    if (this.team == BLUE) {
-      drawBitmapCenteredWithRotation(canvasContext, sheepKnotBluePic, this.x, this.y, this.orient);
-    } else if (this.team == RED) {
-      drawBitmapCenteredWithRotation(canvasContext, sheepKnotRedPic, this.x, this.y, this.orient);
-    }
-
-    if (this.x > gameCanvas.width - sheepNormalPic.width / 2 - 8) {
+    if (this.visible) {
+      // tail shows facing by being in opposite direction
       if (this.team == PLAIN) {
-        drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x - gameCanvas.width, this.y, this.ang);
+        drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x, this.y, this.ang);
       }
       else if (this.team == BLUE) {
-        drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x - gameCanvas.width, this.y, this.ang);
+        drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x, this.y, this.ang);
       }
       else if (this.team == RED) {
-        drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x - gameCanvas.width, this.y, this.ang);
+        drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x, this.y, this.ang);
       }
-      drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x - gameCanvas.width, this.y, this.orient);
-    }
+      // head should be drawn above body
+      drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x, this.y, this.orient);
 
-    else if (this.x < sheepNormalPic.width / 2 + 8) {
-      if (this.team == PLAIN) {
-        drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x + gameCanvas.width, this.y, this.ang);
+      if (this.team == BLUE) {
+        drawBitmapCenteredWithRotation(canvasContext, sheepKnotBluePic, this.x, this.y, this.orient);
+      } else if (this.team == RED) {
+        drawBitmapCenteredWithRotation(canvasContext, sheepKnotRedPic, this.x, this.y, this.orient);
       }
-      else if (this.team == BLUE) {
-        drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x + gameCanvas.width, this.y, this.ang);
+
+      if (this.x > gameCanvas.width - sheepNormalPic.width / 2 - 8) {
+        if (this.team == PLAIN) {
+          drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x - gameCanvas.width, this.y, this.ang);
+        }
+        else if (this.team == BLUE) {
+          drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x - gameCanvas.width, this.y, this.ang);
+        }
+        else if (this.team == RED) {
+          drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x - gameCanvas.width, this.y, this.ang);
+        }
+        drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x - gameCanvas.width, this.y, this.orient);
       }
-      else if (this.team == RED) {
-        drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x + gameCanvas.width, this.y, this.ang);
+
+      else if (this.x < sheepNormalPic.width / 2 + 8) {
+        if (this.team == PLAIN) {
+          drawBitmapCenteredWithRotation(canvasContext, sheepTailPic, this.x + gameCanvas.width, this.y, this.ang);
+        }
+        else if (this.team == BLUE) {
+          drawBitmapCenteredWithRotation(canvasContext, sheepTailBluePic, this.x + gameCanvas.width, this.y, this.ang);
+        }
+        else if (this.team == RED) {
+          drawBitmapCenteredWithRotation(canvasContext, sheepTailRedPic, this.x + gameCanvas.width, this.y, this.ang);
+        }
+        drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x + gameCanvas.width, this.y, this.orient);
       }
-      drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x + gameCanvas.width, this.y, this.orient);
-    }
+    } // if visible (in lorry is invisible)
 
     if (editMode) {
       var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
