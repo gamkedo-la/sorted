@@ -157,6 +157,8 @@ function moveLorries() {
     var firstStop = Math.floor((gameCanvas.width/2-TILE_W/2) / lorrySpeed);
     if (afterLevelTimeStep == firstStop) {
       lorryList[i].speedX = 0;
+      collectBlueSheep(7);
+      collectRedSheep(8);
     }
 
     else if (afterLevelTimeStep == firstStop + 20) {
@@ -164,7 +166,9 @@ function moveLorries() {
     }
 
     else if (afterLevelTimeStep == firstStop + 39) {
-      lorryList[i].speedX = 0; 
+      lorryList[i].speedX = 0;
+      collectBlueSheep(4);
+      collectRedSheep(11);
     }
 
     else if (afterLevelTimeStep == firstStop + 49) {
@@ -172,7 +176,9 @@ function moveLorries() {
     }
 
     else if (afterLevelTimeStep == firstStop + 67) {
-      lorryList[i].speedX = 0; 
+      lorryList[i].speedX = 0;
+      collectBlueSheep(1);
+      collectRedSheep(14); 
     }
 
     else if (afterLevelTimeStep == firstStop + 77) {
@@ -186,6 +192,19 @@ function lorryRestart(i) {
     lorryList[i].speedX = lorrySpeed * -1;
   } else {
     lorryList[i].speedX = lorrySpeed;
+  }
+}
+
+function collectBlueSheep(col) {
+  var bluePenID = bottomRowID[col];
+  if (bluePenID != null) {
+    sheepList[bluePenID].y = 999;
+  }
+}
+function collectRedSheep(col) {
+  var redPenID = bottomRowID[col];
+  if (redPenID != null) {
+    sheepList[redPenID].y = 999;
   }
 }
 

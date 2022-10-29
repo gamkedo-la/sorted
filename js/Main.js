@@ -369,6 +369,8 @@ function loadLevel(whichLevel) {
   sheepList = [];  // fresh set of sheep
   roguedogList = [];
   bopeepList = [];
+  
+  bottomRowID.fill(null);
 
   setupDogs(whichLevel);
   setupBoPeep(whichLevel);
