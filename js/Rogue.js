@@ -66,7 +66,13 @@ function roguedogClass() {
       // console.log("Rogue warns sheep id =", nearestSheep.id);
       if (this.barkTimer < 1) {
         if (runMode == NORMAL_PLAY) {
-          rogueSound.play(0.4);
+          var bark = randomInteger(1,2);
+          if (bark == 1) {
+            rogueSound2.play(0.4);
+          } else {
+            rogueSound.play(0.4);     
+          }
+
         }
         this.barkTimer = 30;
       }
@@ -90,7 +96,7 @@ function roguedogClass() {
             nearestSheep.gotoX = nearestSheep.x;
             nearestSheep.changeMode(SHY);
             nearestSheep.shyTimer = 20;
-            console.log(nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0), this.id, this.y, 'retreat');
+            // console.log(nearestSheep.id, nearestSheep.y.toFixed(0), distY.toFixed(0), nearestSheep.gotoY.toFixed(0), this.id, this.y, 'retreat');
           }
         }
       }

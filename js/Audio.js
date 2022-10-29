@@ -24,6 +24,7 @@ var pennedSound = new SoundOverlapsClass("sound/baa17");
 var wrongpenSound = new SoundOverlapsClass("sound/error_trombone");
 
 var rogueSound = new SoundOverlapsClass("sound/woof01");
+var rogueSound2 = new SoundOverlapsClass("sound/woof02");
 
 var menuChoiceSound = new SoundOverlapsClass("sound/menu_choice_2");
 var menuBackSound = new SoundOverlapsClass("sound/menuback");
