@@ -11,8 +11,6 @@ var bottomMargin = 0;
 const POST_SIZE = 5;
 const POST_THICK = 4;
 const POST_GAP = 10;
-// not in use
-const TEAM_POST_COLOURS = [ "white", "blue", "#ca1504", "purple"];
 
 
 function getTileIndexAtXY(x, y) {
@@ -30,24 +28,24 @@ function getTileIndexAtXY(x, y) {
 
 function getTileTypeAtColRow(col, row) {
   if (col >= 0 && col < TILE_COLS &&
-		row >= 0 && row < TILE_ROWS) {
-		 var tileIndexUnderColRow = colRowToIndex(col, row);
-		 return (areaGrid[tileIndexUnderColRow]);
-	} else {
+    row >= 0 && row < TILE_ROWS) {
+    var tileIndexUnderColRow = colRowToIndex(col, row);
+    return (areaGrid[tileIndexUnderColRow]);
+  } else {
     console.log("column/row not within field");
     return TILE_DISTRACT;
-	}
+  }
 }
 
 
 function getTileTypeAtXY(x, y) {
-  let index = getTileIndexAtXY(x,y);
+  let index = getTileIndexAtXY(x, y);
   console.log(areaGrid[index]);
   return areaGrid[index];
 }
 
 function colRowToIndex(col, row) {
-	return col + TILE_COLS * row;
+  return col + TILE_COLS * row;
 }
 
 function indexToCol(index) {
@@ -59,11 +57,11 @@ function indexToRow(index) {
 }
 
 function getColFromX(x) {
-  return Math.floor( x / TILE_W );
+  return Math.floor(x / TILE_W);
 }
 
 function getRowFromX(y) {
-  return Math.floor( y / TILE_H );
+  return Math.floor(y / TILE_H);
 }
 
 
@@ -71,16 +69,16 @@ function drawGrass() {
   var drawTileX = 0;
   var drawTileY = 0;
 
-	for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
-		for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+  for (var eachRow = 0; eachRow < TILE_ROWS; eachRow++) {
+    for (var eachCol = 0; eachCol < TILE_COLS; eachCol++) {
 
       canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
 
       drawTileX += TILE_W;
-		} // end of for each col
+    } // end of for each col
     drawTileX = 0;
     drawTileY += TILE_H;
-	} // end of for each row
+  } // end of for each row
 } // end of drawGrass
 
 
@@ -89,8 +87,8 @@ function drawTiles() {
   var drawTileX = 0;
   var drawTileY = 0;
 
-	for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
-		for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+  for (var eachRow = 0; eachRow < TILE_ROWS; eachRow++) {
+    for (var eachCol = 0; eachCol < TILE_COLS; eachCol++) {
 
       var tileTypeHere = areaGrid[arrayIndex];
 
@@ -98,18 +96,18 @@ function drawTiles() {
       //   canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
       // }
 
-      if ( isDecalClump(tileTypeHere) ) {
+      if (isDecalClump(tileTypeHere)) {
         // update decal clump location
-        let index = tileTypeHere-20;
-        levelClumpXY[currentLevel][index] = { x: drawTileX+TILE_W/2, y: drawTileY+TILE_H/2 };
+        let index = tileTypeHere - 20;
+        levelClumpXY[currentLevel][index] = { x: drawTileX + TILE_W / 2, y: drawTileY + TILE_H / 2 };
         // console.log('levelClumpXY', currentLevel, index)
       }
 
       else if (tileTypeHere == TILE_HALT) {
         var useImg = tilePics[tileTypeHere];
         let rotator = (eachRow * 3 + eachCol) % 4;
-        let tileAngle = rotator * Math.PI/2;
-        drawBitmapCenteredWithRotation(canvasContext, useImg, drawTileX+TILE_W/2, drawTileY+TILE_H/2, tileAngle);
+        let tileAngle = rotator * Math.PI / 2;
+        drawBitmapCenteredWithRotation(canvasContext, useImg, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, tileAngle);
       }
 
       else if (tileTypeHere != TILE_FIELD) {
@@ -117,7 +115,7 @@ function drawTiles() {
         canvasContext.drawImage(useImg, drawTileX, drawTileY);
       }
 
-      if ( isPen(tileTypeHere) ) {
+      if (isPen(tileTypeHere)) {
         // canvasContext.drawImage(TILE_GOAL, drawTileX, drawTileY);
         let team = isBluePen(tileTypeHere) ? 1 : 2;
         xyDrawPenFence(drawTileX, drawTileY, team);
@@ -125,10 +123,10 @@ function drawTiles() {
 
       drawTileX += TILE_W;
       arrayIndex++;
-		} // end of for each col
+    } // end of for each col
     drawTileX = 0;
     drawTileY += TILE_H;
-	} // end of for each row
+  } // end of for each row
 
 } // end of drawTiles
 
@@ -186,7 +184,7 @@ function isDecalClump(tileType) {
 
 // initially 21 cols, 9 levels
 function makePenRow(cols, penSize) {
-  var middle = cols - penSize*2;
+  var middle = cols - penSize * 2;
   var rowStr = '  '; // grid.js indent if pasting
   var fieldStr = TILE_DITCH + ', ';
   var bluePenStr = TILE_PEN_BLUE + ', ';
@@ -205,8 +203,8 @@ function writePenRow(cols, penSize, offset) {
   // var centreStr = TILE_CENTRE + ', ';
   var bluePenStr = TILE_PEN_BLUE + ', ';
   var redPenStr = TILE_PEN_RED + ', ';
-  var sideLength = (cols-1)/2 - offset -1;
-  var centreLength = cols - 2*sideLength -2;
+  var sideLength = (cols - 1) / 2 - offset - 1;
+  var centreLength = cols - 2 * sideLength - 2;
   rowStr += ditchStr.repeat(sideLength);
   rowStr += bluePenStr.repeat(penSize);
   rowStr += centreStr.repeat(centreLength);
@@ -219,7 +217,7 @@ function writePenRow(cols, penSize, offset) {
 
 function levelsPenRows() {
   var txt = '';
-  for (var i=0; i < 8; i++) {
+  for (var i = 0; i < 8; i++) {
     txt += writePenRow(TILE_COLS, 1, i) + '\n';
   }
   console.log(txt);
@@ -236,7 +234,7 @@ function makeFieldRow(cols) {
 
 
 function makeHatRow(cols) {
-  var halfCols = (cols-1) / 2;
+  var halfCols = (cols - 1) / 2;
   var rowStr = '  '; // grid.js indent if pasting
   var fieldStr = TILE_FIELD + ', ';
   rowStr += fieldStr.repeat(halfCols);
@@ -261,19 +259,19 @@ function drawGridValues(grid, fontSize, fontColor) {
   var drawTileX = 0;
   var drawTileY = 0;
 
-	for(var eachRow=0; eachRow<TILE_ROWS; eachRow++) {
-		for(var eachCol=0; eachCol<TILE_COLS; eachCol++) {
+  for (var eachRow = 0; eachRow < TILE_ROWS; eachRow++) {
+    for (var eachCol = 0; eachCol < TILE_COLS; eachCol++) {
       var cell = grid[arrayIndex];
       canvasContext.font = fontSize + "px Arial";
       canvasContext.textAlign = "center";
-      colorText(canvasContext, cell, drawTileX + TILE_W/2, drawTileY + TILE_H/2, fontColor);
+      colorText(canvasContext, cell, drawTileX + TILE_W / 2, drawTileY + TILE_H / 2, fontColor);
 
       drawTileX += TILE_W;
       arrayIndex++;
-		} // end of for each col
+    } // end of for each col
     drawTileX = 0;
     drawTileY += TILE_H;
-	} // end of for each row
+  } // end of for each row
 }
 
 
@@ -332,21 +330,21 @@ function colDrawPenFence(col, team) {
   let topLeft = colRowToXY(col, row);
   // left fence
   var x1 = topLeft.x;
-  for(var i=0; i<4; i++) {
+  for (var i = 0; i < 4; i++) {
     var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
-    colorRect(canvasContext, x1,y1, POST_THICK, POST_SIZE, TEAM_POST_COLOURS[team])
+    colorRect(canvasContext, x1, y1, POST_THICK, POST_SIZE, TEAM_POST_COLOURS[team])
   }
   // right fence
   var x1 = topLeft.x + TILE_W - POST_THICK;
-  for(var i=0; i<4; i++) {
+  for (var i = 0; i < 4; i++) {
     var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
-    colorRect(canvasContext, x1,y1, POST_THICK, POST_SIZE, TEAM_POST_COLOURS[team])
+    colorRect(canvasContext, x1, y1, POST_THICK, POST_SIZE, TEAM_POST_COLOURS[team])
   }
   // bottom fence
   var y1 = topLeft.y + TILE_H - POST_SIZE;
-  for(var i=0; i<4; i++) {
+  for (var i = 0; i < 4; i++) {
     var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
-    colorRect(canvasContext, x1,y1, POST_SIZE,POST_SIZE, TEAM_POST_COLOURS[team])
+    colorRect(canvasContext, x1, y1, POST_SIZE, POST_SIZE, TEAM_POST_COLOURS[team])
   }
 }
 
@@ -355,15 +353,15 @@ function xyDrawPenFence(x, y, team) {
   var topLeft = { x: x, y: y };
   // left fence
   var x1 = topLeft.x;
-  for(var i=0; i<4; i++) {
+  for (var i = 0; i < 4; i++) {
     var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
-    colorRect(canvasContext, x1,y1, POST_THICK, POST_SIZE, TEAM_COLOURS[team])
+    colorRect(canvasContext, x1, y1, POST_THICK, POST_SIZE, TEAM_PALE_COLOURS[team])
   }
   // right fence
   var x1 = topLeft.x + TILE_W - POST_THICK;
-  for(var i=0; i<4; i++) {
+  for (var i = 0; i < 4; i++) {
     var y1 = topLeft.y + i * (POST_SIZE + POST_GAP);
-    colorRect(canvasContext, x1,y1, POST_THICK, POST_SIZE, TEAM_COLOURS[team])
+    colorRect(canvasContext, x1, y1, POST_THICK, POST_SIZE, TEAM_PALE_COLOURS[team])
   }
   // bottom fence
   // var y1 = topLeft.y + TILE_H - POST_SIZE;
@@ -379,9 +377,9 @@ function colDrawPenGate(col, team) {
   let topLeft = colRowToXY(col, row);
   // top fence
   var y1 = topLeft.y;
-  for(var i=0; i<4; i++) {
+  for (var i = 0; i < 4; i++) {
     var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
-    colorRect(canvasContext, x1,y1, POST_SIZE, POST_THICK, TEAM_COLOURS[team])
+    colorRect(canvasContext, x1, y1, POST_SIZE, POST_THICK, TEAM_PALE_COLOURS[team])
   }
 }
 

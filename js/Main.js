@@ -29,6 +29,8 @@ var decals; // grass, flowers, footprints, pebbles, etc
 
 const TEAM_NAMES = ["plain", "blue", "red", "mixed", , , , "white"];
 const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple", , , , "white"];
+const TEAM_DARK_COLOURS = [ "white", "#52abfe", "#e81b23", "purple"]; // blue 003e8d red ca1504
+const TEAM_PALE_COLOURS = ["#f4f4f4", "#84c9fe", "#fcabab", "purple", , , , "white"];
 const NUM_TEAM_TYPES = 3;
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
