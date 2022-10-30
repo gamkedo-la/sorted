@@ -10,7 +10,8 @@ const MOVING = 1;
 const STOPPING = 2;
 const LICKING = 3;
 const WAITING = 4;
-
+const DOG_BODY_OFFSET_X = 7;
+const DOG_BODY_OFFSET_Y = 3;
 
 roguedogClass.prototype = new movingClass();
 
@@ -158,17 +159,17 @@ function roguedogClass() {
   }
 
   this.draw = function () {
-    drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x, this.y, this.ang);
+    drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x - DOG_BODY_OFFSET_X, this.y + DOG_BODY_OFFSET_Y, this.ang);
     // dog's head
     drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x, this.y, this.orient);
 
     // when part of image off canvas, draw mirror on other side
     if (this.x > gameCanvas.width - this.pic.width / 2) {
-      drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x - gameCanvas.width, this.y, this.ang);
+      drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x - gameCanvas.width - DOG_BODY_OFFSET_X, this.y + DOG_BODY_OFFSET_Y, this.ang);
       drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x - gameCanvas.width, this.x, this.y, this.ang);
     }
     else if (this.x < this.pic.width / 2) {
-      drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x + gameCanvas.width, this.y, this.ang);
+      drawBitmapCenteredWithRotation(canvasContext, dogBodyPic, this.x + gameCanvas.width - DOG_BODY_OFFSET_X, this.y + DOG_BODY_OFFSET_Y, this.ang);
       drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x + gameCanvas.width, this.y, this.ang);
     }
 

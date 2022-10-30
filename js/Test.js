@@ -210,7 +210,7 @@ function resetDebugText() {
 // call from drawAll()
 function showDebugText() {
   uiContext.font = "12px Arial";
-  drawDebugOnBar();
+  // drawDebugOnBar();
   if (debugBelowCanvas) {
     writeDebugP();
   }

@@ -40,6 +40,7 @@ var victory_music = new SoundOverlapsClass("sound/victory_music_ipad");
 var musicInitialised = false;
 var musicMenuVolume = 0.5;
 var musicGameVolume = 0.05;
+var musicMidVolume = 0.2;
 
 
 function musicToggle() {
