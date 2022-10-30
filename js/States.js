@@ -68,6 +68,12 @@ function gotoPlay(from) {
 
 function gotoReplay(from) {
   buttonDown = null;
+
+  victory_music.stop();
+  if (musicInitialised) {
+    gameMusic.startMusic();
+  }
+  
   gameState = STATE_PLAY;
   if (!levelRunning) {
     levelRunning = true;
@@ -79,7 +85,12 @@ function gotoReplay(from) {
 
 function gotoAdvance(from) {
   buttonDown = null;
+
   victory_music.stop();
+  if (musicInitialised) {
+    gameMusic.startMusic();
+  }
+
   if (currentLevel == LAST_LEVEL) {
     console.log("No more Levels!");
     runMode = GAME_OVER;

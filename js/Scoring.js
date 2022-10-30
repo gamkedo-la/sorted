@@ -52,11 +52,17 @@ function levelEnding() {
   levelTestDataReady = true;
   levelRunning = false;
 
-  if (editMode == false && !allAreNull(bottomRowID)) {
+  if (editMode == false && anyInPen(bottomRowID)) {
+  // if (editMode == false && !allAreNull(bottomRowID)) {
+  // if (true) {
     // play some happy music!
+    if (musicInitialised) {
+      gameMusic.stopMusic();
+    }
     victory_music.play(VICTORY_MUSIC_VOLUME);
   }
-console.log(anyInPen(bottomRowID), bottomRowID)
+
+// console.log(anyInPen(bottomRowID), bottomRowID)
   if(anyInPen(bottomRowID)) {
     setupRoadLorries();
   }

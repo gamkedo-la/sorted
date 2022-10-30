@@ -60,7 +60,7 @@ window.onload = function () {
 
   canvasContext.font = "28px Arial";
   colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "red");
-  colorText(canvasContext, "Loading Images", 50, 50, "white");
+  colorText(canvasContext, "Sorted! is loading images", 50, 50, "white");
 
   if (debugBelowCanvas) {
     makeParagraphsBelowCanvas();
