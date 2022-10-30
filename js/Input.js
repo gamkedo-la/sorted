@@ -5,10 +5,10 @@ function setupInput() {
 
   initButtonRects(); // set coords of right bar buttons
 
-  if (!touchDevice && releaseVersion==false) {
-    drawingCanvas.addEventListener("focusout", lostFocus);
-    drawingCanvas.addEventListener("focusin", gainFocus);
-  }
+  // if (!touchDevice && releaseVersion==false) {
+  //   drawingCanvas.addEventListener("focusout", lostFocus);
+  //   drawingCanvas.addEventListener("focusin", gainFocus);
+  // }
 
   drawingCanvas.addEventListener('mousemove', updateMousePos);
   //drawingCanvas.addEventListener('touchmove', updateTouchPos);
@@ -220,7 +220,7 @@ function field_mousedownHandler() {
 
 
 function field_mouseupHandler() {
-  console.log('field_mouseupHandler', mouse)
+  // console.log('field_mouseupHandler', mouse)
   if (gameState == STATE_PLAY) {
 
     if (mouse.y < TILE_H) {
