@@ -232,7 +232,7 @@ function ui_mousedownHandler() {
             gotoReplay("LevelEnd's canvasButton Menu");
             break;
 
-          case "Advance":
+          case "Next":
             gotoAdvance("LevelEnd's canvasButton Menu");
             break;
         }

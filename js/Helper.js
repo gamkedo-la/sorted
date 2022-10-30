@@ -307,3 +307,18 @@ function hatDirection(dir) {
   player.direction = dir;
   player.spriteDirection = dir;
 }
+
+
+function allAreNull(arr) {
+  return arr.every(element => element === null);
+}
+
+function anyInPen(arr) {
+  var atLeastOneInPen = false;
+  for (var i=0; i<penCols.length; i++) {
+    if (arr[penCols[i]] != null) {
+      atLeastOneInPen = true;
+    }
+  }
+  return atLeastOneInPen;
+}

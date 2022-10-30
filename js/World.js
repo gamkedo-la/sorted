@@ -8,6 +8,7 @@ const TILE_ROWS = 12;
 
 var bottomMargin = 0;
 
+const penCols = [1, 4, 7, 8, 11, 14];
 const bottomRowID = Array(TILE_COLS);
 
 const POST_SIZE = 5;

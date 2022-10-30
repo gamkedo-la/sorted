@@ -52,12 +52,14 @@ function levelEnding() {
   levelTestDataReady = true;
   levelRunning = false;
 
-  if (editMode == false) {
+  if (editMode == false && !allAreNull(bottomRowID)) {
     // play some happy music!
     victory_music.play(VICTORY_MUSIC_VOLUME);
   }
-
-  setupRoadLorries();
+console.log(anyInPen(bottomRowID), bottomRowID)
+  if(anyInPen(bottomRowID)) {
+    setupRoadLorries();
+  }
   // console.log("Level " + currentLevel + " over");
 }
 

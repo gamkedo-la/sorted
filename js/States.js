@@ -358,7 +358,7 @@ function drawLevelOver() {
 
 function drawMenuState() {
   drawMenu();
-  drawBarTitle("Menu", 20); // fontsize
+  // drawBarTitle("Menu", 20); // fontsize
   drawBarButtons(menuButtonLabel);
 }
 

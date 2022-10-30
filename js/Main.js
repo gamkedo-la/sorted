@@ -175,7 +175,9 @@ function moveAll() {
 
 
   else if (gameState == STATE_LEVEL_END) {
-    moveLorries();
+    if (anyInPen(bottomRowID)) {
+      moveLorries();
+    }
   }
 
 
@@ -281,8 +283,11 @@ function drawAll() {
     // should call drawField() with parameter play or endLevel
     drawLevelOver();
 
-    drawLorries();
-    afterLevelTimeStep++;
+    // if (!allAreNull(bottomRowID)) {
+    if (anyInPen(bottomRowID)) {
+      drawLorries();
+      afterLevelTimeStep++;
+    }
 
     // once per level-ending
     if (editMode && testWrite) {
@@ -484,5 +489,5 @@ function lostFocus() {
 
 function gainFocus() {
   paused = false;
-  runMode = previousRunMode;
+  runMode = NORMAL_PLAY; //previousRunMode;
 }

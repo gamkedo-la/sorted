@@ -5,7 +5,7 @@ function setupInput() {
 
   initButtonRects(); // set coords of right bar buttons
 
-  if (!touchDevice) {
+  if (!touchDevice && releaseVersion==false) {
     drawingCanvas.addEventListener("focusout", lostFocus);
     drawingCanvas.addEventListener("focusin", gainFocus);
   }
