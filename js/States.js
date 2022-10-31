@@ -157,43 +157,72 @@ function togglePause() {
       gameMusic.alterVolume(musicGameVolume);
     }
   }
+
+  // if (gameState == STATE_LEVEL_END) {
+  //   if (paused) {
+  //     victory_music.pause();
+  //   } else {
+  //     victory_music.play();
+  //   }
+  // }
 }
 
 
+var happeningAt = 0;
 function moveLorries() {
   for (var i = 0; i < lorryList.length; i++) {
     lorryList[i].move();
 
-    if (afterLevelTimeStep == timeRoadScroll) {
+// console.log('happening', happeningAt, 'timer', afterLevelTimeStep)
+
+    // if (afterLevelTimeStep == happeningAt) {
+    if (afterLevelTimeStep == timeRoadScroll -5) {
+      victory_music.play(VICTORY_MUSIC_VOLUME);
+    }
+
+    else if (afterLevelTimeStep == timeRoadScroll) {
       penHere = lorryList[i].stops[0];
       collectSheep(penHere);
+      happeningAt += timeLoadingSheep;
+      console.log('Collect', penHere, 'time', afterLevelTimeStep)
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + 20) {
+    // else if (afterLevelTimeStep == happeningAt) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeLoadingSheep) {
       lorryList[i].ramp = false;
       lorryRestart(i);
+      happeningAt += timeTravelBetweenPens;
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + 39) {
+    // else if (afterLevelTimeStep == happeningAt) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeLoadingSheep + timeTravelBetweenPens) {
       lorryList[i].speedX = 0;
       lorryList[i].ramp = true;
       penHere = lorryList[i].stops[1];
       collectSheep(penHere);
+      happeningAt += timeLoadingSheep;
+      console.log('Collect', penHere, 'time', afterLevelTimeStep)
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + 49) {
+    // else if (afterLevelTimeStep == happeningAt) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeLoadingSheep*2 + timeTravelBetweenPens) {
       lorryList[i].ramp = false;
       lorryRestart(i);
+      happeningAt += timeTravelBetweenPens;
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + 67) {
+    // else if (afterLevelTimeStep == happeningAt) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeLoadingSheep*2 + timeTravelBetweenPens*2) {
       lorryList[i].speedX = 0;
       lorryList[i].ramp = true;
       penHere = lorryList[i].stops[2];
       collectSheep(penHere);
+      happeningAt += timeLoadingSheep;
+      console.log('Collect', penHere, 'time', afterLevelTimeStep)
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + 77) {
+    // else if (afterLevelTimeStep == happeningAt) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeLoadingSheep*3 + timeTravelBetweenPens*2) {      
       lorryList[i].ramp = false;
       lorryRestart(i);
     }
@@ -418,18 +447,20 @@ function setupRoadLorries() {
   
   // create Lorries
   var spawnLorry = new lorryClass();
-    let x = gameCanvas.width/2 - TILE_W/2 - lorryBluePic.width/2;
+  let x = gameCanvas.width/2 - TILE_W/2 - lorryBluePic.width/2 -40;
   spawnLorry.init(1, lorryBluePic, x, -1);
   spawnLorry.stops = [7, 4, 1]; // centre pen first
   lorryList.push(spawnLorry);
 
   var spawnLorry = new lorryClass();
-  x = gameCanvas.width/2 + TILE_W/2 + lorryBluePic.width/2;
+  x = gameCanvas.width/2 + TILE_W/2 + lorryBluePic.width/2 +40;
   spawnLorry.init(2, lorryRedPic, x, 1);
   spawnLorry.stops = [8, 11, 14];
   lorryList.push(spawnLorry);
 
   afterLevelTimeStep = 0;
+  happeningAt = timeRoadScroll;
+
   showingRoadScene = true;
   showingRoadVerticalShift = 0;
   // console.log(areaGrid);

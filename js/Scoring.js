@@ -59,7 +59,6 @@ function levelEnding() {
     if (musicInitialised) {
       gameMusic.stopMusic();
     }
-    victory_music.play(VICTORY_MUSIC_VOLUME);
   }
 
 // console.log(anyInPen(bottomRowID), bottomRowID)

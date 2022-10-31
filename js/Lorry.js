@@ -1,5 +1,7 @@
 const ROAD_SCROLL_SPEED = 2;
 var timeRoadScroll = TILE_H / ROAD_SCROLL_SPEED;
+var timeLoadingSheep = 30;
+var timeTravelBetweenPens = 19;
 
 var lorrySpeed = 8;
 lorryList = [];
