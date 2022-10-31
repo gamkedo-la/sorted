@@ -238,8 +238,6 @@ function drawField() {
   // if a pen is occupied draw a gate
   for (var i = 0; i < TILE_COLS; i++) {
     let rowOffset = 1;
-    // if (showingRoadScene) { rowOffset = 2; }
-
     var index = i + (TILE_COLS * (TILE_ROWS - rowOffset));
     if (areaGrid[index] == FULL_BLUE) {
       colDrawPenGate(i, BLUE);
@@ -354,8 +352,12 @@ function drawPlay() {
 
 function drawLevelOver() {
   if(showingRoadScene) {
+    showingRoadVerticalShift += 2;
+    if(showingRoadVerticalShift > TILE_H) {
+      showingRoadVerticalShift = TILE_H;
+    }
     canvasContext.save();
-    canvasContext.translate(0, -TILE_H);
+    canvasContext.translate(0, -Math.floor(showingRoadVerticalShift));
   }
   drawField();
   drawSheep();
@@ -416,5 +418,6 @@ function setupRoadLorries() {
 
   afterLevelTimeStep = 0;
   showingRoadScene = true;
+  showingRoadVerticalShift = 0;
   // console.log(areaGrid);
 }

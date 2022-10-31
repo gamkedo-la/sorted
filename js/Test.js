@@ -1,13 +1,15 @@
 const releaseVersion = false;
 var editMode;
-var showRoadScene = true;
-var showingRoadScene = false;
 
 if (releaseVersion) {
   editMode = false;
 } else {
   editMode = true;
 }
+
+var showRoadScene = true; // prevent feature showing
+var showingRoadScene = false; // when road visible in game
+var showingRoadVerticalShift = 0;
 
 const NORMAL_PLAY = 0;
 const SEND_ONLY = 1;

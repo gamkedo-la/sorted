@@ -393,9 +393,7 @@ function colDrawPenGate(col, team) {
   let topLeft = colRowToXY(col, row);
   // top fence
   var y1 = topLeft.y;
-  if (showingRoadScene) {
-    y1 -= TILE_H;
-  }
+
   for (var i = 0; i < 4; i++) {
     var x1 = topLeft.x + i * (POST_SIZE + POST_GAP);
     colorRect(canvasContext, x1, y1, POST_SIZE, POST_THICK, POST_DARK_COLOURS[team])
