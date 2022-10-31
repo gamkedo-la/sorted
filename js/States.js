@@ -170,26 +170,31 @@ function moveLorries() {
     }
 
     else if (afterLevelTimeStep == timeRoadScroll + 20) {
+      lorryList[i].ramp = false;
       lorryRestart(i);
     }
 
     else if (afterLevelTimeStep == timeRoadScroll + 39) {
       lorryList[i].speedX = 0;
+      lorryList[i].ramp = true;
       penHere = lorryList[i].stops[1];
       collectSheep(penHere);
     }
 
     else if (afterLevelTimeStep == timeRoadScroll + 49) {
+      lorryList[i].ramp = false;
       lorryRestart(i);
     }
 
     else if (afterLevelTimeStep == timeRoadScroll + 67) {
       lorryList[i].speedX = 0;
+      lorryList[i].ramp = true;
       penHere = lorryList[i].stops[2];
       collectSheep(penHere);
     }
 
     else if (afterLevelTimeStep == timeRoadScroll + 77) {
+      lorryList[i].ramp = false;
       lorryRestart(i);
     }
   }
