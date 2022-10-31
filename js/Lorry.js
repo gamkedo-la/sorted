@@ -7,7 +7,7 @@ function lorryClass() {
   this.init = function (id, whichPic, x, direction) {
     this.pic = whichPic;
     this.x = x;
-    this.y = gameCanvas.height - TILE_H/2;
+    this.y = gameCanvas.height + TILE_H/2;
     this.ang = 0;
     this.speedX = lorrySpeed * direction;
   }

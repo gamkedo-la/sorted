@@ -180,7 +180,8 @@ function moveAll() {
   else if (gameState == STATE_LEVEL_END) {
     if (showRoadScene) {
       if (!paused) {
-        if (anyInPen(bottomRowID)) {
+        // if (anyInPen(bottomRowID)) {
+        if(true) {
           moveLorries();
           afterLevelTimeStep++;
         }
@@ -291,13 +292,6 @@ function drawAll() {
   else if (gameState == STATE_LEVEL_END) {
     // should call drawField() with parameter play or endLevel
     drawLevelOver();
-
-    if (showRoadScene) {
-      // if (!allAreNull(bottomRowID)) {
-      if (anyInPen(bottomRowID)) {
-        drawLorries();
-      }
-    }
 
     // once per level-ending
     if (editMode && testWrite) {

@@ -74,7 +74,12 @@ function drawGrass() {
   var drawTileX = 0;
   var drawTileY = 0;
 
-  for (var eachRow = 0; eachRow < TILE_ROWS; eachRow++) {
+  var rowCount = TILE_ROWS;
+  if (showingRoadScene) {
+    rowCount++;
+  }
+
+  for (var eachRow = 0; eachRow < rowCount; eachRow++) {
     for (var eachCol = 0; eachCol < TILE_COLS; eachCol++) {
 
       canvasContext.drawImage(tilePics[TILE_FIELD], drawTileX, drawTileY);
@@ -92,7 +97,12 @@ function drawTiles() {
   var drawTileX = 0;
   var drawTileY = 0;
 
-  for (var eachRow = 0; eachRow < TILE_ROWS; eachRow++) {
+  var rowCount = TILE_ROWS;
+  if (showingRoadScene) {
+    rowCount++;
+  }
+
+  for (var eachRow = 0; eachRow < rowCount; eachRow++) {
     for (var eachCol = 0; eachCol < TILE_COLS; eachCol++) {
 
       var tileTypeHere = areaGrid[arrayIndex];

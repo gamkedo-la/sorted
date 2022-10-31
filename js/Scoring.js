@@ -64,7 +64,8 @@ function levelEnding() {
 
 // console.log(anyInPen(bottomRowID), bottomRowID)
   if (showRoadScene) {
-    if(anyInPen(bottomRowID)) {
+    // if(anyInPen(bottomRowID)) {
+    if(true) {
       setupRoadLorries();
     }    
   }

@@ -238,7 +238,7 @@ function drawField() {
   // if a pen is occupied draw a gate
   for (var i = 0; i < TILE_COLS; i++) {
     let rowOffset = 1;
-    if (showingRoadScene) { rowOffset = 2; }
+    // if (showingRoadScene) { rowOffset = 2; }
 
     var index = i + (TILE_COLS * (TILE_ROWS - rowOffset));
     if (areaGrid[index] == FULL_BLUE) {
@@ -353,9 +353,21 @@ function drawPlay() {
 
 
 function drawLevelOver() {
+  if(showingRoadScene) {
+    canvasContext.save();
+    canvasContext.translate(0, -TILE_H);
+  }
   drawField();
   drawSheep();
-
+  if (showingRoadScene) {
+    if(true) { // if (!allAreNull(bottomRowID)) {
+    // if (anyInPen(bottomRowID)) {
+      drawLorries();
+    }
+  }
+  if(showingRoadScene) {
+    canvasContext.restore();
+  }
   // any of Popup wanted for Test runs?
   if (runMode == NORMAL_PLAY) {
     drawLevelScore();
@@ -387,11 +399,11 @@ function drawCreditState() {
 function setupRoadLorries() {
 
   // remove top row from field
-  areaGrid = areaGrid.slice(TILE_COLS);
+  // areaGrid = areaGrid.slice(TILE_COLS);
   areaGrid = areaGrid.concat(ROAD_ROW);
-  for (var i = 0; i < sheepList.length; i++) {
-    sheepList[i].y -= TILE_H;
-  }
+  // for (var i = 0; i < sheepList.length; i++) {
+  //   sheepList[i].y -= TILE_H;
+  // }
   
   // create Lorries
   var spawnLorry = new lorryClass();
