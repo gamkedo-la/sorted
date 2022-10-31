@@ -235,6 +235,10 @@ function ui_mousedownHandler() {
           case "Next":
             gotoAdvance("LevelEnd's canvasButton Menu");
             break;
+
+          case "Pause":
+            togglePause();
+            break;
         }
       }
     }

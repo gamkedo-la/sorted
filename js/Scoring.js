@@ -52,7 +52,7 @@ function levelEnding() {
   levelTestDataReady = true;
   levelRunning = false;
 
-  if (editMode == false && anyInPen(bottomRowID)) {
+  if (editMode == false) {
   // if (editMode == false && !allAreNull(bottomRowID)) {
   // if (true) {
     // play some happy music!
@@ -63,10 +63,11 @@ function levelEnding() {
   }
 
 // console.log(anyInPen(bottomRowID), bottomRowID)
-  if(anyInPen(bottomRowID)) {
-    setupRoadLorries();
+  if (showRoadScene) {
+    if(anyInPen(bottomRowID)) {
+      setupRoadLorries();
+    }    
   }
-  // console.log("Level " + currentLevel + " over");
 }
 
 

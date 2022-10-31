@@ -335,12 +335,16 @@ function menuKeyChoice(key) {
         }
       }
 
-      if (key == KEY_R) {
+      else if (key == KEY_R) {
         gotoReplay('keyR at LevelEnd');
       }
 
-      if (key == KEY_L) {
+      else if (key == KEY_L) {
         gotoAdvance("keyL at LevelEnd")
+      }
+
+      else if (key == KEY_SPACE) {
+        togglePause();
       }
       break;
 

@@ -5,13 +5,25 @@ if (touchDevice) {
 } else {
   var menuButtonLabel = ["Help", "Tutor", "Play", "Music", "Score", "Credits", "Quit"];
 }
+
+if (showRoadScene) {
+  var levelendButtonLabel = ["Replay", "Next", "Menu", , "Pause"];
+} else {
+  var levelendButtonLabel = ["Replay", "Next", "Menu"];
+}
+
 const playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "End", "Menu"];
-var tutorialButtonLabel = ["Left", "Right", "Call", "Send", "Pause", , "Menu"];
 const pauseButtonLabel = [, , , , "Go"];
-const levelendButtonLabel = ["Replay", "Next", "Menu"];
-const gameoverButtonLabel = ["Music", "Close"]; // "Restart"
+
 const creditsButtonLabel = ["Menu", , , , "Pause"];
 const offmenuButtonLabel = ["Menu"];
+
+// "Restart" not offered, must refresh webpage instead
+const gameoverButtonLabel = ["Music", "Close"]; 
+
+// no "End" button in Tutorial, tricky to implement
+var tutorialButtonLabel = ["Left", "Right", "Call", "Send", "Pause", , "Menu"];
+
 const editmodeButtonLabel = ["Test", "Team", "Player"];
 const designButtonLabel = []; // need bar for tile/agent info
 

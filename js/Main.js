@@ -30,7 +30,7 @@ var decals; // grass, flowers, footprints, pebbles, etc
 const TEAM_NAMES = ["plain", "blue", "red", "mixed", , , , "white"];
 const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple", , , , "white"];
 // PEN FENCING POSTS // alternative blue 003e8d red ca1504
-const POST_DARK_COLOURS = [ "white", "#52abfe", "#e81b23", "purple", , , , "white"];
+const POST_DARK_COLOURS = ["white", "#52abfe", "#e81b23", "purple", , , , "white"];
 const POST_MID_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple", , , , "white"];
 const POST_PALE_COLOURS = ["#f4f4f4", "#84c9fe", "#fcabab", "purple", , , , "white"];
 const NUM_TEAM_TYPES = 3;
@@ -175,8 +175,13 @@ function moveAll() {
 
 
   else if (gameState == STATE_LEVEL_END) {
-    if (anyInPen(bottomRowID)) {
-      moveLorries();
+    if (showRoadScene) {
+      if (!paused) {
+        if (anyInPen(bottomRowID)) {
+          moveLorries();
+          afterLevelTimeStep++;
+        }
+      }
     }
   }
 
@@ -279,21 +284,24 @@ function drawAll() {
     drawPlay();
   }
 
+
   else if (gameState == STATE_LEVEL_END) {
     // should call drawField() with parameter play or endLevel
     drawLevelOver();
 
-    // if (!allAreNull(bottomRowID)) {
-    if (anyInPen(bottomRowID)) {
-      drawLorries();
-      afterLevelTimeStep++;
+    if (showRoadScene) {
+      // if (!allAreNull(bottomRowID)) {
+      if (anyInPen(bottomRowID)) {
+        drawLorries();
+      }
     }
 
     // once per level-ending
     if (editMode && testWrite) {
       writeTestResult();
-    } 
+    }
   } // end of Level_Over
+
 
   else if (gameState == STATE_DESIGN_LEVEL) {
     drawFieldFromGrid(areaGrid);
@@ -375,7 +383,7 @@ function loadLevel(whichLevel) {
   roguedogList = [];
   bopeepList = [];
   lorryList = [];
-  
+
   bottomRowID.fill(null);
 
   setupDogs(whichLevel);
