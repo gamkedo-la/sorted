@@ -1,5 +1,8 @@
-lorryList = [];
+const ROAD_SCROLL_SPEED = 2;
+var timeRoadScroll = TILE_H / ROAD_SCROLL_SPEED;
+
 var lorrySpeed = 8;
+lorryList = [];
 
 lorryClass.prototype = new movingClass();
 
@@ -9,7 +12,7 @@ function lorryClass() {
     this.x = x;
     this.y = gameCanvas.height + TILE_H/2;
     this.ang = 0;
-    this.speedX = lorrySpeed * direction;
+    this.speedX = 0;
   }
 
   this.reset = function () {

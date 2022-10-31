@@ -164,35 +164,32 @@ function moveLorries() {
   for (var i = 0; i < lorryList.length; i++) {
     lorryList[i].move();
 
-    // distance to centre pen / lorry speed = first stop
-    var firstStop = Math.floor((gameCanvas.width/2-TILE_W/2) / lorrySpeed) +2;
-    if (afterLevelTimeStep == firstStop) {
-      lorryList[i].speedX = 0;
-      collectBlueSheep(7);
-      collectRedSheep(8);
+    if (afterLevelTimeStep == timeRoadScroll) {
+      penHere = lorryList[i].stops[0];
+      collectSheep(penHere);
     }
 
-    else if (afterLevelTimeStep == firstStop + 20) {
+    else if (afterLevelTimeStep == timeRoadScroll + 20) {
       lorryRestart(i);
     }
 
-    else if (afterLevelTimeStep == firstStop + 39) {
+    else if (afterLevelTimeStep == timeRoadScroll + 39) {
       lorryList[i].speedX = 0;
-      collectBlueSheep(4);
-      collectRedSheep(11);
+      penHere = lorryList[i].stops[1];
+      collectSheep(penHere);
     }
 
-    else if (afterLevelTimeStep == firstStop + 49) {
+    else if (afterLevelTimeStep == timeRoadScroll + 49) {
       lorryRestart(i);
     }
 
-    else if (afterLevelTimeStep == firstStop + 67) {
+    else if (afterLevelTimeStep == timeRoadScroll + 67) {
       lorryList[i].speedX = 0;
-      collectBlueSheep(1);
-      collectRedSheep(14); 
+      penHere = lorryList[i].stops[2];
+      collectSheep(penHere);
     }
 
-    else if (afterLevelTimeStep == firstStop + 77) {
+    else if (afterLevelTimeStep == timeRoadScroll + 77) {
       lorryRestart(i);
     }
   }
@@ -204,6 +201,13 @@ function lorryRestart(i) {
   }
   else if (i == 1) {
     lorryList[i].speedX = lorrySpeed;
+  }
+}
+
+function collectSheep(col) {
+  var id = bottomRowID[col];
+  if (id != null) {
+    sheepList[id].visible = false;
   }
 }
 
@@ -409,11 +413,15 @@ function setupRoadLorries() {
   
   // create Lorries
   var spawnLorry = new lorryClass();
-  spawnLorry.init(1, lorryBluePic, -50, 1);
+    let x = gameCanvas.width/2 - TILE_W/2 - lorryBluePic.width/2;
+  spawnLorry.init(1, lorryBluePic, x, -1);
+  spawnLorry.stops = [7, 4, 1]; // centre pen first
   lorryList.push(spawnLorry);
 
   var spawnLorry = new lorryClass();
-  spawnLorry.init(2, lorryRedPic, 849, -1);
+  x = gameCanvas.width/2 + TILE_W/2 + lorryBluePic.width/2;
+  spawnLorry.init(2, lorryRedPic, x, 1);
+  spawnLorry.stops = [8, 11, 14];
   lorryList.push(spawnLorry);
 
   afterLevelTimeStep = 0;
