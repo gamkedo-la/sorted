@@ -29,14 +29,17 @@ var decals; // grass, flowers, footprints, pebbles, etc
 
 const TEAM_NAMES = ["plain", "blue", "red", "mixed", , , , "white"];
 const TEAM_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple", , , , "white"];
-// PEN FENCING POSTS // alternative blue 003e8d red ca1504
-const POST_DARK_COLOURS = ["white", "#52abfe", "#e81b23", "purple", , , , "white"];
-const POST_MID_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple", , , , "white"];
-const POST_PALE_COLOURS = ["#f4f4f4", "#84c9fe", "#fcabab", "purple", , , , "white"];
 const NUM_TEAM_TYPES = 3;
 
+// PEN FENCING POSTS 
+// blues tried are 7ef9ff 89cff0 00b0ff 003e8d 52abfe
+// reds tried are e81b23
+const POST_DARK_COLOURS = ["white", "#00b0ff", "#ca1504", "purple", , , , "white"];
+const POST_MID_COLOURS = ["#f4f4f4", "#66b3ff", "#f38282", "purple", , , , "white"];
+const POST_PALE_COLOURS = ["#f4f4f4", "#84c9fe", "#fcabab", "purple", , , , "white"];
+
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
-// 9 levels initial values, should Level Editor be able to change these?
+// initial values for 9 levels
 const TEAM_SIZE = [4, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5];
 const FLOCK_SIZE = [];
 var flockSize = null;
@@ -385,6 +388,7 @@ function loadLevel(whichLevel) {
   lorryList = [];
 
   bottomRowID.fill(null);
+  showingRoadScene = false;
 
   setupDogs(whichLevel);
   setupBoPeep(whichLevel);

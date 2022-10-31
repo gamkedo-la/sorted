@@ -1,6 +1,8 @@
 const releaseVersion = false;
 var editMode;
 var showRoadScene = true;
+var showingRoadScene = false;
+
 if (releaseVersion) {
   editMode = false;
 } else {

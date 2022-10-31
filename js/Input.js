@@ -595,7 +595,7 @@ function keyPressed(evt) {
   }
 
   else if (isFunctionKey(evt.keyCode)) {
-    // toggle Edit mode, design/test tools
+    // toggle Edit mode, tools for design and testing
     getFunctionKeys(evt.keyCode);
   }
 
