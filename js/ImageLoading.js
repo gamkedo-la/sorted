@@ -89,7 +89,7 @@ function loadImages() {
     {tileType: TILE_PEN_RED, theFile: "tile_goal.png"},
     {tileType: FULL_BLUE, theFile: "tile_goal.png"},
     {tileType: FULL_RED, theFile: "tile_goal.png"},
-    {tileType: TILE_ROAD, theFile: "tile_road.png"},
+    {tileType: TILE_ROAD, theFile: "tile_road_rural.png"},
     {tileType: TILE_SLOW, theFile: "tile_tree.png"},
     {tileType: TILE_STUCK, theFile: "tile_stuck.png"},
 		{tileType: TILE_BEND_LEFT, theFile: "tile_bend_left.png"},
