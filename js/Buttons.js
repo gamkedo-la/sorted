@@ -19,11 +19,11 @@ const designButtonLabel = []; // need bar for tile/agent info
 // var menuButtonLabel = ["Play", "Help", "Tutorial", "Music", "Score", "Credits"];
 // var playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "Menu"];
 
-var buttonsTop = 36;
-var buttonsLeft = 10;
+var buttonsTop = 8;
+var buttonsLeft = 5;
 const buttonWidth = 72;
-const buttonHeight = 76;
-const buttonGap = 0;
+const buttonHeight = 80;
+const buttonGap = 1;
 const buttonRects = [];
 var buttonDown = null;
 
@@ -43,13 +43,13 @@ function initButtonRects() {
 
 function drawBarTitle(txt, fontSize) {
   uiContext.font = fontSize + "px Arial";
-  colorText(uiContext, txt, buttonsLeft, 24, "white");
+  // colorText(uiContext, txt, buttonsLeft+7, 24, "white");
 }
 
 function drawTime() {
   uiContext.font = 12 + "px Arial";
   let txt = "Time: " + Math.floor(step[currentLevel] / baseFPS);
-  colorText(uiContext, txt, buttonsLeft, 590, "white");
+  colorText(uiContext, txt, buttonsLeft, 592, "white");
 }
 
 
@@ -58,18 +58,18 @@ function drawBarButtons(btnList) {
   const oldConfig = { align: uiContext.textAlign, lineWidth: uiContext.lineWidth, font: uiContext.font };
   uiContext.lineWidth = lineWidth;
   uiContext.textAlign = "center";
-  uiContext.font = "14px Arial";
+  uiContext.font = "15px Arial";
   for (var i = 0; i < btnList.length; i++) {
 
     if (btnList[i] != undefined && btnList[i] != '') {
-      let textY = buttonPic.height / 2 + buttonRects[i].y + 7;
+      let textY = buttonPic.height / 2 + buttonRects[i].y + 11;
       if (buttonDown == i) {
         // uiContext.drawImage(buttonPic, 51, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 50, 52);
-        uiContext.drawImage(buttonPic, 51, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 72, 76);
+        uiContext.drawImage(buttonPic, 51, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, buttonWidth, buttonHeight);
         textY += 4;
       } else {
         // uiContext.drawImage(buttonPic, 0, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 50, 52);
-        uiContext.drawImage(buttonPic, 0, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, 72, 76);
+        uiContext.drawImage(buttonPic, 0, 0, 50, 52, buttonRects[i].x, buttonRects[i].y, buttonWidth, buttonHeight);
       }
 
       // colorRectBorder(
