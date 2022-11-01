@@ -180,24 +180,22 @@ function moveLorries() {
     var direction = lorryList[i].direction;
     var boardingAngle = direction == 1 ? 0 : Math.PI;
 
-    // console.log('happening', happeningAt, 'timer', afterLevelTimeStep)
+    console.log('moveLorries time', afterLevelTimeStep)
 
     if (afterLevelTimeStep == timeRoadScroll - 5) {
       victory_music.play(VICTORY_MUSIC_VOLUME);
     }
 
-    // if (afterLevelTimeStep == happeningAt) {
     else if (afterLevelTimeStep == timeRoadScroll) {
       penHere = lorryList[i].stops[0];
       downBoard(penHere, i); // sheep begin moving down onto road
-
-      // happeningAt += timeLoadSheep;
-      console.log('Collect 1st', penHere, 'time', afterLevelTimeStep)
+      console.log('go down 1st', penHere, 'time', afterLevelTimeStep)
     }
 
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY) {
       penHere = lorryList[i].stops[0];
       sideBoard(penHere, i, direction); // sheep begin moving sideways into lorry
+      console.log('sideways 1st', penHere, 'time', afterLevelTimeStep)
     }
 
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX) {
@@ -208,14 +206,11 @@ function moveLorries() {
       }
     }
 
-    // else if (afterLevelTimeStep == happeningAt) {
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX + timeLoadSheep) {
       lorryList[i].ramp = false;
       lorryRestart(i);
-      happeningAt += timeTravelBetweenPens;
     }
 
-    // else if (afterLevelTimeStep == happeningAt) {
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX + timeLoadSheep + timeTravelBetweenPens) {
       lorryList[i].speedX = 0;
       lorryList[i].ramp = true;
@@ -242,7 +237,6 @@ function moveLorries() {
       lorryRestart(i);
     }
 
-    // else if (afterLevelTimeStep == happeningAt) {
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*2 + timeBoardX*2 + timeLoadSheep*2 + timeTravelBetweenPens*2) {
       lorryList[i].speedX = 0;
       lorryList[i].ramp = true;
@@ -264,7 +258,6 @@ function moveLorries() {
       }
     }
 
-    // else if (afterLevelTimeStep == happeningAt) {
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*3 + timeBoardX*3 + timeLoadSheep*3 + timeTravelBetweenPens*2) {
       lorryList[i].ramp = false;
       lorryRestart(i);
@@ -449,9 +442,11 @@ function drawLevelOver() {
     canvasContext.translate(0, -Math.floor(showingRoadVerticalShift));
   }
   drawField();
+  
   if (showingRoadScene) {
     drawLorryRamps();
   }
+  
   drawSheep();
 
   if (showingRoadScene) {
@@ -460,9 +455,13 @@ function drawLevelOver() {
       drawLorries();
     // }
   }
+  
+  drawVisualFX();
+
   if (showingRoadScene) {
     canvasContext.restore();
   }
+
   // any of Popup wanted for Test runs?
   if (runMode == NORMAL_PLAY) {
     drawLevelScore();

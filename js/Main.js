@@ -184,6 +184,7 @@ function moveAll() {
         if(true) {
           moveSheep();
           moveLorries();
+          moveParticles();
           afterLevelTimeStep++;
         }
       }

@@ -8,6 +8,14 @@ function drawBitmapCenteredWithRotation(ctx, useBitmap, atX, atY, withAng) {
   ctx.restore();
 }
 
+function drawBitmapScaled(ctx, useBitmap, atX, atY, withAng, width, height) {
+  ctx.save();
+  ctx.translate(atX, atY);
+  ctx.rotate(withAng);
+  ctx.drawImage(useBitmap, 0,0, useBitmap.width, useBitmap.height, -useBitmap.width / 2, -useBitmap.height / 2, width, height);
+  ctx.restore();
+}
+
 function colorRect(ctx, topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
   ctx.fillStyle = fillColor;
   ctx.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);

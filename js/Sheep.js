@@ -427,6 +427,8 @@ function sheepClass() {
       this.endLevel(tileCol);
 
       bottomRowID[tileCol] = this.id;
+      this.scoreX = this.nextX;
+      this.scoreY = this.nextY;
 
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
@@ -1059,7 +1061,8 @@ function sheepClass() {
     canvasContext.textAlign = "center";
     canvasContext.font = fontSize + "px Verdana";
     // draw score above sheep
-    colorText(canvasContext, this.score, this.x, this.y - TILE_H + 5, "white");
+    // colorText(canvasContext, this.score, this.x, this.y - TILE_H + 5, "white");
+    colorText(canvasContext, this.score, this.scoreX, this.scoreY - TILE_H + 5, "white");
     canvasContext.textAlign = "left";
   } // end of drawScore
 

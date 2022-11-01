@@ -2,7 +2,7 @@ const ROAD_SCROLL_SPEED = 2;
 var timeRoadScroll = TILE_H / ROAD_SCROLL_SPEED;
 var timeTravelBetweenPens = 19;
 
-var boardLorryY = 40; // downward on to road
+var boardLorryY = 45; // downward on to road
 var boardLorryX = 50; // sideways into lorry
 var sheepBoardingSpeed = 5;
 var timeBoardY = boardLorryY / sheepBoardingSpeed;
@@ -51,9 +51,11 @@ function lorryClass() {
   this.drawRamp = function () {
     if (this.ramp == true) {
       if (this.direction == 1) {
-        drawBitmapCenteredWithRotation(canvasContext, tailRampPic, this.x - 50, this.y, Math.PI);
+        drawBitmapScaled(canvasContext, tailRampPic, this.x - 50, this.y, Math.PI, 25, 36);
+        // drawBitmapCenteredWithRotation(canvasContext, tailRampPic, this.x - 50, this.y, Math.PI);
       } else {
-        drawBitmapCenteredWithRotation(canvasContext, tailRampPic, this.x + 50, this.y, 0);
+        drawBitmapScaled(canvasContext, tailRampPic, this.x + 50, this.y+4, 0, 25, 36);
+        // drawBitmapCenteredWithRotation(canvasContext, tailRampPic, this.x + 50, this.y, 0);
       }
     }
   }

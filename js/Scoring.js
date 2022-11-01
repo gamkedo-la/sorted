@@ -41,7 +41,9 @@ function setAllMaxScores() {
 
 function isLevelOver() {
   // if all sheep out-of-play and particle fx completed
-  return (sheepInPlay < 1 && particleList.length < 5)
+  // particles run in LevelOver so no need to complete before starting
+  // return (sheepInPlay < 1 && particleList.length < 5)
+  return (sheepInPlay < 1)
 }
 
 
