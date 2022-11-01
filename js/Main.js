@@ -178,10 +178,11 @@ function moveAll() {
 
 
   else if (gameState == STATE_LEVEL_END) {
-    if (showRoadScene) {
+    if (showingRoadScene) {
       if (!paused) {
         // if (anyInPen(bottomRowID)) {
         if(true) {
+          moveSheep();
           moveLorries();
           afterLevelTimeStep++;
         }
@@ -245,9 +246,7 @@ function moveAll() {
         // force LevelEnd when sheep in final column Held or give up.
       }
 
-      for (var i = 0; i < sheepList.length; i++) {
-        sheepList[i].move();
-      }
+      moveSheep();
 
       if (isLevelOver()) {
         levelEnding();

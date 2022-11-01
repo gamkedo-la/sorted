@@ -73,7 +73,7 @@ function gotoReplay(from) {
   if (musicInitialised) {
     gameMusic.startMusic();
   }
-  
+
   gameState = STATE_PLAY;
   if (!levelRunning) {
     levelRunning = true;
@@ -167,67 +167,111 @@ function togglePause() {
   // }
 }
 
+function moveSheep() {
+  for (var i = 0; i < sheepList.length; i++) {
+    sheepList[i].move();
+  }
+}
 
-var happeningAt = 0;
+
 function moveLorries() {
   for (var i = 0; i < lorryList.length; i++) {
     lorryList[i].move();
+    var direction = lorryList[i].direction;
+    var boardingAngle = direction == 1 ? 0 : Math.PI;
 
-// console.log('happening', happeningAt, 'timer', afterLevelTimeStep)
+    // console.log('happening', happeningAt, 'timer', afterLevelTimeStep)
 
-    // if (afterLevelTimeStep == happeningAt) {
-    if (afterLevelTimeStep == timeRoadScroll -5) {
+    if (afterLevelTimeStep == timeRoadScroll - 5) {
       victory_music.play(VICTORY_MUSIC_VOLUME);
     }
 
+    // if (afterLevelTimeStep == happeningAt) {
     else if (afterLevelTimeStep == timeRoadScroll) {
       penHere = lorryList[i].stops[0];
-      collectSheep(penHere);
-      happeningAt += timeLoadingSheep;
-      console.log('Collect', penHere, 'time', afterLevelTimeStep)
+      downBoard(penHere, i); // sheep begin moving down onto road
+
+      // happeningAt += timeLoadSheep;
+      console.log('Collect 1st', penHere, 'time', afterLevelTimeStep)
+    }
+
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY) {
+      penHere = lorryList[i].stops[0];
+      sideBoard(penHere, i, direction); // sheep begin moving sideways into lorry
+    }
+
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX) {
+      penHere = lorryList[i].stops[0];
+      var id = bottomRowID[penHere];
+      if (id != null) {
+        sheepList[id].visible = false;
+      }
     }
 
     // else if (afterLevelTimeStep == happeningAt) {
-    else if (afterLevelTimeStep == timeRoadScroll + timeLoadingSheep) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX + timeLoadSheep) {
       lorryList[i].ramp = false;
       lorryRestart(i);
       happeningAt += timeTravelBetweenPens;
     }
 
     // else if (afterLevelTimeStep == happeningAt) {
-    else if (afterLevelTimeStep == timeRoadScroll + timeLoadingSheep + timeTravelBetweenPens) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX + timeLoadSheep + timeTravelBetweenPens) {
       lorryList[i].speedX = 0;
       lorryList[i].ramp = true;
       penHere = lorryList[i].stops[1];
-      collectSheep(penHere);
-      happeningAt += timeLoadingSheep;
-      console.log('Collect', penHere, 'time', afterLevelTimeStep)
+      downBoard(penHere, i);
+      console.log('Collect 2nd', penHere, 'time', afterLevelTimeStep)
     }
 
-    // else if (afterLevelTimeStep == happeningAt) {
-    else if (afterLevelTimeStep == timeRoadScroll + timeLoadingSheep*2 + timeTravelBetweenPens) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*2 + timeBoardX + timeLoadSheep + timeTravelBetweenPens) {
+      penHere = lorryList[i].stops[1];
+      sideBoard(penHere, i, direction); // sheep begin moving sideways into lorry
+    }
+
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*2 + timeBoardX*2 + timeLoadSheep + timeTravelBetweenPens) {
+      penHere = lorryList[i].stops[1];
+      var id = bottomRowID[penHere];
+      if (id != null) {
+        sheepList[id].visible = false;
+      }
+    }
+
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*2 + timeBoardX*2 + timeLoadSheep*2 + timeTravelBetweenPens) {
       lorryList[i].ramp = false;
       lorryRestart(i);
-      happeningAt += timeTravelBetweenPens;
     }
 
     // else if (afterLevelTimeStep == happeningAt) {
-    else if (afterLevelTimeStep == timeRoadScroll + timeLoadingSheep*2 + timeTravelBetweenPens*2) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*2 + timeBoardX*2 + timeLoadSheep*2 + timeTravelBetweenPens*2) {
       lorryList[i].speedX = 0;
       lorryList[i].ramp = true;
       penHere = lorryList[i].stops[2];
-      collectSheep(penHere);
-      happeningAt += timeLoadingSheep;
-      console.log('Collect', penHere, 'time', afterLevelTimeStep)
+      downBoard(penHere, i);
+      console.log('Collect 3rd', penHere, 'time', afterLevelTimeStep)
+    }
+
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*3 + timeBoardX*2 + timeLoadSheep*2 + timeTravelBetweenPens*2) {
+      penHere = lorryList[i].stops[2];
+      sideBoard(penHere, i, direction); // sheep begin moving sideways into lorry
+    }
+
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*3 + timeBoardX*3 + timeLoadSheep*2 + timeTravelBetweenPens*2) {
+      penHere = lorryList[i].stops[2];
+      var id = bottomRowID[penHere];
+      if (id != null) {
+        sheepList[id].visible = false;
+      }
     }
 
     // else if (afterLevelTimeStep == happeningAt) {
-    else if (afterLevelTimeStep == timeRoadScroll + timeLoadingSheep*3 + timeTravelBetweenPens*2) {      
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*3 + timeBoardX*3 + timeLoadSheep*3 + timeTravelBetweenPens*2) {
       lorryList[i].ramp = false;
       lorryRestart(i);
     }
   }
 }
+
 
 function lorryRestart(i) {
   if (i == 0) {
@@ -238,24 +282,26 @@ function lorryRestart(i) {
   }
 }
 
-function collectSheep(col) {
+function downBoard(col, lorryID) {
   var id = bottomRowID[col];
   if (id != null) {
-    sheepList[id].visible = false;
+    // sheepList[id].visible = false;
+    sheepList[id].gotoY = sheepList[id].y + boardLorryY;
+    sheepList[id].gotoX = sheepList[id].x;
+    sheepList[id].changeMode(LOADING);
+  } else {
+    console.log('No sheep at pen', penHere, 'for lorry', lorryID)
   }
 }
 
-function collectBlueSheep(col) {
-  var bluePenID = bottomRowID[col];
-  if (bluePenID != null) {
-    sheepList[bluePenID].visible = false;
-  }
-}
-
-function collectRedSheep(col) {
-  var redPenID = bottomRowID[col];
-  if (redPenID != null) {
-    sheepList[redPenID].visible = false;
+function sideBoard(col, lorryID, direction) {
+  // var direction = lorryList[i].direction;
+  var boardingAngle = direction == 1 ? 0 : Math.PI;
+  var id = bottomRowID[col];
+  if (id != null) {
+    sheepList[id].gotoX = sheepList[id].x + (direction * boardLorryX);
+    sheepList[id].gotoY = sheepList[id].y;
+    sheepList[id].ang = boardingAngle;
   }
 }
 
@@ -389,9 +435,9 @@ function drawPlay() {
 
 
 function drawLevelOver() {
-  if(showingRoadScene) {
+  if (showingRoadScene) {
     showingRoadVerticalShift += 2;
-    if(showingRoadVerticalShift > TILE_H) {
+    if (showingRoadVerticalShift > TILE_H) {
       showingRoadVerticalShift = TILE_H;
     }
     canvasContext.save();
@@ -400,12 +446,12 @@ function drawLevelOver() {
   drawField();
   drawSheep();
   if (showingRoadScene) {
-    if(true) { // if (!allAreNull(bottomRowID)) {
-    // if (anyInPen(bottomRowID)) {
+    if (true) { // if (!allAreNull(bottomRowID)) {
+      // if (anyInPen(bottomRowID)) {
       drawLorries();
     }
   }
-  if(showingRoadScene) {
+  if (showingRoadScene) {
     canvasContext.restore();
   }
   // any of Popup wanted for Test runs?
@@ -444,18 +490,18 @@ function setupRoadLorries() {
   // for (var i = 0; i < sheepList.length; i++) {
   //   sheepList[i].y -= TILE_H;
   // }
-  
+
   // create Lorries
   var spawnLorry = new lorryClass();
-  let x = gameCanvas.width/2 - TILE_W/2 - lorryBluePic.width/2 -40;
-  spawnLorry.init(1, lorryBluePic, x, -1);
-  spawnLorry.stops = [7, 4, 1]; // centre pen first
+  let x = gameCanvas.width / 2 - TILE_W / 2 - lorryBluePic.width / 2 - 40;
+  spawnLorry.init(1, lorryBluePic, x, -1);
+  spawnLorry.stops = [7, 4, 1]; // centre pen first
   lorryList.push(spawnLorry);
 
   var spawnLorry = new lorryClass();
-  x = gameCanvas.width/2 + TILE_W/2 + lorryBluePic.width/2 +40;
-  spawnLorry.init(2, lorryRedPic, x, 1);
-  spawnLorry.stops = [8, 11, 14];
+  x = gameCanvas.width / 2 + TILE_W / 2 + lorryBluePic.width / 2 + 40;
+  spawnLorry.init(2, lorryRedPic, x, 1);
+  spawnLorry.stops = [8, 11, 14];
   lorryList.push(spawnLorry);
 
   afterLevelTimeStep = 0;

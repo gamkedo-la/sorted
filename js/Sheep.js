@@ -29,7 +29,7 @@ const STILL = 7;
 const DISTRACTED = 8;
 const HALTED = 9;
 const LICKED = 10;
-
+const LOADING = 19;
 const SHY = 21;
 const SELECTED = 22; // only while manually edit/testing
 
@@ -170,8 +170,8 @@ function sheepClass() {
       this.nextY = mouse.y;
     }
 
-    else if (this.levelDone || this.mode == STILL) {
-      // if sheep outOfPlay no action
+    else if (this.levelDone && this.mode != LOADING) {
+      // if sheep outOfPlay no action, except boarding lorry
       return;
     }
 
@@ -716,6 +716,12 @@ function sheepClass() {
       update_debug_report(); // to display Hold
     }
 
+    else if (newMode == LOADING) {
+      this.mode = LOADING;
+      this.orient = 0;
+      this.speed = 5;
+    }
+
     else if (newMode == ROAM) {
       this.mode = ROAM;
       this.speed = ROAM_SPEED[currentLevel];
@@ -852,7 +858,12 @@ function sheepClass() {
   }
 
   this.isAllowedBottomRow = function () {
-    if (gameState == STATE_GUIDE) {
+
+    if (gameState == STATE_LEVEL_END) {
+      return true;
+    }
+
+    else if (gameState == STATE_GUIDE) {
       console.log('allowed Guide')
       if (this.mode == SENT) {
         return true;
@@ -889,6 +900,9 @@ function sheepClass() {
   }
 
   this.doTileHandling = function() {
+    if (this.mode == LOADING) {
+      return false;
+    }
     if (this.mode == SENT) {
       return true;
     }
