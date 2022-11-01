@@ -311,6 +311,11 @@ function drawLorries() {
     lorryList[i].draw();
   }
 }
+function drawLorryRamps() {
+  for (var i = 0; i < lorryList.length; i++) {
+    lorryList[i].drawRamp();
+  }
+}
 
 
 // called by drawPlay & drawLevelOver
@@ -444,12 +449,16 @@ function drawLevelOver() {
     canvasContext.translate(0, -Math.floor(showingRoadVerticalShift));
   }
   drawField();
-  drawSheep();
   if (showingRoadScene) {
-    if (true) { // if (!allAreNull(bottomRowID)) {
+    drawLorryRamps();
+  }
+  drawSheep();
+
+  if (showingRoadScene) {
+    // if (true) { // if (!allAreNull(bottomRowID)) {
       // if (anyInPen(bottomRowID)) {
       drawLorries();
-    }
+    // }
   }
   if (showingRoadScene) {
     canvasContext.restore();
