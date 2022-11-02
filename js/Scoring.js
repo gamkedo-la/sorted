@@ -55,20 +55,27 @@ function levelEnding() {
   levelRunning = false;
 
   if (editMode == false) {
-  // if (editMode == false && !allAreNull(bottomRowID)) {
-  // if (true) {
+    // if (editMode == false && !allAreNull(bottomRowID)) {
+    // if (true) {
     // play some happy music!
     if (musicInitialised) {
       gameMusic.stopMusic();
     }
   }
 
-// console.log(anyInPen(bottomRowID), bottomRowID)
-  if (showRoadScene) {
-    // if(anyInPen(bottomRowID)) {
-    if(true) {
+  // console.log(anyInPen(bottomRowID), bottomRowID)
+  if (USE_ROAD_SCENE) {  
+    if (ROAD_HIDE_IF_PENS_EMPTY) {
+      if (anyInPen(bottomRowID)) {
+        setupRoadLorries();
+      } else {
+        console.log('None in pens: no lorries.');
+      }
+    } else { // show even if pens empty
       setupRoadLorries();
-    }    
+    }
+  } else {
+    console.log('Road not in use');
   }
 }
 

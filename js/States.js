@@ -235,22 +235,22 @@ function moveLorries() {
       console.log('Collect 2nd', penHere, 'time', afterLevelTimeStep)
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*2 + timeBoardX + timeLoadSheep + timeTravelBetweenPens) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 2 + timeBoardX + timeLoadSheep + timeTravelBetweenPens) {
       penHere = lorryList[i].stops[1];
       sideBoard(penHere, i, direction); // sheep begin moving sideways into lorry
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*2 + timeBoardX*2 + timeLoadSheep + timeTravelBetweenPens) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 2 + timeBoardX * 2 + timeLoadSheep + timeTravelBetweenPens) {
       penHere = lorryList[i].stops[1];
       loadSheep(penHere, i);
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*2 + timeBoardX*2 + timeLoadSheep*2 + timeTravelBetweenPens) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 2 + timeBoardX * 2 + timeLoadSheep * 2 + timeTravelBetweenPens) {
       lorryList[i].ramp = false;
       lorryRestart(i);
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*2 + timeBoardX*2 + timeLoadSheep*2 + timeTravelBetweenPens*2) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 2 + timeBoardX * 2 + timeLoadSheep * 2 + timeTravelBetweenPens * 2) {
       lorryList[i].speedX = 0;
       lorryList[i].ramp = true;
       penHere = lorryList[i].stops[2];
@@ -258,17 +258,17 @@ function moveLorries() {
       console.log('Collect 3rd', penHere, 'time', afterLevelTimeStep)
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*3 + timeBoardX*2 + timeLoadSheep*2 + timeTravelBetweenPens*2) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 3 + timeBoardX * 2 + timeLoadSheep * 2 + timeTravelBetweenPens * 2) {
       penHere = lorryList[i].stops[2];
       sideBoard(penHere, i, direction); // sheep begin moving sideways into lorry
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*3 + timeBoardX*3 + timeLoadSheep*2 + timeTravelBetweenPens*2) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 3 + timeBoardX * 3 + timeLoadSheep * 2 + timeTravelBetweenPens * 2) {
       penHere = lorryList[i].stops[2];
       loadSheep(penHere, i);
     }
 
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*3 + timeBoardX*3 + timeLoadSheep*3 + timeTravelBetweenPens*2) {
+    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 3 + timeBoardX * 3 + timeLoadSheep * 3 + timeTravelBetweenPens * 2) {
       lorryList[i].ramp = false;
       lorryRestart(i);
     }
@@ -292,9 +292,11 @@ function downBoard(col, lorryID) {
     sheepList[id].gotoX = sheepList[id].x;
     sheepList[id].changeMode(LOADING);
     // blue=1 & red=2
-    if (sheepList[id].team != lorryID+1) {
+    if (sheepList[id].team == lorryID + 1) {
+      lorryCorrectSound.play(0.6);
+    } else {
       lorryWrongSound.play(0.5);
-    }
+    }1
   } else {
     console.log('No sheep at pen', penHere, 'for lorry', lorryID)
   }
@@ -453,29 +455,28 @@ function drawPlay() {
 
 
 function drawLevelOver() {
+
   if (showingRoadScene) {
-    showingRoadVerticalShift += 2;
-    if (showingRoadVerticalShift > TILE_H) {
-      showingRoadVerticalShift = TILE_H;
+    roadVerticalShift += 2;
+    if (roadVerticalShift > TILE_H) {
+      roadVerticalShift = TILE_H;
     }
     canvasContext.save();
-    canvasContext.translate(0, -Math.floor(showingRoadVerticalShift));
+    canvasContext.translate(0, -Math.floor(roadVerticalShift));
   }
-  drawField();
   
+  drawField();
+
   if (showingRoadScene) {
     drawLorryRamps();
   }
-  
+
   drawSheep();
 
   if (showingRoadScene) {
-    // if (true) { // if (!allAreNull(bottomRowID)) {
-      // if (anyInPen(bottomRowID)) {
-      drawLorries();
-    // }
+    drawLorries();
   }
-  
+
   drawVisualFX();
 
   if (showingRoadScene) {
@@ -511,13 +512,10 @@ function drawCreditState() {
 
 
 function setupRoadLorries() {
-
-  // remove top row from field
-  // areaGrid = areaGrid.slice(TILE_COLS);
+  showingRoadScene = true;
   areaGrid = areaGrid.concat(ROAD_ROW);
-  // for (var i = 0; i < sheepList.length; i++) {
-  //   sheepList[i].y -= TILE_H;
-  // }
+  roadVerticalShift = 0;
+  afterLevelTimeStep = 0;
 
   // create Lorries
   var spawnLorry = new lorryClass();
@@ -531,11 +529,4 @@ function setupRoadLorries() {
   spawnLorry.init(2, lorryRedPic, x, 1);
   spawnLorry.stops = [8, 11, 14];
   lorryList.push(spawnLorry);
-
-  afterLevelTimeStep = 0;
-  happeningAt = timeRoadScroll;
-
-  showingRoadScene = true;
-  showingRoadVerticalShift = 0;
-  // console.log(areaGrid);
 }

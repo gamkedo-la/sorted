@@ -7,9 +7,13 @@ if (releaseVersion) {
   editMode = true;
 }
 
-var showRoadScene = true; // prevent feature showing
-var showingRoadScene = false; // when road visible in game
-var showingRoadVerticalShift = 0;
+// road scene not shown if all pens empty
+const ROAD_HIDE_IF_PENS_EMPTY = true;
+// for quicker testing set false
+
+const USE_ROAD_SCENE = true; // prevent feature
+var showingRoadScene = false; // when road visible
+var roadVerticalShift = 0;
 
 const NORMAL_PLAY = 0;
 const SEND_ONLY = 1;

@@ -180,13 +180,10 @@ function moveAll() {
   else if (gameState == STATE_LEVEL_END) {
     if (showingRoadScene) {
       if (!paused) {
-        // if (anyInPen(bottomRowID)) {
-        if(true) {
           moveSheep();
           moveLorries();
           moveParticles();
           afterLevelTimeStep++;
-        }
       }
     }
   }

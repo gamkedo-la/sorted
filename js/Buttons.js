@@ -6,7 +6,7 @@ if (touchDevice) {
   var menuButtonLabel = ["Help", "Tutor", "Play", "Music", "Score", "Credits", "Quit"];
 }
 
-if (showRoadScene) {
+if (USE_ROAD_SCENE) {
   var levelendButtonLabel = ["Replay", "Next", "Menu", , "Pause"];
 } else {
   var levelendButtonLabel = ["Replay", "Next", "Menu"];
@@ -19,7 +19,7 @@ var creditsButtonLabel = ["Menu", , , , "Pause"]; // Pause vanish when scroll en
 const offmenuButtonLabel = ["Menu"];
 
 // "Restart" not offered, must refresh webpage instead
-const gameoverButtonLabel = ["Music", "Close"]; 
+const gameoverButtonLabel = ["Music", "Close"];
 
 // no "End" button in Tutorial, tricky to implement
 var tutorialButtonLabel = ["Left", "Right", "Call", "Send", "Pause", , "Menu"];
