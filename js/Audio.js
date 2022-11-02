@@ -32,6 +32,8 @@ var slowTileSound = new SoundOverlapsClass("sound/woods_quiet_419052");
 var pennedSound = new SoundOverlapsClass("sound/baa17");
 var wrongpenSound = new SoundOverlapsClass("sound/error_trombone");
 
+var lorryWrongSound = new SoundOverlapsClass("sound/lorry_wrong_team");
+
 var rogueSound = new SoundOverlapsClass("sound/woof01");
 var rogueSound2 = new SoundOverlapsClass("sound/woof02");
 

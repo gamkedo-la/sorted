@@ -199,7 +199,7 @@ function moveLorries() {
     var direction = lorryList[i].direction;
     var boardingAngle = direction == 1 ? 0 : Math.PI;
 
-    console.log('moveLorries time', afterLevelTimeStep)
+    // console.log('moveLorries time', afterLevelTimeStep)
 
     if (afterLevelTimeStep == timeRoadScroll - 5) {
       victory_music.play(VICTORY_MUSIC_VOLUME);
@@ -219,10 +219,7 @@ function moveLorries() {
 
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX) {
       penHere = lorryList[i].stops[0];
-      var id = bottomRowID[penHere];
-      if (id != null) {
-        sheepList[id].visible = false;
-      }
+      loadSheep(penHere, i);
     }
 
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX + timeLoadSheep) {
@@ -245,10 +242,7 @@ function moveLorries() {
 
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*2 + timeBoardX*2 + timeLoadSheep + timeTravelBetweenPens) {
       penHere = lorryList[i].stops[1];
-      var id = bottomRowID[penHere];
-      if (id != null) {
-        sheepList[id].visible = false;
-      }
+      loadSheep(penHere, i);
     }
 
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*2 + timeBoardX*2 + timeLoadSheep*2 + timeTravelBetweenPens) {
@@ -271,10 +265,7 @@ function moveLorries() {
 
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*3 + timeBoardX*3 + timeLoadSheep*2 + timeTravelBetweenPens*2) {
       penHere = lorryList[i].stops[2];
-      var id = bottomRowID[penHere];
-      if (id != null) {
-        sheepList[id].visible = false;
-      }
+      loadSheep(penHere, i);
     }
 
     else if (afterLevelTimeStep == timeRoadScroll + timeBoardY*3 + timeBoardX*3 + timeLoadSheep*3 + timeTravelBetweenPens*2) {
@@ -297,10 +288,13 @@ function lorryRestart(i) {
 function downBoard(col, lorryID) {
   var id = bottomRowID[col];
   if (id != null) {
-    // sheepList[id].visible = false;
     sheepList[id].gotoY = sheepList[id].y + boardLorryY;
     sheepList[id].gotoX = sheepList[id].x;
     sheepList[id].changeMode(LOADING);
+    // blue=1 & red=2
+    if (sheepList[id].team != lorryID+1) {
+      lorryWrongSound.play(0.5);
+    }
   } else {
     console.log('No sheep at pen', penHere, 'for lorry', lorryID)
   }
@@ -314,6 +308,13 @@ function sideBoard(col, lorryID, direction) {
     sheepList[id].gotoX = sheepList[id].x + (direction * boardLorryX);
     sheepList[id].gotoY = sheepList[id].y;
     sheepList[id].ang = boardingAngle;
+  }
+}
+
+function loadSheep(col, lorryID) {
+  var id = bottomRowID[penHere];
+  if (id != null) {
+    sheepList[id].visible = false;
   }
 }
 
