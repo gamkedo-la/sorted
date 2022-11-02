@@ -519,13 +519,13 @@ function setupRoadLorries() {
 
   // create Lorries
   var spawnLorry = new lorryClass();
-  let x = gameCanvas.width / 2 - TILE_W / 2 - lorryBluePic.width / 2 - 40;
+  let x = gameCanvas.width / 2 - TILE_W / 2 - lorryBluePic.width / 2 - 35;
   spawnLorry.init(1, lorryBluePic, x, -1);
   spawnLorry.stops = [7, 4, 1]; // centre pen first
   lorryList.push(spawnLorry);
 
   var spawnLorry = new lorryClass();
-  x = gameCanvas.width / 2 + TILE_W / 2 + lorryBluePic.width / 2 + 40;
+  x = gameCanvas.width / 2 + TILE_W / 2 + lorryBluePic.width / 2 + 34;
   spawnLorry.init(2, lorryRedPic, x, 1);
   spawnLorry.stops = [8, 11, 14];
   lorryList.push(spawnLorry);

@@ -80,7 +80,7 @@ function loadImages() {
     {varName: buttonPic, theFile: "ui_button.png"},
     {varName: lorryBluePic, theFile: "lorry_blue.png"},
     {varName: lorryRedPic, theFile: "lorry_red.png"},
-    {varName: tailRampPic, theFile: "tail_ramp_40.png"},
+    {varName: tailRampPic, theFile: "tail_ramp_40w.png"},
     {tileType: TILE_FIELD, theFile: "tile_grass_50.png"},
     {tileType: TILE_RAILS, theFile: "tile_tracks_3.png"},
     {tileType: TILE_HALT, theFile: "tile_lake.png"},

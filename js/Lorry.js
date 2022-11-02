@@ -23,7 +23,7 @@ function lorryClass() {
     this.id = id;
     this.pic = whichPic;
     this.x = x;
-    this.y = gameCanvas.height + TILE_H / 2;
+    this.y = gameCanvas.height + TILE_H/2 + 3;
     this.ang = 0;
     this.speedX = 0;
     this.ramp = true;
@@ -50,12 +50,10 @@ function lorryClass() {
 
   this.drawRamp = function () {
     if (this.ramp == true) {
-      if (this.direction == 1) {
-        drawBitmapScaled(canvasContext, tailRampPic, this.x - 50, this.y, Math.PI, 25, 36);
-        // drawBitmapCenteredWithRotation(canvasContext, tailRampPic, this.x - 50, this.y, Math.PI);
-      } else {
-        drawBitmapScaled(canvasContext, tailRampPic, this.x + 50, this.y+4, 0, 25, 36);
-        // drawBitmapCenteredWithRotation(canvasContext, tailRampPic, this.x + 50, this.y, 0);
+      if (this.direction == -1) { // blue lorry
+        drawBitmapScaled(canvasContext, tailRampPic, this.x + 47, this.y+2, 0, 20, 36);
+      } else { // red lorry
+        drawBitmapScaled(canvasContext, tailRampPic, this.x - 47, this.y-2, Math.PI, 20, 36);
       }
     }
   }

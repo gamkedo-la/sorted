@@ -8,7 +8,7 @@ if (releaseVersion) {
 }
 
 // road scene not shown if all pens empty
-const ROAD_HIDE_IF_PENS_EMPTY = true;
+const ROAD_HIDE_IF_PENS_EMPTY = false;
 // for quicker testing set false
 
 const USE_ROAD_SCENE = true; // prevent feature
