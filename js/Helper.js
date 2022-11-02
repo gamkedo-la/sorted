@@ -30,7 +30,13 @@ function yTopFromIndex(index) {
 function rowFromIndex(index) {
   return Math.floor(index / TILE_COLS);
 }
-
+function colFromIndex(index) {
+  return index % TILE_COLS;
+}
+function xLeftFromIndex(index) {
+  let col = colFromIndex(index); 
+  return TILE_W * col;
+}
 
 function countPennedSheep() {
   var count = 0;

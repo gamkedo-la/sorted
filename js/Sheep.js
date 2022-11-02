@@ -81,6 +81,8 @@ function sheepClass() {
   this.visible = true;
   this.scoreX = null;
   this.scoreY = null;
+  this.quackTimer = 0;
+  this.index = null;
 
   this.reset = function (i, team, potential, mode) {
     this.id = i;
@@ -226,6 +228,9 @@ function sheepClass() {
 
     if (this.shyTimer > 0) { // plain sheep shying away from dog
       this.shyTimer--;
+    }
+    if (this.quackTimer > 0) {
+      this.quackTimer--;
     }
 
     if (this.avoidCollisionTimer > 0) {
@@ -635,6 +640,7 @@ function sheepClass() {
           this.nextY = this.y;
         }
         this.changeMode(HALTED);
+        this.index = tileIndexUnder;
       }
     }
 
@@ -770,6 +776,7 @@ function sheepClass() {
       } else {
         haltedSound2.play(0.3);   
       }
+      this.quackTimer = 35;
       
       this.orient = 0; // normal upright
       this.speed = 0;
@@ -969,6 +976,22 @@ function sheepClass() {
         drawBitmapCenteredWithRotation(canvasContext, sheepNormalPic, this.x + gameCanvas.width, this.y, this.orient);
       }
     } // if visible (in lorry is invisible)
+
+    if (this.quackTimer %2 == 1) {
+      canvasContext.lineWidth = 3;
+      let xc = xLeftFromIndex(this.index) + TILE_W/2; 
+      let yc = yTopFromIndex(this.index) + TILE_H/2;
+      let vlen = 10;
+      let vgap = 2;
+      colorLine(canvasContext, xc+vgap, yc+vgap, xc+vlen, yc+vlen, "white");
+      colorLine(canvasContext, xc-vgap, yc-vgap, xc-vlen, yc-vlen, "white");
+      colorLine(canvasContext, xc-vgap, yc+vgap, xc-vlen, yc+vlen, "white");
+      colorLine(canvasContext, xc+vgap, yc-vgap, xc+vlen, yc-vlen, "white");
+      // colorLine(canvasContext, xc+vgap, yc, xc+vlen, yc, "white");
+      // colorLine(canvasContext, xc-vgap, yc, xc-vlen, yc, "white");
+      // colorLine(canvasContext, xc, yc+vgap, xc, yc+vlen, "white");
+      // colorLine(canvasContext, xc, yc-vgap, xc, yc-vlen, "white");
+    }
 
     if (editMode) {
       var facingX = this.x + Math.cos(this.ang) * SHEEP_RADIUS;
