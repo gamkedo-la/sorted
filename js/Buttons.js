@@ -15,7 +15,7 @@ if (showRoadScene) {
 const playButtonLabel = ["Left", "Right", "Call", "Send", "Pause", "End", "Menu"];
 const pauseButtonLabel = [, , , , "Go"];
 
-const creditsButtonLabel = ["Menu", , , , "Pause"];
+var creditsButtonLabel = ["Menu", , , , "Pause"]; // Pause vanish when scroll ends
 const offmenuButtonLabel = ["Menu"];
 
 // "Restart" not offered, must refresh webpage instead

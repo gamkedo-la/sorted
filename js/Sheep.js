@@ -79,6 +79,8 @@ function sheepClass() {
   this.shyTimer = 0;
   this.enteredNewGridSquare = false;
   this.visible = true;
+  this.scoreX = null;
+  this.scoreY = null;
 
   this.reset = function (i, team, potential, mode) {
     this.id = i;
@@ -1061,8 +1063,11 @@ function sheepClass() {
     canvasContext.textAlign = "center";
     canvasContext.font = fontSize + "px Verdana";
     // draw score above sheep
-    // colorText(canvasContext, this.score, this.x, this.y - TILE_H + 5, "white");
-    colorText(canvasContext, this.score, this.scoreX, this.scoreY - TILE_H + 5, "white");
+    if (this.scoreX == null) {
+    colorText(canvasContext, this.score, this.x, this.y - TILE_H + 8, "white");
+    } else {
+      colorText(canvasContext, this.score, this.scoreX, this.scoreY - TILE_H + 8, "white");
+    }
     canvasContext.textAlign = "left";
   } // end of drawScore
 

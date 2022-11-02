@@ -251,8 +251,7 @@ function ui_mousedownHandler() {
         switch (creditsButtonLabel[i]) {
 
           case "Menu":
-            paused = false;
-            gotoMenu("button");
+            goFromCredits("button");
             break;
 
           case "Pause":
@@ -267,7 +266,15 @@ function ui_mousedownHandler() {
     // could set Menu button at slot [4] or elsewhere
     if (xyIsInRect(uiPos, buttonRects[0])) {
       // buttonDown = i;
-      gotoMenu("button");
+      if (gameState == STATE_SCOREBOARD) {
+        goFromScore("Scoreboard, button")
+      } 
+      else if (gameState == STATE_HELP) {
+        goFromHelp("Scoreboard, button")
+      } 
+      else {
+        gotoMenu("Tutorial, button");
+      }
     }
   }
 } // end of ui_mousedownHandler

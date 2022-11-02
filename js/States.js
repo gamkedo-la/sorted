@@ -15,6 +15,22 @@ var levelBeforeGuide = 0;
 var tutorStep = 1;
 
 
+function goFromCredits(from) {
+  paused = false;
+  endMidMusic();
+  gotoMenu(from);
+}
+
+function goFromScore(from) {
+  endMidMusic();
+  gotoMenu(from);
+}
+function goFromHelp(from) {
+  endMidMusic();
+  gotoMenu(from);
+}
+
+
 // called when gameState changed, from Input.js
 function gotoMenu(from) {
   buttonDown = null;
@@ -111,6 +127,7 @@ function gotoScore(from) {
   buttonDown = null;
   gameState = STATE_SCOREBOARD;
   drawBarButtons(offmenuButtonLabel);
+  startMidMusic();
   report('Score via ' + from, 1)
 }
 
@@ -119,6 +136,7 @@ function gotoHelp(from) {
   buttonDown = null;
   gameState = STATE_HELP;
   drawBarButtons(offmenuButtonLabel);
+  startMidMusic();
   report('Help via' + from, 1)
 }
 
@@ -127,6 +145,7 @@ function gotoCredits(from) {
   buttonDown = null;
   creditsFrameCount = 0;
   gameState = STATE_CREDITS;
+  startMidMusic();
   report('Credits via ' + from, 1)
 }
 
@@ -150,7 +169,7 @@ function togglePause() {
     buttonDown = null;
   }
 
-  if (musicInitialised) {
+  if (gameState == STATE_PLAY && musicInitialised) {
     if (paused) {
       gameMusic.alterVolume(musicMenuVolume);
     } else {

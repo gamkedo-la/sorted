@@ -132,8 +132,13 @@ function drawHelp() {
 
 function drawCredits() {
   
-  if (!paused) {
-    creditsFrameCount++;
+  if (!paused)  {
+    if (creditsFrameCount < 1060) {
+      creditsFrameCount++;
+    } else {
+      creditsButtonLabel = ["Menu", , , , ]
+    }
+    // console.log('creditFrame', creditsFrameCount)
   }
 
   colorRect(canvasContext, 0, 0, gameCanvas.width, gameCanvas.height, "black");

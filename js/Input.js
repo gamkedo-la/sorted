@@ -437,14 +437,14 @@ function menuKeyChoice(key) {
 
     case STATE_SCOREBOARD:
       if (key == KEY_ESC || key == KEY_M) {
-        gotoMenu("Scoreboard, key M or Esc");
+        gotoFromScore("Scoreboard, key");
       }
       break;
 
 
     case STATE_CREDITS:
       if (key == KEY_ESC || key == KEY_M) {
-        gotoMenu("Credits, key M or Esc");
+        goFromCredits("Credits, keyboard");
       }
       else if (key == KEY_SPACE) {
         togglePause();
@@ -457,7 +457,7 @@ function menuKeyChoice(key) {
 
     case STATE_HELP:
       if (key == KEY_ESC || key == KEY_M) {
-        gotoMenu("Help, key M or Esc");
+        goFromHelp("Help, key M or Esc");
       }
       break;
 

@@ -1,3 +1,10 @@
+var musicInitialised = false;
+var musicChosen = false;
+
+var musicMenuVolume = 0.4;
+var musicGameVolume = 0.05;
+var musicMidVolume = 0.15;
+
 var hatVolume = 0.6;
 
 // var callSound = new SoundOverlapsClass("sound/call_1_quiet");
@@ -37,11 +44,6 @@ var gameMusic = new BackgroundMusicClass();
 var victory_music = new SoundOverlapsClass("sound/victory_music_ipad");
 // var victory_music = new SoundOverlapsClass("sound/victory_music");
 
-var musicInitialised = false;
-var musicMenuVolume = 0.5;
-var musicGameVolume = 0.05;
-var musicMidVolume = 0.2;
-
 
 function musicToggle() {
   if (musicInitialised) {
@@ -53,6 +55,29 @@ function musicToggle() {
     gameMusic.loopSong("sound/pastoral_music");
     gameMusic.alterVolume(musicMenuVolume);
     musicInitialised = true;
+    musicChosen = true;
     buttonDown = 3;
+  }
+}
+
+
+function startMidMusic() {
+  if (musicInitialised) {
+    // gameMusic.alterVolume(musicMidVolume);
+  } 
+  else {
+    gameMusic.loopSong("sound/pastoral_music");
+    gameMusic.alterVolume(musicMidVolume);
+    musicInitialised = true;
+  }
+}
+
+function endMidMusic() {
+  if (musicChosen) {
+    // gameMusic.alterVolume(musicMenuVolume);
+  } 
+  else {
+    gameMusic.stopMusic();
+    musicInitialised = false;
   }
 }
