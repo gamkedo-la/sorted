@@ -133,7 +133,7 @@ function drawHelp() {
 function drawCredits() {
   
   if (!paused)  {
-    if (creditsFrameCount < 1060) {
+    if (creditsFrameCount < 1300) {
       creditsFrameCount++;
     } else {
       creditsButtonLabel = ["Menu", , , , ]
