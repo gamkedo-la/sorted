@@ -23,11 +23,12 @@ function lorryClass() {
     this.id = id;
     this.pic = whichPic;
     this.x = x;
-    this.y = gameCanvas.height + TILE_H/2 + 3;
+    this.y = gameCanvas.height + TILE_H/2 -5;
     this.ang = 0;
     this.speedX = 0;
     this.ramp = true;
     this.direction = direction;
+    this.agitate = false;
   }
 
   this.reset = function () {
@@ -45,15 +46,32 @@ function lorryClass() {
   }
 
   this.draw = function () {
-    drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x, this.y, this.ang);
+    var shakeAngle = 0.01; // animate lorry
+    if (this.agitate) {
+      shakeAngle *= 4;
+    } // lorry agitated if wrong sheep
+
+    if (afterLevelTimeStep % 3 == 0) {
+      drawBitmapScaled(canvasContext, this.pic, this.x, this.y, shakeAngle, 74, 40);
+    } 
+    else if (afterLevelTimeStep % 3 == 1) {
+      drawBitmapScaled(canvasContext, this.pic, this.x, this.y, 0, 74, 40);
+    } 
+    else {
+      drawBitmapScaled(canvasContext, this.pic, this.x, this.y, -shakeAngle, 74, 40);
+    }
+
+    // drawBitmapScaled(canvasContext, this.pic, this.x, this.y, 0, 74, 40);
+
+    // drawBitmapCenteredWithRotation(canvasContext, this.pic, this.x, this.y, this.ang);
   }
 
   this.drawRamp = function () {
     if (this.ramp == true) {
       if (this.direction == -1) { // blue lorry
-        drawBitmapScaled(canvasContext, tailRampPic, this.x + 47, this.y+2, 0, 20, 36);
+        drawBitmapScaled(canvasContext, tailRampPic, this.x + 47, this.y+9, 0, 20, 36);
       } else { // red lorry
-        drawBitmapScaled(canvasContext, tailRampPic, this.x - 47, this.y-2, Math.PI, 20, 36);
+        drawBitmapScaled(canvasContext, tailRampPic, this.x - 47, this.y+4, Math.PI, 20, 36);
       }
     }
   }

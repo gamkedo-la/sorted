@@ -285,6 +285,7 @@ function lorryRestart(i) {
   }
 }
 
+
 function downBoard(col, lorryID) {
   var id = bottomRowID[col];
   if (id != null) {
@@ -296,11 +297,13 @@ function downBoard(col, lorryID) {
       lorryCorrectSound.play(0.6);
     } else {
       lorryWrongSound.play(0.5);
-    }1
+      // lorryList[lorryID].agitate = true;
+    }
   } else {
     console.log('No sheep at pen', penHere, 'for lorry', lorryID)
   }
 }
+
 
 function sideBoard(col, lorryID, direction) {
   // var direction = lorryList[i].direction;
@@ -313,10 +316,15 @@ function sideBoard(col, lorryID, direction) {
   }
 }
 
+
 function loadSheep(col, lorryID) {
-  var id = bottomRowID[penHere];
+  console.log('col',col)
+  var id = bottomRowID[col];
   if (id != null) {
     sheepList[id].visible = false;
+    if (sheepList[id].team != lorryID + 1) {
+      lorryList[lorryID].agitate = true;
+    }
   }
 }
 

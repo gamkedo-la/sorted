@@ -983,6 +983,7 @@ function sheepClass() {
       let yc = yTopFromIndex(this.index) + TILE_H/2;
       let vlen = 10;
       let vgap = 2;
+      canvasContext.setLineDash([]);
       colorLine(canvasContext, xc+vgap, yc+vgap, xc+vlen, yc+vlen, "white");
       colorLine(canvasContext, xc-vgap, yc-vgap, xc-vlen, yc-vlen, "white");
       colorLine(canvasContext, xc-vgap, yc+vgap, xc-vlen, yc+vlen, "white");
