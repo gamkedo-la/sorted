@@ -439,8 +439,8 @@ function sheepClass() {
 
       if (runMode == NORMAL_PLAY) {
         // fixme: perhaps we need some "unhappy" BAA sounds?
-        gateSound.play(0.4);
-        pennedSound.play(0.3);
+        gateSound.play(0.2);
+        pennedSound.play(0.2);
       }
     } // end enter empty pen of either colour
 

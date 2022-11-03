@@ -20,7 +20,7 @@ penQuantity.fill(6);
 function calcMaximumScore(whichLevel) {
 
   let numFillablePens = Math.min(FLOCK_SIZE[whichLevel], penQuantity[whichLevel]);
-  let maxScore = numFillablePens * Math.floor(PEN_SCORE * Math.sqrt(whichLevel));
+  let maxScore = numFillablePens * Math.floor(PEN_SCORE * Math.cbrt(whichLevel));
 
   let spareSheep = 0;
   if (FLOCK_SIZE[whichLevel] > penQuantity) {
