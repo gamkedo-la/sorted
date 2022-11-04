@@ -6,11 +6,13 @@ function setStyleUI() {
   uiContext.setLineDash([]);
   uiContext.strokeStyle = "orange";
 }
+
 function setStyleOutline() {
   canvasContext.lineWidth = 2;
   canvasContext.setLineDash([]);
   canvasContext.strokeStyle = "yellow";
 }
+
 
 function moveGuide() {
 
@@ -29,9 +31,9 @@ function moveGuide() {
       flashTimer = 20;
     }
   }
-
   moveParticles();
 }
+
 
 function drawGuide() {
 
@@ -43,19 +45,17 @@ function drawGuide() {
       bodyLine(txtLines[i], ++line);
     }
 
-    // outline L&R buttons
-    setStyleUI();
-    uiContext.strokeRect(buttonRects[0].x, buttonRects[0].y, buttonRects[0].width, buttonRects[0].height);
-    uiContext.strokeRect(buttonRects[1].x, buttonRects[1].y, buttonRects[1].width, buttonRects[1].height);
-
     // outline Hat
     setStyleOutline();
     canvasContext.strokeRect(player.x - TILE_W / 2, 0, TILE_W, TILE_H);
     canvas_arrow(canvasContext, player.x, 90, player.x, 67, 10, 'yellow');
-    // indicate buttons left/right
-    canvas_arrow(canvasContext, 750, 80, 790, 80, 10, 'yellow');
-    canvas_arrow(canvasContext, 750, 150, 790, 150, 10, 'yellow');
-
+    
+    // buttons left/right
+    setStyleUI();
+    outlineButton(0); // Left
+    arrowToButton(0);
+    outlineButton(1); // Right
+    arrowToButton(1);
   }
 
   else if (tutorStep == 2) {
@@ -74,8 +74,8 @@ function drawGuide() {
     }
 
     setStyleUI();
-    uiContext.strokeRect(buttonRects[0].x, buttonRects[0].y, buttonRects[0].width, buttonRects[0].height);
-    uiContext.strokeRect(buttonRects[1].x, buttonRects[1].y, buttonRects[1].width, buttonRects[1].height);
+    outlineButton(0); // Left
+    outlineButton(1); // Right
   }
 
 
@@ -87,12 +87,10 @@ function drawGuide() {
     for (var i = 0; i < txtLines.length; i++) {
       bodyLine(txtLines[i], ++line);
     }
+
     // highlight Call button 
-    // if (flashing) {
-    setStyleUI();
-    uiContext.strokeRect(buttonRects[2].x, buttonRects[2].y, buttonRects[2].width, buttonRects[2].height);
-    canvas_arrow(canvasContext, 750, 220, 790, 220, 10, 'yellow');
-    // }
+    outlineButton(2); 
+    arrowToButton(2);
   }
 
   // Click one side of the bottom row to continue
@@ -121,6 +119,10 @@ function drawGuide() {
       canvasContext.strokeStyle = TEAM_COLOURS[2];
       canvasContext.strokeRect(topLeftX, topLeftY, boxWidth - 4, TILE_H - 2);
     }
+
+    setStyleUI();
+    outlineButton(3); // Send
+    arrowToButton(3);
   }
 
 
@@ -163,8 +165,13 @@ function drawGuide() {
     for (var i = 0; i < txtLines.length; i++) {
       bodyLine(txtLines[i], ++line, 1);
     }
-    uiContext.strokeRect(buttonRects[5].x, buttonRects[5].y, buttonRects[2].width, buttonRects[2].height);
-    canvas_arrow(canvasContext, 750, 430, 790, 430, 10, 'yellow');
+
+    setStyleUI();
+    outlineButton(4); // Pause
+    arrowToButton(4);
+
+    outlineButton(5); // End
+    arrowToButton(5);
   }
 
   // keys to move
@@ -190,6 +197,16 @@ function drawGuide() {
   }
 
 } // end of drawGuide()
+
+
+function outlineButton(btn) {
+  uiContext.strokeRect(buttonRects[btn].x, buttonRects[btn].y, buttonRects[btn].width, buttonRects[btn].height);
+}
+
+function arrowToButton(btn) {
+  let y = buttonsTop + (btn*2+1) * buttonHeight/2;
+  canvas_arrow(canvasContext, 750, y, 790, y, 10, 'yellow');
+}
 
 
 function whenTutorialStep2() {

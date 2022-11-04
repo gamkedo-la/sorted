@@ -864,6 +864,7 @@ function sheepClass() {
     return mode == ROAM || mode == GRAZE || mode == SENT || mode == PEEPED || mode == LICKED;
   }
 
+  
   this.isAllowedTopRow = function () {
     return this.mode == CALLED || this.mode == HELD || this.mode == SENT // at release from clamp sheep is in top row
   }
@@ -875,7 +876,7 @@ function sheepClass() {
     }
 
     else if (gameState == STATE_GUIDE) {
-      console.log('allowed Guide')
+      // console.log('allowed Guide')
       if (this.mode == SENT) {
         return true;
       } else {
@@ -889,6 +890,7 @@ function sheepClass() {
       return (this.mode == SENT || this.mode == IN_DITCH || this.mode == IN_PEN_BLUE || this.mode == IN_PEN_RED || this.mode == ON_ROAD || this.mode == STACKED);
     }
   }
+
 
   this.isModeTimed = function () {
     return this.mode == ROAM || this.mode == GRAZE || this.mode == CALLED || this.mode == SENT || this.mode == LICKED || this.mode == SHY || this.mode == DISTRACTED;
@@ -909,6 +911,7 @@ function sheepClass() {
   this.isTileConveyor = function (tileType) {
     return tileType == TILE_CONVEYOR_UP || tileType == TILE_CONVEYOR_DOWN || tileType == TILE_CONVEYOR_LEFT || tileType == TILE_CONVEYOR_RIGHT
   }
+
 
   this.doTileHandling = function() {
     if (this.mode == LOADING) {
@@ -1049,6 +1052,7 @@ function sheepClass() {
     }
   }
 
+
   this.timerLabel = function () {
     var facingXoffset = this.x + Math.cos(this.ang + Math.PI / 4) * (SHEEP_RADIUS + 8);
     var facingYoffset = this.y + Math.sin(this.ang + Math.PI / 4) * (SHEEP_RADIUS + 8);
@@ -1058,6 +1062,7 @@ function sheepClass() {
     colorText(canvasContext, this.timer, facingXoffset, facingYoffset, "yellow");
   }
 
+
   this.modeLabel = function () {
     var facingXoffset = this.x + Math.cos(this.ang - Math.PI / 4) * (SHEEP_RADIUS + 7);
     var facingYoffset = this.y + Math.sin(this.ang - Math.PI / 4) * (SHEEP_RADIUS + 7);
@@ -1066,6 +1071,7 @@ function sheepClass() {
     // colorText(this.mode, this.x -26, this.y + SHEEP_RADIUS/2, "orange");
     colorText(canvasContext, this.mode, facingXoffset, facingYoffset, "white");
   }
+
 
   this.scoreLabel = function () {
     if (this.team != PLAIN) {
@@ -1108,6 +1114,7 @@ function sheepClass() {
     // test if level complete
   }
 
+
   this.calculateScore = function () {
     var score = 0;
     if (this.team != PLAIN) {
@@ -1134,6 +1141,7 @@ function sheepClass() {
     }
   }
 
+
   this.isOffside = function () {
     var offside = false;
     // if central tile it scores for both teams (adjust by TILE_W/2)
@@ -1146,6 +1154,7 @@ function sheepClass() {
     }
     return offside;
   }
+
 
   this.calledArrives = function () {
     this.changeMode(HELD);

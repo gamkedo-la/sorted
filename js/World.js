@@ -37,8 +37,8 @@ function getTileTypeAtColRow(col, row) {
     var tileIndexUnderColRow = colRowToIndex(col, row);
     return (areaGrid[tileIndexUnderColRow]);
   } else {
-    console.log("column/row not within field");
-    return TILE_DISTRACT;
+    // console.log(tileIndexUnderColRow, col, row, "column/row not within field");
+    // return TILE_DISTRACT;
   }
 }
 
