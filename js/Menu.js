@@ -189,7 +189,11 @@ function drawLevelScoreTest() {
 function drawLevelScore() {
   var y = 50;
   var nextLevel = currentLevel + 1;
-  var advanceFontSize = 12 + Math.sqrt(levelScores[currentLevel] / FLOCK_SIZE[currentLevel] + 1);
+  var advanceFontSize = 12;
+  if (levelScores[currentLevel] > 0) {
+    advanceFontSize = 12 + Math.floor(Math.sqrt(levelScores[currentLevel] / FLOCK_SIZE[currentLevel] + 1));
+  // console.log('advance', advanceFontSize)
+  }
 
   canvasContext.textAlign = "center";
 
@@ -234,7 +238,6 @@ function drawLevelScore() {
   if (success >= starThreshold[3]) {
     drawStar(canvasContext, starFirstPos + starGap * 2, y, 5, 10, 20, -18, 'yellow', 'yellow', 1);
   }
-
 
   if (touchDevice) {
     colorText(canvasContext, "Use buttons (on right) to:", gameCanvas.width / 2, y += 40, "white");
