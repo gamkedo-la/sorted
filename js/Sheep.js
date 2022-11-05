@@ -1130,7 +1130,8 @@ function sheepClass() {
       }
 
       if (this.isOffside()) {
-        score *= 1 - (1 + currentLevel) / 5;
+        // score *= 1 - (1 + currentLevel) / 5;
+        score *= currentLevel / -5;
         score = Math.round(score);
       }
 

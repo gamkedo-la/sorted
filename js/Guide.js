@@ -179,9 +179,10 @@ function drawGuide() {
     drawTutorial();
     let block = 1;
     contextSettingsTutorial();
+    textWidth = 480; // to avoid obscuring arrowkeys tooltip
 
     if (!touchDevice) {
-      canvasContext.drawImage(controlsPic, 320, 250);
+      canvasContext.drawImage(controlsPic, 550, 120);
       let txt = "You can use keyboard controls: Left and Right arrow keys move the hat; the up arrow key Calls a sheep, and the down arrow Sends. Try those now.";
       let txtLines = getLines(canvasContext, txt, textWidth);
       for (var i = 0; i < txtLines.length; i++) {
@@ -189,7 +190,7 @@ function drawGuide() {
       }
       block++;
     }
-    txt = "Click the 'Menu' button to return to the game.";
+    txt = "Then click the 'Menu' button.";
     txtLines = getLines(canvasContext, txt, textWidth);
     for (var i = 0; i < txtLines.length; i++) {
       blockLine(txtLines[i], ++line, block);

@@ -55,8 +55,6 @@ function levelEnding() {
   levelRunning = false;
 
   if (editMode == false) {
-    // if (editMode == false && !allAreNull(bottomRowID)) {
-    // if (true) {
     // play some happy music!
     if (musicInitialised) {
       gameMusic.stopMusic();
@@ -64,7 +62,7 @@ function levelEnding() {
   }
 
   // console.log(anyInPen(bottomRowID), bottomRowID)
-  if (USE_ROAD_SCENE) {  
+  if (USE_ROAD_SCENE  && runMode == NORMAL_PLAY) {  
     if (ROAD_HIDE_IF_PENS_EMPTY) {
       if (anyInPen(bottomRowID)) {
         setupRoadLorries();
