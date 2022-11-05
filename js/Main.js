@@ -40,7 +40,7 @@ const POST_PALE_COLOURS = ["#f4f4f4", "#84c9fe", "#fcabab", "purple", , , , "whi
 
 // equal team size guaranteed by doubling that to make FLOCK_SIZE
 // initial values for 9 levels
-const TEAM_SIZE = [4, 3, 3, 3, 3, 4, 4, 4, 4, 4, 3];
+const TEAM_SIZE = [4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3];
 const FLOCK_SIZE = [];
 var flockSize = null;
 

@@ -17,7 +17,7 @@ function ui_mousedownHandler() {
             musicToggle();
             break;
 
-          case "Close":
+          case "Quit":
             window.close();
             break;
         }
@@ -268,10 +268,10 @@ function ui_mousedownHandler() {
       // buttonDown = i;
       if (gameState == STATE_SCOREBOARD) {
         goFromScore("Scoreboard, button")
-      } 
+      }
       else if (gameState == STATE_HELP) {
         goFromHelp("Scoreboard, button")
-      } 
+      }
       else {
         gotoMenu("Tutorial, button");
       }

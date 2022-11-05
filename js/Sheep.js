@@ -1117,21 +1117,25 @@ function sheepClass() {
 
   this.calculateScore = function () {
     var score = 0;
+    var level = currentLevel;
+    if (gameState == STATE_GUIDE) {
+      level = 1;
+    }
     if (this.team != PLAIN) {
 
       if (this.mode == IN_DITCH) {
-        score = Math.floor(DITCH_SCORE * Math.cbrt(currentLevel));
+        score = Math.floor(DITCH_SCORE * Math.cbrt(level));
       }
       else if (this.mode == IN_PEN_BLUE) {
-        score = Math.floor(PEN_SCORE * Math.cbrt(currentLevel));
+        score = Math.floor(PEN_SCORE * Math.cbrt(level));
       }
       else if (this.mode == IN_PEN_RED) {
-        score = Math.floor(PEN_SCORE * Math.cbrt(currentLevel));
+        score = Math.floor(PEN_SCORE * Math.cbrt(level));
       }
 
       if (this.isOffside()) {
         // score *= 1 - (1 + currentLevel) / 5;
-        score *= currentLevel / -5;
+        score *= level / -5;
         score = Math.round(score);
       }
 
