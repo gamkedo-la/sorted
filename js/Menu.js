@@ -310,11 +310,11 @@ function drawScoreboard() {
 
   drawLevelScores(topY, drawY, drawX);
 
-  if (touchDevice == false) {
-    canvasContext.font = "16px Arial";
-    colorText(canvasContext, "Press key M or Esc for menu", DROP_SHADOW_DIST + drawX, DROP_SHADOW_DIST + 500, "black");
-    colorText(canvasContext, "Press key M or Esc for menu", drawX, 500, "white");
-  }
+  // if (touchDevice == false) {
+  //   canvasContext.font = "16px Arial";
+  //   colorText(canvasContext, "Press key M or Esc for menu", DROP_SHADOW_DIST + drawX, DROP_SHADOW_DIST + 500, "black");
+  //   colorText(canvasContext, "Press key M or Esc for menu", drawX, 500, "white");
+  // }
 
   canvasContext.textAlign = "left";
 } // end drawScoreboard

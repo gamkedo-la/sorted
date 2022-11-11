@@ -3,7 +3,7 @@ var musicChosen = false;
 
 var musicMenuVolume = 0.4;
 var musicGameVolume = 0.05;
-var musicMidVolume = 0.15;
+var musicMidVolume = 0.1;
 
 var hatVolume = 0.6;
 
