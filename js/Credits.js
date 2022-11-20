@@ -9,5 +9,5 @@ const creditsText = [
 "Tim Waskett: Explained algorithm for sheep roaming",
 'Nicholas Polchies: Canvas scaling (for phone screens) code from HomeTeam game "Accidental Personal Confusion 5"',
 'Caspar \"SpadXIII\" Dunant: Touch event handling code from HomeTeam game "Irenic"',
-"Playtesting: Katie Goode, Klaim (A. Joel Lamotte), Rodrigo Bonzerr Lopez"
+"Playtesting: Katie Goode, Kelly Mackey, Klaim (A. Joel Lamotte), Rodrigo Bonzerr Lopez"
 ];
