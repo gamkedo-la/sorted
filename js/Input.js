@@ -2,32 +2,26 @@ var buttonHeld = null;
 var isIOS = null;
 
 function setupInput() {
-
   initButtonRects(); // set coords of right bar buttons
 
-  // if (!touchDevice && releaseVersion==false) {
-  //   drawingCanvas.addEventListener("focusout", lostFocus);
-  //   drawingCanvas.addEventListener("focusin", gainFocus);
-  // }
+  drawingCanvas.addEventListener("mousemove", updateMousePos);
 
-  drawingCanvas.addEventListener('mousemove', updateMousePos);
-  //drawingCanvas.addEventListener('touchmove', updateTouchPos);
+  drawingCanvas.addEventListener("touchstart", clickOrTouch);
+  drawingCanvas.addEventListener("mousedown", clickOrTouch);
 
-  drawingCanvas.addEventListener('touchstart', clickOrTouch);
-  drawingCanvas.addEventListener('mousedown', clickOrTouch);
+  drawingCanvas.addEventListener("mouseup", clickOrTouch);
 
-  // if (!isIOS) {
-  //   drawingCanvas.addEventListener('touchend', clickOrTouch);
-  // }
-  drawingCanvas.addEventListener('mouseup', clickOrTouch);
+  drawingCanvas.addEventListener("contextmenu", (e) => e.preventDefault());
 
-  drawingCanvas.addEventListener('contextmenu', e => e.preventDefault());
-
-  document.addEventListener('keydown', keyPressed);
-  document.addEventListener('keyup', keyReleased);
-  player.setupInput(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
+  document.addEventListener("keydown", keyPressed);
+  document.addEventListener("keyup", keyReleased);
+  player.setupInput(
+    KEY_UP_ARROW,
+    KEY_DOWN_ARROW,
+    KEY_LEFT_ARROW,
+    KEY_RIGHT_ARROW
+  );
 }
-
 
 //////// from APC5 Htgd ///////////////////
 // mouse object stores mouse information
@@ -45,7 +39,7 @@ var mouse = (function () {
   return {
     x: x,
     y: y,
-    button: -1 // no mouse-button clicked yet
+    button: -1, // no mouse-button clicked yet
     // left: left,      // 0
     // middle: middle,  // 1
     // right: right     // 2
@@ -54,9 +48,8 @@ var mouse = (function () {
 
 var uiPos = {
   x: null,
-  y: null
-}
-
+  y: null,
+};
 
 //// from Irenic Htgd //////////////////
 function setMousePosFromXY(x, y) {
@@ -71,7 +64,6 @@ function setMousePosFromXY(x, y) {
   mouse.y = Math.round(gameY);
 }
 
-
 function clickOrTouch(event) {
   event.preventDefault();
   var x, y;
@@ -82,26 +74,19 @@ function clickOrTouch(event) {
     x = tapX.toFixed(0);
     y = tapY.toFixed(0);
     // report('tapX ' + tapX + ' ' + event.type, 4);
-  }
-  else if (event.type == 'touchend') {
+  } else if (event.type == "touchend") {
     // x = event.touches[0].pageX;
     // y = event.touches[0].pageY;
-    // report('ipad ' + event + ' ' + event.type, 4);
-  }
-  else {
+  } else {
     x = event.clientX;
     y = event.clientY;
     // report('no tT ' + event.clientX + ' ' + event.type, 4);
   }
 
-  // report("Tap client: " +  event.type + ' ' + event.clientX + "," + event.clientY, 0);
-  // report("M/T x,y: " +  x + "," + y, 1);
-
-  if ((event.type == 'touchstart' || event.type == 'touchend')) {
+  if (event.type == "touchstart" || event.type == "touchend") {
     // left click emulate
     mouse.button = 0;
-  }
-  else {
+  } else {
     // setMousePosFromEvent(event); // APC5 version
     mouse.button = event.button;
   }
@@ -112,44 +97,35 @@ function clickOrTouch(event) {
   if (mouse.x > gameCanvas.width) {
     uiPos.x = mouse.x - gameCanvas.width;
     uiPos.y = mouse.y;
-    if (event.type == 'mousedown' || event.type == 'touchstart') {
+    if (event.type == "mousedown" || event.type == "touchstart") {
       ui_mousedownHandler();
       let msg = "ui mousedown: " + mouse.x + ", " + mouse.y;
       setDebug(msg, 3);
-    }
-    else if (event.type == 'mouseup' || event.type == 'touchend') {
+    } else if (event.type == "mouseup" || event.type == "touchend") {
       ui_mouseupHandler();
     }
   } // end UI, below is game-field mosue/tap
-
   else {
-    if (event.type == 'mousedown' || event.type == 'touchstart') {
+    if (event.type == "mousedown" || event.type == "touchstart") {
       field_mousedownHandler();
       let msg = "mousedown: " + mouse.x + ", " + mouse.y;
       setDebug(msg, 4);
-    }
-    else if (event.type == 'mouseup' || event.type == 'touchend') {
+    } else if (event.type == "mouseup" || event.type == "touchend") {
       field_mouseupHandler();
     }
   }
 } // end clickOrTouch
 ////////////////////////////// end Irenic
 
-
-// function mousemoveHandler(evt) {
-//   var mousePos = getMousePos(evt);
-//   setDebug("cursor: " + mousePos.x + "," + mousePos.y, 0);
-// }
-
-
 // click or tap in field
 function field_mousedownHandler() {
-
-  if ((gameState == STATE_PLAY || gameState == STATE_GUIDE) && editMode == true) {
-
+  if (
+    (gameState == STATE_PLAY || gameState == STATE_GUIDE) &&
+    editMode == true
+  ) {
     var distX = mouse.x - player.x;
-    if (mouse.y < TILE_H && Math.abs(distX<TILE_W)) {
-      report('hat click top row', 3);
+    if (mouse.y < TILE_H && Math.abs(distX < TILE_W)) {
+      report("hat click top row", 3);
       if (distX <= 0) {
         player.button_left = true;
         hatDirection(-1);
@@ -157,10 +133,7 @@ function field_mousedownHandler() {
         player.button_right = true;
         hatDirection(1);
       }
-    }
-
-    else if (mouse.button == 0) {
-      
+    } else if (mouse.button == 0) {
       // select a sheep to move manually
       let nearest = findNearestSheep(mouse.x, mouse.y);
       let distance = nearest.distFrom(mouse.x, mouse.y);
@@ -169,8 +142,7 @@ function field_mousedownHandler() {
         // if (nearest.mode == )
         if (isInPenOrDitch(nearest.mode)) {
           console.log("Cannot move a sheep from pen or ditch");
-        }
-        else {
+        } else {
           nearest.mode = SELECTED;
           sheepSelected = nearest.id;
           console.log("Selected sheep id " + sheepSelected);
@@ -185,51 +157,31 @@ function field_mousedownHandler() {
       // done in mouseup
     }
   } // end STATE_PLAY
-
-
   else if (gameState == STATE_DESIGN_LEVEL) {
     // select grid cell to outline
     if (mouse.y < TILE_H) {
       console.log("Top row reserved for Hat movement, mouse Y=" + mouse.y);
-    }
-    else if (mouse.y > gameCanvas.height - TILE_H) {
+    } else if (mouse.y > gameCanvas.height - TILE_H) {
       console.log("Bottom row reserved for pen and ditch, mouse Y=" + mouse.y);
-    }
-    else {
+    } else {
       gridIndex = getTileIndexAtXY(mouse.x, mouse.y);
       console.log("Design, mousedown", mouse.x, mouse.y, gridIndex);
     }
     // designer/editor doesn't need buttons, also currently no space for Menu button, so not in use
     if (xyIsInRect(mouse, buttonRects[4])) {
-      gotoMenu('Design, button');
+      gotoMenu("Design, button");
     }
   } // End of Design-Level mousedown handling
-
-// now Call or Send advances
-  // else if (gameState ==  STATE_GUIDE) {
-  //   if (mouse.y > gameCanvas.height-TILE_H) {
-
-  //     if (tutorStep == 6) {
-  //       tutorStep = 7;
-  //       flashTimer = 20;
-  //     }
-  //   }
-  // }
-  
 } // end mousedown handler on field
-
 
 function field_mouseupHandler() {
   // console.log('field_mouseupHandler', mouse)
   if (gameState == STATE_PLAY) {
-
     if (mouse.y < TILE_H) {
       // report('top row mouseup', 3);
-       player.button_left = false;
-       player.button_right = false;
-    }
-
-    else if (mouse.button == 0) {
+      player.button_left = false;
+      player.button_right = false;
+    } else if (mouse.button == 0) {
       // release a sheep from manual control
       let nearest = findNearestSheep(mouse.x, mouse.y);
       if (nearest.mode == SELECTED) {
@@ -238,21 +190,19 @@ function field_mouseupHandler() {
         nearest.timer = 10; // will switch to ROAM
         sheepSelected = null;
       }
-    }
-
-    else if (mouse.button == 2) {
+    } else if (mouse.button == 2) {
       // change facing angle of a sheep, using mouse xy
       // first identify nearest sheep as none will be SELECTED
       let nearest = findNearestSheep(mouse.x, mouse.y);
-      report("Rightclick nearest " + nearest.id + ' ' + nearest.x, 1);
+      report("Rightclick nearest " + nearest.id + " " + nearest.x, 1);
       let sheepXY = { x: nearest.x, y: nearest.y };
       let angle = angleRadiansBetweenPoints(sheepXY, mouse);
       nearest.ang = angle;
-      report("new angle: " + angle.toFixed(2) + " for id " + nearest.id, 2); 1
+      report("new angle: " + angle.toFixed(2) + " for id " + nearest.id, 2);
+      1;
     }
   }
 }
-
 
 // handles in-game-level keyboard input
 function arrowKeySet(evt, whichPlayer, setTo) {
@@ -274,54 +224,45 @@ function arrowKeySet(evt, whichPlayer, setTo) {
     whichPlayer.keyHeld_send = setTo;
   }
 
-  if (evt.keyCode == whichPlayer.controlKeyLeft || evt.keyCode == whichPlayer.controlKeyRight) {
+  if (
+    evt.keyCode == whichPlayer.controlKeyLeft ||
+    evt.keyCode == whichPlayer.controlKeyRight
+  ) {
     if (setTo == true) {
       if (player.soundTimer < 1) {
         // if (runMode == NORMAL_PLAY) {
         hatMoveLongSound.play(hatVolume);
         player.soundTimer = 10;
       }
-    }
-    else {
+    } else {
       hatMoveLongSound.stop();
     }
   }
   // console.log("key", player.keyHeld_left, player.keyHeld_right)
 }
 
-
 // handles in-menu keyboard input, depending on gameState
 function menuKeyChoice(key) {
   switch (gameState) {
-
     case STATE_PLAY:
-
       if ((key == KEY_ESC || key == KEY_M) && !paused) {
         gotoMenu("Play, key M or Esc");
         runMode = NORMAL_PLAY; // remove Test settings
         haste = PLAY_SPEED;
-      }
-
-      else if (key == KEY_SPACE) {
+      } else if (key == KEY_SPACE) {
         togglePause();
       }
       break;
-
 
     case STATE_GUIDE:
-      
       if ((key == KEY_ESC || key == KEY_M) && !paused) {
         gotoMenu("Guide key M or Esc");
-      }
-
-      else if (key == KEY_SPACE) {
+      } else if (key == KEY_SPACE) {
         togglePause();
       }
       break;
 
-
     case STATE_LEVEL_END:
-
       if (key == KEY_ESC || key == KEY_M) {
         if (currentLevel == LAST_LEVEL) {
           runMode = GAME_OVER;
@@ -333,21 +274,14 @@ function menuKeyChoice(key) {
           runMode = NORMAL_PLAY;
           haste = PLAY_SPEED;
         }
-      }
-
-      else if (key == KEY_R) {
-        gotoReplay('keyR at LevelEnd');
-      }
-
-      else if (key == KEY_L) {
-        gotoAdvance("keyL at LevelEnd")
-      }
-
-      else if (key == KEY_SPACE) {
+      } else if (key == KEY_R) {
+        gotoReplay("keyR at LevelEnd");
+      } else if (key == KEY_L) {
+        gotoAdvance("keyL at LevelEnd");
+      } else if (key == KEY_SPACE) {
         togglePause();
       }
       break;
-
 
     case STATE_MENU:
       menuChoiceSound.play(0.3);
@@ -362,7 +296,7 @@ function menuKeyChoice(key) {
       }
 
       if (key == KEY_S) {
-        gotoScore('key S from menu');
+        gotoScore("key S from menu");
       }
 
       if (key == KEY_U) {
@@ -374,25 +308,28 @@ function menuKeyChoice(key) {
       }
 
       if (key == KEY_T) {
-        gotoGuide('menu key')
+        gotoGuide("menu key");
       }
 
       if (editMode) {
         if (key >= KEY_NUM_0 && key <= KEY_NUM_9) {
-
           if (testColumnSet) {
             testLevel = key - KEY_NUM_0; // 1 on keyb is code 49
             currentLevel = testLevel;
             levelRunning = true;
-            console.log('Loading level', currentLevel, 'from editMode menu with Num-key');
+            console.log(
+              "Loading level",
+              currentLevel,
+              "from editMode menu with Num-key"
+            );
             loadLevel(currentLevel);
             checkGridMatchColsRows();
             gotoPlay("Key number from Edit-mode Menu");
-          }
-
-          else {
+          } else {
             whichColumn = key - KEY_NUM_0;
-            console.log("Test column = " + whichColumn + ". Now select a level.");
+            console.log(
+              "Test column = " + whichColumn + ". Now select a level."
+            );
             testColumnSet = true;
           }
         }
@@ -404,15 +341,12 @@ function menuKeyChoice(key) {
             haste = 1;
             hastenTest = false;
             console.log(TEST_DESCRIPTION[runMode], "Haste =", haste);
-          }
-          else {
+          } else {
             if (runMode == SEND_ONLY || runMode == SEND_ROAM) {
               haste = 1;
-            }
-            else if (runMode == ROAM_FROM_R1) {
+            } else if (runMode == ROAM_FROM_R1) {
               haste = 100;
-            }
-            else if (runMode == CALL_FROM_R10) {
+            } else if (runMode == CALL_FROM_R10) {
               haste = 3;
             }
             hastenTest = true;
@@ -429,11 +363,10 @@ function menuKeyChoice(key) {
         }
 
         if (key == KEY_D) {
-          gotoDesign("menu key D")
+          gotoDesign("menu key D");
         }
       } // editMode
       break;
-
 
     case STATE_SCOREBOARD:
       if (key == KEY_ESC || key == KEY_M) {
@@ -441,12 +374,10 @@ function menuKeyChoice(key) {
       }
       break;
 
-
     case STATE_CREDITS:
       if (key == KEY_ESC || key == KEY_M) {
         goFromCredits("Credits, keyboard");
-      }
-      else if (key == KEY_SPACE) {
+      } else if (key == KEY_SPACE) {
         togglePause();
       }
       if (key == KEY_P) {
@@ -454,33 +385,25 @@ function menuKeyChoice(key) {
       }
       break;
 
-
     case STATE_HELP:
       if (key == KEY_ESC || key == KEY_M) {
         goFromHelp("Help, key M or Esc");
       }
       break;
 
-
     case STATE_DESIGN_LEVEL:
-
       if (key == KEY_M || key == KEY_ESC) {
         formatDesign();
         gotoMenu("Design, key M or Esc");
-      }
-
-      else if (key == KEY_S) {
+      } else if (key == KEY_S) {
         formatDesign();
-      }
-
-      else if (key == KEY_C) {
+      } else if (key == KEY_C) {
         // formatDesign(); // if needed press key S before
         clearDesign();
       }
 
       // temporarily using number keys to select tiletype
       else if (key >= KEY_NUM_0 && key <= KEY_NUM_9) {
-
         tileType = key - KEY_NUM_0;
 
         // if (tileType == 8 || tileType == 9) {
@@ -495,29 +418,26 @@ function menuKeyChoice(key) {
   }
 }
 
-
 // detect Fn key, usable from any gameState
 function getFunctionKeys(key) {
-
   if (key == KEY_F1 && releaseVersion == false) {
     editMode = !editMode; // toggle
   }
 
   if (key == KEY_F2 && editMode) {
     timerLabel = !timerLabel; // toggle
-    console.log("Timer label is", timerLabel)
+    console.log("Timer label is", timerLabel);
   }
 
   if (key == KEY_F3 && editMode) {
     modeLabel = !modeLabel; // toggle
-    console.log("Mode label is", modeLabel)
+    console.log("Mode label is", modeLabel);
   }
 
   if (key == KEY_F4) {
     if (gameState == STATE_PLAY) {
       levelEnding();
-    }
-    else if (gameState == STATE_GUIDE) {
+    } else if (gameState == STATE_GUIDE) {
       if (tutorStep == 7) {
         tutorStep = 8;
         // levelEndTutorial();
@@ -528,38 +448,34 @@ function getFunctionKeys(key) {
   if (key == KEY_F5 && editMode) {
     endLevelShowID = !endLevelShowID; // toggle
     if (endLevelShowID) {
-      console.log("At end of Level show sheep ID for debugging.")
+      console.log("At end of Level show sheep ID for debugging.");
     } else {
-      console.log("At end of Level show points awarded for each sheep.")
+      console.log("At end of Level show points awarded for each sheep.");
     }
   }
 
   // cycle through options because can only show one grid
   if (key == KEY_F6) {
     if (gameState == STATE_PLAY || gameState == STATE_DESIGN_LEVEL) {
-
       if (noGridValuesDisplay()) {
         showAreaGridValues = true;
         console.log("showAreaGridValues is now", showAreaGridValues);
-      }
-
-      else if (showAreaGridValues) {
+      } else if (showAreaGridValues) {
         showAgentGridValues = true;
         showAreaGridValues = false;
         console.log("showAgentGridValues is now", showAgentGridValues);
-        console.log('Tiles occupied by out-of-play sheep are non-zero labelled: 1=team blue, 2=team red')
-      }
-      else if (showAgentGridValues) {
+        console.log(
+          "Tiles occupied by out-of-play sheep are non-zero labelled: 1=team blue, 2=team red"
+        );
+      } else if (showAgentGridValues) {
         showAgentGridValues = false;
         showGridIndex = true;
         console.log("showGridIndex is now", showGridIndex);
-      }
-      else if (showGridIndex) {
+      } else if (showGridIndex) {
         showGridIndex = false;
         showColRow = true;
         console.log("showColRow is now", showColRow);
-      }
-      else if (showColRow) {
+      } else if (showColRow) {
         showColRow = false;
         console.log("No grid overlay");
       }
@@ -575,50 +491,46 @@ function getFunctionKeys(key) {
     drawDesignerFromLevelNum(designLevel);
   }
 
-
   function noGridValuesDisplay() {
-    return (!showAreaGridValues && !showAgentGridValues && !showGridIndex && !showColRow)
+    return (
+      !showAreaGridValues &&
+      !showAgentGridValues &&
+      !showGridIndex &&
+      !showColRow
+    );
   }
 } // end getFunctionKeys()
 
-
 function keyPressed(evt) {
-
   if (isArrowKey(evt.keyCode)) {
-
-    if (gameState == STATE_PLAY || gameState == STATE_GUIDE && tutorStep > 6) {
+    if (
+      gameState == STATE_PLAY ||
+      (gameState == STATE_GUIDE && tutorStep > 6)
+    ) {
       arrowKeySet(evt, player, true);
-    }
-    else if (gameState == STATE_DESIGN_LEVEL) {
+    } else if (gameState == STATE_DESIGN_LEVEL) {
       arrowKeyDesign(evt);
     }
-  }
-
-  else if (isFunctionKey(evt.keyCode)) {
+  } else if (isFunctionKey(evt.keyCode)) {
     // toggle Edit mode, tools for design and testing
     getFunctionKeys(evt.keyCode);
-  }
-
-  else {
+  } else {
     menuKeyChoice(evt.keyCode); // play, menu, or credits
   }
 
   evt.preventDefault();
 } // end keyPressed()
 
-
 // only relevant to arrowKeys, not Menu or Fn keys
 function keyReleased(evt) {
   arrowKeySet(evt, player, false);
 }
 
-
 // used by mousemove, though not by other mouse/touch
 function updateMousePos(evt) {
   var rect = drawingCanvas.getBoundingClientRect();
   var fixScaleX = (uiCanvas.width + gameCanvas.width) / gameCanvas.width;
-  mouse.x = Math.round(fixScaleX * (evt.clientX - rect.left) / drawScaleX);
+  mouse.x = Math.round((fixScaleX * (evt.clientX - rect.left)) / drawScaleX);
   mouse.y = Math.round((evt.clientY - rect.top) / drawScaleY);
   setDebug("Cursor: " + mouse.x + "," + mouse.y, 0);
-
 }
