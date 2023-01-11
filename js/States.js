@@ -9,11 +9,21 @@ const STATE_SCOREBOARD = 5;
 const STATE_GUIDE = 9;
 
 var gameState = STATE_MENU; // STATE_DESIGN_LEVEL; //
-const gameStateDescr = ['Edit', 'Play', 'Menu', 'Credits', 'Level-over', 'Scoreboard', 'Help', 'Game-over', 'Designing', 'Tutorial'];
+const gameStateDescr = [
+  "Edit",
+  "Play",
+  "Menu",
+  "Credits",
+  "Level-over",
+  "Scoreboard",
+  "Help",
+  "Game-over",
+  "Designing",
+  "Tutorial",
+];
 
 var levelBeforeGuide = 0;
 var tutorStep = 1;
-
 
 function goFromCredits(from) {
   paused = false;
@@ -30,7 +40,6 @@ function goFromHelp(from) {
   gotoMenu(from);
 }
 
-
 // called when gameState changed, from Input.js
 function gotoMenu(from) {
   buttonDown = null;
@@ -45,9 +54,8 @@ function gotoMenu(from) {
     gameMusic.startMusic();
     gameMusic.alterVolume(musicMenuVolume);
   }
-  report('return via ' + from, 1);
+  report("return via " + from, 1);
 }
-
 
 function gotoGuide(from) {
   buttonDown = null;
@@ -55,11 +63,10 @@ function gotoGuide(from) {
   levelBeforeGuide = currentLevel;
   currentLevel = 10;
   loadLevel(currentLevel);
-  // levelRunning = true;
+  levelRunning = false;
   // editMode = false;
   tutorStep = 1;
 }
-
 
 function gotoPlay(from) {
   buttonDown = null;
@@ -76,11 +83,10 @@ function gotoPlay(from) {
   if (musicInitialised) {
     // gameMusic.stopMusic();
     gameMusic.alterVolume(musicGameVolume);
-    console.log('Music volume try to reduce.');
+    console.log("Music volume try to reduce.");
   }
-  report('Play via ' + from, 1);
+  report("Play via " + from, 1);
 }
-
 
 function gotoReplay(from) {
   buttonDown = null;
@@ -97,7 +103,6 @@ function gotoReplay(from) {
     checkGridMatchColsRows();
   }
 }
-
 
 function gotoAdvance(from) {
   buttonDown = null;
@@ -122,43 +127,39 @@ function gotoAdvance(from) {
   // }
 }
 
-
 function gotoScore(from) {
   buttonDown = null;
   gameState = STATE_SCOREBOARD;
   drawBarButtons(offmenuButtonLabel);
   startMidMusic();
-  report('Score via ' + from, 1)
+  report("Score via " + from, 1);
 }
-
 
 function gotoHelp(from) {
   buttonDown = null;
   gameState = STATE_HELP;
   drawBarButtons(offmenuButtonLabel);
   startMidMusic();
-  report('Help via' + from, 1)
+  report("Help via" + from, 1);
 }
-
 
 function gotoCredits(from) {
   buttonDown = null;
   creditsFrameCount = 0;
   gameState = STATE_CREDITS;
   startMidMusic();
-  report('Credits via ' + from, 1)
+  report("Credits via " + from, 1);
 }
-
 
 function gotoDesign(from) {
   gameState = STATE_DESIGN_LEVEL;
   areaGrid = levelList[designLevel].slice();
   designGridSet = true;
-  report('Design via ' + from, 1);
-  let msg = "Press F7 to advance Level number; Mouse click to choose a grid location; Number key to choose a tile-type; key S to save design to console and file; key M returns to Menu";
+  report("Design via " + from, 1);
+  let msg =
+    "Press F7 to advance Level number; Mouse click to choose a grid location; Number key to choose a tile-type; key S to save design to console and file; key M returns to Menu";
   console.log(msg);
 }
-
 
 function togglePause() {
   paused = !paused;
@@ -192,7 +193,6 @@ function moveSheep() {
   }
 }
 
-
 function moveLorries() {
   for (var i = 0; i < lorryList.length; i++) {
     lorryList[i].move();
@@ -203,88 +203,120 @@ function moveLorries() {
 
     if (afterLevelTimeStep == timeRoadScroll - 5) {
       victory_music.play(VICTORY_MUSIC_VOLUME);
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll) {
+    } else if (afterLevelTimeStep == timeRoadScroll) {
       penHere = lorryList[i].stops[0];
       downBoard(penHere, i); // sheep begin moving down onto road
-      console.log('go down 1st', penHere, 'time', afterLevelTimeStep)
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY) {
+      console.log("go down 1st", penHere, "time", afterLevelTimeStep);
+    } else if (afterLevelTimeStep == timeRoadScroll + timeBoardY) {
       penHere = lorryList[i].stops[0];
       sideBoard(penHere, i, direction); // sheep begin moving sideways into lorry
-      console.log('sideways 1st', penHere, 'time', afterLevelTimeStep)
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX) {
+      console.log("sideways 1st", penHere, "time", afterLevelTimeStep);
+    } else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX) {
       penHere = lorryList[i].stops[0];
       loadSheep(penHere, i);
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX + timeLoadSheep) {
+    } else if (
+      afterLevelTimeStep ==
+      timeRoadScroll + timeBoardY + timeBoardX + timeLoadSheep
+    ) {
       lorryList[i].ramp = false;
       lorryRestart(i);
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY + timeBoardX + timeLoadSheep + timeTravelBetweenPens) {
+    } else if (
+      afterLevelTimeStep ==
+      timeRoadScroll +
+        timeBoardY +
+        timeBoardX +
+        timeLoadSheep +
+        timeTravelBetweenPens
+    ) {
       lorryList[i].speedX = 0;
       lorryList[i].ramp = true;
       penHere = lorryList[i].stops[1];
       downBoard(penHere, i);
-      console.log('Collect 2nd', penHere, 'time', afterLevelTimeStep)
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 2 + timeBoardX + timeLoadSheep + timeTravelBetweenPens) {
+      console.log("Collect 2nd", penHere, "time", afterLevelTimeStep);
+    } else if (
+      afterLevelTimeStep ==
+      timeRoadScroll +
+        timeBoardY * 2 +
+        timeBoardX +
+        timeLoadSheep +
+        timeTravelBetweenPens
+    ) {
       penHere = lorryList[i].stops[1];
       sideBoard(penHere, i, direction); // sheep begin moving sideways into lorry
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 2 + timeBoardX * 2 + timeLoadSheep + timeTravelBetweenPens) {
+    } else if (
+      afterLevelTimeStep ==
+      timeRoadScroll +
+        timeBoardY * 2 +
+        timeBoardX * 2 +
+        timeLoadSheep +
+        timeTravelBetweenPens
+    ) {
       penHere = lorryList[i].stops[1];
       loadSheep(penHere, i);
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 2 + timeBoardX * 2 + timeLoadSheep * 2 + timeTravelBetweenPens) {
+    } else if (
+      afterLevelTimeStep ==
+      timeRoadScroll +
+        timeBoardY * 2 +
+        timeBoardX * 2 +
+        timeLoadSheep * 2 +
+        timeTravelBetweenPens
+    ) {
       lorryList[i].ramp = false;
       lorryRestart(i);
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 2 + timeBoardX * 2 + timeLoadSheep * 2 + timeTravelBetweenPens * 2) {
+    } else if (
+      afterLevelTimeStep ==
+      timeRoadScroll +
+        timeBoardY * 2 +
+        timeBoardX * 2 +
+        timeLoadSheep * 2 +
+        timeTravelBetweenPens * 2
+    ) {
       lorryList[i].speedX = 0;
       lorryList[i].ramp = true;
       penHere = lorryList[i].stops[2];
       downBoard(penHere, i);
-      console.log('Collect 3rd', penHere, 'time', afterLevelTimeStep)
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 3 + timeBoardX * 2 + timeLoadSheep * 2 + timeTravelBetweenPens * 2) {
+      console.log("Collect 3rd", penHere, "time", afterLevelTimeStep);
+    } else if (
+      afterLevelTimeStep ==
+      timeRoadScroll +
+        timeBoardY * 3 +
+        timeBoardX * 2 +
+        timeLoadSheep * 2 +
+        timeTravelBetweenPens * 2
+    ) {
       penHere = lorryList[i].stops[2];
       sideBoard(penHere, i, direction); // sheep begin moving sideways into lorry
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 3 + timeBoardX * 3 + timeLoadSheep * 2 + timeTravelBetweenPens * 2) {
+    } else if (
+      afterLevelTimeStep ==
+      timeRoadScroll +
+        timeBoardY * 3 +
+        timeBoardX * 3 +
+        timeLoadSheep * 2 +
+        timeTravelBetweenPens * 2
+    ) {
       penHere = lorryList[i].stops[2];
       loadSheep(penHere, i);
-    }
-
-    else if (afterLevelTimeStep == timeRoadScroll + timeBoardY * 3 + timeBoardX * 3 + timeLoadSheep * 3 + timeTravelBetweenPens * 2) {
+    } else if (
+      afterLevelTimeStep ==
+      timeRoadScroll +
+        timeBoardY * 3 +
+        timeBoardX * 3 +
+        timeLoadSheep * 3 +
+        timeTravelBetweenPens * 2
+    ) {
       lorryList[i].ramp = false;
       lorryRestart(i);
     }
   }
 }
-
 
 function lorryRestart(i) {
   if (i == 0) {
     lorryList[i].speedX = lorrySpeed * -1;
-  }
-  else if (i == 1) {
+  } else if (i == 1) {
     lorryList[i].speedX = lorrySpeed;
   }
 }
-
 
 function downBoard(col, lorryID) {
   var id = bottomRowID[col];
@@ -300,25 +332,23 @@ function downBoard(col, lorryID) {
       // lorryList[lorryID].agitate = true;
     }
   } else {
-    console.log('No sheep at pen', penHere, 'for lorry', lorryID)
+    console.log("No sheep at pen", penHere, "for lorry", lorryID);
   }
 }
-
 
 function sideBoard(col, lorryID, direction) {
   // var direction = lorryList[i].direction;
   var boardingAngle = direction == 1 ? 0 : Math.PI;
   var id = bottomRowID[col];
   if (id != null) {
-    sheepList[id].gotoX = sheepList[id].x + (direction * boardLorryX);
+    sheepList[id].gotoX = sheepList[id].x + direction * boardLorryX;
     sheepList[id].gotoY = sheepList[id].y;
     sheepList[id].ang = boardingAngle;
   }
 }
 
-
 function loadSheep(col, lorryID) {
-  console.log('col',col)
+  console.log("col", col);
   var id = bottomRowID[col];
   if (id != null) {
     sheepList[id].visible = false;
@@ -327,7 +357,6 @@ function loadSheep(col, lorryID) {
     }
   }
 }
-
 
 function drawLorries() {
   for (var i = 0; i < lorryList.length; i++) {
@@ -340,7 +369,6 @@ function drawLorryRamps() {
   }
 }
 
-
 // called by drawPlay & drawLevelOver
 function drawField() {
   drawGrass();
@@ -350,17 +378,14 @@ function drawField() {
   // if a pen is occupied draw a gate
   for (var i = 0; i < TILE_COLS; i++) {
     let rowOffset = 1;
-    var index = i + (TILE_COLS * (TILE_ROWS - rowOffset));
+    var index = i + TILE_COLS * (TILE_ROWS - rowOffset);
     if (areaGrid[index] == FULL_BLUE) {
       colDrawPenGate(i, BLUE);
-    }
-    else if (areaGrid[index] == FULL_RED) {
+    } else if (areaGrid[index] == FULL_RED) {
       colDrawPenGate(i, RED);
     }
   } // loop bottom row
-
 } // end drawField
-
 
 function drawSheep() {
   // draw sheep, labelled with score
@@ -377,7 +402,6 @@ function drawSheep() {
   }
 }
 
-
 function drawMovingNotSheep() {
   player.draw();
 
@@ -392,12 +416,10 @@ function drawMovingNotSheep() {
   }
 }
 
-
 function drawUI() {
   if (player.x > levelTitleWidth + 10) {
     drawLevelName();
-  }
-  else {
+  } else {
     drawLevelNameRight();
   }
 
@@ -415,8 +437,7 @@ function drawUI() {
       drawBarButtons(playButtonLabel);
       drawTime();
     }
-  }
-  else {
+  } else {
     drawBarTitle("Level " + currentLevel + " Test", 20);
     drawBarButtons(offmenuButtonLabel);
   }
@@ -438,7 +459,7 @@ function drawCalling() {
     let x = sheepList[sheepCalled].x;
     let y = sheepList[sheepCalled].y;
     canvasContext.lineWidth = 5;
-    colorDashLine(canvasContext, player.x, player.y + 20, x, y, "yellow")
+    colorDashLine(canvasContext, player.x, player.y + 20, x, y, "yellow");
   }
 }
 
@@ -461,9 +482,7 @@ function drawPlay() {
   drawKeyTutorial();
 } // end drawPlay
 
-
 function drawLevelOver() {
-
   if (showingRoadScene) {
     roadVerticalShift += 2;
     if (roadVerticalShift > TILE_H) {
@@ -472,7 +491,7 @@ function drawLevelOver() {
     canvasContext.save();
     canvasContext.translate(0, -Math.floor(roadVerticalShift));
   }
-  
+
   drawField();
 
   if (showingRoadScene) {
@@ -496,14 +515,12 @@ function drawLevelOver() {
     drawLevelScore();
     drawBarTitle("Level " + currentLevel, 20);
     drawBarButtons(levelendButtonLabel);
-  }
-  else {
+  } else {
     drawLevelScoreTest();
     drawBarButtons(offmenuButtonLabel);
     drawBarTitle("Level " + currentLevel + " Test", 20);
   }
 }
-
 
 function drawMenuState() {
   drawMenu();
@@ -511,13 +528,11 @@ function drawMenuState() {
   drawBarButtons(menuButtonLabel);
 }
 
-
 function drawCreditState() {
   drawCredits();
   drawBarButtons(creditsButtonLabel);
   // drawBarButtons(offmenuButtonLabel);
 }
-
 
 function setupRoadLorries() {
   showingRoadScene = true;
