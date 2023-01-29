@@ -79,7 +79,7 @@ window.onload = function () {
   } else {
     report('Not an IOS device', 4);
   }
-}
+};
 
 
 function imageLoadingDoneSoStartGame() {
@@ -180,10 +180,10 @@ function moveAll() {
   else if (gameState == STATE_LEVEL_END) {
     if (showingRoadScene) {
       if (!paused) {
-          moveSheep();
-          moveLorries();
-          moveParticles();
-          afterLevelTimeStep++;
+        moveSheep();
+        moveLorries();
+        moveParticles();
+        afterLevelTimeStep++;
       }
     }
   }
@@ -235,7 +235,7 @@ function moveAll() {
         if (allRoamGrazeOrDone()) {
           haste = 100;
           hasteSet = true;
-          console.log('step', step[currentLevel], 'Very fast as remainder all roaming')
+          console.log('step', step[currentLevel], 'Very fast as remainder all roaming');
         }
         // use normal LevelEnd condition
       }
@@ -393,18 +393,12 @@ function loadLevel(whichLevel) {
       var potential = i % 2 == 0 ? BLUE : RED;
       var team = PLAIN;
       spawnSheep.reset(i, team, potential, mode);
-      // spawnSheep.placeRandom(PLACING_DEPTH[whichLevel]);
       spawnSheep.placeGridRandom(PLACING_DEPTH[whichLevel]);
       sheepList.push(spawnSheep);
-
-      // var spawnMoving = new movingClass();
-      // spawnMoving.init(i, "sheep", spawnSheep.x)
     }
 
     bottomMargin = TILE_H;
-    // clumpRandom = false;
     setupDecals(bottomMargin);
-
     // console.log("Level loaded: " + whichLevel + " - " + LEVEL_NAMES[whichLevel]);
   }
 
@@ -427,7 +421,6 @@ function loadLevel(whichLevel) {
       spawnSheep.placeTop();
       sheepList.push(spawnSheep);
     }
-    // isLevelOver();
   }
 
 
@@ -474,7 +467,7 @@ function loadLevel(whichLevel) {
 
 
 function staticScreen() {
-  return paused || gameState == STATE_MENU || gameState == STATE_CREDITS || gameState == STATE_HELP || gameState == STATE_SCOREBOARD
+  return paused || gameState == STATE_MENU || gameState == STATE_CREDITS || gameState == STATE_HELP || gameState == STATE_SCOREBOARD;
 }
 
 
@@ -484,7 +477,6 @@ function refocus() {
 }
 
 function lostFocus() {
-  // if (gameState == STATE_PLAY)
   paused = true;
   previousRunMode = runMode;
   runMode = LOST_FOCUS;
@@ -492,5 +484,5 @@ function lostFocus() {
 
 function gainFocus() {
   paused = false;
-  runMode = NORMAL_PLAY; //previousRunMode;
+  runMode = NORMAL_PLAY;
 }
