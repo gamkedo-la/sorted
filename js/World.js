@@ -15,7 +15,7 @@ const POST_SIZE = 5;
 const POST_THICK = 4;
 const POST_GAP = 10;
 
-const ROAD_ROW = [18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18];
+const ROAD_ROW = [18, 18, 19, 18, 18, 19, 18, 18, 18, 18, 18, 19, 18, 18, 19, 18];
 
 
 function getTileIndexAtXY(x, y) {
