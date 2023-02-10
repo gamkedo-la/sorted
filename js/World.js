@@ -14,9 +14,8 @@ const bottomRowID = Array(TILE_COLS);
 const POST_SIZE = 5;
 const POST_THICK = 4;
 const POST_GAP = 10;
-
-const ROAD_ROW = [18, 18, 19, 18, 18, 19, 18, 18, 18, 18, 18, 19, 18, 18, 19, 18];
-
+ 
+const ROAD_ROW = [18, 18, 19, 18, 20, 19, 18, 18, 18, 18, 20, 19, 18, 18, 19, 18];
 
 function getTileIndexAtXY(x, y) {
   if (x < 0 || x > gameCanvas.width || y < 0 || y > gameCanvas.height) {

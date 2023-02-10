@@ -332,7 +332,7 @@ function downBoard(col, lorryID) {
       // lorryList[lorryID].agitate = true;
     }
   } else {
-    console.log("No sheep at pen", penHere, "for lorry", lorryID);
+   //  console.log("No sheep at pen", penHere, "for lorry", lorryID);
   }
 }
 
@@ -348,7 +348,6 @@ function sideBoard(col, lorryID, direction) {
 }
 
 function loadSheep(col, lorryID) {
-  console.log("col", col);
   var id = bottomRowID[col];
   if (id != null) {
     sheepList[id].visible = false;
